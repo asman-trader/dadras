@@ -1,0 +1,22 @@
+# Core web app
+flask>=2.3
+waitress>=2.1        # Windows/cPanel-friendly WSGI server
+gunicorn>=21.2       # Linux production (optional if using waitress)
+Flask-WTF>=1.2.1     # CSRF tokens used in templates
+requests>=2.31.0
+
+# PDF/text processing
+pdfminer.six>=20220524
+pymupdf>=1.24        # fitz (may fail on some shared hosts; optional)
+pillow>=10.0
+pytesseract>=0.3.10  # requires system Tesseract-OCR installed
+beautifulsoup4>=4.12
+
+# Optional: Retrieval/Embeddings (heavy on shared hosts)
+# sentence-transformers>=5.1.0
+# faiss-cpu>=1.7.4
+
+# Optional: Local LLaMA inference via llama-cpp (requires .gguf model and build support)
+# llama-cpp-python>=0.2.90
+
+

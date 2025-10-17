@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>پنل ادمین</title>
+  <style>
+    body{margin:0;font-family:Segoe UI,Roboto,Arial,sans-serif;background:#0b0f14;color:#e9edf1}
+    .wrap{max-width:960px;margin:24px auto;padding:0 16px}
+    .card{background:#0e131a;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:16px;margin-bottom:16px}
+    .row{display:flex;gap:12px}
+    .row>*{flex:1}
+    button{background:#1f6feb;border:0;color:#fff;border-radius:8px;padding:10px 14px}
+    input,textarea{width:100%;background:#0b0f14;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px;color:#e9edf1}
+    table{width:100%;border-collapse:collapse}
+    th,td{border-bottom:1px solid rgba(255,255,255,.06);padding:8px 6px;text-align:right}
+  </style>
+  <script>
+    async function refreshStats(){
+      const el = document.getElementById('stats');
+      el.textContent = 'در حال بارگذاری...';
+      try{ const r = await fetch('/admin/stats'); const j = await r.json(); el.textContent = JSON.stringify(j,null,2); }
+      catch{ el.textContent = 'خطا در دریافت اطلاعات'; }
+    }
+    async function reindex(){
+      const out = document.getElementById('out'); out.textContent='...';
+      const r = await fetch('/admin/reindex',{method:'POST'}); out.textContent = await r.text();
+    }
+    async function clearSessions(){
+      const out = document.getElementById('out'); out.textContent='...';
+      const r = await fetch('/admin/clear',{method:'POST'}); out.textContent = await r.text();
+    }
+    window.addEventListener('load', refreshStats);
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <h2>پنل ادمین</h2>
+    <div class="card">
+      <div class="row">
+        <button onclick="refreshStats()">به‌روزرسانی وضعیت</button>
+        <button onclick="reindex()">بازخوانی پوشه پیش‌فرض</button>
+        <button onclick="clearSessions()">پاک‌سازی سشن‌ها</button>
+      </div>
+      <pre id="stats" style="margin-top:12px;white-space:pre-wrap"></pre>
+    </div>
+    <div class="card"><pre id="out" style="white-space:pre-wrap"></pre></div>
+  </div>
+</body>
+</html>
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>پنل ادمین — دادرس هوشمند</title>
+  <style>
+    :root { --bg:#0b0f19; --panel:#0f1526; --text:#e5e7eb; --muted:#94a3b8; --accent:#6366f1; --accent-2:#22d3ee; --border:#1f2937; --ok:#10b981; --warn:#f59e0b; --err:#ef4444; }
+    .light { --bg:#f8fafc; --panel:#ffffff; --text:#0f172a; --muted:#64748b; --accent:#4f46e5; --accent-2:#06b6d4; --border:#e2e8f0; --ok:#059669; --warn:#d97706; --err:#dc2626; }
+    *{ box-sizing:border-box }
+    body{ margin:0; background:var(--bg); color:var(--text); font-family: ui-sans-serif,system-ui,"Segoe UI",Tahoma; }
+    .header{ display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid var(--border); position:sticky; top:0; background:color-mix(in oklab, var(--bg) 92%, transparent); backdrop-filter:saturate(1.1) blur(8px); z-index:10 }
+    .brand{ font-weight:900; letter-spacing:.2px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); -webkit-background-clip:text; background-clip:text; color:transparent }
+    .wrap{ max-width:1000px; margin:0 auto; padding:20px; display:grid; gap:16px }
+    .card{ background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:16px }
+    .row{ display:grid; grid-template-columns:1fr 1fr; gap:16px }
+    @media (max-width: 900px){ .row{ grid-template-columns:1fr } }
+    .muted{ color:var(--muted); font-size:12px }
+    .btn{ background:var(--accent); color:#fff; border:0; border-radius:10px; padding:10px 14px; cursor:pointer }
+    .btn.warn{ background:var(--warn); color:#111 }
+    .btn.err{ background:var(--err) }
+    .grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px }
+    .stat{ background:transparent; border:1px dashed var(--border); border-radius:10px; padding:12px }
+    pre{ margin:0; white-space:pre-wrap }
+    a.link{ color:var(--accent); text-decoration:none }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="brand">پنل ادمین</div>
+    <div>
+      <a class="link" href="/context?download=1">دانلود متن کامل</a>
+      <span class="muted" style="margin:0 8px">|</span>
+      <a class="link" href="/">بازگشت به چت</a>
+      <button id="theme" class="btn" style="margin-inline-start:10px">تیره/روشن</button>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="row">
+      <div class="card">
+        <h3 style="margin:0 0 10px">آمار</h3>
+        <div id="stats" class="grid">
+          <div class="stat"><div class="muted">سشن‌ها</div><div id="s_sessions">-</div></div>
+          <div class="stat"><div class="muted">تعداد متن‌های در حافظه</div><div id="s_texts">-</div></div>
+          <div class="stat"><div class="muted">تعداد فایل‌های پردازش‌شده</div><div id="s_files">-</div></div>
+          <div class="stat"><div class="muted">آخرین شمارش فایل‌های خوانده‌شده</div><div id="s_files_last">-</div></div>
+          <div class="stat"><div class="muted">پوشهٔ پیش‌فرض</div><div id="s_dir" style="direction:ltr">-</div></div>
+          <div class="stat"><div class="muted">حالت سریع</div><div id="s_fast">-</div></div>
+          <div class="stat"><div class="muted">موتور فعال</div><div id="s_engine">-</div></div>
+          <div class="stat"><div class="muted">وضعیت Ollama</div><div id="s_ollama">-</div></div>
+          <div class="stat"><div class="muted">مدل Ollama</div><div id="s_ollama_model">-</div></div>
+          <div class="stat"><div class="muted">وضعیت LLaMA</div><div id="s_llama">-</div></div>
+          <div class="stat"><div class="muted">مسیر مدل LLaMA</div><div id="s_llama_model" style="direction:ltr">-</div></div>
+          <div class="stat"><div class="muted">ایندکس برداری (FAISS)</div><div id="s_vector">-</div></div>
+          <div class="stat"><div class="muted">مدل Embed</div><div id="s_vector_model">-</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 10px">اقدامات</h3>
+        <div style="display:flex; gap:10px; flex-wrap:wrap">
+          <button id="clear" class="btn err">پاک‌سازی حافظه سشن</button>
+          <button id="reindex" class="btn warn">بازخوانی پوشه پیش‌فرض</button>
+          <button id="buildVector" class="btn">ساخت ایندکس برداری</button>
+        </div>
+        <div id="actionStatus" class="muted" style="margin-top:10px"></div>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 10px">پیشرفت بازخوانی</h3>
+        <div style="border:1px solid var(--border); border-radius:999px; overflow:hidden">
+          <div id="ingestBar" style="height:10px; width:0%; background:linear-gradient(135deg,var(--accent),var(--accent-2))"></div>
+        </div>
+        <div id="ingestTxt" class="muted" style="margin-top:6px">0%</div>
+        <div style="display:flex; gap:10px; margin-top:8px">
+          <button id="prewarmBtn" class="btn">شروع سریع</button>
+          <button id="refreshProgBtn" class="btn">به‌روزرسانی</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 10px">خروجی</h3>
+      <pre id="output">—</pre>
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 10px">کیوریشن پاسخ‌ها (HITL)</h3>
+      <div class="grid" style="grid-template-columns:1fr 1fr">
+        <div>
+          <label class="muted">سؤال</label>
+          <textarea id="cur_q" style="width:100%; min-height:90px; padding:8px; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--text)"></textarea>
+          <label class="muted" style="margin-top:8px; display:block">پاسخ مورد تایید</label>
+          <textarea id="cur_a" style="width:100%; min-height:120px; padding:8px; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--text)"></textarea>
+          <div style="margin-top:10px">
+            <button id="cur_submit" class="btn">ثبت پاسخ</button>
+            <span id="cur_status" class="muted" style="margin-right:8px"></span>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between">
+            <label class="muted">فهرست پاسخ‌های کیوریت‌شده</label>
+            <button id="cur_refresh" class="btn">به‌روزرسانی</button>
+          </div>
+          <pre id="cur_list" style="white-space:pre-wrap; border:1px dashed var(--border); border-radius:8px; padding:10px; min-height:160px">—</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    function setThemeButtonText(){ const t=$('theme'); const isLight=document.documentElement.classList.contains('light'); t.textContent = isLight ? 'تیره' : 'روشن'; }
+    (function initTheme(){ const saved=localStorage.getItem('theme')||'dark'; if(saved==='light') document.documentElement.classList.add('light'); setThemeButtonText(); })();
+    $('theme').addEventListener('click', ()=>{ const isLight=document.documentElement.classList.toggle('light'); localStorage.setItem('theme', isLight ? 'light' : 'dark'); setThemeButtonText(); });
+
+    async function loadStats(){
+      try{
+        const res = await fetch('/admin/stats', { cache: 'no-store' });
+        const data = await res.json();
+        $('s_sessions').textContent = data.sessions;
+        $('s_texts').textContent = data.texts_in_memory;
+        $('s_files').textContent = data.processed_files;
+        $('s_files_last').textContent = data.processed_files;
+        $('s_dir').textContent = data.default_pdf_dir || '-';
+        $('s_fast').textContent = data.fast_mode ? 'روشن' : 'خاموش';
+        $('s_engine').textContent = data.engine || 'local';
+        $('s_ollama').textContent = data.ollama || '-';
+        $('s_ollama_model').textContent = (data.ollama_model || '-') + ' @ ' + (data.ollama_host || '')
+        $('s_llama').textContent = data.llama || '-';
+        $('s_llama_model').textContent = data.llama_model || '-';
+        $('s_vector').textContent = data.vector_ready ? 'آماده' : '—';
+        $('s_vector_model').textContent = data.vector_model || '-';
+      }catch(e){ $('output').textContent = 'خطا در دریافت آمار: ' + e.message }
+    }
+
+    $('clear').addEventListener('click', async ()=>{
+      const st = $('actionStatus');
+      st.textContent = 'در حال پاک‌سازی...';
+      try{
+        const res = await fetch('/admin/clear', { method:'POST' });
+        const data = await res.json();
+        st.textContent = data.message || 'انجام شد';
+        $('output').textContent = JSON.stringify(data, null, 2);
+        loadStats();
+      }catch(e){ st.textContent = 'خطا: ' + e.message }
+    });
+
+    $('reindex').addEventListener('click', async ()=>{
+      const st = $('actionStatus');
+      st.textContent = 'در حال بازخوانی...';
+      try{
+        const res = await fetch('/admin/reindex', { method:'POST' });
+        const data = await res.json();
+        st.textContent = data.message || 'انجام شد';
+        $('output').textContent = JSON.stringify(data, null, 2);
+        loadStats();
+      }catch(e){ st.textContent = 'خطا: ' + e.message }
+    });
+
+    $('buildVector').addEventListener('click', async ()=>{
+      const st = $('actionStatus');
+      st.textContent = 'در حال ساخت ایندکس برداری...';
+      try{
+        const res = await fetch('/admin/build-vector', { method:'POST' });
+        const data = await res.json();
+        $('output').textContent = JSON.stringify(data, null, 2);
+        st.textContent = data.built ? ('ایندکس ساخته شد (' + (data.count||0) + ')') : ('ناموفق: ' + (data.reason||''));
+        loadStats();
+      }catch(e){ st.textContent = 'خطا: ' + e.message }
+    });
+
+    // پیشرفت بازخوانی
+    async function refreshProgress(){
+      try{
+        const r = await fetch('/ingest-progress');
+        const d = await r.json();
+        const pct = d.percent || 0;
+        const bar = document.getElementById('ingestBar');
+        const txt = document.getElementById('ingestTxt');
+        bar.style.width = pct + '%';
+        txt.textContent = pct + '%';
+      }catch{}
+    }
+    document.getElementById('refreshProgBtn').addEventListener('click', refreshProgress);
+    document.getElementById('prewarmBtn').addEventListener('click', async ()=>{
+      try{
+        await fetch('/ingest-prewarm', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ dir:'pdf', fast:true, max_files:20 }) });
+        refreshProgress();
+      }catch{}
+    });
+    setInterval(refreshProgress, 5000);
+
+    // --- کیوریشن پاسخ‌ها ---
+    $('cur_submit').addEventListener('click', async ()=>{
+      const st = $('cur_status');
+      st.textContent = 'در حال ثبت...';
+      try{
+        const question = $('cur_q').value.trim();
+        const answer = $('cur_a').value.trim();
+        const res = await fetch('/admin/curate', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question, answer })
+        });
+        const data = await res.json();
+        if(!res.ok) throw new Error(data.error || 'خطا در ثبت');
+        st.textContent = 'ثبت شد.';
+      }catch(e){ st.textContent = 'خطا: ' + e.message }
+    });
+    $('cur_refresh').addEventListener('click', async ()=>{
+      const box = $('cur_list');
+      box.textContent = 'در حال دریافت...';
+      try{
+        const res = await fetch('/admin/curate');
+        const data = await res.json();
+        const items = (data.items||[]).map((x,i)=> `${i+1}) ${x.key} (len=${x.len})`).join('\n');
+        box.textContent = items || '—';
+      }catch(e){ box.textContent = 'خطا: ' + e.message }
+    });
+
+    loadStats();
+
+    // پیش‌نویس لایحه از پنل ادمین حذف شد.
+  </script>
+</body>
+</html>

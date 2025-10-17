@@ -1,0 +1,11 @@
+$env:NO_MODELS='0'
+$env:USE_OLLAMA='1'
+$env:OLLAMA_HOST='http://127.0.0.1:11434'
+$env:OLLAMA_MODEL='gemma3:4b'
+python .\wsgi.py
+
+
+
+
+
+git remote set-url origin https://github.com/USERNAME/REPO.git
