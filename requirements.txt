@@ -4,6 +4,12 @@ waitress>=2.1        # Windows/cPanel-friendly WSGI server
 gunicorn>=21.2       # Linux production (optional if using waitress)
 Flask-WTF>=1.2.1     # CSRF tokens used in templates
 requests>=2.31.0
+flask-limiter>=3.7    # optional rate limiting
+python-dotenv>=1.0    # optional env loading
+cryptography>=42.0.0  # optional config encryption (future)
+flask-cors>=4.0       # optional CORS
+pytest>=8.2           # tests
+requests>=2.31.0      # ensure available for tests
 
 # PDF/text processing
 pdfminer.six>=20220524

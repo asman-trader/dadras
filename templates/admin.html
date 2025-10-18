@@ -131,6 +131,32 @@
       <pre id="output">—</pre>
     </div>
     <div class="card">
+      <h3 style="margin:0 0 10px">تنظیمات مدل (DeepSeek)</h3>
+      <div class="grid">
+        <div>
+          <label class="muted">DeepSeek API Key</label>
+          <input id="cfg_key" type="password" placeholder="••••••" />
+          <div class="muted" id="cfg_key_mask" style="margin-top:6px">—</div>
+        </div>
+        <div>
+          <label class="muted">DeepSeek Model</label>
+          <input id="cfg_model" placeholder="deepseek-chat" />
+        </div>
+        <div>
+          <label class="muted">فعال‌سازی DeepSeek</label>
+          <select id="cfg_use_deepseek"><option value="1">روشن</option><option value="0">خاموش</option></select>
+        </div>
+        <div>
+          <label class="muted">استفاده از Ollama</label>
+          <select id="cfg_use_ollama"><option value="1">روشن</option><option value="0">خاموش</option></select>
+        </div>
+      </div>
+      <div style="margin-top:10px; display:flex; gap:10px">
+        <button id="cfg_save" class="btn">ذخیره</button>
+        <span id="cfg_status" class="muted"></span>
+      </div>
+    </div>
+    <div class="card">
       <h3 style="margin:0 0 10px">کیوریشن پاسخ‌ها (HITL)</h3>
       <div class="grid" style="grid-template-columns:1fr 1fr">
         <div>
@@ -264,6 +290,40 @@
     });
 
     loadStats();
+
+    // --- تنظیمات DeepSeek ---
+    async function loadConfig(){
+      try{
+        const res = await fetch('/admin/config', { cache:'no-store' });
+        if(!res.ok) return;
+        const cfg = await res.json();
+        document.getElementById('cfg_model').value = cfg.DEEPSEEK_MODEL || 'deepseek-chat';
+        document.getElementById('cfg_use_deepseek').value = (cfg.USE_DEEPSEEK ?? '1');
+        document.getElementById('cfg_use_ollama').value = (cfg.USE_OLLAMA ?? '0');
+        document.getElementById('cfg_key_mask').textContent = cfg.DEEPSEEK_API_KEY ? ('کلید ذخیره‌شده: ' + cfg.DEEPSEEK_API_KEY) : 'کلیدی ذخیره نشده است';
+      }catch{}
+    }
+    document.getElementById('cfg_save').addEventListener('click', async ()=>{
+      const st = document.getElementById('cfg_status');
+      st.textContent = 'در حال ذخیره...';
+      try{
+        const body = {
+          DEEPSEEK_MODEL: document.getElementById('cfg_model').value.trim() || 'deepseek-chat',
+          USE_DEEPSEEK: document.getElementById('cfg_use_deepseek').value,
+          USE_OLLAMA: document.getElementById('cfg_use_ollama').value,
+        };
+        const key = document.getElementById('cfg_key').value.trim();
+        if(key){ body.DEEPSEEK_API_KEY = key; }
+        const res = await fetch('/admin/config', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+        const j = await res.json();
+        if(!res.ok || !j.ok){ throw new Error('ثبت ناموفق'); }
+        st.textContent = 'ذخیره شد';
+        document.getElementById('cfg_key').value = '';
+        await loadStats();
+        await loadConfig();
+      }catch(e){ st.textContent = 'خطا: ' + e.message }
+    });
+    loadConfig();
 
     // پیش‌نویس لایحه از پنل ادمین حذف شد.
   </script>

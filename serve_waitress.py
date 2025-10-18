@@ -22,6 +22,11 @@ if __name__ == '__main__':
     except Exception:
         port = 5051
     print(f"[waitress] Starting on http://{host}:{port} (CTRL+C to stop)")
+    # در صورت تنظیم فایل‌های گواهی، waitress-sslify ساده: برای محیط ویندوز بهتری است با waitress-serve
+    certfile = os.environ.get('SSL_CERTFILE')
+    keyfile = os.environ.get('SSL_KEYFILE')
+    if certfile and keyfile:
+        print('[waitress] HTTPS requested via SSL_CERTFILE/SSL_KEYFILE but built-in waitress.serve has no SSL. Use run_webhook_https.bat with waitress-serve.')
     try:
         serve(mod.app, host=host, port=port)
     except Exception as exc:

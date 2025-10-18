@@ -2,9 +2,17 @@ from flask import Flask, request, jsonify, render_template, make_response, Respo
 from werkzeug.exceptions import HTTPException
 import os
 import logging
+from logging.handlers import RotatingFileHandler
 import threading
 import uuid
 import io
+import time
+import hmac
+import hashlib
+import json as _json
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_cors import CORS
 from typing import List, Dict, Set
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from utils.text import normalize_text as _normalize_text
@@ -14,8 +22,11 @@ from utils.text import extract_text_from_html
 from services.learner import VectorLearner
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": os.getenv('CORS_ORIGINS', '*')}})
+limiter = Limiter(get_remote_address, app=app, default_limits=[os.getenv('RATE_LIMIT_DEFAULT', '60 per minute')])
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CONFIG_PATH = os.path.join(BASE_DIR, 'config.json')
 
 # پوشهٔ پیش‌فرض PDFها (خواندن خودکار)
 DEFAULT_PDF_DIR = os.path.join(BASE_DIR, 'pdf')
@@ -30,6 +41,53 @@ def _configure_logging():
 
 _configure_logging()
 logger = logging.getLogger("app")
+
+# ساخت لاگ JSON با چرخش فایل
+def _setup_json_logging():
+    try:
+        logs_dir = os.path.join(BASE_DIR, 'logs')
+        os.makedirs(logs_dir, exist_ok=True)
+        file_path = os.path.join(logs_dir, 'app.log')
+
+        class JsonFormatter(logging.Formatter):
+            def format(self, record: logging.LogRecord) -> str:
+                payload = {
+                    'ts': int(time.time()),
+                    'level': record.levelname,
+                    'msg': record.getMessage(),
+                    'name': record.name,
+                }
+                if hasattr(record, 'extra') and isinstance(record.extra, dict):
+                    payload.update(record.extra)
+                return _json.dumps(payload, ensure_ascii=False)
+
+        handler = RotatingFileHandler(file_path, maxBytes=2 * 1024 * 1024, backupCount=5, encoding='utf-8')
+        handler.setFormatter(JsonFormatter())
+        root = logging.getLogger()
+        root.addHandler(handler)
+    except Exception:
+        pass
+
+_setup_json_logging()
+
+# درخواست‌نگار ساده: زمان پاسخ را در لاگ ثبت می‌کند
+@app.before_request
+def _before_request_timer():
+    try:
+        setattr(request, '_start_time', time.perf_counter())
+    except Exception:
+        pass
+
+@app.after_request
+def _after_request_timer(response):
+    try:
+        start = getattr(request, '_start_time', None)
+        if start is not None:
+            dur_ms = int((time.perf_counter() - start) * 1000)
+            logger.info("%s %s %s %dms", request.method, request.path, str(response.status_code), dur_ms)
+    except Exception:
+        pass
+    return response
 
 # آپلود حذف شده است؛ نیازی به الگوی پسوندها نیست
 
@@ -56,6 +114,59 @@ LEARNER = VectorLearner(BASE_DIR)
 
 # پاسخ‌های بازبینی‌شدهٔ انسانی (Human-in-the-loop)
 CURATED_ANSWERS: Dict[str, Dict[str, object]] = {}
+
+# وضعیت آخرین تماس مدل
+MODEL_STATUS: Dict[str, object] = {
+    'engine': 'local',
+    'error': '',
+    'latency_ms': 0,
+    'ts': 0,
+}
+
+def _read_config_file() -> Dict[str, object]:
+    try:
+        import json as _json
+        if os.path.exists(CONFIG_PATH):
+            with open(CONFIG_PATH, 'r', encoding='utf-8') as f:
+                return _json.load(f) or {}
+    except Exception:
+        pass
+    return {}
+
+def _write_config_file(cfg: Dict[str, object]) -> bool:
+    try:
+        import json as _json
+        with open(CONFIG_PATH, 'w', encoding='utf-8') as f:
+            _json.dump(cfg or {}, f, ensure_ascii=False, indent=2)
+        return True
+    except Exception:
+        return False
+
+def _mask_secret(value: str) -> str:
+    if not value:
+        return ''
+    if len(value) <= 6:
+        return '*' * len(value)
+    return ('*' * (len(value) - 4)) + value[-4:]
+
+def _load_persisted_config_into_env() -> None:
+    cfg = _read_config_file()
+    # DeepSeek
+    dk = str(cfg.get('DEEPSEEK_API_KEY') or '').strip()
+    dm = str(cfg.get('DEEPSEEK_MODEL') or '').strip()
+    if dk:
+        os.environ['DEEPSEEK_API_KEY'] = dk
+        os.environ['USE_DEEPSEEK'] = '1'
+    if dm:
+        os.environ['DEEPSEEK_MODEL'] = dm
+    # Optional toggles
+    if str(cfg.get('USE_OLLAMA') or ''):
+        os.environ['USE_OLLAMA'] = str(cfg.get('USE_OLLAMA'))
+    if str(cfg.get('USE_LLAMA') or ''):
+        os.environ['USE_LLAMA'] = str(cfg.get('USE_LLAMA'))
+
+# بارگذاری تنظیمات ذخیره‌شده هنگام راه‌اندازی فرآیند
+_load_persisted_config_into_env()
 
 def _get_or_create_client_id() -> str:
     client_id = request.cookies.get('client_id')
@@ -250,6 +361,12 @@ def ingest_pdfs_from_dir(dir_path: str, recursive: bool = True, max_files: int =
     saved_texts: List[str] = []
     previews: List[str] = []
     total_files = 0
+    errors_count = 0
+    start_ts = time.time()
+    try:
+        max_seconds = float(os.getenv('INGEST_MAX_SECONDS', '30'))
+    except Exception:
+        max_seconds = 30.0
     # مسیرهای قبلاً پردازش‌شده برای این سشن
     processed: Set[str] = set()
     if client_id:
@@ -272,6 +389,8 @@ def ingest_pdfs_from_dir(dir_path: str, recursive: bool = True, max_files: int =
             text = extract_text_fast(path_abs) if fast else extract_text(path_abs)
         except Exception:
             logger.exception("Extract failed: %s", path_abs)
+            nonlocal errors_count
+            errors_count += 1
             text = ''
         if text:
             pv = (text[:500] + '...') if len(text) > 500 else text
@@ -294,6 +413,9 @@ def ingest_pdfs_from_dir(dir_path: str, recursive: bool = True, max_files: int =
                         previews.append(pv)
                         new_processed.add(path_abs)
                         total_files += 1
+                    if (time.time() - start_ts) > max_seconds:
+                        logger.warning("Ingest time budget exceeded (%ss)", max_seconds)
+                        break
         except Exception:
             # fallback سریالی
             for p in batch_paths:
@@ -303,6 +425,9 @@ def ingest_pdfs_from_dir(dir_path: str, recursive: bool = True, max_files: int =
                     previews.append(pv)
                     new_processed.add(path_abs)
                     total_files += 1
+                if (time.time() - start_ts) > max_seconds:
+                    logger.warning("Ingest time budget exceeded (serial) (%ss)", max_seconds)
+                    break
 
     if client_id and new_processed:
         with _context_lock:
@@ -311,7 +436,7 @@ def ingest_pdfs_from_dir(dir_path: str, recursive: bool = True, max_files: int =
             already.update(new_processed)
             SESSION_PROCESSED[client_id] = already
             PROCESSED_FILES_COUNT += len(new_processed)
-    logger.info("Ingest done: files=%d", total_files)
+    logger.info("Ingest done: files=%d errors=%d elapsed_ms=%d", total_files, errors_count, int((time.time()-start_ts)*1000))
     return saved_texts, previews, total_files
 
 # ----------- استخراج متن از PDF -----------
@@ -813,6 +938,78 @@ def generate_answer_with_ollama(question, context):
     # در صورت شکست chat، generate را امتحان می‌کنیم با مکانیزم fallback
     return do_generate(model)
 
+def _should_use_deepseek() -> bool:
+    key = os.getenv('DEEPSEEK_API_KEY')
+    if key and len(key.strip()) > 10:
+        return True
+    return _str_to_bool(os.getenv('USE_DEEPSEEK', '0'), default=False)
+
+def generate_answer_with_deepseek(question: str, context: str) -> str:
+    try:
+        import requests  # type: ignore
+    except Exception:
+        return 'خطا در DeepSeek: کتابخانه requests در دسترس نیست'
+
+    api_key = os.getenv('DEEPSEEK_API_KEY', '').strip()
+    model = os.getenv('DEEPSEEK_MODEL', 'deepseek-chat').strip() or 'deepseek-chat'
+    if not api_key:
+        return 'خطا در DeepSeek: کلید API تنظیم نشده است'
+
+    fast = _is_fast_mode()
+    try:
+        temperature = float(os.getenv('DEEPSEEK_TEMP', '0.15' if fast else '0.2'))
+    except Exception:
+        temperature = 0.15 if fast else 0.2
+    try:
+        top_p = float(os.getenv('DEEPSEEK_TOP_P', '0.9' if fast else '0.95'))
+    except Exception:
+        top_p = 0.9 if fast else 0.95
+    try:
+        max_tokens = int(os.getenv('DEEPSEEK_MAX_TOKENS', '256' if fast else '512'))
+    except Exception:
+        max_tokens = 256 if fast else 512
+
+    url = 'https://api.deepseek.com/chat/completions'
+    headers = {
+        'Authorization': f'Bearer {api_key}',
+        'Content-Type': 'application/json',
+    }
+    payload = {
+        'model': model,
+        'messages': [
+            { 'role': 'system', 'content': 'شما یک دستیار حقوقی فارسی هستید. با تکیه بر متن زمینه زیر، پاسخ دقیق و کوتاه بده.' },
+            { 'role': 'user', 'content': f"[متن زمینه]\n{context}\n\n[سؤال]\n{question}" },
+        ],
+        'temperature': temperature,
+        'top_p': top_p,
+        'max_tokens': max_tokens,
+        'stream': False,
+    }
+    try:
+        timeout_s = float(os.getenv('DEEPSEEK_TIMEOUT', '45' if fast else '120'))
+    except Exception:
+        timeout_s = 45.0 if fast else 120.0
+
+    ts0 = time.perf_counter()
+    try:
+        resp = requests.post(url, json=payload, headers=headers, timeout=timeout_s)
+        took = int((time.perf_counter() - ts0) * 1000)
+        MODEL_STATUS.update({'engine':'deepseek','latency_ms':took,'ts':int(time.time())})
+        if resp.status_code >= 400:
+            MODEL_STATUS.update({'error': f'HTTP {resp.status_code}'})
+            return f"خطا در DeepSeek: HTTP {resp.status_code} - {resp.text[:200]}"
+        data = resp.json()
+        choices = data.get('choices') or []
+        if not choices:
+            MODEL_STATUS.update({'error':'no_choices'})
+            return 'پاسخی از DeepSeek دریافت نشد.'
+        content = ((choices[0] or {}).get('message') or {}).get('content', '')
+        MODEL_STATUS.update({'error': ''})
+        return content.strip() or 'پاسخی از DeepSeek دریافت نشد.'
+    except Exception as exc:
+        MODEL_STATUS.update({'engine':'deepseek','error': str(exc), 'ts': int(time.time())})
+        return f"خطا در ارتباط با DeepSeek: {exc}"
+
 def generate_answer(question, context):
     # ابتدا پاسخ‌های بازبینی‌شدهٔ انسانی را چک می‌کنیم
     try:
@@ -825,6 +1022,13 @@ def generate_answer(question, context):
     # حالت بدون مدل (اختیاری): فقط پاسخ محلی تولید شود
     if _str_to_bool(os.getenv('NO_MODELS', '0'), default=False):
         return generate_answer_locally(question, context)
+
+    # تلاش با DeepSeek (در صورت پیکربندی)
+    deepseek_ans = None
+    if _should_use_deepseek():
+        deepseek_ans = generate_answer_with_deepseek(question, context)
+        if isinstance(deepseek_ans, str) and not deepseek_ans.startswith('خطا در') and not deepseek_ans.startswith('پاسخی از DeepSeek'):
+            return deepseek_ans
 
     # تلاش با llama-cpp (در صورت فعال بودن)
     llama_ans = None
@@ -843,6 +1047,8 @@ def generate_answer(question, context):
     # اگر هر دو مسیر شکست خورد، پاسخ محلی بده و پیام‌های خطا را ضمیمه کن
     local = generate_answer_locally(question, context)
     debug = []
+    if isinstance(deepseek_ans, str) and (deepseek_ans.startswith('خطا در') or deepseek_ans.startswith('پاسخی از DeepSeek')):
+        debug.append(deepseek_ans)
     if isinstance(llama_ans, str) and (llama_ans.startswith('مدل محلی پیکربندی') or llama_ans.startswith('خطا در')):
         debug.append(llama_ans)
     if isinstance(ollama_ans, str) and (ollama_ans.startswith('خطا در ارتباط با Ollama') or ollama_ans.startswith('خطای HTTP') or ollama_ans.startswith('خطا در')):
@@ -1098,6 +1304,7 @@ def get_full_context():
 
 # ----------- مسیر پرسیدن سؤال -----------
 @app.route('/ask', methods=['POST'])
+@limiter.limit(os.getenv('RATE_LIMIT_ASK', '60 per minute'))
 def ask_question():
     data = request.get_json()
     question = data.get('question')
@@ -1234,9 +1441,16 @@ def admin_stats():
         else:
             llama_status = 'missing_model'
 
-    # انتخاب موتور فعال
+    # DeepSeek وضعیت
+    deepseek_key = os.getenv('DEEPSEEK_API_KEY', '').strip()
+    deepseek_status = 'configured' if deepseek_key else 'disabled'
+    deepseek_model = os.getenv('DEEPSEEK_MODEL', 'deepseek-chat')
+
+    # انتخاب موتور فعال: DeepSeek > LLaMA > Ollama > local
     engine = 'local'
-    if use_llama and llama_status == 'configured':
+    if deepseek_status == 'configured':
+        engine = 'deepseek'
+    elif use_llama and llama_status == 'configured':
         engine = 'llama'
     elif _should_use_ollama() and ollama_status == 'online':
         engine = 'ollama'
@@ -1255,11 +1469,40 @@ def admin_stats():
         'ollama_model': os.getenv('OLLAMA_MODEL', 'gemma3:4b'),
         'llama': llama_status,
         'llama_model': llama_model,
+        'deepseek': deepseek_status,
+        'deepseek_model': deepseek_model,
         'engine': engine,
+        'model_status': MODEL_STATUS,
         'vector_ready': bool(vector_ready),
         'vector_model': GLOBAL_VECTOR.get('model_name') or os.getenv('EMBED_MODEL', ''),
     }
     return jsonify(data)
+
+@app.route('/admin/config', methods=['GET', 'POST'])
+def admin_config():
+    if request.method == 'GET':
+        cfg = _read_config_file()
+        # ماسک کردن کلیدها
+        masked = dict(cfg)
+        if masked.get('DEEPSEEK_API_KEY'):
+            masked['DEEPSEEK_API_KEY'] = _mask_secret(str(masked['DEEPSEEK_API_KEY']))
+        return jsonify(masked)
+    # POST
+    data = request.get_json(silent=True) or {}
+    cfg = _read_config_file()
+    # فقط کلیدهای مجاز
+    allowed = {
+        'DEEPSEEK_API_KEY', 'DEEPSEEK_MODEL',
+        'USE_OLLAMA', 'USE_LLAMA', 'USE_DEEPSEEK'
+    }
+    for k, v in (data.items() if isinstance(data, dict) else []):
+        if k in allowed:
+            cfg[k] = v
+    ok = _write_config_file(cfg)
+    if ok:
+        _load_persisted_config_into_env()
+        return jsonify({'ok': True})
+    return jsonify({'ok': False}), 500
 
 @app.route('/admin/clear', methods=['POST'])
 def admin_clear():
@@ -1365,6 +1608,79 @@ def admin_list_curated():
     for k, v in CURATED_ANSWERS.items():
         out.append({ 'key': k, 'len': len(str(v.get('answer') or '')) })
     return jsonify({ 'count': len(out), 'items': out })
+
+@app.route('/admin/set-deepseek', methods=['POST'])
+def admin_set_deepseek():
+    data = request.get_json(silent=True) or {}
+    key = (data.get('api_key') or '').strip()
+    model = (data.get('model') or '').strip() or 'deepseek-chat'
+    if not key:
+        return jsonify({'ok': False, 'error': 'api_key الزامی است'}), 400
+    # ذخیره در فایل تنظیمات و بارگذاری مجدد در env
+    cfg = _read_config_file()
+    cfg['DEEPSEEK_API_KEY'] = key
+    cfg['DEEPSEEK_MODEL'] = model
+    cfg['USE_DEEPSEEK'] = '1'
+    cfg['USE_OLLAMA'] = '0'
+    cfg['USE_LLAMA'] = '0'
+    if _write_config_file(cfg):
+        _load_persisted_config_into_env()
+        return jsonify({'ok': True, 'model': model})
+    return jsonify({'ok': False}), 500
+
+@app.route('/webhook', methods=['POST'])
+@limiter.limit(os.getenv('RATE_LIMIT_WEBHOOK', '30 per minute'))
+def webhook_receiver():
+    # توکن وبهوک از هدر یا querystring خوانده می‌شود
+    expected = os.getenv('WEBHOOK_TOKEN') or os.getenv('WEBHOOK_SECRET') or os.getenv('TOKEN')
+    if expected:
+        provided = (
+            request.headers.get('X-Webhook-Token')
+            or request.headers.get('X-Token')
+            or request.args.get('token')
+        )
+        if not provided or provided != expected:
+            return jsonify({'ok': False, 'error': 'unauthorized'}), 401
+
+    # اختیاری: اعتبارسنجی امضا (HMAC-SHA256) روی بادی خام
+    hsecret = os.getenv('WEBHOOK_HMAC_SECRET')
+    if hsecret:
+        try:
+            raw = request.get_data(cache=True) or b''
+            sig = hmac.new(hsecret.encode('utf-8'), raw, hashlib.sha256).hexdigest()
+            provided_sig = request.headers.get('X-Signature') or request.headers.get('X-Hub-Signature-256')
+            if not provided_sig or (sig.lower() != provided_sig.strip().lower().replace('sha256=','')):
+                return jsonify({'ok': False, 'error': 'bad_signature'}), 401
+        except Exception:
+            return jsonify({'ok': False, 'error': 'sig_check_failed'}), 400
+
+    payload = request.get_json(silent=True) or {}
+    # ذخیرهٔ payload برای استفادهٔ آتی/اسکریپت
+    try:
+        import json as _json
+        import time as _time
+        save_dir = os.path.join(BASE_DIR, 'tmp')
+        os.makedirs(save_dir, exist_ok=True)
+        fname = f"webhook_{int(_time.time())}.json"
+        fpath = os.path.join(save_dir, fname)
+        with open(fpath, 'w', encoding='utf-8') as f:
+            _json.dump(payload, f, ensure_ascii=False)
+    except Exception:
+        fpath = ''
+
+    # اجرای اختیاری فایل .bat برای پردازش payload
+    started = False
+    bat_path = os.getenv('WEBHOOK_BAT')
+    if bat_path and os.path.isfile(bat_path):
+        try:
+            import subprocess as _sub
+            # اجرای غیربلاک‌کننده با ارسال مسیر فایل payload به عنوان آرگومان اول
+            _sub.Popen(['cmd.exe', '/C', bat_path, fpath or ''], cwd=BASE_DIR)
+            started = True
+        except Exception:
+            started = False
+
+    return jsonify({'ok': True, 'payload_file': fpath, 'bat_started': started})
 
 if __name__ == '__main__':
     host = os.getenv('HOST', '127.0.0.1')
