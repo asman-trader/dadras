@@ -34,6 +34,9 @@ try:
 except Exception:
     DEEPSEEK_MAX_RETRIES = 3
 
+# Default DeepSeek API key (used only if env/config is unset)
+DEFAULT_DEEPSEEK_API_KEY = 'sk-ae2a92c7627046019ad9b07cb999a5db'
+
 # In-memory corpus and index
 LOADED_FILES: List[str] = []
 PARAGRAPHS: List[str] = []
@@ -293,7 +296,7 @@ def _reset_openai_client() -> None:
 def _get_openai_client():
     """Return a persistent OpenAI client configured for DeepSeek with keep-alive."""
     global _OPENAI_CLIENT, _OPENAI_CLIENT_SIG
-    key = os.getenv('DEEPSEEK_API_KEY', '').strip()
+    key = (os.getenv('DEEPSEEK_API_KEY', '').strip() or DEFAULT_DEEPSEEK_API_KEY)
     base = (os.getenv('DEEPSEEK_BASE_URL', '').strip() or 'https://api.deepseek.com').rstrip('/')
     if not base.endswith('/v1'):
         base = base + '/v1'
@@ -310,7 +313,7 @@ def _get_openai_client():
 
 def _deepseek_chat(question: str, context: str) -> Tuple[bool, str]:
     """Call DeepSeek via OpenAI SDK with retries; returns (ok, text_or_error)."""
-    key = os.getenv('DEEPSEEK_API_KEY', '').strip()
+    key = (os.getenv('DEEPSEEK_API_KEY', '').strip() or DEFAULT_DEEPSEEK_API_KEY)
     if not key:
         return False, 'DEEPSEEK_API_KEY not set'
     model = (os.getenv('DEEPSEEK_MODEL', '').strip() or 'deepseek-chat')
@@ -714,7 +717,7 @@ def admin_stats():
         'llm': {
             'use_deepseek': os.getenv('USE_DEEPSEEK', ''),
             'deepseek_model': os.getenv('DEEPSEEK_MODEL', ''),
-            'deepseek_key_set': bool(os.getenv('DEEPSEEK_API_KEY', '').strip()),
+            'deepseek_key_set': bool(os.getenv('DEEPSEEK_API_KEY', '').strip() or DEFAULT_DEEPSEEK_API_KEY),
             'deepseek_base_url': os.getenv('DEEPSEEK_BASE_URL', ''),
             'deepseek_timeout_sec': os.getenv('DEEPSEEK_TIMEOUT_SEC', ''),
             'deepseek_max_retries': os.getenv('DEEPSEEK_MAX_RETRIES', ''),
@@ -807,7 +810,7 @@ def admin_llm_check():
     # DeepSeek check
     try:
         use_ds = str(os.getenv('USE_DEEPSEEK', '')).strip() in ('1','true','yes','on')
-        key = os.getenv('DEEPSEEK_API_KEY', '').strip()
+        key = (os.getenv('DEEPSEEK_API_KEY', '').strip() or DEFAULT_DEEPSEEK_API_KEY)
         model = os.getenv('DEEPSEEK_MODEL', '').strip() or 'deepseek-chat'
         base = os.getenv('DEEPSEEK_BASE_URL', 'https://api.deepseek.com').strip() or 'https://api.deepseek.com'
         # Normalize to include /v1 for compatibility
