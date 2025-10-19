@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>پنل ادمین - خانه</title>
+  <style>
+    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; background:#0b0f14; color:#e2e8f0 }
+    a { color:#93c5fd; text-decoration:none }
+    a:hover { text-decoration:underline }
+    .card { border:1px solid #1f2937; background:#0f141b; border-radius:12px; padding:16px; margin-bottom:12px }
+    h1 { font-size:18px }
+  </style>
+</head>
+<body>
+  <h1>پنل ادمین</h1>
+  <div class="card">
+    <h2 style="font-size:16px; margin:0 0 8px;">مدیریت مدل‌های هوش</h2>
+    <p><a href="/admin/llm">رفتن به صفحه تنظیمات مدل</a></p>
+  </div>
+  <div class="card">
+    <h2 style="font-size:16px; margin:0 0 8px;">مدیریت داده‌ها</h2>
+    <p><a href="/admin/data">رفتن به صفحه مدیریت داده</a></p>
+  </div>
+  <div class="card">
+    <h2 style="font-size:16px; margin:0 0 8px;">آمار سریع</h2>
+    <pre id="statOut" style="max-height:220px"></pre>
+  </div>
+
+  <script>
+    fetch('/admin/stats').then(r=>r.json()).then(j=>{
+      document.getElementById('statOut').textContent = JSON.stringify(j, null, 2);
+    }).catch(()=>{});
+  </script>
+</body>
+</html>
+
+

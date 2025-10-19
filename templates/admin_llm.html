@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>تنظیمات مدل - ادمین</title>
+  <style>
+    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; background:#0b0f14; color:#e2e8f0 }
+    a { color:#93c5fd; text-decoration:none }
+    a:hover { text-decoration:underline }
+    .muted { color:#94a3b8 }
+    .btn { padding:8px 12px; border:1px solid #1f2937; background:#0b1220; color:#e2e8f0; border-radius:8px; cursor:pointer }
+    .btn:hover { border-color:#2a3b4f }
+    input, select { width:100%; padding:8px 10px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:8px }
+    .row { display:grid; gap:12px; grid-template-columns: 1fr 1fr }
+    .card { border:1px solid #1f2937; background:#0f141b; border-radius:12px; padding:16px; margin-bottom:12px }
+  </style>
+</head>
+<body>
+  <p><a href="/admin">بازگشت</a></p>
+  <h1 style="font-size:18px">تنظیمات مدل</h1>
+
+  <div class="card">
+    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+      <label class="muted">انتخاب موتور:</label>
+      <label><input type="radio" name="engine" value="none" id="eng_none"> بدون مدل</label>
+      <label><input type="radio" name="engine" value="deepseek" id="eng_ds"> DeepSeek</label>
+      <label><input type="radio" name="engine" value="ollama" id="eng_ol"> Ollama</label>
+      <button class="btn" id="btnLoadCfg">دریافت</button>
+      <button class="btn" id="btnCheckLLM">بررسی اتصال</button>
+      <span id="cfgStatus" class="muted"></span>
+    </div>
+
+    <div id="box_ds" style="display:none; border:1px dashed #1f2937; border-radius:8px; padding:12px; margin-top:10px;">
+      <h3 style="margin:0 0 8px; font-size:14px;">DeepSeek</h3>
+      <div class="row">
+        <div>
+          <label>Base URL</label>
+          <select id="DEEPSEEK_BASE_URL_SEL">
+            <option value="https://api.deepseek.com">https://api.deepseek.com</option>
+            <option value="https://api.deepseek.com/v1">https://api.deepseek.com/v1</option>
+          </select>
+        </div>
+        <div>
+          <label>Model</label>
+          <select id="DEEPSEEK_MODEL_SEL">
+            <option value="deepseek-chat">deepseek-chat</option>
+            <option value="deepseek-reasoner">deepseek-reasoner</option>
+          </select>
+        </div>
+        <div style="grid-column:1/-1;">
+          <label>API Key</label>
+          <input type="text" id="DEEPSEEK_API_KEY" placeholder="sk-...">
+        </div>
+      </div>
+    </div>
+
+    <div id="box_ol" style="display:none; border:1px dashed #1f2937; border-radius:8px; padding:12px; margin-top:10px;">
+      <h3 style="margin:0 0 8px; font-size:14px;">Ollama</h3>
+      <div class="row">
+        <div>
+          <label>Host</label>
+          <select id="OLLAMA_HOST_SEL">
+            <option value="http://127.0.0.1:11434">http://127.0.0.1:11434</option>
+            <option value="http://localhost:11434">http://localhost:11434</option>
+            <option value="http://127.0.0.1:3000">http://127.0.0.1:3000</option>
+            <option value="other">سایر...</option>
+          </select>
+          <input type="text" id="OLLAMA_HOST_OTHER" placeholder="http://127.0.0.1:11434" style="display:none; margin-top:6px;">
+        </div>
+        <div>
+          <label>Model</label>
+          <select id="OLLAMA_MODEL_SEL">
+            <option value="gemma3:4b">gemma3:4b</option>
+            <option value="llama3.2">llama3.2</option>
+            <option value="qwen2.5">qwen2.5</option>
+            <option value="other">سایر...</option>
+          </select>
+          <input type="text" id="OLLAMA_MODEL_OTHER" placeholder="model:tag" style="display:none; margin-top:6px;">
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:8px; align-items:center; margin-top:10px;">
+      <button class="btn" id="btnSaveCfg">ذخیره</button>
+      <span id="saveStatus" class="muted"></span>
+    </div>
+
+    <div style="margin-top:10px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+      <span class="muted">وضعیت اتصال:</span>
+      <span id="badge_ds" class="muted">DeepSeek: -</span>
+      <span id="badge_ol" class="muted">Ollama: -</span>
+    </div>
+    <pre id="llmOut" style="margin-top:10px; max-height:220px;"></pre>
+  </div>
+
+  <script>
+    const $ = s=>document.querySelector(s);
+    const cfgStatus=$('#cfgStatus'), saveStatus=$('#saveStatus'), llmOut=$('#llmOut');
+    const engNone=$('#eng_none'), engDs=$('#eng_ds'), engOl=$('#eng_ol');
+    const boxDs=$('#box_ds'), boxOl=$('#box_ol');
+    const badgeDs=$('#badge_ds'), badgeOl=$('#badge_ol');
+    const dsModelSel=document.getElementById('DEEPSEEK_MODEL_SEL');
+    const dsBaseSel=document.getElementById('DEEPSEEK_BASE_URL_SEL');
+    const olHostSel=document.getElementById('OLLAMA_HOST_SEL');
+    const olHostOther=document.getElementById('OLLAMA_HOST_OTHER');
+    const olModelSel=document.getElementById('OLLAMA_MODEL_SEL');
+    const olModelOther=document.getElementById('OLLAMA_MODEL_OTHER');
+    function setEngine(e){ if(e==='deepseek'){ engDs.checked=true; boxDs.style.display='block'; boxOl.style.display='none'; } else if(e==='ollama'){ engOl.checked=true; boxDs.style.display='none'; boxOl.style.display='block'; } else { engNone.checked=true; boxDs.style.display='none'; boxOl.style.display='none'; } }
+    engNone.addEventListener('change', ()=> setEngine('none'))
+    engDs.addEventListener('change', ()=> setEngine('deepseek'))
+    engOl.addEventListener('change', ()=> setEngine('ollama'))
+    function val(id){ return (document.getElementById(id)||{}).value || '' }
+    function setVal(id,v){ const el=document.getElementById(id); if(el) el.value=v||'' }
+    async function fetchWithAdmin(url, options){ options=options||{}; options.headers=options.headers||{}; const r=await fetch(url, options); return r }
+    function setSelectValue(sel,value,fallback){ if(!sel)return; const v=value||fallback; const opt=Array.from(sel.options).find(o=>o.value===v); if(opt){ sel.value=v } else { const o=document.createElement('option'); o.value=v; o.textContent=v; sel.appendChild(o); sel.value=v } }
+    function setSelectOrOther(sel, other, value, defVal){
+      const v = value || defVal || '';
+      if(!sel || !other){ return; }
+      const has = Array.from(sel.options).some(o=>o.value===v);
+      if(has){ sel.value = v; other.style.display='none'; }
+      else if(v){ sel.value = 'other'; other.style.display='block'; other.value = v; }
+      else { sel.value = defVal || ''; other.style.display='none'; other.value=''; }
+    }
+    function getSelectOrOther(sel, other){ return (sel && sel.value==='other') ? (other?other.value.trim(): '') : (sel?sel.value.trim():'') }
+    if(olHostSel){ olHostSel.addEventListener('change', ()=>{ olHostOther.style.display = (olHostSel.value==='other')?'block':'none'; }) }
+    if(olModelSel){ olModelSel.addEventListener('change', ()=>{ olModelOther.style.display = (olModelSel.value==='other')?'block':'none'; }) }
+    async function loadCfg(){ cfgStatus.textContent='در حال دریافت...'; try{ const r=await fetchWithAdmin('/admin/config'); const j=await r.json(); setSelectValue(dsModelSel, j.DEEPSEEK_MODEL || 'deepseek-chat', 'deepseek-chat'); setSelectValue(dsBaseSel, j.DEEPSEEK_BASE_URL || 'https://api.deepseek.com', 'https://api.deepseek.com'); setVal('DEEPSEEK_API_KEY', j.DEEPSEEK_API_KEY_SET ? (j.DEEPSEEK_API_KEY_MASKED||'***') : ''); setSelectOrOther(olHostSel, olHostOther, j.OLLAMA_HOST || 'http://127.0.0.1:11434', 'http://127.0.0.1:11434'); setSelectOrOther(olModelSel, olModelOther, j.OLLAMA_MODEL || 'gemma3:4b', 'gemma3:4b'); const dsOn=(String(j.USE_DEEPSEEK||'').toLowerCase() in {'1':1,'true':1,'yes':1,'on':1}); const olOn=(String(j.USE_OLLAMA||'').toLowerCase() in {'1':1,'true':1,'yes':1,'on':1}); setEngine(dsOn ? 'deepseek' : (olOn ? 'ollama' : 'none')); cfgStatus.textContent='' } catch(e){ cfgStatus.textContent='خطا' } }
+    document.getElementById('btnLoadCfg').addEventListener('click', loadCfg);
+    document.getElementById('btnSaveCfg').addEventListener('click', async ()=>{ saveStatus.textContent='در حال ذخیره...'; try{ const engine=engDs.checked?'deepseek':(engOl.checked?'ollama':'none'); const body={ USE_DEEPSEEK: engine==='deepseek'?'1':'0', USE_OLLAMA: engine==='ollama'?'1':'0', DEEPSEEK_MODEL: dsModelSel?dsModelSel.value:'deepseek-chat', DEEPSEEK_BASE_URL: dsBaseSel?dsBaseSel.value:'https://api.deepseek.com', OLLAMA_HOST: getSelectOrOther(olHostSel, olHostOther) || 'http://127.0.0.1:11434', OLLAMA_MODEL: getSelectOrOther(olModelSel, olModelOther) || 'gemma3:4b' }; const k=val('DEEPSEEK_API_KEY'); if(k && k.replace(/\*/g,'').length>0 && !/^\*+$/.test(k)) body.DEEPSEEK_API_KEY=k; const r=await fetchWithAdmin('/admin/config',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); const j=await r.json(); if(j.ok){ saveStatus.textContent='ذخیره شد'; await loadCfg() } else { saveStatus.textContent='خطا در ذخیره' } }catch(e){ saveStatus.textContent='خطا' } });
+    document.getElementById('btnCheckLLM').addEventListener('click', async ()=>{ cfgStatus.textContent='در حال بررسی...'; llmOut.textContent=''; try{ const r=await fetchWithAdmin('/admin/llm-check',{method:'POST'}); const j=await r.json(); llmOut.textContent=JSON.stringify(j,null,2); const ok=(j.deepseek&&j.deepseek.online)||(j.ollama&&j.ollama.online); cfgStatus.textContent= ok?'متصل':'نامتصل'; badgeDs.textContent='DeepSeek: ' + (j.deepseek?.online?'متصل':(j.deepseek?.configured?'نامتصل':'پیکربندی‌نشده')); badgeOl.textContent='Ollama: ' + (j.ollama?.online?'متصل':(j.ollama?.configured?'نامتصل':'پیکربندی‌نشده')) }catch(e){ cfgStatus.textContent='خطا' } });
+    // auto load once
+    loadCfg();
+  </script>
+</body>
+</html>
+
+

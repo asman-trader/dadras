@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>دادرس - گفت‌وگو</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #0f141b;
+      --muted: #94a3b8;
+      --text: #e2e8f0;
+      --accent: #22c55e;
+      --accent-weak: #1b8f47;
+      --chip: #1f2937;
+      --user: #1e293b;
+      --assistant: #0f172a;
+      --border: #1f2937;
+    }
+    * { box-sizing: border-box }
+    html, body { height: 100% }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      display: flex; flex-direction: column;
+    }
+    header {
+      position: sticky; top: 0; z-index: 10; backdrop-filter: blur(6px);
+      background: linear-gradient(180deg, rgba(15,20,27,.9), rgba(15,20,27,.65));
+      border-bottom: 1px solid var(--border);
+    }
+    .nav { max-width: 980px; margin: 0 auto; padding: 12px 16px; display:flex; gap:12px; align-items:center; justify-content:flex-start }
+    .brand { display:flex; gap:10px; align-items:center }
+    .brand .dot { width:10px; height:10px; border-radius:50%; background: var(--accent); box-shadow: 0 0 12px var(--accent) }
+    .brand h1 { margin:0; font-size:16px; font-weight:600 }
+    .toolbar { display:flex; gap:8px; align-items:center }
+    .btn { padding: 8px 12px; border:1px solid var(--border); background: #0b1220; color: var(--text); border-radius: 8px; cursor:pointer }
+    .btn:hover { border-color:#2a3b4f }
+    a.link { color: var(--muted); text-decoration:none; font-size:13px }
+    a.link:hover { color: var(--text) }
+
+    main { max-width: 980px; width:100%; margin: 0 auto; flex:1; display:flex; flex-direction:column; gap:16px; padding: 16px }
+    #messages { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px }
+    .msg { display:flex; gap:12px }
+    .msg.assistant { justify-content:flex-start }
+    .msg.user { justify-content:flex-end }
+    .bubble { padding:12px 14px; border-radius: 14px; border:1px solid var(--border); line-height:1.7 }
+    .bubble { max-width:70% }
+    .user .bubble { background: var(--user) }
+    .assistant .bubble { background: var(--assistant) }
+    .bubble.typing { display:inline-flex; align-items:center }
+    .typing-dots { display:inline-flex; gap:4px }
+    .typing-dots i { width:6px; height:6px; border-radius:50%; background:#9ca3af; opacity:.25; animation: blink 1.4s infinite ease-in-out }
+    .typing-dots i:nth-child(2){ animation-delay:.2s }
+    .typing-dots i:nth-child(3){ animation-delay:.4s }
+    @keyframes blink { 0%, 80%, 100% { opacity:.2 } 40% { opacity: 1 } }
+    .meta { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
+    .chip { background: var(--chip); color: var(--muted); font-size:12px; padding:4px 8px; border-radius:999px; border:1px solid var(--border) }
+    details { margin-top:10px }
+    summary { cursor:pointer; color: var(--muted) }
+    pre { background:#0a0f16; border:1px solid var(--border); padding:12px; overflow:auto; border-radius:10px }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace }
+
+    .composer {
+      position: sticky; bottom: 0; background: var(--panel);
+      border-top: 1px solid var(--border); padding: 12px 16px;
+    }
+    .bar { max-width:980px; margin:0 auto; display:flex; gap:8px; align-items:flex-end }
+    textarea { flex:1; min-height: 44px; max-height: 200px; padding: 12px 14px; background: #0b1220; color: var(--text); border-radius: 10px; border:1px solid var(--border); resize: none }
+    .send { padding: 10px 14px; background: var(--accent); color:#03120a; font-weight:600; border:0; border-radius:10px; cursor:pointer }
+    .send:disabled { background: var(--accent-weak); opacity:.7; cursor:not-allowed }
+
+    .muted { color: var(--muted) }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <div class="dot"></div>
+        <h1>دادرس - دستیار گفت‌وگو</h1>
+      </div>
+      
+    </div>
+  </header>
+
+  <main>
+    <ul id="messages"></ul>
+    <details id="draftBox" style="margin-top:12px;">
+      <summary>تولید سند (بتا)</summary>
+      <div style="margin-top:10px; display:grid; gap:10px; grid-template-columns: 1fr;">
+        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+          <button class="btn" id="btnLoadTpls">بارگذاری فهرست قالب‌ها</button>
+          <select id="tplSelect" class="btn" style="min-width:220px;"></select>
+          <span class="muted" id="tplStatus"></span>
+        </div>
+        <label class="muted">فیلدها (JSON):</label>
+        <textarea id="tplFields" placeholder='{"نام_خواهان":"الف","نام_خوانده":"ب","پلاک":"۱۲۳"}'></textarea>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button class="send" id="btnDraft">تولید</button>
+          <button class="btn" id="btnSave">ذخیره TXT</button>
+          <a class="link" id="dlLink" href="#" download>دانلود</a>
+          <span class="muted" id="draftStatus"></span>
+        </div>
+        <label class="muted">خروجی:</label>
+        <pre id="draftOut" style="max-height:240px;"></pre>
+      </div>
+    </details>
+  </main>
+
+  <div class="composer">
+    <div class="bar">
+      <textarea id="q" placeholder="سؤال خود را بنویسید... (Shift+Enter برای خط جدید)"></textarea>
+      <button class="send" id="sendBtn">ارسال</button>
+    </div>
+  </div>
+
+  <script>
+    const $ = (s)=>document.querySelector(s);
+    const msgs = $('#messages');
+    const q = $('#q');
+    const sendBtn = $('#sendBtn');
+    // removed status/ingest controls
+    const btnLoadTpls = $('#btnLoadTpls');
+    const tplSelect = $('#tplSelect');
+    const tplStatus = $('#tplStatus');
+    const btnDraft = $('#btnDraft');
+    const tplFields = $('#tplFields');
+    const draftOut = $('#draftOut');
+    const draftStatus = $('#draftStatus');
+    const btnSave = $('#btnSave');
+    const dlLink = $('#dlLink');
+
+    function autoGrow(el){
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 200) + 'px';
+    }
+    q.addEventListener('input', ()=> autoGrow(q));
+    autoGrow(q);
+
+    function formatText(t){
+      // basic formatting: code fences and newlines
+      t = (t||'').replace(/```([\s\S]*?)```/g, (m, p1)=>'<pre><code>'+escapeHtml(p1)+'</code></pre>');
+      t = t.replace(/\n/g,'<br>');
+      return t;
+    }
+    function escapeHtml(s){
+      return (s||'').replace(/[&<>"']/g, (c)=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+    }
+
+    function addMsg(role, text, meta){
+      const li = document.createElement('li');
+      li.className = `msg ${role}`;
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      bubble.innerHTML = formatText(text);
+      li.appendChild(bubble);
+      if(meta && (meta.intent || meta.domain || (meta.citations||[]).length)){
+        const metaEl = document.createElement('div');
+        metaEl.className = 'meta';
+        if(meta.intent){ const c=document.createElement('span'); c.className='chip'; c.textContent='نیت: '+meta.intent; metaEl.appendChild(c); }
+        if(meta.domain){ const c=document.createElement('span'); c.className='chip'; c.textContent='حوزه: '+meta.domain; metaEl.appendChild(c); }
+        if(Array.isArray(meta.citations) && meta.citations.length){
+          const det = document.createElement('details');
+          const sum = document.createElement('summary');
+          sum.textContent = 'استنادات ('+meta.citations.length+')';
+          det.appendChild(sum);
+          meta.citations.slice(0,6).forEach((c,i)=>{
+            const p = document.createElement('div');
+            p.className='muted';
+            p.style.margin='6px 0';
+            p.textContent = (i+1)+') '+(c.snippet||'');
+            det.appendChild(p);
+          });
+          metaEl.appendChild(det);
+        }
+        li.appendChild(metaEl);
+      }
+      msgs.appendChild(li);
+      window.scrollTo({ top: document.body.scrollHeight });
+    }
+
+    async function ask(){
+      const text = q.value.trim();
+      if(!text) return;
+      addMsg('user', text);
+      q.value=''; autoGrow(q); q.focus();
+      sendBtn.disabled = true;
+      // show typing indicator like DeepSeek
+      const typingLi = document.createElement('li');
+      typingLi.className = 'msg assistant';
+      const typingBubble = document.createElement('div');
+      typingBubble.className = 'bubble typing';
+      typingBubble.innerHTML = '<span class="typing-dots"><i></i><i></i><i></i></span>';
+      typingLi.appendChild(typingBubble);
+      msgs.appendChild(typingLi);
+      window.scrollTo({ top: document.body.scrollHeight });
+      try{
+        const r = await fetch('/ask', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({question:text}) });
+        const j = await r.json();
+        // replace typing bubble with final answer
+        if(typingLi && typingLi.parentNode){ msgs.removeChild(typingLi); }
+        addMsg('assistant', j.answer||'');
+        // attach meta chips to last assistant msg
+        const last = msgs.lastElementChild; if(last){
+          const meta = { intent: j.intent, domain: j.domain, citations: j.citations };
+          if(meta.intent || meta.domain || (meta.citations||[]).length){
+            const metaEl = document.createElement('div'); metaEl.className='meta';
+            if(meta.intent){ const c=document.createElement('span'); c.className='chip'; c.textContent='نیت: '+meta.intent; metaEl.appendChild(c); }
+            if(meta.domain){ const c=document.createElement('span'); c.className='chip'; c.textContent='حوزه: '+meta.domain; metaEl.appendChild(c); }
+            if(Array.isArray(meta.citations) && meta.citations.length){
+              const det = document.createElement('details');
+              const sum = document.createElement('summary'); sum.textContent = 'استنادات ('+meta.citations.length+')'; det.appendChild(sum);
+              meta.citations.slice(0,6).forEach((c,i)=>{ const p=document.createElement('div'); p.className='muted'; p.style.margin='6px 0'; p.textContent=(i+1)+') '+(c.snippet||''); det.appendChild(p); });
+              metaEl.appendChild(det);
+            }
+            last.appendChild(metaEl);
+          }
+        }
+      }catch(e){
+        if(typingLi && typingLi.parentNode){ msgs.removeChild(typingLi); }
+        addMsg('assistant', 'خطا در ارتباط با سرور: '+e);
+      }finally{
+        sendBtn.disabled = false;
+      }
+    }
+
+    sendBtn.addEventListener('click', ask);
+    q.addEventListener('keydown', (ev)=>{
+      if(ev.key==='Enter' && !ev.shiftKey){ ev.preventDefault(); ask(); }
+    });
+
+    // ingest button removed
+
+    async function loadTemplates(){
+      tplStatus.textContent='گرفتن فهرست...';
+      try{
+        const r = await fetch('/templates');
+        const j = await r.json();
+        tplSelect.innerHTML = '';
+        (j.templates||[]).forEach(name=>{
+          const opt = document.createElement('option'); opt.value = name; opt.textContent = name; tplSelect.appendChild(opt);
+        });
+        if(!tplSelect.value && (j.templates||[])[0]) tplSelect.value = (j.templates||[])[0];
+        tplStatus.textContent = `${(j.templates||[]).length} قالب`;
+      }catch(e){ tplStatus.textContent='خطا در دریافت قالب‌ها'; }
+    }
+
+    async function doDraft(){
+      draftStatus.textContent='در حال تولید...';
+      draftOut.textContent='';
+      let fields = {};
+      const raw = tplFields.value.trim();
+      if(raw){ try{ fields = JSON.parse(raw); }catch(e){ draftStatus.textContent='JSON نامعتبر'; return; } }
+      try{
+        const r = await fetch('/draft', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ template: tplSelect.value||'sample_template.txt', fields }) });
+        const j = await r.json();
+        if(j.error){ draftStatus.textContent = 'خطا: '+j.error; return; }
+        draftOut.textContent = j.draft||'';
+        draftStatus.textContent='آماده';
+      }catch(e){ draftStatus.textContent='خطا در تولید'; }
+    }
+
+    btnLoadTpls.addEventListener('click', loadTemplates);
+    btnDraft.addEventListener('click', doDraft);
+    // preload template list on first open
+    document.getElementById('draftBox').addEventListener('toggle', (ev)=>{ if(ev.target.open){ loadTemplates(); } });
+
+    btnSave.addEventListener('click', async ()=>{
+      const txt = draftOut.textContent||''; if(!txt){ draftStatus.textContent='چیزی برای ذخیره نیست'; return; }
+      draftStatus.textContent='در حال ذخیره...'; dlLink.removeAttribute('href'); dlLink.textContent='دانلود';
+      try{
+        const r = await fetch('/draft/save', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ draft: txt, name: 'draft_'+Date.now()+'.txt' }) });
+        const j = await r.json();
+        if(!j.ok){ draftStatus.textContent='خطا در ذخیره'; return; }
+        const file = (j.file||'').split('output\\').pop() || '';
+        dlLink.href = '/draft/download?file='+encodeURIComponent(file);
+        dlLink.textContent = 'دانلود: '+file;
+        draftStatus.textContent='ذخیره شد';
+      }catch(e){ draftStatus.textContent='خطا در ذخیره'; }
+    });
+
+    // greeting
+    addMsg('assistant', 'سلام! من دستیار حقوقی دادرس هستم. سؤال خود را بنویسید.');
+  </script>
+</body>
+</html>
+
+

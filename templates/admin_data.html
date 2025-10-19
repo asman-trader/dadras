@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>مدیریت داده - ادمین</title>
+  <style>
+    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; background:#0b0f14; color:#e2e8f0 }
+    a { color:#93c5fd; text-decoration:none }
+    a:hover { text-decoration:underline }
+    .muted { color:#94a3b8 }
+    .btn { padding:8px 12px; border:1px solid #1f2937; background:#0b1220; color:#e2e8f0; border-radius:8px; cursor:pointer }
+    .btn:hover { border-color:#2a3b4f }
+    input { width:100%; padding:8px 10px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:8px }
+    .card { border:1px solid #1f2937; background:#0f141b; border-radius:12px; padding:16px; margin-bottom:12px }
+  </style>
+</head>
+<body>
+  <p><a href="/admin">بازگشت</a></p>
+  <h1 style="font-size:18px">مدیریت داده‌ها</h1>
+
+  <div class="card">
+    <h2 style="font-size:16px; margin:0 0 8px;">بارگذاری داده از مسیر محلی</h2>
+    <label class="muted">پوشه (پیش‌فرض: data/):</label>
+    <input type="text" id="ingDir" placeholder="data">
+    <div style="display:flex; gap:8px; align-items:center; margin-top:10px;">
+      <button class="btn" id="btnIngest">ingest</button>
+      <span id="ingStatus" class="muted"></span>
+    </div>
+    <pre id="ingOut" style="margin-top:10px; max-height:220px;"></pre>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size:16px; margin:0 0 8px;">استخراج متن از PDF و ذخیره کنار فایل</h2>
+    <label class="muted">پوشه (پیش‌فرض: data/laws):</label>
+    <input type="text" id="pdfDir" placeholder="data/laws">
+    <div style="display:flex; gap:8px; align-items:center; margin-top:10px;">
+      <button class="btn" id="btnExtract">Extract PDF → TXT</button>
+      <label class="muted"><input type="checkbox" id="pdfForce"> بازنویسی اجباری</label>
+      <span id="pdfStatus" class="muted"></span>
+    </div>
+    <pre id="pdfOut" style="margin-top:10px; max-height:260px;"></pre>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size:16px; margin:0 0 8px;">آمار</h2>
+    <div style="display:flex; gap:8px; align-items:center;">
+      <button class="btn" id="btnStats">دریافت آمار</button>
+      <span id="statStatus" class="muted"></span>
+    </div>
+    <pre id="statOut" style="margin-top:10px; max-height:260px;"></pre>
+  </div>
+
+  <script>
+    const $=s=>document.querySelector(s);
+    async function fetchWithAdmin(url, options){ options=options||{}; options.headers=options.headers||{}; const r=await fetch(url, options); return r }
+    $('#btnIngest').addEventListener('click', async ()=>{ const d=$('#ingDir').value.trim(); const st=$('#ingStatus'); const out=$('#ingOut'); st.textContent='در حال بارگذاری...'; out.textContent=''; try{ const r=await fetchWithAdmin('/ingest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({dir:d||undefined})}); const j=await r.json(); out.textContent=JSON.stringify(j,null,2); st.textContent='' }catch(e){ st.textContent='خطا' } });
+    $('#btnExtract').addEventListener('click', async ()=>{ const d=$('#pdfDir').value.trim()||'data/laws'; const force=$('#pdfForce').checked; const st=$('#pdfStatus'); const out=$('#pdfOut'); st.textContent='در حال استخراج...'; out.textContent=''; try{ const r=await fetchWithAdmin('/admin/extract-pdf-text',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({dir:d, force:force})}); const j=await r.json(); out.textContent=JSON.stringify(j,null,2); st.textContent='' }catch(e){ st.textContent='خطا' } });
+    $('#btnStats').addEventListener('click', async ()=>{ const st=$('#statStatus'); const out=$('#statOut'); st.textContent='در حال دریافت...'; out.textContent=''; try{ const r=await fetchWithAdmin('/admin/stats'); const j=await r.json(); out.textContent=JSON.stringify(j,null,2); st.textContent='' }catch(e){ st.textContent='خطا' } });
+  </script>
+</body>
+</html>
+
+

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>پنل ادمین دادرس</title>
+  <style>
+    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; background:#0b0f14; color:#e2e8f0 }
+    h1 { font-size: 18px }
+    .row { display:flex; gap:16px; flex-wrap:wrap }
+    .card { flex:1 1 280px; border:1px solid #1f2937; background:#0f141b; border-radius:12px; padding:16px }
+    label { color:#94a3b8; font-size:12px }
+    input[type=text] { width:100%; padding:8px 10px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:8px }
+    button { padding:8px 12px; border:1px solid #1f2937; background:#0b1220; color:#e2e8f0; border-radius:8px; cursor:pointer }
+    button:hover { border-color:#2a3b4f }
+    pre { background:#0a0f16; border:1px solid #1f2937; padding:12px; overflow:auto; border-radius:10px }
+    .muted { color:#94a3b8 }
+  </style>
+</head>
+<body>
+  <h1>پنل ادمین دادرس</h1>
+  <p class="muted">برای دسترسی کامل، در صورت تنظیم شدن توکن ادمین در سرور، باید هدر X-Admin-Token ارسال شود.</p>
+
+  <div class="row" style="margin-top:16px;">
+    <div class="card">
+      <h2 style="font-size:16px; margin:0 0 8px;">آمار</h2>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <button id="btnStats">دریافت آمار</button>
+        <span id="statStatus" class="muted"></span>
+      </div>
+      <pre id="statOut" style="margin-top:10px; max-height:280px;"></pre>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size:16px; margin:0 0 8px;">بارگذاری داده</h2>
+      <label>پوشه (اختیاری، پیش‌فرض data/):</label>
+      <input type="text" id="ingestDir" placeholder="data">
+      <div style="display:flex; gap:8px; align-items:center; margin-top:10px;">
+        <button id="btnIngest">ingest</button>
+        <span id="ingStatus" class="muted"></span>
+      </div>
+      <pre id="ingOut" style="margin-top:10px; max-height:200px;"></pre>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size:16px; margin:0 0 8px;">تنظیم توکن ادمین (راهنما)</h2>
+      <p class="muted">روی سرور، متغیر محیطی ADMIN_TOKEN را تنظیم کنید. سپس درخواست‌های ادمین را با هدر زیر بفرستید:</p>
+      <pre>X-Admin-Token: &lt;token&gt;</pre>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size:16px; margin:0 0 8px;">تنظیمات مدل هوش</h2>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+        <label class="muted">انتخاب موتور:</label>
+        <label><input type="radio" name="engine" value="none" id="eng_none"> بدون مدل</label>
+        <label><input type="radio" name="engine" value="deepseek" id="eng_ds"> DeepSeek</label>
+        <label><input type="radio" name="engine" value="ollama" id="eng_ol"> Ollama</label>
+        <button id="btnLoadCfg">دریافت</button>
+        <button id="btnCheckLLM">بررسی اتصال</button>
+        <span id="cfgStatus" class="muted"></span>
+      </div>
+      <div id="box_ds" style="display:none; border:1px dashed #1f2937; border-radius:8px; padding:12px; margin-top:10px;">
+        <h3 style="margin:0 0 8px; font-size:14px;">DeepSeek</h3>
+        <div style="display:grid; gap:8px; grid-template-columns: 1fr 1fr;">
+          <div>
+            <label>مدل</label>
+            <select id="DEEPSEEK_MODEL_SEL" class="btn" style="width:100%">
+              <option value="deepseek-chat">deepseek-chat (non-thinking)</option>
+              <option value="deepseek-reasoner">deepseek-reasoner (thinking)</option>
+            </select>
+          </div>
+          <div>
+            <label>Base URL</label>
+            <select id="DEEPSEEK_BASE_URL_SEL" class="btn" style="width:100%">
+              <option value="https://api.deepseek.com">https://api.deepseek.com</option>
+              <option value="https://api.deepseek.com/v1">https://api.deepseek.com/v1</option>
+            </select>
+          </div>
+          <div style="grid-column:1/-1;">
+            <label>API Key</label>
+            <input type="text" id="DEEPSEEK_API_KEY" placeholder="sk-...">
+          </div>
+        </div>
+      </div>
+      <div id="box_ol" style="display:none; border:1px dashed #1f2937; border-radius:8px; padding:12px; margin-top:10px;">
+        <h3 style="margin:0 0 8px; font-size:14px;">Ollama</h3>
+        <div style="display:grid; gap:8px; grid-template-columns: 1fr 1fr;">
+          <div>
+            <label>Host</label>
+            <input type="text" id="OLLAMA_HOST" placeholder="http://127.0.0.1:11434">
+          </div>
+          <div>
+            <label>Model</label>
+            <input type="text" id="OLLAMA_MODEL" placeholder="gemma3:4b">
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center; margin-top:10px;">
+        <button id="btnSaveCfg">ذخیره</button>
+        <span id="saveStatus" class="muted"></span>
+      </div>
+      <div style="margin-top:10px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+        <span class="muted">وضعیت اتصال:</span>
+        <span id="badge_ds" class="muted">DeepSeek: -</span>
+        <span id="badge_ol" class="muted">Ollama: -</span>
+      </div>
+      <pre id="llmOut" style="margin-top:10px; max-height:220px;"></pre>
+    </div>
+  </div>
+
+  <script>
+    const $ = s=>document.querySelector(s);
+    const statOut = $('#statOut');
+    const statStatus = $('#statStatus');
+    const ingOut = $('#ingOut');
+    const ingStatus = $('#ingStatus');
+    const cfgStatus = $('#cfgStatus');
+    const saveStatus = $('#saveStatus');
+    const llmOut = $('#llmOut');
+    const engNone = $('#eng_none');
+    const engDs = $('#eng_ds');
+    const engOl = $('#eng_ol');
+    const boxDs = $('#box_ds');
+    const boxOl = $('#box_ol');
+    const badgeDs = $('#badge_ds');
+    const badgeOl = $('#badge_ol');
+    const dsModelSel = document.getElementById('DEEPSEEK_MODEL_SEL');
+    const dsBaseSel = document.getElementById('DEEPSEEK_BASE_URL_SEL');
+
+    async function fetchWithAdmin(url, options){
+      options = options||{}; options.headers = options.headers||{};
+      // اگر لازم است هدر توکن را اینجا اضافه کنید: options.headers['X-Admin-Token'] = '...';
+      const r = await fetch(url, options); return r;
+    }
+
+    $('#btnStats').addEventListener('click', async ()=>{
+      statStatus.textContent='در حال دریافت...'; statOut.textContent='';
+      try{ const r = await fetchWithAdmin('/admin/stats'); const j = await r.json(); statOut.textContent = JSON.stringify(j, null, 2); statStatus.textContent=''; }
+      catch(e){ statStatus.textContent='خطا'; }
+    });
+
+    $('#btnIngest').addEventListener('click', async ()=>{
+      ingStatus.textContent='در حال بارگذاری...'; ingOut.textContent='';
+      const dir = $('#ingestDir').value.trim();
+      try{
+        const r = await fetchWithAdmin('/ingest', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ dir: dir||undefined }) });
+        const j = await r.json(); ingOut.textContent = JSON.stringify(j, null, 2); ingStatus.textContent='';
+      }catch(e){ ingStatus.textContent='خطا'; }
+    });
+
+    function val(id){ return (document.getElementById(id)||{}).value || '' }
+    function setVal(id, v){ const el=document.getElementById(id); if(el) el.value = v||'' }
+    function setEngine(e){ if(e==='deepseek'){ engDs.checked=true; boxDs.style.display='block'; boxOl.style.display='none'; } else if(e==='ollama'){ engOl.checked=true; boxDs.style.display='none'; boxOl.style.display='block'; } else { engNone.checked=true; boxDs.style.display='none'; boxOl.style.display='none'; } }
+    engNone.addEventListener('change', ()=> setEngine('none'))
+    engDs.addEventListener('change', ()=> setEngine('deepseek'))
+    engOl.addEventListener('change', ()=> setEngine('ollama'))
+
+    function setSelectValue(sel, value, fallback){
+      if(!sel) return; const v = value||fallback;
+      const opt = Array.from(sel.options).find(o=>o.value===v);
+      if(opt){ sel.value = v; } else {
+        const o = document.createElement('option'); o.value=v; o.textContent=v; sel.appendChild(o); sel.value=v;
+      }
+    }
+
+    async function loadCfg(){
+      cfgStatus.textContent='در حال دریافت...';
+      try{
+        const r = await fetchWithAdmin('/admin/config');
+        const j = await r.json();
+        setSelectValue(dsModelSel, j.DEEPSEEK_MODEL || 'deepseek-chat', 'deepseek-chat');
+        setSelectValue(dsBaseSel, j.DEEPSEEK_BASE_URL || 'https://api.deepseek.com', 'https://api.deepseek.com');
+        // اگر کلید قبلاً ست شده، ورودی را با ماسک نشان بده ولی همان مقدار ارسال نشود
+        if(j.DEEPSEEK_API_KEY_SET){ setVal('DEEPSEEK_API_KEY', j.DEEPSEEK_API_KEY_MASKED || '***'); } else { setVal('DEEPSEEK_API_KEY', ''); }
+        setVal('OLLAMA_HOST', j.OLLAMA_HOST);
+        setVal('OLLAMA_MODEL', j.OLLAMA_MODEL);
+        const dsOn = (''+(j.USE_DEEPSEEK||'')).toLowerCase() in { '1':1,'true':1,'yes':1,'on':1 };
+        const olOn = (''+(j.USE_OLLAMA||'')).toLowerCase() in { '1':1,'true':1,'yes':1,'on':1 };
+        setEngine(dsOn ? 'deepseek' : (olOn ? 'ollama' : 'none'));
+        cfgStatus.textContent='';
+      }catch(e){ cfgStatus.textContent='خطا'; }
+    }
+    $('#btnLoadCfg').addEventListener('click', loadCfg);
+
+    $('#btnSaveCfg').addEventListener('click', async ()=>{
+      saveStatus.textContent='در حال ذخیره...';
+      try{
+        const engine = engDs.checked ? 'deepseek' : (engOl.checked ? 'ollama' : 'none');
+        const body = {
+          USE_DEEPSEEK: engine==='deepseek' ? '1' : '0',
+          USE_OLLAMA: engine==='ollama' ? '1' : '0',
+          DEEPSEEK_MODEL: dsModelSel ? dsModelSel.value : 'deepseek-chat',
+          DEEPSEEK_BASE_URL: dsBaseSel ? dsBaseSel.value : 'https://api.deepseek.com',
+          OLLAMA_HOST: val('OLLAMA_HOST'),
+          OLLAMA_MODEL: val('OLLAMA_MODEL')
+        };
+        // فقط اگر مقدار ورودی با ماسک متفاوت بود (یعنی کاربر کلید جدید وارد کرده)، ارسال کن
+        const k = val('DEEPSEEK_API_KEY');
+        if(k && k.replace(/\*/g,'').length > 0 && !/^\*+$/.test(k)) body.DEEPSEEK_API_KEY = k;
+        const r = await fetchWithAdmin('/admin/config', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+        const j = await r.json();
+        if(j.ok){ saveStatus.textContent='ذخیره شد'; await loadCfg(); } else { saveStatus.textContent='خطا در ذخیره'; }
+      }catch(e){ saveStatus.textContent='خطا'; }
+    });
+
+    $('#btnCheckLLM').addEventListener('click', async ()=>{
+      cfgStatus.textContent='در حال بررسی...'; llmOut.textContent='';
+      try{
+        const r = await fetchWithAdmin('/admin/llm-check', { method:'POST' });
+        const j = await r.json();
+        llmOut.textContent = JSON.stringify(j, null, 2);
+        const ok = (j.deepseek&&j.deepseek.online) || (j.ollama&&j.ollama.online);
+        cfgStatus.textContent = ok ? 'متصل' : 'نامتصل';
+        badgeDs.textContent = 'DeepSeek: ' + (j.deepseek?.online ? 'متصل' : (j.deepseek?.configured ? 'نامتصل' : 'پیکربندی‌نشده'));
+        badgeOl.textContent = 'Ollama: ' + (j.ollama?.online ? 'متصل' : (j.ollama?.configured ? 'نامتصل' : 'پیکربندی‌نشده'));
+      }catch(e){ cfgStatus.textContent='خطا'; }
+    });
+  </script>
+</body>
+</html>
+
+
