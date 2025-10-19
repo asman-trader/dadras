@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, make_response
+from flask import Flask, request, jsonify, render_template, make_response, g
 import os
 import re
 import uuid
@@ -7,6 +7,8 @@ from typing import List, Dict, Set, Tuple
 import json as _json
 import urllib.request as _u
 import urllib.error as _ue
+import logging
+from logging.handlers import TimedRotatingFileHandler
 
 app = Flask(__name__)
 
@@ -44,8 +46,85 @@ TEXTS_DIR = os.path.join(DATA_DIR, 'laws')
 
 
 def _ensure_data_dirs() -> None:
-    for sub in ('laws', 'cases', 'templates', 'output'):
+    for sub in ('laws', 'cases', 'templates', 'output', 'logs'):
         os.makedirs(os.path.join(DATA_DIR, sub), exist_ok=True)
+# Logging setup
+CURRENT_LOG_FILE = ''
+
+
+class RequestContextFilter(logging.Filter):
+    def filter(self, record: logging.LogRecord) -> bool:
+        try:
+            rid = getattr(g, 'request_id', '-')
+        except Exception:
+            rid = '-'
+        record.request_id = rid
+        try:
+            record.remote_addr = request.remote_addr or '-'
+            record.method = request.method
+            record.path = request.path
+        except Exception:
+            record.remote_addr = '-'
+            record.method = '-'
+            record.path = '-'
+        return True
+
+
+def _setup_logging() -> None:
+    global CURRENT_LOG_FILE
+    _ensure_data_dirs()
+    level_name = str(os.getenv('LOG_LEVEL', 'INFO')).upper().strip() or 'INFO'
+    try:
+        level = getattr(logging, level_name, logging.INFO)
+    except Exception:
+        level = logging.INFO
+    log_path = os.getenv('LOG_FILE', os.path.join(DATA_DIR, 'logs', 'app.log')).strip()
+    try:
+        os.makedirs(os.path.dirname(log_path), exist_ok=True)
+    except Exception:
+        pass
+    handler = TimedRotatingFileHandler(log_path, when='midnight', backupCount=7, encoding='utf-8')
+    fmt = logging.Formatter('%(asctime)s %(levelname)s %(request_id)s %(remote_addr)s %(method)s %(path)s - %(message)s')
+    handler.setFormatter(fmt)
+    handler.addFilter(RequestContextFilter())
+    root = logging.getLogger()
+    if not any(isinstance(h, TimedRotatingFileHandler) and getattr(h, 'baseFilename', '') == getattr(handler, 'baseFilename', '') for h in root.handlers):
+        root.addHandler(handler)
+    root.setLevel(level)
+    # also attach to Flask app logger
+    if not any(isinstance(h, TimedRotatingFileHandler) and getattr(h, 'baseFilename', '') == getattr(handler, 'baseFilename', '') for h in app.logger.handlers):
+        app.logger.addHandler(handler)
+    app.logger.setLevel(level)
+    CURRENT_LOG_FILE = log_path
+
+
+# Initialize logging as early as possible
+try:
+    _setup_logging()
+except Exception:
+    pass
+
+
+@app.before_request
+def _log_request_start():
+    try:
+        g.start_ts = time.time()
+        rid = request.headers.get('X-Request-ID') or uuid.uuid4().hex
+        g.request_id = rid
+    except Exception:
+        g.start_ts = time.time()
+        g.request_id = uuid.uuid4().hex
+
+
+@app.after_request
+def _log_request_end(response):
+    try:
+        dur_ms = int((time.time() - getattr(g, 'start_ts', time.time())) * 1000)
+        response.headers['X-Request-ID'] = getattr(g, 'request_id', '')
+        app.logger.info(f"request completed status={response.status_code} duration_ms={dur_ms}")
+    except Exception:
+        pass
+    return response
 
 
 def _read_config() -> Dict[str, object]:
@@ -222,6 +301,7 @@ def _get_openai_client():
     if _OPENAI_CLIENT is not None and _OPENAI_CLIENT_SIG == sig:
         return _OPENAI_CLIENT
     from openai import OpenAI
+    app.logger.info(f"creating OpenAI client base={base}")
     client = OpenAI(api_key=key, base_url=base, timeout=DEEPSEEK_TIMEOUT_SEC)
     _OPENAI_CLIENT = client
     _OPENAI_CLIENT_SIG = sig
@@ -258,6 +338,7 @@ def _deepseek_chat(question: str, context: str) -> Tuple[bool, str]:
             return (True, text)
         except Exception as exc:
             last_error = str(exc)
+            app.logger.warning(f"deepseek attempt={attempt+1} error={last_error}")
             if attempt < DEEPSEEK_MAX_RETRIES - 1:
                 # small exponential backoff to smooth transient network issues
                 try:
@@ -626,6 +707,10 @@ def admin_stats():
         'paragraphs': len(PARAGRAPHS),
         'vocab': len(INVERTED),
         'data_dir': DATA_DIR,
+        'log': {
+            'file': CURRENT_LOG_FILE,
+            'level': str(os.getenv('LOG_LEVEL', 'INFO')).upper().strip() or 'INFO',
+        },
         'llm': {
             'use_deepseek': os.getenv('USE_DEEPSEEK', ''),
             'deepseek_model': os.getenv('DEEPSEEK_MODEL', ''),
@@ -694,7 +779,8 @@ def admin_set_config():
     allow = {
         'USE_DEEPSEEK', 'DEEPSEEK_MODEL', 'DEEPSEEK_API_KEY', 'DEEPSEEK_BASE_URL',
         'DEEPSEEK_TIMEOUT_SEC', 'DEEPSEEK_MAX_RETRIES',
-        'USE_OLLAMA', 'OLLAMA_HOST', 'OLLAMA_MODEL'
+        'USE_OLLAMA', 'OLLAMA_HOST', 'OLLAMA_MODEL',
+        'LOG_LEVEL', 'LOG_FILE'
     }
     for k, v in data.items():
         if k in allow:
@@ -702,6 +788,10 @@ def admin_set_config():
     if not _write_config(cfg):
         return jsonify({'ok': False}), 500
     _apply_config_to_env(cfg)
+    try:
+        _setup_logging()
+    except Exception:
+        pass
     return jsonify({'ok': True})
 
 
