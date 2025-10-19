@@ -22,6 +22,16 @@ try:
 except Exception:
     RATE_WINDOW_SEC = 60
 
+# LLM/HTTP robustness knobs
+try:
+    DEEPSEEK_TIMEOUT_SEC = float(os.getenv('DEEPSEEK_TIMEOUT_SEC', '15'))
+except Exception:
+    DEEPSEEK_TIMEOUT_SEC = 15.0
+try:
+    DEEPSEEK_MAX_RETRIES = int(os.getenv('DEEPSEEK_MAX_RETRIES', '3'))
+except Exception:
+    DEEPSEEK_MAX_RETRIES = 3
+
 # In-memory corpus and index
 LOADED_FILES: List[str] = []
 PARAGRAPHS: List[str] = []
@@ -69,6 +79,10 @@ def _apply_config_to_env(cfg: Dict[str, object]) -> None:
         os.environ['DEEPSEEK_BASE_URL'] = str(cfg.get('DEEPSEEK_BASE_URL') or '')
     if 'USE_DEEPSEEK' in cfg:
         os.environ['USE_DEEPSEEK'] = str(cfg.get('USE_DEEPSEEK') or '')
+    if 'DEEPSEEK_TIMEOUT_SEC' in cfg:
+        os.environ['DEEPSEEK_TIMEOUT_SEC'] = str(cfg.get('DEEPSEEK_TIMEOUT_SEC') or '')
+    if 'DEEPSEEK_MAX_RETRIES' in cfg:
+        os.environ['DEEPSEEK_MAX_RETRIES'] = str(cfg.get('DEEPSEEK_MAX_RETRIES') or '')
     # Ollama
     if 'OLLAMA_HOST' in cfg:
         os.environ['OLLAMA_HOST'] = str(cfg.get('OLLAMA_HOST') or '')
@@ -187,34 +201,72 @@ def _should_use_deepseek() -> bool:
     return flag in ('1', 'true', 'yes', 'on') and bool(os.getenv('DEEPSEEK_API_KEY', '').strip())
 
 
+_OPENAI_CLIENT = None
+_OPENAI_CLIENT_SIG = ''
+
+
+def _reset_openai_client() -> None:
+    global _OPENAI_CLIENT, _OPENAI_CLIENT_SIG
+    _OPENAI_CLIENT = None
+    _OPENAI_CLIENT_SIG = ''
+
+
+def _get_openai_client():
+    """Return a persistent OpenAI client configured for DeepSeek with keep-alive."""
+    global _OPENAI_CLIENT, _OPENAI_CLIENT_SIG
+    key = os.getenv('DEEPSEEK_API_KEY', '').strip()
+    base = (os.getenv('DEEPSEEK_BASE_URL', '').strip() or 'https://api.deepseek.com').rstrip('/')
+    if not base.endswith('/v1'):
+        base = base + '/v1'
+    sig = f"{key}:{base}:{DEEPSEEK_TIMEOUT_SEC}"
+    if _OPENAI_CLIENT is not None and _OPENAI_CLIENT_SIG == sig:
+        return _OPENAI_CLIENT
+    from openai import OpenAI
+    client = OpenAI(api_key=key, base_url=base, timeout=DEEPSEEK_TIMEOUT_SEC)
+    _OPENAI_CLIENT = client
+    _OPENAI_CLIENT_SIG = sig
+    return client
+
+
 def _deepseek_chat(question: str, context: str) -> Tuple[bool, str]:
-    """Call DeepSeek via OpenAI SDK; returns (ok, text_or_error)."""
+    """Call DeepSeek via OpenAI SDK with retries; returns (ok, text_or_error)."""
     key = os.getenv('DEEPSEEK_API_KEY', '').strip()
     if not key:
         return False, 'DEEPSEEK_API_KEY not set'
     model = (os.getenv('DEEPSEEK_MODEL', '').strip() or 'deepseek-chat')
-    base = (os.getenv('DEEPSEEK_BASE_URL', '').strip() or 'https://api.deepseek.com').rstrip('/')
-    # Ensure OpenAI SDK base_url includes /v1 segment
-    if not base.endswith('/v1'):
-        base = base + '/v1'
+    system = 'شما یک دستیار حقوقی فارسی هستید. پاسخ کوتاه، دقیق و مستند بده.'
+    user = f"[زمینه]\n{context}\n\n[سؤال]\n{question}"
     try:
-        from openai import OpenAI
-        client = OpenAI(api_key=key, base_url=base)
-        system = 'شما یک دستیار حقوقی فارسی هستید. پاسخ کوتاه، دقیق و مستند بده.'
-        user = f"[زمینه]\n{context}\n\n[سؤال]\n{question}"
-        resp = client.chat.completions.create(
-            model=model,
-            messages=[
-                {"role": "system", "content": system},
-                {"role": "user", "content": user},
-            ],
-            stream=False,
-            max_tokens=512,
-        )
-        text = (resp.choices[0].message.content or '').strip()
-        return (True, text)
+        client = _get_openai_client()
     except Exception as exc:
-        return False, f'DeepSeek(OpenAI) error: {exc}'
+        return False, f'OpenAI client error: {exc}'
+
+    last_error = ''
+    for attempt in range(max(1, DEEPSEEK_MAX_RETRIES)):
+        try:
+            resp = client.chat.completions.create(
+                model=model,
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": user},
+                ],
+                stream=False,
+                max_tokens=512,
+                timeout=DEEPSEEK_TIMEOUT_SEC,
+            )
+            text = (resp.choices[0].message.content or '').strip()
+            return (True, text)
+        except Exception as exc:
+            last_error = str(exc)
+            if attempt < DEEPSEEK_MAX_RETRIES - 1:
+                # small exponential backoff to smooth transient network issues
+                try:
+                    time.sleep(min(5.0, 0.5 * (2 ** attempt)))
+                except Exception:
+                    pass
+            else:
+                break
+    return False, f'DeepSeek(OpenAI) error after retries: {last_error}'
 
 
 def _ingest_directory(dir_path: str, recursive: bool = True) -> Tuple[int, int]:
@@ -579,6 +631,8 @@ def admin_stats():
             'deepseek_model': os.getenv('DEEPSEEK_MODEL', ''),
             'deepseek_key_set': bool(os.getenv('DEEPSEEK_API_KEY', '').strip()),
             'deepseek_base_url': os.getenv('DEEPSEEK_BASE_URL', ''),
+            'deepseek_timeout_sec': os.getenv('DEEPSEEK_TIMEOUT_SEC', ''),
+            'deepseek_max_retries': os.getenv('DEEPSEEK_MAX_RETRIES', ''),
             'use_ollama': os.getenv('USE_OLLAMA', ''),
             'ollama_host': os.getenv('OLLAMA_HOST', ''),
             'ollama_model': os.getenv('OLLAMA_MODEL', ''),
@@ -639,6 +693,7 @@ def admin_set_config():
     cfg = _read_config()
     allow = {
         'USE_DEEPSEEK', 'DEEPSEEK_MODEL', 'DEEPSEEK_API_KEY', 'DEEPSEEK_BASE_URL',
+        'DEEPSEEK_TIMEOUT_SEC', 'DEEPSEEK_MAX_RETRIES',
         'USE_OLLAMA', 'OLLAMA_HOST', 'OLLAMA_MODEL'
     }
     for k, v in data.items():
