@@ -180,6 +180,16 @@
       window.scrollTo({ top: document.body.scrollHeight });
     }
 
+    async function fetchJson(url, options){
+      const r = await fetch(url, options);
+      const ct = r.headers.get('content-type') || '';
+      if(!r.ok || !ct.includes('application/json')){
+        const txt = await r.text();
+        throw new Error(`HTTP ${r.status} ${r.statusText}: ${txt.slice(0,200)}`);
+      }
+      return await r.json();
+    }
+
     async function ask(){
       const text = q.value.trim();
       if(!text) return;
@@ -196,8 +206,7 @@
       msgs.appendChild(typingLi);
       window.scrollTo({ top: document.body.scrollHeight });
       try{
-        const r = await fetch('/ask', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({question:text}) });
-        const j = await r.json();
+        const j = await fetchJson('ask', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({question:text}) });
         // replace typing bubble with final answer
         if(typingLi && typingLi.parentNode){ msgs.removeChild(typingLi); }
         addMsg('assistant', j.answer||'');
@@ -219,7 +228,7 @@
         }
       }catch(e){
         if(typingLi && typingLi.parentNode){ msgs.removeChild(typingLi); }
-        addMsg('assistant', 'خطا در ارتباط با سرور: '+e);
+        addMsg('assistant', 'خطا در ارتباط با سرور: '+(e && e.message ? e.message : e));
       }finally{
         sendBtn.disabled = false;
       }
@@ -235,8 +244,7 @@
     async function loadTemplates(){
       tplStatus.textContent='گرفتن فهرست...';
       try{
-        const r = await fetch('/templates');
-        const j = await r.json();
+        const j = await fetchJson('templates');
         tplSelect.innerHTML = '';
         (j.templates||[]).forEach(name=>{
           const opt = document.createElement('option'); opt.value = name; opt.textContent = name; tplSelect.appendChild(opt);
@@ -253,8 +261,7 @@
       const raw = tplFields.value.trim();
       if(raw){ try{ fields = JSON.parse(raw); }catch(e){ draftStatus.textContent='JSON نامعتبر'; return; } }
       try{
-        const r = await fetch('/draft', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ template: tplSelect.value||'sample_template.txt', fields }) });
-        const j = await r.json();
+        const j = await fetchJson('draft', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ template: tplSelect.value||'sample_template.txt', fields }) });
         if(j.error){ draftStatus.textContent = 'خطا: '+j.error; return; }
         draftOut.textContent = j.draft||'';
         draftStatus.textContent='آماده';
@@ -270,11 +277,10 @@
       const txt = draftOut.textContent||''; if(!txt){ draftStatus.textContent='چیزی برای ذخیره نیست'; return; }
       draftStatus.textContent='در حال ذخیره...'; dlLink.removeAttribute('href'); dlLink.textContent='دانلود';
       try{
-        const r = await fetch('/draft/save', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ draft: txt, name: 'draft_'+Date.now()+'.txt' }) });
-        const j = await r.json();
+        const j = await fetchJson('draft/save', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ draft: txt, name: 'draft_'+Date.now()+'.txt' }) });
         if(!j.ok){ draftStatus.textContent='خطا در ذخیره'; return; }
         const file = (j.file||'').split('output\\').pop() || '';
-        dlLink.href = '/draft/download?file='+encodeURIComponent(file);
+        dlLink.href = 'draft/download?file='+encodeURIComponent(file);
         dlLink.textContent = 'دانلود: '+file;
         draftStatus.textContent='ذخیره شد';
       }catch(e){ draftStatus.textContent='خطا در ذخیره'; }
