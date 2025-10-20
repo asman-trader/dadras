@@ -9,6 +9,9 @@ import urllib.request as _u
 import urllib.error as _ue
 import logging
 from logging.handlers import TimedRotatingFileHandler
+import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 app = Flask(__name__)
 
@@ -99,6 +102,61 @@ def _setup_logging() -> None:
         app.logger.addHandler(handler)
     app.logger.setLevel(level)
     CURRENT_LOG_FILE = log_path
+
+
+# Global HTTP session with retries and pooling
+HTTP_SESSION: requests.Session = None  # type: ignore
+
+
+def _build_retry(total: int = 3, backoff: float = 0.3) -> Retry:
+    return Retry(
+        total=total,
+        connect=total,
+        read=total,
+        status=total,
+        backoff_factor=backoff,
+        status_forcelist=(408, 429, 500, 502, 503, 504),
+        allowed_methods=(
+            'HEAD','GET','POST','PUT','DELETE','OPTIONS','TRACE','PATCH'
+        ),
+        raise_on_status=False,
+        respect_retry_after_header=True,
+    )
+
+
+def _get_http_session() -> requests.Session:
+    global HTTP_SESSION
+    if HTTP_SESSION is not None:
+        return HTTP_SESSION
+    sess = requests.Session()
+    retries = _build_retry(total=max(1, DEEPSEEK_MAX_RETRIES))
+    adapter = HTTPAdapter(max_retries=retries, pool_connections=10, pool_maxsize=20)
+    sess.mount('http://', adapter)
+    sess.mount('https://', adapter)
+    HTTP_SESSION = sess
+    return sess
+
+
+def _http_request_json(method: str, url: str, headers: Dict[str, str] = None, json_body: object = None, timeout: float = None) -> Tuple[int, Dict[str, object], str]:
+    """Perform HTTP request via shared session, return (status, json_or_empty, error_or_empty)."""
+    h = dict(headers or {})
+    if json_body is not None:
+        h.setdefault('Content-Type', 'application/json')
+    to = float(timeout if timeout is not None else DEEPSEEK_TIMEOUT_SEC)
+    sess = _get_http_session()
+    try:
+        resp = sess.request(method.upper(), url, headers=h, json=json_body, timeout=to)
+        ct = resp.headers.get('content-type', '')
+        if 'application/json' in ct.lower():
+            try:
+                return resp.status_code, (resp.json() or {}), ''
+            except Exception as exc:
+                app.logger.warning(f"json parse failed url={url} status={resp.status_code} err={exc}")
+                return resp.status_code, {}, f'json_parse_error: {exc}'
+        return resp.status_code, {}, ''
+    except Exception as exc:
+        app.logger.warning(f"http error method={method} url={url} err={exc}")
+        return 0, {}, str(exc)
 
 
 # Initialize logging as early as possible
@@ -820,8 +878,6 @@ def admin_llm_check():
         res['deepseek']['enabled'] = use_ds
         res['deepseek']['configured'] = bool(key)
         if use_ds and key:
-            import urllib.request as _u
-            import json as _j
             url = base_norm + '/chat/completions'
             payload = {
                 'model': model,
@@ -829,15 +885,14 @@ def admin_llm_check():
                 'max_tokens': 1,
                 'stream': False,
             }
-            req = _u.Request(url, data=_j.dumps(payload).encode('utf-8'), headers={
+            status, j, err = _http_request_json('POST', url, headers={
                 'Authorization': f'Bearer {key}',
                 'Content-Type': 'application/json',
-            })
-            try:
-                with _u.urlopen(req, timeout=5) as r:
-                    res['deepseek']['online'] = (200 <= r.status < 300)
-            except Exception as exc:
-                res['deepseek']['error'] = str(exc)
+            }, json_body=payload, timeout=5)
+            if status and 200 <= status < 300:
+                res['deepseek']['online'] = True
+            elif err:
+                res['deepseek']['error'] = err
     except Exception as exc:
         res['deepseek']['error'] = str(exc)
 
@@ -849,13 +904,12 @@ def admin_llm_check():
         res['ollama']['enabled'] = use_ol
         res['ollama']['configured'] = bool(host)
         if use_ol and host:
-            import urllib.request as _u
             url = host.rstrip('/') + '/api/tags'
-            try:
-                with _u.urlopen(url, timeout=3) as r:
-                    res['ollama']['online'] = (200 <= r.status < 300)
-            except Exception as exc:
-                res['ollama']['error'] = str(exc)
+            status, _j, err = _http_request_json('GET', url, timeout=3)
+            if status and 200 <= status < 300:
+                res['ollama']['online'] = True
+            elif err:
+                res['ollama']['error'] = err
         # include model hint
         res['ollama']['model'] = model
     except Exception as exc:
