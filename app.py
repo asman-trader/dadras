@@ -971,6 +971,24 @@ if __name__ == '__main__':
         _ingest_directory(DATA_DIR, recursive=True)
     except Exception:
         pass
-    app.run(host='127.0.0.1', port=5052, debug=False, use_reloader=False)
+    # configurable host/port/debug for local runs
+    host = (os.getenv('HOST', '127.0.0.1').strip() or '127.0.0.1')
+    try:
+        port = int(os.getenv('PORT', '5052'))
+    except Exception:
+        port = 5052
+    debug = str(os.getenv('DEBUG', '0')).strip().lower() in ('1','true','yes','on')
+    try:
+        app.logger.info(f"starting server on http://{host}:{port} debug={debug}")
+        app.run(host=host, port=port, debug=debug, use_reloader=False)
+    except OSError as exc:
+        # Common case: port already in use; attempt next port once to help local dev
+        app.logger.error(f"failed to start on {host}:{port} error={exc}")
+        try:
+            alt_port = port + 1
+            app.logger.info(f"retrying on http://{host}:{alt_port}")
+            app.run(host=host, port=alt_port, debug=debug, use_reloader=False)
+        except Exception:
+            raise
 
 
