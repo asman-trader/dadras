@@ -17047,3 +17047,550 @@
 2025-10-21 11:57:24,725 WARNING - - - - - Cannot set gray non-stroke color because /'P1651' is an invalid float value
 2025-10-21 11:57:25,007 WARNING - - - - -  * Debugger is active!
 2025-10-21 11:57:25,011 INFO - - - - -  * Debugger PIN: 106-086-744
+2025-10-21 16:07:36,334 INFO - - - - - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.170.70.99:3000
+2025-10-21 16:07:36,334 INFO - - - - - [33mPress CTRL+C to quit[0m
+2025-10-21 16:07:48,419 INFO 49246f67bdbf43d5905dd454168e1fa5 127.0.0.1 GET / - request completed status=200 duration_ms=91
+2025-10-21 16:07:48,419 INFO 49246f67bdbf43d5905dd454168e1fa5 127.0.0.1 GET / - request completed status=200 duration_ms=91
+2025-10-21 16:07:48,419 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:07:48] "GET / HTTP/1.1" 200 -
+2025-10-21 16:07:48,660 INFO 0c1ea3484f9f42cabf5482d5d821a435 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-21 16:07:48,660 INFO 0c1ea3484f9f42cabf5482d5d821a435 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-21 16:07:48,660 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:07:48] "GET /auth/me HTTP/1.1" 200 -
+2025-10-21 16:07:48,670 INFO 1ccd8af2cb3d4818857a16cc599cff09 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-21 16:07:48,670 INFO 1ccd8af2cb3d4818857a16cc599cff09 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-21 16:07:48,670 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:07:48] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 16:07:48,681 INFO c2f8791cf8884e97ace220f6fa79db61 127.0.0.1 GET /chats - request completed status=200 duration_ms=20
+2025-10-21 16:07:48,681 INFO c2f8791cf8884e97ace220f6fa79db61 127.0.0.1 GET /chats - request completed status=200 duration_ms=20
+2025-10-21 16:07:48,681 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:07:48] "GET /chats HTTP/1.1" 200 -
+2025-10-21 16:07:48,729 INFO 4b2d49105710497ab2506d7a9f4f44e2 127.0.0.1 GET /favicon.ico - request completed status=404 duration_ms=0
+2025-10-21 16:07:48,729 INFO 4b2d49105710497ab2506d7a9f4f44e2 127.0.0.1 GET /favicon.ico - request completed status=404 duration_ms=0
+2025-10-21 16:07:48,729 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:07:48] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-10-21 16:07:58,724 INFO b0ee566fc2ce4a8da4841c76ca728b88 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-21 16:07:58,724 INFO b0ee566fc2ce4a8da4841c76ca728b88 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-21 16:07:58,726 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:07:58] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 16:08:15,865 INFO a5817258aa9d4c3db87a3fa3c257fb97 127.0.0.1 POST /chats - request completed status=200 duration_ms=6
+2025-10-21 16:08:15,865 INFO a5817258aa9d4c3db87a3fa3c257fb97 127.0.0.1 POST /chats - request completed status=200 duration_ms=6
+2025-10-21 16:08:15,865 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:15] "POST /chats HTTP/1.1" 200 -
+2025-10-21 16:08:15,919 INFO 2b571472cf194d8caae05a9716d50afa 127.0.0.1 GET /chats - request completed status=200 duration_ms=41
+2025-10-21 16:08:15,919 INFO 2b571472cf194d8caae05a9716d50afa 127.0.0.1 GET /chats - request completed status=200 duration_ms=41
+2025-10-21 16:08:15,919 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:15] "GET /chats HTTP/1.1" 200 -
+2025-10-21 16:08:16,739 INFO 53fb6e046aca47e78667ad993badcedd 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 16:08:16,739 INFO 53fb6e046aca47e78667ad993badcedd 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 16:08:16,739 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:16] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 16:08:18,244 INFO 852a81e3bd7a445ea6a06f1b81386710 127.0.0.1 GET /auth/profile - request completed status=200 duration_ms=10
+2025-10-21 16:08:18,244 INFO 852a81e3bd7a445ea6a06f1b81386710 127.0.0.1 GET /auth/profile - request completed status=200 duration_ms=10
+2025-10-21 16:08:18,246 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:18] "GET /auth/profile HTTP/1.1" 200 -
+2025-10-21 16:08:18,282 INFO f7a6f2bf4ef14c8e8a1a5057d39345cc 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-21 16:08:18,282 INFO f7a6f2bf4ef14c8e8a1a5057d39345cc 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-21 16:08:18,282 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:18] "GET /auth/me HTTP/1.1" 200 -
+2025-10-21 16:08:18,298 INFO 89e04015cd804bbea462bce54a174295 127.0.0.1 GET /auth/files - request completed status=200 duration_ms=0
+2025-10-21 16:08:18,298 INFO 89e04015cd804bbea462bce54a174295 127.0.0.1 GET /auth/files - request completed status=200 duration_ms=0
+2025-10-21 16:08:18,298 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:18] "GET /auth/files HTTP/1.1" 200 -
+2025-10-21 16:08:19,416 INFO 349887d9175e4d339eb645cbffa29a13 127.0.0.1 GET /auth/logout - request completed status=302 duration_ms=14
+2025-10-21 16:08:19,416 INFO 349887d9175e4d339eb645cbffa29a13 127.0.0.1 GET /auth/logout - request completed status=302 duration_ms=14
+2025-10-21 16:08:19,418 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:19] "[32mGET /auth/logout HTTP/1.1[0m" 302 -
+2025-10-21 16:08:19,437 INFO 0d73c9278adb4e31b241f810c9083ab4 127.0.0.1 GET / - request completed status=200 duration_ms=2
+2025-10-21 16:08:19,437 INFO 0d73c9278adb4e31b241f810c9083ab4 127.0.0.1 GET / - request completed status=200 duration_ms=2
+2025-10-21 16:08:19,437 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:19] "GET / HTTP/1.1" 200 -
+2025-10-21 16:08:19,494 INFO 64134341e1e2458da9886d1299080114 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-21 16:08:19,494 INFO 64134341e1e2458da9886d1299080114 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-21 16:08:19,494 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:19] "GET /auth/me HTTP/1.1" 200 -
+2025-10-21 16:08:19,508 INFO cbda8c662072470c9ddca5d6a13e77df 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=11
+2025-10-21 16:08:19,508 INFO cbda8c662072470c9ddca5d6a13e77df 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=11
+2025-10-21 16:08:19,508 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:19] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 16:08:19,523 INFO 646b336e58ba49d29ae62cbccbcebe7b 127.0.0.1 GET /chats - request completed status=200 duration_ms=33
+2025-10-21 16:08:19,523 INFO 646b336e58ba49d29ae62cbccbcebe7b 127.0.0.1 GET /chats - request completed status=200 duration_ms=33
+2025-10-21 16:08:19,523 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:19] "GET /chats HTTP/1.1" 200 -
+2025-10-21 16:08:21,600 INFO 15631ef4dfa54e65954e1b63b01c352f 127.0.0.1 POST /ask - creating OpenAI client base=https://api.deepseek.com/v1
+2025-10-21 16:08:21,600 INFO 15631ef4dfa54e65954e1b63b01c352f 127.0.0.1 POST /ask - creating OpenAI client base=https://api.deepseek.com/v1
+2025-10-21 16:08:23,107 INFO 8650649e1b06439ea95c6e5920267ba3 127.0.0.1 POST /chats - request completed status=200 duration_ms=0
+2025-10-21 16:08:23,107 INFO 8650649e1b06439ea95c6e5920267ba3 127.0.0.1 POST /chats - request completed status=200 duration_ms=0
+2025-10-21 16:08:23,107 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:23] "POST /chats HTTP/1.1" 200 -
+2025-10-21 16:08:23,163 INFO fea52b07bcdf4206b4f959ecb0329338 127.0.0.1 GET /chats - request completed status=200 duration_ms=37
+2025-10-21 16:08:23,163 INFO fea52b07bcdf4206b4f959ecb0329338 127.0.0.1 GET /chats - request completed status=200 duration_ms=37
+2025-10-21 16:08:23,163 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:23] "GET /chats HTTP/1.1" 200 -
+2025-10-21 16:08:23,176 INFO 45d38ad33da94dca8a5328433611e3a5 127.0.0.1 POST /ask - request completed status=200 duration_ms=3
+2025-10-21 16:08:23,176 INFO 45d38ad33da94dca8a5328433611e3a5 127.0.0.1 POST /ask - request completed status=200 duration_ms=3
+2025-10-21 16:08:23,177 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:23] "POST /ask HTTP/1.1" 200 -
+2025-10-21 16:08:27,151 INFO 15631ef4dfa54e65954e1b63b01c352f 127.0.0.1 POST /ask - HTTP Request: POST https://api.deepseek.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-21 16:08:29,472 INFO 016df1e387204bdbb73f2c18e0cffa38 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 16:08:29,472 INFO 016df1e387204bdbb73f2c18e0cffa38 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 16:08:29,472 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:29] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 16:08:31,122 INFO d4e3c6c6b9dc4a218c6a1be03bea0205 127.0.0.1 POST /ask - request completed status=200 duration_ms=3
+2025-10-21 16:08:31,122 INFO d4e3c6c6b9dc4a218c6a1be03bea0205 127.0.0.1 POST /ask - request completed status=200 duration_ms=3
+2025-10-21 16:08:31,122 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:31] "POST /ask HTTP/1.1" 200 -
+2025-10-21 16:08:33,960 INFO 91edaf2535a14f4fb29eaff7600d2e7b 127.0.0.1 GET /auth/signup - request completed status=200 duration_ms=8
+2025-10-21 16:08:33,960 INFO 91edaf2535a14f4fb29eaff7600d2e7b 127.0.0.1 GET /auth/signup - request completed status=200 duration_ms=8
+2025-10-21 16:08:33,960 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:33] "GET /auth/signup HTTP/1.1" 200 -
+2025-10-21 16:08:34,997 INFO 15631ef4dfa54e65954e1b63b01c352f 127.0.0.1 POST /ask - request completed status=200 duration_ms=19056
+2025-10-21 16:08:34,997 INFO 15631ef4dfa54e65954e1b63b01c352f 127.0.0.1 POST /ask - request completed status=200 duration_ms=19056
+2025-10-21 16:08:35,013 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:35] "POST /ask HTTP/1.1" 200 -
+2025-10-21 16:08:37,285 INFO 946d66cbdc3c4e0792afb2f329e93629 127.0.0.1 POST /auth/send-otp - request completed status=409 duration_ms=2
+2025-10-21 16:08:37,285 INFO 946d66cbdc3c4e0792afb2f329e93629 127.0.0.1 POST /auth/send-otp - request completed status=409 duration_ms=2
+2025-10-21 16:08:37,285 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:37] "[31m[1mPOST /auth/send-otp HTTP/1.1[0m" 409 -
+2025-10-21 16:08:39,437 INFO b75c6b7bd08d4c72bc34c4f046caa5fb 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=6
+2025-10-21 16:08:39,437 INFO b75c6b7bd08d4c72bc34c4f046caa5fb 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=6
+2025-10-21 16:08:39,438 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:39] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 16:08:43,064 INFO dd3f7eec71ab405c8b3f0cc36732391a 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 817471
+2025-10-21 16:08:43,064 INFO dd3f7eec71ab405c8b3f0cc36732391a 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=1493
+2025-10-21 16:08:43,064 INFO dd3f7eec71ab405c8b3f0cc36732391a 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=1493
+2025-10-21 16:08:43,064 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:43] "POST /auth/send-otp HTTP/1.1" 200 -
+2025-10-21 16:08:59,952 INFO cbba8544361a471b97923fc06f3b3e3d 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:08:59,952 INFO cbba8544361a471b97923fc06f3b3e3d 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:08:59,956 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:08:59] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 16:09:03,760 INFO 894680b4820b4281a161aac554945b9a 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 928999
+2025-10-21 16:09:03,760 INFO 894680b4820b4281a161aac554945b9a 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=1500
+2025-10-21 16:09:03,760 INFO 894680b4820b4281a161aac554945b9a 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=1500
+2025-10-21 16:09:03,760 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:09:03] "POST /auth/send-otp HTTP/1.1" 200 -
+2025-10-21 16:09:18,510 INFO 1f83bb0b6b624cf794e1c2dc65b0b449 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 953222
+2025-10-21 16:09:18,512 INFO 1f83bb0b6b624cf794e1c2dc65b0b449 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=1492
+2025-10-21 16:09:18,512 INFO 1f83bb0b6b624cf794e1c2dc65b0b449 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=1492
+2025-10-21 16:09:18,512 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:09:18] "POST /auth/send-otp HTTP/1.1" 200 -
+2025-10-21 16:11:06,779 INFO a3c543707e494430bcfc4968c79c8291 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 838391
+2025-10-21 16:11:06,779 INFO a3c543707e494430bcfc4968c79c8291 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=1485
+2025-10-21 16:11:06,779 INFO a3c543707e494430bcfc4968c79c8291 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=1485
+2025-10-21 16:11:06,796 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:11:06] "POST /auth/send-otp HTTP/1.1" 200 -
+2025-10-21 16:12:53,757 INFO - - - - - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.170.70.99:3000
+2025-10-21 16:12:53,757 INFO - - - - - [33mPress CTRL+C to quit[0m
+2025-10-21 16:12:59,401 INFO 0c8fb1690f4c404da767fb0383af7732 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=4
+2025-10-21 16:12:59,401 INFO 0c8fb1690f4c404da767fb0383af7732 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=4
+2025-10-21 16:12:59,401 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:12:59] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 16:13:02,347 INFO 8fa8b09e04f6496ca5f867b578ab4c2a 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 328055
+2025-10-21 16:13:02,348 INFO 8fa8b09e04f6496ca5f867b578ab4c2a 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=564
+2025-10-21 16:13:02,348 INFO 8fa8b09e04f6496ca5f867b578ab4c2a 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=564
+2025-10-21 16:13:02,348 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:13:02] "POST /auth/send-otp HTTP/1.1" 200 -
+2025-10-21 16:13:21,580 INFO 27f6b0b3a6c34cd8944ba80cb39d5ece 127.0.0.1 POST /auth/verify-otp - request completed status=400 duration_ms=30
+2025-10-21 16:13:21,580 INFO 27f6b0b3a6c34cd8944ba80cb39d5ece 127.0.0.1 POST /auth/verify-otp - request completed status=400 duration_ms=30
+2025-10-21 16:13:21,585 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:13:21] "[31m[1mPOST /auth/verify-otp HTTP/1.1[0m" 400 -
+2025-10-21 16:13:28,976 INFO ae2140afe3a34d46b080250d7b5dd111 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:13:28,976 INFO ae2140afe3a34d46b080250d7b5dd111 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:13:28,976 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:13:28] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 16:13:31,086 INFO 53a349b26e3647638254a16656582a99 127.0.0.1 POST /auth/send-otp - request completed status=429 duration_ms=28
+2025-10-21 16:13:31,086 INFO 53a349b26e3647638254a16656582a99 127.0.0.1 POST /auth/send-otp - request completed status=429 duration_ms=28
+2025-10-21 16:13:31,086 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:13:31] "[31m[1mPOST /auth/send-otp HTTP/1.1[0m" 429 -
+2025-10-21 16:18:49,437 INFO - - - - - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.170.70.99:3000
+2025-10-21 16:18:49,437 INFO - - - - - [33mPress CTRL+C to quit[0m
+2025-10-21 16:18:51,365 INFO d93e394763c145429e993513a517d886 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=9
+2025-10-21 16:18:51,365 INFO d93e394763c145429e993513a517d886 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=9
+2025-10-21 16:18:51,365 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:18:51] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 16:18:54,636 INFO 936c575e1e004d6cbc29325c8251d789 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 587617
+2025-10-21 16:18:54,636 INFO 936c575e1e004d6cbc29325c8251d789 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=559
+2025-10-21 16:18:54,636 INFO 936c575e1e004d6cbc29325c8251d789 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=559
+2025-10-21 16:18:54,636 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:18:54] "POST /auth/send-otp HTTP/1.1" 200 -
+2025-10-21 16:22:33,278 INFO 068ef676bb254004a5e82a0f7496ec5e 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:22:33,278 INFO 068ef676bb254004a5e82a0f7496ec5e 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:22:33,278 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:22:33] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 16:22:33,902 INFO d5146dd38c564084995371aea660206b 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:22:33,902 INFO d5146dd38c564084995371aea660206b 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:22:33,907 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:22:33] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 16:22:34,086 INFO da765cda0d9e4264b38159ff73f5e780 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:22:34,086 INFO da765cda0d9e4264b38159ff73f5e780 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:22:34,086 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:22:34] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 16:22:57,092 INFO - - - - - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.170.70.99:3000
+2025-10-21 16:22:57,092 INFO - - - - - [33mPress CTRL+C to quit[0m
+2025-10-21 16:23:00,656 INFO 018c692a887e44c3bd476a4d5fbcde7a 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=8
+2025-10-21 16:23:00,656 INFO 018c692a887e44c3bd476a4d5fbcde7a 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=8
+2025-10-21 16:23:00,656 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:23:00] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 16:23:01,460 INFO 0233e54daa7d48c8b1597a099d95eb3a 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:23:01,460 INFO 0233e54daa7d48c8b1597a099d95eb3a 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:23:01,460 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:23:01] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 16:23:01,812 INFO eaa93d98564e4f16a2e2d6d193a84cfa 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=1
+2025-10-21 16:23:01,812 INFO eaa93d98564e4f16a2e2d6d193a84cfa 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=1
+2025-10-21 16:23:01,812 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:23:01] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 16:23:02,002 INFO 8895c273dd78423ea62329519df98d4c 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:23:02,002 INFO 8895c273dd78423ea62329519df98d4c 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:23:02,002 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:23:02] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 16:23:02,180 INFO 14584e5fcb064e968bc4301955ca25ed 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:23:02,180 INFO 14584e5fcb064e968bc4301955ca25ed 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:23:02,180 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:23:02] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 16:23:02,343 INFO f13dfc9d7391438aa81f65ff1e8c2023 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:23:02,343 INFO f13dfc9d7391438aa81f65ff1e8c2023 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:23:02,345 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:23:02] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 16:23:05,622 INFO bfb6e0be4bbb4816a96cced0c6db6c44 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 592510
+2025-10-21 16:23:05,622 INFO bfb6e0be4bbb4816a96cced0c6db6c44 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=1559
+2025-10-21 16:23:05,622 INFO bfb6e0be4bbb4816a96cced0c6db6c44 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=1559
+2025-10-21 16:23:05,622 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:23:05] "POST /auth/send-otp HTTP/1.1" 200 -
+2025-10-21 16:27:22,983 INFO 3da614b2d948476482f550651d646895 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:27:22,983 INFO 3da614b2d948476482f550651d646895 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:27:22,983 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:27:22] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 16:27:27,108 INFO d1fa250246ce4044ae32a8ed4080f0c5 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 577011
+2025-10-21 16:27:27,108 INFO d1fa250246ce4044ae32a8ed4080f0c5 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=1419
+2025-10-21 16:27:27,108 INFO d1fa250246ce4044ae32a8ed4080f0c5 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=1419
+2025-10-21 16:27:27,108 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:27:27] "POST /auth/send-otp HTTP/1.1" 200 -
+2025-10-21 16:30:07,612 INFO - - - - - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.170.70.99:3000
+2025-10-21 16:30:07,612 INFO - - - - - [33mPress CTRL+C to quit[0m
+2025-10-21 16:30:10,715 INFO 94f1d47387e74479bc3f1f89409cbe93 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=8
+2025-10-21 16:30:10,715 INFO 94f1d47387e74479bc3f1f89409cbe93 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=8
+2025-10-21 16:30:10,717 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:30:10] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 16:30:14,096 INFO d5a42369cd21422ca0eb883f0731a3d3 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 796984
+2025-10-21 16:30:14,096 INFO d5a42369cd21422ca0eb883f0731a3d3 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=572
+2025-10-21 16:30:14,096 INFO d5a42369cd21422ca0eb883f0731a3d3 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=572
+2025-10-21 16:30:14,096 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:30:14] "POST /auth/send-otp HTTP/1.1" 200 -
+2025-10-21 16:30:30,303 INFO 9fbd6c0739914ab4a306dfa6d75d5226 127.0.0.1 POST /auth/send-otp - request completed status=429 duration_ms=46
+2025-10-21 16:30:30,303 INFO 9fbd6c0739914ab4a306dfa6d75d5226 127.0.0.1 POST /auth/send-otp - request completed status=429 duration_ms=46
+2025-10-21 16:30:30,303 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:30:30] "[31m[1mPOST /auth/send-otp HTTP/1.1[0m" 429 -
+2025-10-21 16:30:31,779 INFO 32e787a04ce24181a10b94926f68a8d3 127.0.0.1 POST /auth/verify-otp - request completed status=400 duration_ms=0
+2025-10-21 16:30:31,779 INFO 32e787a04ce24181a10b94926f68a8d3 127.0.0.1 POST /auth/verify-otp - request completed status=400 duration_ms=0
+2025-10-21 16:30:31,779 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:30:31] "[31m[1mPOST /auth/verify-otp HTTP/1.1[0m" 400 -
+2025-10-21 16:30:36,037 INFO a664b03f25fc4908bbe488c6826d0328 127.0.0.1 GET / - request completed status=200 duration_ms=47
+2025-10-21 16:30:36,037 INFO a664b03f25fc4908bbe488c6826d0328 127.0.0.1 GET / - request completed status=200 duration_ms=47
+2025-10-21 16:30:36,037 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:30:36] "GET / HTTP/1.1" 200 -
+2025-10-21 16:30:36,070 INFO dd59e3ed022341ee9428501a6b742142 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-21 16:30:36,070 INFO dd59e3ed022341ee9428501a6b742142 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-21 16:30:36,074 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:30:36] "GET /auth/me HTTP/1.1" 200 -
+2025-10-21 16:30:36,076 INFO 6692ce4d9c8a423a9fae089d9233c01b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-21 16:30:36,076 INFO 6692ce4d9c8a423a9fae089d9233c01b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-21 16:30:36,076 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:30:36] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 16:30:36,091 INFO 58b7a423b7a74e5db209d9b6c486365a 127.0.0.1 GET /chats - request completed status=200 duration_ms=22
+2025-10-21 16:30:36,091 INFO 58b7a423b7a74e5db209d9b6c486365a 127.0.0.1 GET /chats - request completed status=200 duration_ms=22
+2025-10-21 16:30:36,091 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:30:36] "GET /chats HTTP/1.1" 200 -
+2025-10-21 16:30:46,067 INFO 59fcc99acaca46948294ffdc781603fb 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 16:30:46,067 INFO 59fcc99acaca46948294ffdc781603fb 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 16:30:46,067 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:30:46] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 16:30:55,749 INFO a4652a3d01694375908997c4c0d461bd 127.0.0.1 POST /ask - request completed status=200 duration_ms=0
+2025-10-21 16:30:55,749 INFO a4652a3d01694375908997c4c0d461bd 127.0.0.1 POST /ask - request completed status=200 duration_ms=0
+2025-10-21 16:30:55,752 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:30:55] "POST /ask HTTP/1.1" 200 -
+2025-10-21 16:30:56,065 INFO 6166299f303e4d89a7c0cfbf018043e6 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 16:30:56,065 INFO 6166299f303e4d89a7c0cfbf018043e6 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 16:30:56,065 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:30:56] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 16:38:07,272 INFO - - - - - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.170.70.99:3000
+2025-10-21 16:38:07,273 INFO - - - - - [33mPress CTRL+C to quit[0m
+2025-10-21 16:38:18,211 INFO 577bc3a5a6f34029a0b4e540ba7574ba 127.0.0.1 GET / - request completed status=200 duration_ms=120
+2025-10-21 16:38:18,211 INFO 577bc3a5a6f34029a0b4e540ba7574ba 127.0.0.1 GET / - request completed status=200 duration_ms=120
+2025-10-21 16:38:18,212 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:38:18] "GET / HTTP/1.1" 200 -
+2025-10-21 16:38:18,249 INFO 9d981afe72074d228a88fca9be957a42 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-21 16:38:18,249 INFO 9d981afe72074d228a88fca9be957a42 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-21 16:38:18,249 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:38:18] "GET /auth/me HTTP/1.1" 200 -
+2025-10-21 16:38:18,255 INFO e7f3cd4cec9e414594e97e821793c6d0 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-21 16:38:18,255 INFO e7f3cd4cec9e414594e97e821793c6d0 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-21 16:38:18,256 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:38:18] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 16:38:18,273 INFO 66db415792c14cb2b07f9524b5274393 127.0.0.1 GET /chats - request completed status=200 duration_ms=23
+2025-10-21 16:38:18,273 INFO 66db415792c14cb2b07f9524b5274393 127.0.0.1 GET /chats - request completed status=200 duration_ms=23
+2025-10-21 16:38:18,273 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:38:18] "GET /chats HTTP/1.1" 200 -
+2025-10-21 16:38:19,951 INFO 3752a4af1300453298160a8ceec0756b 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=2
+2025-10-21 16:38:19,951 INFO 3752a4af1300453298160a8ceec0756b 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=2
+2025-10-21 16:38:19,951 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:38:19] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 16:38:23,901 WARNING 88db4200031f4fd29eb6755f2588de50 127.0.0.1 POST /auth/send-otp - sms_ir_failed http=401 body={"data":null,"status":10,"message":"کلید وب سرویس نامعتبر است"} mobile=09121471301
+2025-10-21 16:38:23,907 INFO 88db4200031f4fd29eb6755f2588de50 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 040812
+2025-10-21 16:38:23,907 INFO 88db4200031f4fd29eb6755f2588de50 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=750
+2025-10-21 16:38:23,907 INFO 88db4200031f4fd29eb6755f2588de50 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=750
+2025-10-21 16:38:23,907 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:38:23] "POST /auth/send-otp HTTP/1.1" 200 -
+2025-10-21 16:38:51,159 INFO eb1fe1506e644864ad620095d64c9a2a 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=2
+2025-10-21 16:38:51,159 INFO eb1fe1506e644864ad620095d64c9a2a 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=2
+2025-10-21 16:38:51,161 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:38:51] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 16:39:01,573 WARNING e664303802e7425898efedb28bd62972 127.0.0.1 POST /auth/send-otp - sms_ir_failed http=401 body={"data":null,"status":10,"message":"کلید وب سرویس نامعتبر است"} mobile=09194870170
+2025-10-21 16:39:01,573 INFO e664303802e7425898efedb28bd62972 127.0.0.1 POST /auth/send-otp - [SMS] to=+989194870170 body=کد ورود شما: 314316
+2025-10-21 16:39:01,586 INFO e664303802e7425898efedb28bd62972 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=668
+2025-10-21 16:39:01,586 INFO e664303802e7425898efedb28bd62972 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=668
+2025-10-21 16:39:01,586 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:39:01] "POST /auth/send-otp HTTP/1.1" 200 -
+2025-10-21 16:41:02,538 INFO 06fe957783b54a72a94f9cea3bbda758 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:41:02,538 INFO 06fe957783b54a72a94f9cea3bbda758 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 16:41:02,538 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:41:02] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 16:41:08,260 WARNING 69f16a4051c74b74a2ec2e2686224814 127.0.0.1 POST /auth/send-otp - sms_ir_failed http=401 body={"data":null,"status":10,"message":"کلید وب سرویس نامعتبر است"} mobile=09121471301
+2025-10-21 16:41:08,260 INFO 69f16a4051c74b74a2ec2e2686224814 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 182748
+2025-10-21 16:41:08,276 INFO 69f16a4051c74b74a2ec2e2686224814 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=671
+2025-10-21 16:41:08,276 INFO 69f16a4051c74b74a2ec2e2686224814 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=671
+2025-10-21 16:41:08,276 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 16:41:08] "POST /auth/send-otp HTTP/1.1" 200 -
+2025-10-21 16:48:12,704 INFO - - - - - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.170.70.99:3000
+2025-10-21 16:48:12,704 INFO - - - - - [33mPress CTRL+C to quit[0m
+2025-10-21 17:00:30,785 INFO f1c022793224438893d68a2f2f3ef040 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 17:00:30,785 INFO f1c022793224438893d68a2f2f3ef040 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 17:00:30,785 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:00:30] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 17:07:36,522 INFO - - - - - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.170.70.99:3000
+2025-10-21 17:07:36,523 INFO - - - - - [33mPress CTRL+C to quit[0m
+2025-10-21 17:07:42,957 INFO 3095c027664c4caebd6371f9454f9d8b 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=8
+2025-10-21 17:07:42,957 INFO 3095c027664c4caebd6371f9454f9d8b 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=8
+2025-10-21 17:07:42,957 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:07:42] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 17:07:55,814 WARNING d854f4ee432b4f009642e0db7f8cf96d 127.0.0.1 POST /auth/send-otp - sms_ir_failed http=401 body={"data":null,"status":10,"message":"کلید وب سرویس نامعتبر است"} mobile=09121471301
+2025-10-21 17:07:55,814 INFO d854f4ee432b4f009642e0db7f8cf96d 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 566496
+2025-10-21 17:07:55,814 WARNING d854f4ee432b4f009642e0db7f8cf96d 127.0.0.1 POST /auth/send-otp - otp_send_failed phone=+989121471301 code=56**96
+2025-10-21 17:07:55,814 INFO d854f4ee432b4f009642e0db7f8cf96d 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=580
+2025-10-21 17:07:55,814 INFO d854f4ee432b4f009642e0db7f8cf96d 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=580
+2025-10-21 17:07:55,814 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:07:55] "[35m[1mPOST /auth/send-otp HTTP/1.1[0m" 502 -
+2025-10-21 17:07:59,235 WARNING 38516e5318cd4884a8e05681e18a0f0c 127.0.0.1 POST /auth/send-otp - sms_ir_failed http=401 body={"data":null,"status":10,"message":"کلید وب سرویس نامعتبر است"} mobile=09121471301
+2025-10-21 17:07:59,235 INFO 38516e5318cd4884a8e05681e18a0f0c 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 232608
+2025-10-21 17:07:59,235 WARNING 38516e5318cd4884a8e05681e18a0f0c 127.0.0.1 POST /auth/send-otp - otp_send_failed phone=+989121471301 code=23**08
+2025-10-21 17:07:59,235 INFO 38516e5318cd4884a8e05681e18a0f0c 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=604
+2025-10-21 17:07:59,235 INFO 38516e5318cd4884a8e05681e18a0f0c 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=604
+2025-10-21 17:07:59,235 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:07:59] "[35m[1mPOST /auth/send-otp HTTP/1.1[0m" 502 -
+2025-10-21 17:08:02,780 WARNING 9d643d55801a4745a06d97f61c6ce3fd 127.0.0.1 POST /auth/send-otp - sms_ir_failed http=401 body={"data":null,"status":10,"message":"کلید وب سرویس نامعتبر است"} mobile=09121471301
+2025-10-21 17:08:02,785 INFO 9d643d55801a4745a06d97f61c6ce3fd 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 269223
+2025-10-21 17:08:02,785 WARNING 9d643d55801a4745a06d97f61c6ce3fd 127.0.0.1 POST /auth/send-otp - otp_send_failed phone=+989121471301 code=26**23
+2025-10-21 17:08:02,785 INFO 9d643d55801a4745a06d97f61c6ce3fd 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=658
+2025-10-21 17:08:02,785 INFO 9d643d55801a4745a06d97f61c6ce3fd 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=658
+2025-10-21 17:08:02,785 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:08:02] "[35m[1mPOST /auth/send-otp HTTP/1.1[0m" 502 -
+2025-10-21 17:11:12,829 INFO - - - - - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.170.70.99:3000
+2025-10-21 17:11:12,830 INFO - - - - - [33mPress CTRL+C to quit[0m
+2025-10-21 17:11:14,652 INFO e07637d0e1f34318948b535808a657e9 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=6
+2025-10-21 17:11:14,652 INFO e07637d0e1f34318948b535808a657e9 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=6
+2025-10-21 17:11:14,652 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:11:14] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 17:11:18,314 WARNING e4f5e86f975445a887cf06dc21b1a06c 127.0.0.1 POST /auth/send-otp - sms_ir_failed http=401 body={"data":null,"status":10,"message":"کلید وب سرویس نامعتبر است"} mobile=09121471301
+2025-10-21 17:11:18,314 INFO e4f5e86f975445a887cf06dc21b1a06c 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 955564
+2025-10-21 17:11:18,314 WARNING e4f5e86f975445a887cf06dc21b1a06c 127.0.0.1 POST /auth/send-otp - otp_send_failed phone=+989121471301 code=95**64
+2025-10-21 17:11:18,314 INFO e4f5e86f975445a887cf06dc21b1a06c 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=696
+2025-10-21 17:11:18,314 INFO e4f5e86f975445a887cf06dc21b1a06c 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=696
+2025-10-21 17:11:18,314 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:11:18] "[35m[1mPOST /auth/send-otp HTTP/1.1[0m" 502 -
+2025-10-21 17:11:23,005 INFO 15d3938fa4a44afd9d400dfce416bb6d 127.0.0.1 GET /auth/signup - request completed status=200 duration_ms=2
+2025-10-21 17:11:23,005 INFO 15d3938fa4a44afd9d400dfce416bb6d 127.0.0.1 GET /auth/signup - request completed status=200 duration_ms=2
+2025-10-21 17:11:23,006 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:11:23] "GET /auth/signup HTTP/1.1" 200 -
+2025-10-21 17:11:30,072 INFO bb4057eb958741379493592ef8c110c9 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 17:11:30,072 INFO bb4057eb958741379493592ef8c110c9 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 17:11:30,072 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:11:30] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 17:11:32,896 WARNING ed24182fa7a94574a8a28b1a778c18df 127.0.0.1 POST /auth/send-otp - sms_ir_failed http=401 body={"data":null,"status":10,"message":"کلید وب سرویس نامعتبر است"} mobile=09121471301
+2025-10-21 17:11:32,903 INFO ed24182fa7a94574a8a28b1a778c18df 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 860650
+2025-10-21 17:11:32,903 WARNING ed24182fa7a94574a8a28b1a778c18df 127.0.0.1 POST /auth/send-otp - otp_send_failed phone=+989121471301 code=86**50
+2025-10-21 17:11:32,903 INFO ed24182fa7a94574a8a28b1a778c18df 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=581
+2025-10-21 17:11:32,903 INFO ed24182fa7a94574a8a28b1a778c18df 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=581
+2025-10-21 17:11:32,903 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:11:32] "[35m[1mPOST /auth/send-otp HTTP/1.1[0m" 502 -
+2025-10-21 17:13:58,098 INFO - - - - - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.170.70.99:3000
+2025-10-21 17:13:58,100 INFO - - - - - [33mPress CTRL+C to quit[0m
+2025-10-21 17:14:05,946 INFO 19348f1aef65422a9154e058d5be31b9 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=3
+2025-10-21 17:14:05,946 INFO 19348f1aef65422a9154e058d5be31b9 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=3
+2025-10-21 17:14:05,946 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:14:05] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 17:14:09,152 WARNING fcc1bc2dd6fb4d5ca14efa1f14c2e494 127.0.0.1 POST /auth/send-otp - sms_ir_failed http=401 body={"data":null,"status":10,"message":"کلید وب سرویس نامعتبر است"} mobile=09121471301
+2025-10-21 17:14:09,152 INFO fcc1bc2dd6fb4d5ca14efa1f14c2e494 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 209973
+2025-10-21 17:14:09,152 WARNING fcc1bc2dd6fb4d5ca14efa1f14c2e494 127.0.0.1 POST /auth/send-otp - otp_send_failed phone=+989121471301 code=20**73
+2025-10-21 17:14:09,152 INFO fcc1bc2dd6fb4d5ca14efa1f14c2e494 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=607
+2025-10-21 17:14:09,152 INFO fcc1bc2dd6fb4d5ca14efa1f14c2e494 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=607
+2025-10-21 17:14:09,152 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:14:09] "[35m[1mPOST /auth/send-otp HTTP/1.1[0m" 502 -
+2025-10-21 17:14:14,224 WARNING 920a03ba6b6e443fabfc61222173a4d8 127.0.0.1 POST /auth/send-otp - sms_ir_failed http=401 body={"data":null,"status":10,"message":"کلید وب سرویس نامعتبر است"} mobile=09121471301
+2025-10-21 17:14:14,235 INFO 920a03ba6b6e443fabfc61222173a4d8 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 820197
+2025-10-21 17:14:14,235 WARNING 920a03ba6b6e443fabfc61222173a4d8 127.0.0.1 POST /auth/send-otp - otp_send_failed phone=+989121471301 code=82**97
+2025-10-21 17:14:14,235 INFO 920a03ba6b6e443fabfc61222173a4d8 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=633
+2025-10-21 17:14:14,235 INFO 920a03ba6b6e443fabfc61222173a4d8 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=633
+2025-10-21 17:14:14,235 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:14:14] "[35m[1mPOST /auth/send-otp HTTP/1.1[0m" 502 -
+2025-10-21 17:14:16,188 WARNING f48b1953873a49df86d529a8103895b5 127.0.0.1 POST /auth/send-otp - sms_ir_failed http=401 body={"data":null,"status":10,"message":"کلید وب سرویس نامعتبر است"} mobile=09121471301
+2025-10-21 17:14:16,199 INFO f48b1953873a49df86d529a8103895b5 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 218816
+2025-10-21 17:14:16,199 WARNING f48b1953873a49df86d529a8103895b5 127.0.0.1 POST /auth/send-otp - otp_send_failed phone=+989121471301 code=21**16
+2025-10-21 17:14:16,199 INFO f48b1953873a49df86d529a8103895b5 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=592
+2025-10-21 17:14:16,199 INFO f48b1953873a49df86d529a8103895b5 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=592
+2025-10-21 17:14:16,201 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:14:16] "[35m[1mPOST /auth/send-otp HTTP/1.1[0m" 502 -
+2025-10-21 17:14:18,198 WARNING a6a5cdf40bd54f468f46d808393081c4 127.0.0.1 POST /auth/send-otp - sms_ir_failed http=401 body={"data":null,"status":10,"message":"کلید وب سرویس نامعتبر است"} mobile=09121471301
+2025-10-21 17:14:18,201 INFO a6a5cdf40bd54f468f46d808393081c4 127.0.0.1 POST /auth/send-otp - [SMS] to=+989121471301 body=کد ورود شما: 459175
+2025-10-21 17:14:18,201 WARNING a6a5cdf40bd54f468f46d808393081c4 127.0.0.1 POST /auth/send-otp - otp_send_failed phone=+989121471301 code=45**75
+2025-10-21 17:14:18,201 INFO a6a5cdf40bd54f468f46d808393081c4 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=619
+2025-10-21 17:14:18,201 INFO a6a5cdf40bd54f468f46d808393081c4 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=619
+2025-10-21 17:14:18,202 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:14:18] "[35m[1mPOST /auth/send-otp HTTP/1.1[0m" 502 -
+2025-10-21 17:15:22,436 INFO 25c675b998f54f0bb756c40191bdd36e 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 17:15:22,436 INFO 25c675b998f54f0bb756c40191bdd36e 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 17:15:22,437 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:15:22] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 17:15:25,548 WARNING 18d892c9de704598bd71e9fee1fb92e6 127.0.0.1 POST /auth/send-otp - sms_ir_failed http=401 body={"data":null,"status":10,"message":"کلید وب سرویس نامعتبر است"} mobile=09101528014
+2025-10-21 17:15:25,557 INFO 18d892c9de704598bd71e9fee1fb92e6 127.0.0.1 POST /auth/send-otp - [SMS] to=+989101528014 body=کد ورود شما: 654713
+2025-10-21 17:15:25,557 WARNING 18d892c9de704598bd71e9fee1fb92e6 127.0.0.1 POST /auth/send-otp - otp_send_failed phone=+989101528014 code=65**13
+2025-10-21 17:15:25,557 INFO 18d892c9de704598bd71e9fee1fb92e6 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=954
+2025-10-21 17:15:25,557 INFO 18d892c9de704598bd71e9fee1fb92e6 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=954
+2025-10-21 17:15:25,557 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:15:25] "[35m[1mPOST /auth/send-otp HTTP/1.1[0m" 502 -
+2025-10-21 17:15:33,736 WARNING 7b14f4febb0646c4a9032f5f59fbd8c2 127.0.0.1 POST /auth/send-otp - sms_ir_failed http=401 body={"data":null,"status":10,"message":"کلید وب سرویس نامعتبر است"} mobile=09194870170
+2025-10-21 17:15:33,739 INFO 7b14f4febb0646c4a9032f5f59fbd8c2 127.0.0.1 POST /auth/send-otp - [SMS] to=+989194870170 body=کد ورود شما: 560049
+2025-10-21 17:15:33,739 WARNING 7b14f4febb0646c4a9032f5f59fbd8c2 127.0.0.1 POST /auth/send-otp - otp_send_failed phone=+989194870170 code=56**49
+2025-10-21 17:15:33,739 INFO 7b14f4febb0646c4a9032f5f59fbd8c2 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=1233
+2025-10-21 17:15:33,739 INFO 7b14f4febb0646c4a9032f5f59fbd8c2 127.0.0.1 POST /auth/send-otp - request completed status=502 duration_ms=1233
+2025-10-21 17:15:33,739 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:15:33] "[35m[1mPOST /auth/send-otp HTTP/1.1[0m" 502 -
+2025-10-21 17:18:41,388 INFO - - - - - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.170.70.99:3000
+2025-10-21 17:18:41,388 INFO - - - - - [33mPress CTRL+C to quit[0m
+2025-10-21 17:18:44,235 INFO 570c9c182c434134a1be4c66d9f9136e 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=18
+2025-10-21 17:18:44,235 INFO 570c9c182c434134a1be4c66d9f9136e 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=18
+2025-10-21 17:18:44,236 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:18:44] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 17:18:48,404 INFO 2b39b3345cb742e18db17f7e5a126094 127.0.0.1 POST /auth/send-otp - sms_ir_ok http=200 mobile=09121471301 template=335146 code=89**82
+2025-10-21 17:18:48,411 INFO 2b39b3345cb742e18db17f7e5a126094 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=701
+2025-10-21 17:18:48,411 INFO 2b39b3345cb742e18db17f7e5a126094 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=701
+2025-10-21 17:18:48,411 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:18:48] "POST /auth/send-otp HTTP/1.1" 200 -
+2025-10-21 17:19:19,423 INFO 810ee27a5d204b1e99a20a77e2547e56 127.0.0.1 POST /auth/verify-otp - request completed status=400 duration_ms=0
+2025-10-21 17:19:19,423 INFO 810ee27a5d204b1e99a20a77e2547e56 127.0.0.1 POST /auth/verify-otp - request completed status=400 duration_ms=0
+2025-10-21 17:19:19,438 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:19:19] "[31m[1mPOST /auth/verify-otp HTTP/1.1[0m" 400 -
+2025-10-21 17:19:36,589 INFO 37f50f770d964de3b740179b60f6d86c 127.0.0.1 POST /auth/verify-otp - request completed status=400 duration_ms=14
+2025-10-21 17:19:36,589 INFO 37f50f770d964de3b740179b60f6d86c 127.0.0.1 POST /auth/verify-otp - request completed status=400 duration_ms=14
+2025-10-21 17:19:36,589 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:19:36] "[31m[1mPOST /auth/verify-otp HTTP/1.1[0m" 400 -
+2025-10-21 17:19:37,777 INFO cc3dff49b48546bfb00562c106b935a3 127.0.0.1 POST /auth/verify-otp - request completed status=400 duration_ms=16
+2025-10-21 17:19:37,777 INFO cc3dff49b48546bfb00562c106b935a3 127.0.0.1 POST /auth/verify-otp - request completed status=400 duration_ms=16
+2025-10-21 17:19:37,778 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:19:37] "[31m[1mPOST /auth/verify-otp HTTP/1.1[0m" 400 -
+2025-10-21 17:21:04,500 INFO d7dfa47267df4d83ad50beca5e086c67 127.0.0.1 POST /auth/verify-otp - request completed status=400 duration_ms=2
+2025-10-21 17:21:04,500 INFO d7dfa47267df4d83ad50beca5e086c67 127.0.0.1 POST /auth/verify-otp - request completed status=400 duration_ms=2
+2025-10-21 17:21:04,500 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:21:04] "[31m[1mPOST /auth/verify-otp HTTP/1.1[0m" 400 -
+2025-10-21 17:21:05,946 INFO 133615e5c3fc46e2ae3572eaa04fd4e3 127.0.0.1 POST /auth/verify-otp - request completed status=400 duration_ms=4
+2025-10-21 17:21:05,946 INFO 133615e5c3fc46e2ae3572eaa04fd4e3 127.0.0.1 POST /auth/verify-otp - request completed status=400 duration_ms=4
+2025-10-21 17:21:05,947 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:21:05] "[31m[1mPOST /auth/verify-otp HTTP/1.1[0m" 400 -
+2025-10-21 17:21:09,013 INFO b9f29a924c634e7db516dbc19eaa98a1 127.0.0.1 POST /auth/send-otp - sms_ir_ok http=200 mobile=09121471301 template=335146 code=00**30
+2025-10-21 17:21:09,013 INFO b9f29a924c634e7db516dbc19eaa98a1 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=589
+2025-10-21 17:21:09,013 INFO b9f29a924c634e7db516dbc19eaa98a1 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=589
+2025-10-21 17:21:09,013 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:21:09] "POST /auth/send-otp HTTP/1.1" 200 -
+2025-10-21 17:21:23,106 INFO 73ce06c73f274c9ba2e25b361cb78dc4 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 17:21:23,106 INFO 73ce06c73f274c9ba2e25b361cb78dc4 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 17:21:23,106 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:21:23] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 17:21:24,343 INFO 20a88910af464cd99f4b9fa0d11c1fe2 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 17:21:24,343 INFO 20a88910af464cd99f4b9fa0d11c1fe2 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 17:21:24,343 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:21:24] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 17:21:31,749 INFO ec1161a02d2f453289a857ed064ec91a 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 17:21:31,749 INFO ec1161a02d2f453289a857ed064ec91a 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=0
+2025-10-21 17:21:31,750 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:21:31] "GET /auth/login HTTP/1.1" 200 -
+2025-10-21 17:21:33,964 INFO 3e4b4bb7745e4c28a0dddef538beac2a 127.0.0.1 POST /auth/send-otp - request completed status=429 duration_ms=15
+2025-10-21 17:21:33,964 INFO 3e4b4bb7745e4c28a0dddef538beac2a 127.0.0.1 POST /auth/send-otp - request completed status=429 duration_ms=15
+2025-10-21 17:21:33,964 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:21:33] "[31m[1mPOST /auth/send-otp HTTP/1.1[0m" 429 -
+2025-10-21 17:22:17,268 INFO 6aa307fea71e41dfbc4501ede332d9a5 127.0.0.1 POST /auth/send-otp - sms_ir_ok http=200 mobile=09121471301 template=335146 code=70**49
+2025-10-21 17:22:17,268 INFO 6aa307fea71e41dfbc4501ede332d9a5 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=645
+2025-10-21 17:22:17,268 INFO 6aa307fea71e41dfbc4501ede332d9a5 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=645
+2025-10-21 17:22:17,268 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:22:17] "POST /auth/send-otp HTTP/1.1" 200 -
+2025-10-21 17:22:26,994 INFO c1f03b215f854a5289971f8a7b17ff16 127.0.0.1 POST /auth/verify-otp - request completed status=200 duration_ms=20
+2025-10-21 17:22:26,994 INFO c1f03b215f854a5289971f8a7b17ff16 127.0.0.1 POST /auth/verify-otp - request completed status=200 duration_ms=20
+2025-10-21 17:22:26,994 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:22:26] "POST /auth/verify-otp HTTP/1.1" 200 -
+2025-10-21 17:22:27,351 INFO 7baeee7d079d4149a07419b6fe5f72a1 127.0.0.1 GET / - request completed status=200 duration_ms=13
+2025-10-21 17:22:27,351 INFO 7baeee7d079d4149a07419b6fe5f72a1 127.0.0.1 GET / - request completed status=200 duration_ms=13
+2025-10-21 17:22:27,352 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:22:27] "GET / HTTP/1.1" 200 -
+2025-10-21 17:22:27,385 INFO c0ca82637a1d4d58b74fe25210820aaf 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-21 17:22:27,385 INFO c0ca82637a1d4d58b74fe25210820aaf 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-21 17:22:27,386 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:22:27] "GET /auth/me HTTP/1.1" 200 -
+2025-10-21 17:22:27,387 INFO 6a2e0ab2330b4ec28a80f05c96a1b24f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-21 17:22:27,387 INFO 6a2e0ab2330b4ec28a80f05c96a1b24f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-21 17:22:27,388 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:22:27] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:22:27,393 INFO c67e12bd05fa4a479b0460837b309c63 127.0.0.1 GET /chats - request completed status=200 duration_ms=16
+2025-10-21 17:22:27,393 INFO c67e12bd05fa4a479b0460837b309c63 127.0.0.1 GET /chats - request completed status=200 duration_ms=16
+2025-10-21 17:22:27,393 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:22:27] "GET /chats HTTP/1.1" 200 -
+2025-10-21 17:22:37,375 INFO a9689148e59f4784b71d44662401b22d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:22:37,375 INFO a9689148e59f4784b71d44662401b22d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:22:37,375 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:22:37] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:22:38,184 INFO 540e30b316bf44d2ac709e2687354d42 127.0.0.1 POST /chats - request completed status=200 duration_ms=0
+2025-10-21 17:22:38,184 INFO 540e30b316bf44d2ac709e2687354d42 127.0.0.1 POST /chats - request completed status=200 duration_ms=0
+2025-10-21 17:22:38,184 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:22:38] "POST /chats HTTP/1.1" 200 -
+2025-10-21 17:22:38,216 INFO cce75cf29749498dbf9fd93332481fd2 127.0.0.1 GET /chats - request completed status=200 duration_ms=16
+2025-10-21 17:22:38,216 INFO cce75cf29749498dbf9fd93332481fd2 127.0.0.1 GET /chats - request completed status=200 duration_ms=16
+2025-10-21 17:22:38,216 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:22:38] "GET /chats HTTP/1.1" 200 -
+2025-10-21 17:22:40,260 INFO 1dc1a42dde134446aec44a0204c66aa3 127.0.0.1 POST /ask - creating OpenAI client base=https://api.deepseek.com/v1
+2025-10-21 17:22:40,260 INFO 1dc1a42dde134446aec44a0204c66aa3 127.0.0.1 POST /ask - creating OpenAI client base=https://api.deepseek.com/v1
+2025-10-21 17:22:42,647 INFO 1dc1a42dde134446aec44a0204c66aa3 127.0.0.1 POST /ask - HTTP Request: POST https://api.deepseek.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-21 17:22:47,132 INFO 1dc1a42dde134446aec44a0204c66aa3 127.0.0.1 POST /ask - request completed status=200 duration_ms=8906
+2025-10-21 17:22:47,132 INFO 1dc1a42dde134446aec44a0204c66aa3 127.0.0.1 POST /ask - request completed status=200 duration_ms=8906
+2025-10-21 17:22:47,132 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:22:47] "POST /ask HTTP/1.1" 200 -
+2025-10-21 17:22:55,823 INFO 9cf19c25f2e84e7b81b9d9d3b07fd606 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:22:55,823 INFO 9cf19c25f2e84e7b81b9d9d3b07fd606 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:22:55,823 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:22:55] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:23:05,832 INFO b4088ee9e96e487abda5a6dcccd3f1f1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-21 17:23:05,832 INFO b4088ee9e96e487abda5a6dcccd3f1f1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-21 17:23:05,832 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:23:05] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:23:16,725 INFO 8d0a2c558b2a4847b4e2d0dd20e9e65c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-21 17:23:16,725 INFO 8d0a2c558b2a4847b4e2d0dd20e9e65c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-21 17:23:16,725 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:23:16] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:23:26,720 INFO 6d58d296e991450fa63bc2f419e3275e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:23:26,720 INFO 6d58d296e991450fa63bc2f419e3275e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:23:26,720 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:23:26] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:23:36,718 INFO 9cd2ab25d7df4a319217324978d16391 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:23:36,718 INFO 9cd2ab25d7df4a319217324978d16391 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:23:36,718 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:23:36] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:23:52,729 INFO 49e73948f09a47c483b757a805555719 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-21 17:23:52,729 INFO 49e73948f09a47c483b757a805555719 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-21 17:23:52,729 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:23:52] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:24:02,714 INFO e00e3f3404e743148d564f2c1e15072d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:24:02,714 INFO e00e3f3404e743148d564f2c1e15072d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:24:02,714 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:24:02] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:24:13,714 INFO 05f90cd74bb54dcb9e3126f8cb493647 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:24:13,714 INFO 05f90cd74bb54dcb9e3126f8cb493647 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:24:13,714 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:24:13] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:24:23,721 INFO 101a0a1f3a2f4dfc976563a72a0ea6f4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:24:23,721 INFO 101a0a1f3a2f4dfc976563a72a0ea6f4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:24:23,723 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:24:23] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:24:33,720 INFO ca58f4d36b1946e898207cad403e7a10 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-21 17:24:33,720 INFO ca58f4d36b1946e898207cad403e7a10 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-21 17:24:33,721 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:24:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:24:43,712 INFO 0bc2fe68828e49cd943cb02679b50161 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:24:43,712 INFO 0bc2fe68828e49cd943cb02679b50161 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:24:43,712 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:24:43] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:24:53,726 INFO e4cea02dc8e249fd8584f39abe3ff3ba 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-21 17:24:53,726 INFO e4cea02dc8e249fd8584f39abe3ff3ba 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-21 17:24:53,726 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:24:53] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:25:03,718 INFO cf1caacf6ff04332a1a50db7da509b06 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:25:03,718 INFO cf1caacf6ff04332a1a50db7da509b06 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:25:03,718 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:25:03] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:25:13,720 INFO 858dfbb0a43f48a393a5b3101cb4e8d0 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:25:13,720 INFO 858dfbb0a43f48a393a5b3101cb4e8d0 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:25:13,720 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:25:13] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:25:23,710 INFO f1c27283f2744179811ff38443b060ef 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:25:23,710 INFO f1c27283f2744179811ff38443b060ef 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:25:23,710 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:25:23] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:25:53,716 INFO ccf34a57fa964ce994573402da222ec8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:25:53,716 INFO ccf34a57fa964ce994573402da222ec8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:25:53,716 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:25:53] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:26:53,715 INFO c90024f8b5eb4cdbbd4087409673314a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-21 17:26:53,715 INFO c90024f8b5eb4cdbbd4087409673314a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-21 17:26:53,715 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:26:53] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:27:50,717 INFO 9eb8b5f701e94d43a26c4cacec8f79c3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-21 17:27:50,717 INFO 9eb8b5f701e94d43a26c4cacec8f79c3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-21 17:27:50,718 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:27:50] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:28:00,716 INFO 18595c4d730b4e8b8ffd6306fd1add56 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:28:00,716 INFO 18595c4d730b4e8b8ffd6306fd1add56 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:28:00,716 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:28:00] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:28:10,721 INFO 9be2c77ffa0b413eb2e27b5e690b5d19 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:28:10,721 INFO 9be2c77ffa0b413eb2e27b5e690b5d19 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:28:10,721 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:28:10] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:28:20,723 INFO d57540ec6b3b4baba127d10ea7f03093 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:28:20,723 INFO d57540ec6b3b4baba127d10ea7f03093 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:28:20,723 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:28:20] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:28:38,713 INFO f9dbc1022dba4ed1bd2381dc029eb6da 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:28:38,713 INFO f9dbc1022dba4ed1bd2381dc029eb6da 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:28:38,713 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:28:38] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:28:48,715 INFO 30a5f3295d954e01a9c7f81a90844dd4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-21 17:28:48,715 INFO 30a5f3295d954e01a9c7f81a90844dd4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-21 17:28:48,715 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:28:48] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:28:58,717 INFO f6c6be7ae11d4184bee1cd200d8fcbf3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-21 17:28:58,717 INFO f6c6be7ae11d4184bee1cd200d8fcbf3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-21 17:28:58,718 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:28:58] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:29:08,715 INFO 1200a9771be348738e57e06c75b499f3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:29:08,715 INFO 1200a9771be348738e57e06c75b499f3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:29:08,715 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:29:08] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:29:18,717 INFO c6d72cdb88b1452ba461439d65dac6dc 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:29:18,717 INFO c6d72cdb88b1452ba461439d65dac6dc 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:29:18,717 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:29:18] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:29:28,724 INFO e1f961f0364f4e07b3cf534ce480eb11 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:29:28,724 INFO e1f961f0364f4e07b3cf534ce480eb11 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:29:28,724 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:29:28] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:29:38,722 INFO 9001f812cf9f4a0db9bbdbc330d008e5 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:29:38,722 INFO 9001f812cf9f4a0db9bbdbc330d008e5 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:29:38,722 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:29:38] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:29:48,706 INFO d6dbd4fd4f644adcb85b13fe734dca80 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:29:48,706 INFO d6dbd4fd4f644adcb85b13fe734dca80 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:29:48,706 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:29:48] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:29:58,708 INFO 9c45d23aa4c54ddea54b075be009f16e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:29:58,708 INFO 9c45d23aa4c54ddea54b075be009f16e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:29:58,708 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:29:58] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:30:13,720 INFO 618b6e73a970444fb769ad4eb173bbed 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:30:13,720 INFO 618b6e73a970444fb769ad4eb173bbed 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:30:13,720 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:30:13] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:30:23,708 INFO 517e8453d65a4ff296db5d13186efa2e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:30:23,708 INFO 517e8453d65a4ff296db5d13186efa2e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:30:23,708 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:30:23] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:30:33,719 INFO 1707760d9fe5425aa343c2f5cdcb5b27 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:30:33,719 INFO 1707760d9fe5425aa343c2f5cdcb5b27 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:30:33,719 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:30:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-21 17:30:43,707 INFO cd60b561bfd24d66a76fb06043b04a93 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:30:43,707 INFO cd60b561bfd24d66a76fb06043b04a93 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-21 17:30:43,707 INFO - - - - - 127.0.0.1 - - [21/Oct/2025 17:30:43] "GET /notes/list HTTP/1.1" 200 -

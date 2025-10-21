@@ -3,79 +3,84 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ثبت‌نام - دادرس</title>
+  <title>ثبت‌نام • دادرس</title>
   <style>
-    body { margin:0; background:#0b0f14; color:#e2e8f0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
-    .wrap { max-width:420px; margin: 40px auto; padding: 16px }
-    .panel { background:#0f141b; border:1px solid #1f2937; border-radius:12px; padding:16px }
-    .muted { color:#94a3b8 }
-    .btn { padding:10px 14px; background:#22c55e; color:#03120a; border:0; border-radius:10px; cursor:pointer }
-    .btn.secondary { background:#0b1220; color:#e2e8f0; border:1px solid #1f2937 }
-    input { width:100%; padding:12px 14px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:10px }
-    select { width:100%; padding:12px 14px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:10px }
-    .grid { display:grid; gap:10px; grid-template-columns: 1fr 1fr }
-    @media (max-width: 600px){ .grid { grid-template-columns: 1fr } }
+    :root{ --bg:#0b0f14; --panel:#0f141b; --text:#e2e8f0; --muted:#94a3b8; --border:#1f2937; --accent:#22c55e }
+    *{ box-sizing:border-box }
+    body{ margin:0; background:var(--bg); color:var(--text); font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif }
+    .wrap{ max-width:520px; margin:0 auto; padding:16px }
+    .card{ background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:18px }
+    h1{ margin:0 0 8px 0; font-size:18px }
+    p.muted{ margin:0 0 12px 0; color:var(--muted); font-size:13px }
+    label{ display:block; margin:10px 0 6px; color:var(--muted); font-size:12px }
+    input, select{ width:100%; padding:14px; border:1px solid var(--border); border-radius:12px; background:#0b1220; color:var(--text) }
+    .grid{ display:grid; gap:10px; grid-template-columns: 1fr 1fr }
+    @media (max-width: 560px){ .grid{ grid-template-columns: 1fr } }
+    .row{ display:flex; gap:8px; margin-top:12px }
+    .btn{ flex:1; padding:12px 14px; border-radius:12px; border:1px solid var(--border); background:#0b1220; color:var(--text); cursor:pointer }
+    .btn.primary{ background:var(--accent); color:#05120a; border:0; font-weight:600 }
+    .status{ margin-top:10px; font-size:13px; color:var(--muted) }
+    .footer{ margin-top:10px; display:flex; gap:8px; align-items:center; justify-content:space-between }
   </style>
   <script>
-    async function fetchJson(url, options){
-      const r = await fetch(url, options);
-      const ct = r.headers.get('content-type') || '';
-      if(!r.ok || !ct.includes('application/json')){ const t = await r.text(); throw new Error(t||('HTTP '+r.status)); }
-      return await r.json();
-    }
+    let cooldownSec = 0, cooldownTimer = null;
+    function setStatus(msg, danger){ const el = document.getElementById('status'); el.textContent = msg||''; el.style.color = danger? '#fca5a5' : '#94a3b8'; }
+    function startCooldown(sec){ cooldownSec = sec; const btn=document.getElementById('btnSend'); btn.disabled=true; updateCooldown(); cooldownTimer = setInterval(()=>{ cooldownSec--; updateCooldown(); if(cooldownSec<=0){ clearInterval(cooldownTimer); btn.disabled=false; btn.textContent='ارسال کد'; } },1000); }
+    function updateCooldown(){ const btn=document.getElementById('btnSend'); btn.textContent = `ارسال مجدد (${cooldownSec}s)`; }
+    async function fetchJson(url, options){ const r=await fetch(url, options); const ct=r.headers.get('content-type')||''; if(!ct.includes('application/json')){ const t=await r.text(); throw new Error(t||('HTTP '+r.status)); } return await r.json(); }
+    function normalizePhone(raw){ const s=(raw||'').trim(); return s; }
     async function sendOtp(){
-      const phone = document.getElementById('phone').value.trim();
-      const first_name = document.getElementById('first_name').value.trim();
-      const last_name = document.getElementById('last_name').value.trim();
+      const phone = normalizePhone(document.getElementById('phone').value);
+      const first_name = (document.getElementById('first_name').value||'').trim();
+      const last_name = (document.getElementById('last_name').value||'').trim();
       const role = document.getElementById('role').value;
-      const status = document.getElementById('status');
-      status.textContent = 'ارسال کد...';
+      if(!/^\+?\d{10,15}$/.test(phone.replace(/\s/g,''))){ setStatus('شماره معتبر وارد کنید', true); return; }
+      setStatus('در حال ارسال...');
       try{
-        const j = await fetchJson('/auth/send-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone, purpose: 'signup', first_name, last_name, role }) });
-        if(!j.ok){ status.textContent = 'خطا در ارسال کد'; return; }
+        const j = await fetchJson('/auth/send-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone, purpose:'signup', first_name, last_name, role }) });
+        if(!j.ok){ if(j.error==='cooldown'){ const sec=j.retry_in_sec||60; setStatus('لطفاً چند ثانیه صبر کنید'); startCooldown(sec); } else { setStatus('خطا در ارسال کد', true); } return; }
         document.getElementById('phase-phone').style.display='none';
         document.getElementById('phase-code').style.display='block';
-        status.textContent = 'کد ارسال شد';
-      }catch(e){ status.textContent = 'خطا: '+(e.message||e); }
+        setStatus('کد ارسال شد'); startCooldown(60);
+      }catch(e){ setStatus('خطا در ارتباط با سرور', true); }
     }
     async function verifyOtp(){
-      const phone = document.getElementById('phone').value.trim();
-      const first_name = document.getElementById('first_name').value.trim();
-      const last_name = document.getElementById('last_name').value.trim();
+      const phone = normalizePhone(document.getElementById('phone').value);
+      const first_name = (document.getElementById('first_name').value||'').trim();
+      const last_name = (document.getElementById('last_name').value||'').trim();
       const role = document.getElementById('role').value;
-      const code = document.getElementById('code').value.trim();
-      const status = document.getElementById('status');
-      status.textContent = 'تایید کد...';
+      const code = (document.getElementById('code').value||'').trim();
+      if(!/^\d{4,8}$/.test(code)){ setStatus('کد نامعتبر است', true); return; }
+      setStatus('بررسی کد...');
       try{
-        const j = await fetchJson('/auth/verify-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone, code, purpose: 'signup', first_name, last_name, role }) });
-        if(!j.ok){ status.textContent = 'کد نامعتبر'; return; }
-        status.textContent = 'ثبت‌نام انجام شد';
-        setTimeout(()=>{ window.location.href = '/'; }, 400);
-      }catch(e){ status.textContent = 'خطا: '+(e.message||e); }
+        const j = await fetchJson('/auth/verify-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone, code, purpose:'signup', first_name, last_name, role }) });
+        if(!j.ok){ setStatus('کد نامعتبر', true); return; }
+        setStatus('ثبت‌نام انجام شد'); setTimeout(()=>{ window.location.href = '/'; }, 300);
+      }catch(e){ setStatus('خطا در ارتباط با سرور', true); }
     }
   </script>
 </head>
 <body>
   <div class="wrap">
-    <div class="panel">
-      <h2>ثبت‌نام با پیامک</h2>
-      <p class="muted">شماره موبایل را وارد کنید تا کد تایید دریافت کنید.</p>
+    <div class="card">
+      <h1>ثبت‌نام در دادرس</h1>
+      <p class="muted">مشخصات خود را وارد کنید تا کد تایید پیامک شود.</p>
       <div id="phase-phone">
         <div class="grid">
           <div>
-            <label class="muted">نام</label>
+            <label>نام</label>
             <input id="first_name" placeholder="نام">
           </div>
           <div>
-            <label class="muted">نام خانوادگی</label>
+            <label>نام خانوادگی</label>
             <input id="last_name" placeholder="نام خانوادگی">
           </div>
           <div>
-            <label class="muted">شماره موبایل</label>
-            <input id="phone" placeholder="مثلاً 0912xxxxxxx یا +98912xxxxxxx">
+            <label>شماره موبایل</label>
+            <input id="phone" inputmode="tel" placeholder="0912xxxxxxx">
           </div>
           <div>
-            <label class="muted">پنل درخواستی</label>
+            <label>پنل درخواستی</label>
             <select id="role">
               <option value="citizen">شهروند</option>
               <option value="lawyer">وکیل</option>
@@ -83,20 +88,21 @@
             </select>
           </div>
         </div>
-        <div style="display:flex; gap:8px; margin-top:12px;">
-          <button class="btn" onclick="sendOtp()">ارسال کد</button>
-          <a class="btn secondary" href="/auth/login">ورود</a>
+        <div class="row">
+          <button id="btnSend" class="btn primary" onclick="sendOtp()">ارسال کد</button>
+          <a class="btn" href="/auth/login">ورود</a>
         </div>
       </div>
       <div id="phase-code" style="display:none">
-        <label class="muted">کد تایید</label>
-        <input id="code" placeholder="6 رقم">
-        <div style="display:flex; gap:8px; margin-top:12px;">
-          <button class="btn" onclick="verifyOtp()">تایید و ادامه</button>
-          <button class="btn secondary" onclick="sendOtp()">ارسال مجدد</button>
+        <label>کد تایید</label>
+        <input id="code" inputmode="numeric" placeholder="6 رقم">
+        <div class="row">
+          <button class="btn primary" onclick="verifyOtp()">تایید و ادامه</button>
+          <button id="btnResend" class="btn" onclick="sendOtp()">ارسال مجدد</button>
         </div>
       </div>
-      <div class="muted" id="status" style="margin-top:10px"></div>
+      <div id="status" class="status"></div>
+      <div class="footer"><span class="muted">با ثبت‌نام قوانین را می‌پذیرم</span><span class="muted">© دادرس</span></div>
     </div>
   </div>
 </body>

@@ -16,6 +16,28 @@ USERS_DIR = os.path.join(DATA_DIR, 'users')
 USERS_PATH = os.path.join(USERS_DIR, 'users.json')
 SESSIONS_PATH = os.path.join(USERS_DIR, 'sessions.json')
 OTP_PATH = os.path.join(USERS_DIR, 'otp.json')
+OTP_RATE_PATH = os.path.join(USERS_DIR, 'otp_rate.json')
+
+# OTP send policy (defaults; can be overridden by env at runtime)
+OTP_COOLDOWN_SEC = 60           # min seconds between sends per phone
+OTP_WINDOW_SEC = 3600           # rate window (e.g., 1h)
+OTP_MAX_PER_WINDOW = 6          # max sends per phone per window
+
+
+def _get_otp_policy() -> Dict[str, int]:
+    try:
+        cd = int(os.getenv('OTP_COOLDOWN_SEC', str(OTP_COOLDOWN_SEC)))
+    except Exception:
+        cd = OTP_COOLDOWN_SEC
+    try:
+        win = int(os.getenv('OTP_WINDOW_SEC', str(OTP_WINDOW_SEC)))
+    except Exception:
+        win = OTP_WINDOW_SEC
+    try:
+        mx = int(os.getenv('OTP_MAX_PER_WINDOW', str(OTP_MAX_PER_WINDOW)))
+    except Exception:
+        mx = OTP_MAX_PER_WINDOW
+    return { 'cooldown': max(0, cd), 'window': max(60, win), 'max': max(1, mx) }
 
 # Fixed SMS.ir credentials per user request
 SMS_IR_FIXED_API_KEY = 'bzmyaSCXVBV2G8WI8e8bZsPo56yJ7zwymBisAIwdN3WEgdGa'
@@ -46,6 +68,14 @@ def _write_json(path: str, data: Dict[str, Any]) -> None:
         pass
 
 
+def _read_rate() -> Dict[str, Any]:
+    return _read_json(OTP_RATE_PATH)
+
+
+def _write_rate(data: Dict[str, Any]) -> None:
+    _write_json(OTP_RATE_PATH, data)
+
+
 def _normalize_phone(phone: str) -> str:
     p = (phone or '').strip()
     p = re.sub(r"[^\d+]", "", p)
@@ -63,7 +93,8 @@ def _normalize_phone(phone: str) -> str:
 
 
 def _valid_phone_norm(norm: str) -> bool:
-    return bool(re.fullmatch(r"98\d{10}", norm))
+    # Iran mobile numbers start with 989 followed by 9 digits (total 12)
+    return bool(re.fullmatch(r"98(9\d{9})", norm))
 
 
 def _send_sms(phone_norm_98: str, text: str) -> bool:
@@ -77,7 +108,8 @@ def _send_sms(phone_norm_98: str, text: str) -> bool:
             getLogger().info(f"[SMS] to=+{phone_norm_98} body={text}")
         except Exception:
             pass
-        return True
+        # Not configured -> do NOT claim success
+        return False
     try:
         import requests
         payload = {
@@ -85,14 +117,14 @@ def _send_sms(phone_norm_98: str, text: str) -> bool:
             'from': sender,
             'text': text,
         }
-        headers = { 'Authorization': f'Bearer {api_key}', 'Content-Type': 'application/json' }
+        headers = { 'Authorization': f'Bearer {api_key}', 'Content-Type': 'application/json', 'Accept': 'application/json' }
         r = requests.post(api_url, json=payload, headers=headers, timeout=10)
         return r.ok
     except Exception:
         return False
 
 
-def _send_otp_via_sms_ir(phone_norm_98: str, code: str) -> bool:
+def _send_otp_via_sms_ir(phone_norm_98: str, code: str) -> tuple[bool, str]:
     """Send OTP via SMS.ir Verify API if configured.
     Requires env: SMS_IR_API_KEY, SMS_IR_TEMPLATE_ID. Optional: SMS_IR_VERIFY_URL, SMS_IR_PARAM_NAME
     """
@@ -100,38 +132,65 @@ def _send_otp_via_sms_ir(phone_norm_98: str, code: str) -> bool:
     api_key = (SMS_IR_FIXED_API_KEY or os.getenv('SMS_IR_API_KEY', '').strip())
     template_id = (SMS_IR_FIXED_TEMPLATE_ID or os.getenv('SMS_IR_TEMPLATE_ID', '').strip())
     if not api_key or not template_id:
-        return False
+        return False, 'missing_api_key_or_template'
     param_name = (SMS_IR_FIXED_PARAM_NAME or os.getenv('SMS_IR_PARAM_NAME', 'code').strip() or 'code')
     url = os.getenv('SMS_IR_VERIFY_URL', 'https://api.sms.ir/v1/send/verify').strip()
     # Convert 98XXXXXXXXXX to local 09XXXXXXXXX as SMS.ir expects
     mobile_local = ('0' + phone_norm_98[2:]) if phone_norm_98.startswith('98') else phone_norm_98
     try:
-        import requests
+        import requests, time as _t
         # Try multiple common parameter names to reduce template mismatch issues
-        tried_names = []
         names = [param_name, 'Code', 'code', 'verificationCode', 'VerificationCode']
-        # de-duplicate while preserving order
-        seen = set()
-        names = [n for n in names if not (n in seen or seen.add(n))]
-        body = {
+        seen = set(); names = [n for n in names if not (n in seen or seen.add(n))]
+        body_base = {
             'mobile': mobile_local,
             'templateId': int(template_id) if template_id.isdigit() else template_id,
             'parameters': [ { 'name': n, 'value': code } for n in names ]
         }
-        headers = {
-            'Content-Type': 'application/json',
-            'X-API-KEY': api_key,
-        }
-        r = requests.post(url, json=body, headers=headers, timeout=10)
-        if not r.ok:
+        headers = { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-API-KEY': api_key }
+        last_detail = ''
+        for attempt in range(2):
+            try:
+                r = requests.post(url, json=body_base, headers=headers, timeout=12)
+            except Exception as exc:
+                last_detail = f'exception:{exc}'
+                if attempt == 0:
+                    try: _t.sleep(0.6) 
+                    except Exception: pass
+                continue
+            ok = False
+            try:
+                j = r.json(); ok = bool(j.get('status') in (1, True) or j.get('success') in (1, True)); last_detail = str(j)[:300]
+            except Exception:
+                ok = r.ok; 
+                try: last_detail = (r.text or '')[:300]
+                except Exception: last_detail = ''
+            if ok:
+                try:
+                    from logging import getLogger
+                    masked = code[:2] + ('*' * max(0, len(code)-4)) + code[-2:]
+                    getLogger().info(f"sms_ir_ok http={r.status_code} mobile={mobile_local} template={template_id} code={masked}")
+                except Exception:
+                    pass
+                return True, last_detail
+            if r.status_code in (401,403):
+                try:
+                    from logging import getLogger
+                    getLogger().warning(f"sms_ir_failed http={r.status_code} body={(r.text or '')[:200]} mobile={mobile_local}")
+                except Exception:
+                    pass
+                return False, last_detail or 'auth_failed'
             try:
                 from logging import getLogger
-                getLogger().warning(f"sms_ir_failed status={r.status_code} body={(r.text or '')[:200]} mobile={mobile_local}")
+                getLogger().warning(f"sms_ir_failed http={r.status_code} body={(r.text or '')[:200]} mobile={mobile_local} attempt={attempt+1}")
             except Exception:
                 pass
-        return r.ok
-    except Exception:
-        return False
+            if attempt == 0:
+                try: _t.sleep(0.8)
+                except Exception: pass
+        return False, last_detail
+    except Exception as exc:
+        return False, f'exception:{exc}'
 
 
 def _issue_session(user_id: str) -> str:
@@ -261,6 +320,30 @@ def send_otp():
     if purpose == 'signup':
         if _find_user_by_phone(norm):
             return jsonify({'ok': False, 'error': 'already_registered'}), 409
+    # Simple per-phone cooldown and hourly rate limit (admin token bypass allowed)
+    now = int(time.time())
+    # admin bypass
+    admin_token = os.getenv('ADMIN_TOKEN', '').strip()
+    provided = request.headers.get('X-Admin-Token') or request.headers.get('X-Token')
+    bypass = bool(admin_token and provided and provided.strip() == admin_token)
+
+    policy = _get_otp_policy()
+    cooldown = int(policy['cooldown'])
+    window = int(policy['window'])
+    max_per = int(policy['max'])
+
+    rate = _read_rate()
+    r = rate.get(norm) or {}
+    last = int(r.get('last', 0))
+    win_start = int(r.get('win_start', now))
+    sent = int(r.get('sent', 0))
+    if not bypass and cooldown and (now - last) < cooldown:
+        return jsonify({'ok': False, 'error': 'cooldown', 'retry_in_sec': max(1, cooldown - (now - last))}), 429
+    if (now - win_start) > window:
+        win_start, sent = now, 0
+    if not bypass and sent >= max_per:
+        return jsonify({'ok': False, 'error': 'rate_limited', 'retry_in_sec': max(1, window - (now - win_start))}), 429
+
     # Generate and store OTP
     otp_store = _read_json(OTP_PATH)
     code = str(uuid.uuid4().int % 1000000).zfill(6)
@@ -273,10 +356,12 @@ def send_otp():
     _write_json(OTP_PATH, otp_store)
     # Prefer SMS.ir if configured; fallback to plain text sender
     sent = False
+    provider_detail = ''
     try:
-        sent = _send_otp_via_sms_ir(norm, code)
-    except Exception:
+        sent, provider_detail = _send_otp_via_sms_ir(norm, code)
+    except Exception as exc:
         sent = False
+        provider_detail = f'exception:{exc}'
     if not sent:
         sent = _send_sms(norm, f"کد ورود شما: {code}")
     if not sent:
@@ -286,7 +371,16 @@ def send_otp():
             getLogger().warning(f"otp_send_failed phone=+{norm} code={masked}")
         except Exception:
             pass
+        # expose provider hint only to admin requests
+        if bypass:
+            return jsonify({'ok': False, 'error': 'sms_failed', 'provider': 'sms_ir', 'detail': provider_detail}), 502
         return jsonify({'ok': False, 'error': 'sms_failed'}), 502
+    # Update rate counters on success
+    try:
+        rate[norm] = { 'last': now, 'win_start': win_start, 'sent': sent + 1 }
+        _write_rate(rate)
+    except Exception:
+        pass
     return jsonify({'ok': True})
 
 

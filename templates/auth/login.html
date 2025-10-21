@@ -3,72 +3,99 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ورود - دادرس</title>
+  <title>ورود • دادرس</title>
   <style>
-    body { margin:0; background:#0b0f14; color:#e2e8f0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
-    .wrap { max-width:420px; margin: 40px auto; padding: 16px }
-    .panel { background:#0f141b; border:1px solid #1f2937; border-radius:12px; padding:16px }
-    .muted { color:#94a3b8 }
-    .btn { padding:10px 14px; background:#22c55e; color:#03120a; border:0; border-radius:10px; cursor:pointer }
-    .btn.secondary { background:#0b1220; color:#e2e8f0; border:1px solid #1f2937 }
-    input { width:100%; padding:12px 14px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:10px }
+    :root{ --bg:#0b0f14; --panel:#0f141b; --text:#e2e8f0; --muted:#94a3b8; --border:#1f2937; --accent:#22c55e; --danger:#ef4444 }
+    *{ box-sizing:border-box }
+    body{ margin:0; background:var(--bg); color:var(--text); font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif }
+    .wrap{ max-width:480px; margin:0 auto; padding:16px }
+    .card{ background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:18px }
+    h1{ margin:0 0 8px 0; font-size:18px }
+    p.muted{ margin:0 0 12px 0; color:var(--muted); font-size:13px }
+    label{ display:block; margin:10px 0 6px; color:var(--muted); font-size:12px }
+    input{ width:100%; padding:14px; border:1px solid var(--border); border-radius:12px; background:#0b1220; color:var(--text) }
+    .row{ display:flex; gap:8px; margin-top:12px }
+    .btn{ flex:1; padding:12px 14px; border-radius:12px; border:1px solid var(--border); background:#0b1220; color:var(--text); cursor:pointer }
+    .btn.primary{ background:var(--accent); color:#05120a; border:0; font-weight:600 }
+    .btn.warn{ background:#15202b; border-color:#334155; color:#fca5a5 }
+    .status{ margin-top:10px; font-size:13px; color:var(--muted) }
+    .chip{ display:inline-block; padding:4px 8px; border:1px solid var(--border); border-radius:999px; color:var(--muted); font-size:12px }
+    .footer{ margin-top:10px; display:flex; gap:8px; align-items:center; justify-content:space-between }
   </style>
   <script>
-    async function fetchJson(url, options){
-      const r = await fetch(url, options);
-      const ct = r.headers.get('content-type') || '';
-      if(!r.ok || !ct.includes('application/json')){ const t = await r.text(); throw new Error(t||('HTTP '+r.status)); }
-      return await r.json();
-    }
-    let phase = 'phone';
-    async function sendOtp(purpose){
-      const phone = document.getElementById('phone').value.trim();
-      const status = document.getElementById('status');
-      status.textContent = 'ارسال کد...';
+    let cooldownSec = 0, cooldownTimer = null;
+    function setStatus(msg, danger){ const el = document.getElementById('status'); el.textContent = msg||''; el.style.color = danger? '#fca5a5' : '#94a3b8'; }
+    function setBusy(b){ const btn=document.getElementById('btnSend'); const vr=document.getElementById('btnVerify'); if(btn) btn.disabled = !!b; if(vr) vr.disabled = !!b; }
+    function startCooldown(sec){ cooldownSec = sec; const btn=document.getElementById('btnSend'); if(!btn) return; btn.disabled=true; updateCooldown(); cooldownTimer = setInterval(()=>{ cooldownSec--; updateCooldown(); if(cooldownSec<=0){ clearInterval(cooldownTimer); btn.disabled=false; btn.textContent='ارسال کد'; } },1000); }
+    function updateCooldown(){ const btn=document.getElementById('btnSend'); if(btn) btn.textContent = `ارسال مجدد (${cooldownSec}s)`; }
+    async function requestJson(url, payload){
       try{
-        const j = await fetchJson('/auth/send-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone, purpose }) });
-        if(!j.ok){ status.textContent = 'خطا در ارسال کد'; return; }
-        document.getElementById('phase-phone').style.display='none';
-        document.getElementById('phase-code').style.display='block';
-        phase = 'code'; status.textContent = 'کد ارسال شد';
-      }catch(e){ status.textContent = 'خطا: '+(e.message||e); }
+        const r = await fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload||{}) });
+        const ct = r.headers.get('content-type')||''; let j=null; if(ct.includes('application/json')){ j = await r.json(); } else { try{ j = { ok:false, text: await r.text() }; }catch(_){} }
+        return { ok: r.ok, status: r.status, j };
+      }catch(e){ return { ok:false, status:0, j:{ ok:false, error:'network', detail:String(e) } }; }
     }
-    async function verifyOtp(purpose){
-      const phone = document.getElementById('phone').value.trim();
-      const code = document.getElementById('code').value.trim();
-      const status = document.getElementById('status');
-      status.textContent = 'تایید کد...';
-      try{
-        const j = await fetchJson('/auth/verify-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone, code, purpose }) });
-        if(!j.ok){ status.textContent = 'کد نامعتبر'; return; }
-        status.textContent = 'ورود انجام شد';
-        setTimeout(()=>{ window.location.href = '/'; }, 400);
-      }catch(e){ status.textContent = 'خطا: '+(e.message||e); }
+    function normalizePhone(raw){ return (raw||'').trim(); }
+    async function sendOtp(){
+      const phone = normalizePhone(document.getElementById('phone').value);
+      if(!/^\+?\d{10,15}$/.test(phone.replace(/\s/g,''))){ setStatus('شماره معتبر وارد کنید', true); return; }
+      setBusy(true); setStatus('در حال ارسال...');
+      const res = await requestJson('/auth/send-otp', { phone, purpose:'login' });
+      setBusy(false);
+      const j = res.j||{};
+      if(!(j && j.ok)){
+        if(j.error==='invalid_phone'){ setStatus('شماره نامعتبر است', true); return; }
+        if(j.error==='cooldown'){ const sec=j.retry_in_sec||60; setStatus('لطفاً چند ثانیه صبر کنید'); startCooldown(sec); return; }
+        if(j.error==='rate_limited'){ const sec=j.retry_in_sec||300; setStatus('به حد ارسال رسیدید. بعداً تلاش کنید'); startCooldown(sec); return; }
+        if(j.error==='sms_failed'){ setStatus('ارسال پیامک ناموفق بود. کمی بعد دوباره تلاش کنید.', true); console.warn('sms_failed detail:', j.detail||''); return; }
+        setStatus('خطا در ارسال کد', true); return;
+      }
+      document.getElementById('phase-phone').style.display='none';
+      document.getElementById('phase-code').style.display='block';
+      setStatus('کد ارسال شد'); startCooldown(60);
+      document.getElementById('code').focus();
+    }
+    async function verifyOtp(){
+      const phone = normalizePhone(document.getElementById('phone').value);
+      const code = (document.getElementById('code').value||'').trim();
+      if(!/^\d{4,8}$/.test(code)){ setStatus('کد نامعتبر است', true); return; }
+      setBusy(true); setStatus('بررسی کد...');
+      const res = await requestJson('/auth/verify-otp', { phone, code, purpose:'login' });
+      setBusy(false);
+      const j = res.j||{};
+      if(!(j && j.ok)){
+        if(j.error==='expired'){ setStatus('کد منقضی شده؛ دوباره ارسال کنید.', true); return; }
+        if(j.error==='wrong_code'){ setStatus('کد نادرست است'+(j.tries_left?` • باقی‌مانده: ${j.tries_left}`:''), true); return; }
+        if(j.error==='no_otp'){ setStatus('ابتدا کد را دریافت کنید.', true); return; }
+        setStatus('کد نامعتبر', true); return;
+      }
+      setStatus('ورود انجام شد'); setTimeout(()=>{ window.location.href = '/'; }, 300);
     }
   </script>
 </head>
 <body>
   <div class="wrap">
-    <div class="panel">
-      <h2>ورود با پیامک</h2>
-      <p class="muted">شماره موبایل خود را وارد کنید تا کد تایید برای شما ارسال شود.</p>
+    <div class="card">
+      <h1>ورود به دادرس</h1>
+      <p class="muted">کد تایید به شماره شما پیامک می‌شود.</p>
       <div id="phase-phone">
-        <label class="muted">شماره موبایل</label>
-        <input id="phone" placeholder="مثلاً 0912xxxxxxx یا +98912xxxxxxx">
-        <div style="display:flex; gap:8px; margin-top:12px;">
-          <button class="btn" onclick="sendOtp('login')">ارسال کد</button>
-          <a class="btn secondary" href="/auth/signup">ثبت‌نام</a>
+        <label>شماره موبایل</label>
+        <input id="phone" inputmode="tel" placeholder="0912xxxxxxx">
+        <div class="row">
+          <button id="btnSend" class="btn primary" onclick="sendOtp()">ارسال کد</button>
+          <a class="btn" href="/auth/signup">ثبت‌نام</a>
         </div>
       </div>
       <div id="phase-code" style="display:none">
-        <label class="muted">کد تایید</label>
-        <input id="code" placeholder="6 رقم">
-        <div style="display:flex; gap:8px; margin-top:12px;">
-          <button class="btn" onclick="verifyOtp('login')">تایید و ورود</button>
-          <button class="btn secondary" onclick="sendOtp('login')">ارسال مجدد</button>
+        <label>کد تایید</label>
+        <input id="code" inputmode="numeric" placeholder="6 رقم">
+        <div class="row">
+          <button class="btn primary" onclick="verifyOtp()">تایید و ورود</button>
+          <button id="btnResend" class="btn" onclick="sendOtp()">ارسال مجدد</button>
         </div>
       </div>
-      <div class="muted" id="status" style="margin-top:10px"></div>
+      <div id="status" class="status"></div>
+      <div class="footer"><span class="chip">امن و سریع</span><span class="muted">© دادرس</span></div>
     </div>
   </div>
 </body>
