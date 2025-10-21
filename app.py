@@ -1137,6 +1137,6 @@ if __name__ == '__main__':
         _ingest_directory(DATA_DIR, recursive=True)
     except Exception:
         pass
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=3000, debug=False)
 
 
