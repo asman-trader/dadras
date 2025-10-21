@@ -730,6 +730,18 @@ def ask_endpoint():
         top_k = 5
     meta = _detect_intent_domain(question)
     cid = _get_client_id()
+    # Require authentication for asking
+    if not getattr(g, 'current_user', None):
+        cta = '<div style="margin-top:8px; display:flex; gap:8px;">' \
+              + '<a class="btn" href="/auth/login">ورود</a>' \
+              + '<a class="btn" href="/auth/signup">ثبت‌نام</a>' \
+              + '</div>'
+        txt = 'برای ادامهٔ گفتگو لطفاً ابتدا وارد شوید یا ثبت‌نام کنید.\n' + cta
+        resp = jsonify({'answer': txt, 'citations': [], 'intent': 'auth', 'domain': meta['domain'], 'clarify': []})
+        r = make_response(resp)
+        if not request.cookies.get('client_id'):
+            r.set_cookie('client_id', cid, max_age=30*24*3600, httponly=False, samesite='Lax')
+        return r
     # rate limit per client/ip
     rl_key = request.remote_addr or cid
     ok, remaining = _check_rate_limit(rl_key, RATE_LIMIT_ASK, RATE_WINDOW_SEC)
