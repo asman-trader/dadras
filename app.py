@@ -14,10 +14,18 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 app = Flask(__name__)
+# Register decoupled admin routes
+try:
+    from routes import all_blueprints
+    for bp in all_blueprints:
+        app.register_blueprint(bp)
+except Exception:
+    pass
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, 'data')
 ADMIN_TOKEN = os.getenv('ADMIN_TOKEN', '').strip()
+APP_VERSION = os.getenv('APP_VERSION', '1.0.0').strip() or '1.0.0'
 try:
     RATE_LIMIT_ASK = int(os.getenv('RATE_LIMIT_ASK', '30'))  # requests
 except Exception:
@@ -52,7 +60,7 @@ TEXTS_DIR = os.path.join(DATA_DIR, 'laws')
 
 
 def _ensure_data_dirs() -> None:
-    for sub in ('laws', 'cases', 'templates', 'output', 'logs'):
+    for sub in ('laws', 'cases', 'templates', 'output', 'logs', 'texts'):
         os.makedirs(os.path.join(DATA_DIR, sub), exist_ok=True)
 # Logging setup
 CURRENT_LOG_FILE = ''
@@ -230,6 +238,32 @@ def _apply_config_to_env(cfg: Dict[str, object]) -> None:
         os.environ['OLLAMA_MODEL'] = str(cfg.get('OLLAMA_MODEL') or '')
     if 'USE_OLLAMA' in cfg:
         os.environ['USE_OLLAMA'] = str(cfg.get('USE_OLLAMA') or '')
+    # App meta
+    if 'APP_VERSION' in cfg:
+        os.environ['APP_VERSION'] = str(cfg.get('APP_VERSION') or '')
+    # SMS providers
+    if 'SMS_IR_API_KEY' in cfg:
+        os.environ['SMS_IR_API_KEY'] = str(cfg.get('SMS_IR_API_KEY') or '')
+    if 'SMS_IR_TEMPLATE_ID' in cfg:
+        os.environ['SMS_IR_TEMPLATE_ID'] = str(cfg.get('SMS_IR_TEMPLATE_ID') or '')
+    if 'SMS_IR_VERIFY_URL' in cfg:
+        os.environ['SMS_IR_VERIFY_URL'] = str(cfg.get('SMS_IR_VERIFY_URL') or '')
+    if 'SMS_IR_PARAM_NAME' in cfg:
+        os.environ['SMS_IR_PARAM_NAME'] = str(cfg.get('SMS_IR_PARAM_NAME') or '')
+    if 'SMS_API_URL' in cfg:
+        os.environ['SMS_API_URL'] = str(cfg.get('SMS_API_URL') or '')
+    if 'SMS_API_KEY' in cfg:
+        os.environ['SMS_API_KEY'] = str(cfg.get('SMS_API_KEY') or '')
+    if 'SMS_SENDER' in cfg:
+        os.environ['SMS_SENDER'] = str(cfg.get('SMS_SENDER') or '')
+
+
+@app.context_processor
+def _inject_globals():
+    ver = os.getenv('APP_VERSION', APP_VERSION) or APP_VERSION
+    return {
+        'APP_VERSION': ver,
+    }
 
 
 def _normalize_text(s: str) -> str:
@@ -633,6 +667,8 @@ def index():
     return resp
 
 
+# Notes routes moved to routes/notes.py blueprint
+
 @app.post('/ingest')
 def ingest_endpoint():
     guard = _require_admin_if_configured()
@@ -918,6 +954,23 @@ def admin_llm_check():
     return jsonify(res)
 
 
+@app.get('/admin/config/sms')
+def admin_sms_config_echo():
+    guard = _require_admin_if_configured()
+    if guard is not None:
+        return guard
+    # Return whether SMS.ir/envs are set (without leaking secrets)
+    return jsonify({
+        'sms_ir_api_key_set': bool(os.getenv('SMS_IR_API_KEY','').strip()),
+        'sms_ir_template_id': os.getenv('SMS_IR_TEMPLATE_ID',''),
+        'sms_ir_verify_url': os.getenv('SMS_IR_VERIFY_URL','https://api.sms.ir/v1/send/verify'),
+        'sms_ir_param_name': os.getenv('SMS_IR_PARAM_NAME','code'),
+        'generic_api_url_set': bool(os.getenv('SMS_API_URL','').strip()),
+        'generic_api_key_set': bool(os.getenv('SMS_API_KEY','').strip()),
+        'generic_sender': os.getenv('SMS_SENDER','')
+    })
+
+
 @app.post('/draft')
 def create_draft():
     _ensure_data_dirs()
@@ -988,29 +1041,84 @@ def download_draft():
 @app.get('/admin')
 def admin_page():
     # Prefer new home template; fall back to old admin.html
-    home_path = os.path.join(BASE_DIR, 'templates', 'admin_home.html')
+    home_path = os.path.join(BASE_DIR, 'templates', 'admin', 'home.html')
     if os.path.exists(home_path):
-        return render_template('admin_home.html')
-    legacy = os.path.join(BASE_DIR, 'templates', 'admin.html')
+        return render_template('admin/home.html')
+    legacy = os.path.join(BASE_DIR, 'templates', 'admin', 'legacy.html')
     if os.path.exists(legacy):
-        return render_template('admin.html')
+        return render_template('admin/legacy.html')
     return make_response('<p>admin page not found</p>', 404)
 
 
 @app.get('/admin/llm')
 def admin_llm_page():
-    llm_path = os.path.join(BASE_DIR, 'templates', 'admin_llm.html')
+    llm_path = os.path.join(BASE_DIR, 'templates', 'admin', 'llm.html')
     if os.path.exists(llm_path):
-        return render_template('admin_llm.html')
+        return render_template('admin/llm.html')
     return make_response('<p>admin llm page not found</p>', 404)
 
 
 @app.get('/admin/data')
 def admin_data_page():
-    data_path = os.path.join(BASE_DIR, 'templates', 'admin_data.html')
+    data_path = os.path.join(BASE_DIR, 'templates', 'admin', 'data.html')
     if os.path.exists(data_path):
-        return render_template('admin_data.html')
+        return render_template('admin/data.html')
     return make_response('<p>admin data page not found</p>', 404)
+
+
+def _tail_file(path: str, max_lines: int = 200) -> str:
+    try:
+        with open(path, 'r', encoding='utf-8', errors='replace') as f:
+            lines = f.readlines()
+            if not lines:
+                return ''
+            return ''.join(lines[-max(1, int(max_lines)):])
+    except Exception as exc:
+        return f''
+
+
+@app.get('/admin/logs')
+def admin_logs_json():
+    guard = _require_admin_if_configured()
+    if guard is not None:
+        return guard
+    try:
+        lines = int(request.args.get('lines', '200'))
+    except Exception:
+        lines = 200
+    log_path = os.getenv('LOG_FILE', CURRENT_LOG_FILE or os.path.join(DATA_DIR, 'logs', 'app.log')).strip()
+    try:
+        size = os.path.getsize(log_path) if os.path.isfile(log_path) else 0
+        mtime = os.path.getmtime(log_path) if os.path.isfile(log_path) else 0
+    except Exception:
+        size = 0
+        mtime = 0
+    content = _tail_file(log_path, max_lines=lines)
+    return jsonify({'path': log_path, 'size': size, 'mtime': mtime, 'lines': lines, 'content': content})
+
+
+@app.get('/admin/logs/text')
+def admin_logs_text():
+    guard = _require_admin_if_configured()
+    if guard is not None:
+        return guard
+    try:
+        lines = int(request.args.get('lines', '200'))
+    except Exception:
+        lines = 200
+    log_path = os.getenv('LOG_FILE', CURRENT_LOG_FILE or os.path.join(DATA_DIR, 'logs', 'app.log')).strip()
+    content = _tail_file(log_path, max_lines=lines)
+    resp = make_response(content or '')
+    resp.headers['Content-Type'] = 'text/plain; charset=utf-8'
+    return resp
+
+
+@app.get('/admin/logs/view')
+def admin_logs_page():
+    log_tpl = os.path.join(BASE_DIR, 'templates', 'admin', 'log.html')
+    if os.path.exists(log_tpl):
+        return render_template('admin/log.html')
+    return make_response('<p>admin log page not found</p>', 404)
 
 
 if __name__ == '__main__':

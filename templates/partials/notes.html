@@ -1,0 +1,75 @@
+<aside id="notesSidebar" class="panel" aria-label="دفترچه یادداشت" style="display:flex; flex-direction:column; gap:8px;">
+  <details id="notesBox">
+    <summary style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+      <strong style="display:flex; align-items:center; gap:6px;">🗒️ یادداشت‌ها</strong>
+      <span style="margin-inline-start:auto"></span>
+      <button class="btn" id="btnNewNote" title="یادداشت جدید" aria-label="یادداشت جدید" style="padding:4px 8px;">➕</button>
+    </summary>
+
+    <div style="margin-top:8px; display:grid; gap:6px; grid-template-columns: 1fr;">
+      <input id="notesSearch" class="btn" style="min-width:120px; padding:6px 8px;" placeholder="جستجو" aria-label="جستجو در یادداشت‌ها" />
+
+      <div id="notesList" style="display:flex; flex-direction:column; gap:6px; max-height:32vh; overflow:auto"></div>
+      <div id="notesEmpty" class="muted" style="display:none; font-size:12px;">یادداشتی وجود ندارد. با «➕» بسازید.</div>
+
+      <input id="noteTitle" placeholder="عنوان" class="btn" style="min-width:160px; padding:6px 8px;" aria-label="عنوان یادداشت" />
+      <textarea id="notesArea" placeholder="متن یادداشت..." style="min-height:120px; padding:8px;" aria-label="متن یادداشت"></textarea>
+
+      <div style="display:flex; gap:8px; align-items:center; justify-content:flex-end;">
+        <span class="muted" id="notesCount" style="font-size:11px; margin-inline-end:auto"></span>
+        <span class="muted" id="notesSaveStatus" style="font-size:11px; margin-inline-end:auto"></span>
+        <button class="send" id="btnSaveCurrentNote" title="ذخیره" aria-label="ذخیره یادداشت" style="padding:8px 10px;">💾</button>
+      </div>
+    </div>
+  </details>
+</aside>
+
+
+<script>
+  (function(){
+    // auto refresh
+    let notesAutoTimer = null;
+    function startNotesAuto(){
+      if(notesAutoTimer) clearInterval(notesAutoTimer);
+      notesAutoTimer = setInterval(()=>{
+        try{
+          if(typeof refreshNotesList === 'function'){ refreshNotesList(); toggleEmptyState(); }
+        }catch(e){}
+      }, 10000);
+    }
+    document.addEventListener('visibilitychange', ()=>{ if(!document.hidden){ startNotesAuto(); } });
+
+    // search filter
+    const search = document.getElementById('notesSearch');
+    function filterNotes(){
+      try{
+        const q = (search.value||'').trim();
+        const list = document.getElementById('notesList');
+        Array.from(list.children||[]).forEach(row=>{
+          const text = (row.textContent||'').trim();
+          row.style.display = (!q || text.includes(q)) ? '' : 'none';
+        });
+      }catch(e){}
+    }
+    search?.addEventListener('input', filterNotes);
+
+    // empty state toggler
+    function toggleEmptyState(){
+      const list = document.getElementById('notesList');
+      const empty = document.getElementById('notesEmpty');
+      if(!list || !empty) return;
+      const hasAny = Array.from(list.children||[]).some(el=> el.style.display !== 'none');
+      empty.style.display = hasAny ? 'none' : '';
+    }
+
+    // char count
+    const area = document.getElementById('notesArea');
+    const count = document.getElementById('notesCount');
+    function updateCount(){ try{ count.textContent = (area.value||'').length + ' کاراکتر'; }catch(e){} }
+    area?.addEventListener('input', updateCount);
+
+    // init
+    startNotesAuto();
+    setTimeout(()=>{ toggleEmptyState(); updateCount(); }, 0);
+  })();
+  </script>

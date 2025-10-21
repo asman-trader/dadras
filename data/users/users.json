@@ -1,0 +1,16 @@
+{
+  "b0cf7b9a477d4f08985eadfcb2be1d38": {
+    "id": "b0cf7b9a477d4f08985eadfcb2be1d38",
+    "phone_norm": "989121471301",
+    "created_at": 1761029107
+  },
+  "44db12d0d9d84288ba6b81fe54d4ddb3": {
+    "id": "44db12d0d9d84288ba6b81fe54d4ddb3",
+    "phone_norm": "989101528014",
+    "created_at": 1761030282,
+    "first_name": "مسعود",
+    "last_name": "حسینی",
+    "role": "citizen",
+    "updated_at": 1761030282
+  }
+}

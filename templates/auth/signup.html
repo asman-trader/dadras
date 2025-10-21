@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ثبت‌نام - دادرس</title>
+  <style>
+    body { margin:0; background:#0b0f14; color:#e2e8f0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    .wrap { max-width:420px; margin: 40px auto; padding: 16px }
+    .panel { background:#0f141b; border:1px solid #1f2937; border-radius:12px; padding:16px }
+    .muted { color:#94a3b8 }
+    .btn { padding:10px 14px; background:#22c55e; color:#03120a; border:0; border-radius:10px; cursor:pointer }
+    .btn.secondary { background:#0b1220; color:#e2e8f0; border:1px solid #1f2937 }
+    input { width:100%; padding:12px 14px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:10px }
+    select { width:100%; padding:12px 14px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:10px }
+    .grid { display:grid; gap:10px; grid-template-columns: 1fr 1fr }
+    @media (max-width: 600px){ .grid { grid-template-columns: 1fr } }
+  </style>
+  <script>
+    async function fetchJson(url, options){
+      const r = await fetch(url, options);
+      const ct = r.headers.get('content-type') || '';
+      if(!r.ok || !ct.includes('application/json')){ const t = await r.text(); throw new Error(t||('HTTP '+r.status)); }
+      return await r.json();
+    }
+    async function sendOtp(){
+      const phone = document.getElementById('phone').value.trim();
+      const first_name = document.getElementById('first_name').value.trim();
+      const last_name = document.getElementById('last_name').value.trim();
+      const role = document.getElementById('role').value;
+      const status = document.getElementById('status');
+      status.textContent = 'ارسال کد...';
+      try{
+        const j = await fetchJson('/auth/send-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone, purpose: 'signup', first_name, last_name, role }) });
+        if(!j.ok){ status.textContent = 'خطا در ارسال کد'; return; }
+        document.getElementById('phase-phone').style.display='none';
+        document.getElementById('phase-code').style.display='block';
+        status.textContent = 'کد ارسال شد';
+      }catch(e){ status.textContent = 'خطا: '+(e.message||e); }
+    }
+    async function verifyOtp(){
+      const phone = document.getElementById('phone').value.trim();
+      const first_name = document.getElementById('first_name').value.trim();
+      const last_name = document.getElementById('last_name').value.trim();
+      const role = document.getElementById('role').value;
+      const code = document.getElementById('code').value.trim();
+      const status = document.getElementById('status');
+      status.textContent = 'تایید کد...';
+      try{
+        const j = await fetchJson('/auth/verify-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone, code, purpose: 'signup', first_name, last_name, role }) });
+        if(!j.ok){ status.textContent = 'کد نامعتبر'; return; }
+        status.textContent = 'ثبت‌نام انجام شد';
+        setTimeout(()=>{ window.location.href = '/'; }, 400);
+      }catch(e){ status.textContent = 'خطا: '+(e.message||e); }
+    }
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <div class="panel">
+      <h2>ثبت‌نام با پیامک</h2>
+      <p class="muted">شماره موبایل را وارد کنید تا کد تایید دریافت کنید.</p>
+      <div id="phase-phone">
+        <div class="grid">
+          <div>
+            <label class="muted">نام</label>
+            <input id="first_name" placeholder="نام">
+          </div>
+          <div>
+            <label class="muted">نام خانوادگی</label>
+            <input id="last_name" placeholder="نام خانوادگی">
+          </div>
+          <div>
+            <label class="muted">شماره موبایل</label>
+            <input id="phone" placeholder="مثلاً 0912xxxxxxx یا +98912xxxxxxx">
+          </div>
+          <div>
+            <label class="muted">پنل درخواستی</label>
+            <select id="role">
+              <option value="citizen">شهروند</option>
+              <option value="lawyer">وکیل</option>
+              <option value="judge">قاضی</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex; gap:8px; margin-top:12px;">
+          <button class="btn" onclick="sendOtp()">ارسال کد</button>
+          <a class="btn secondary" href="/auth/login">ورود</a>
+        </div>
+      </div>
+      <div id="phase-code" style="display:none">
+        <label class="muted">کد تایید</label>
+        <input id="code" placeholder="6 رقم">
+        <div style="display:flex; gap:8px; margin-top:12px;">
+          <button class="btn" onclick="verifyOtp()">تایید و ادامه</button>
+          <button class="btn secondary" onclick="sendOtp()">ارسال مجدد</button>
+        </div>
+      </div>
+      <div class="muted" id="status" style="margin-top:10px"></div>
+    </div>
+  </div>
+</body>
+</html>
+
+

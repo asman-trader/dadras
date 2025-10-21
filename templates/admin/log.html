@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>لاگ سرور</title>
+  <style>
+    body { margin:0; font-family: ui-sans-serif, system-ui; background:#0b0f14; color:#e2e8f0 }
+    header { padding:10px 14px; border-bottom:1px solid #1f2937; position:sticky; top:0; background:#0f141b }
+    main { padding: 10px 14px }
+    .muted { color:#94a3b8 }
+    .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap }
+    .btn { padding:6px 10px; border:1px solid #1f2937; border-radius:8px; background:#0b1220; color:#e2e8f0; cursor:pointer }
+    .btn:hover { border-color:#2a3b4f }
+    #out { white-space:pre-wrap; background:#0a0f16; border:1px solid #1f2937; border-radius:10px; padding:10px; min-height:60vh; overflow:auto }
+    input[type="number"]{ width:100px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:8px; padding:6px }
+  </style>
+  <script>
+    async function fetchLogs(){
+      const lines = document.getElementById('lines').value || '200';
+      const res = await fetch('/admin/logs?lines='+encodeURIComponent(lines), { headers: { 'X-Admin-Token': localStorage.getItem('admin_token')||'' } });
+      const ct = res.headers.get('content-type')||'';
+      if(!res.ok || !ct.includes('application/json')){ document.getElementById('out').textContent = 'خطا در دریافت لاگ'; return; }
+      const j = await res.json();
+      document.getElementById('meta').textContent = `${j.path||''} | ${j.size||0} bytes`;
+      document.getElementById('out').textContent = j.content||'';
+    }
+    let timer = null;
+    function startAuto(){ if(timer) clearInterval(timer); timer = setInterval(fetchLogs, 3000); }
+    function stopAuto(){ if(timer) clearInterval(timer); timer = null; }
+    function setToken(){ const t = prompt('X-Admin-Token؟', localStorage.getItem('admin_token')||''); if(t!=null){ localStorage.setItem('admin_token', t); fetchLogs(); } }
+    window.addEventListener('load', ()=>{ fetchLogs(); startAuto(); });
+  </script>
+</head>
+<body>
+  <header>
+    <div class="row">
+      <strong>لاگ سرور</strong>
+      <span id="meta" class="muted"></span>
+    </div>
+    <div class="row" style="margin-top:8px;">
+      <label class="muted">آخرین n خط:</label>
+      <input id="lines" type="number" value="200" min="10" max="2000">
+      <button class="btn" onclick="fetchLogs()">به‌روزرسانی</button>
+      <button class="btn" onclick="startAuto()">خودکار</button>
+      <button class="btn" onclick="stopAuto()">توقف</button>
+      <button class="btn" onclick="setToken()">تنظیم توکن ادمین</button>
+      <a class="btn" href="/admin/logs/text" target="_blank">نمایش متنی</a>
+    </div>
+  </header>
+  <main>
+    <div id="out"></div>
+  </main>
+</body>
+</html>
+
+

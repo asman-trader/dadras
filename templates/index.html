@@ -39,27 +39,37 @@
     a.link { color: var(--muted); text-decoration:none; font-size:13px }
     a.link:hover { color: var(--text) }
 
-    main { max-width: 980px; width:100%; margin: 0 auto; flex:1; display:flex; flex-direction:column; gap:16px; padding: 16px }
+    main { max-width: 1200px; width:100%; margin: 0 auto; flex:1; display:grid; grid-template-columns: 1fr; gap:12px; padding: 12px }
     #messages { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px }
     .msg { display:flex; gap:12px }
     .msg.assistant { justify-content:flex-start }
     .msg.user { justify-content:flex-end }
-    .bubble { padding:12px 14px; border-radius: 14px; border:1px solid var(--border); line-height:1.7 }
-    .bubble { max-width:70% }
+    .bubble { padding:12px 14px; border-radius: 14px; border:1px solid var(--border); line-height:1.7; max-width:100% }
     .user .bubble { background: var(--user) }
     .assistant .bubble { background: var(--assistant) }
     .bubble.typing { display:inline-flex; align-items:center }
     .typing-dots { display:inline-flex; gap:4px }
-    .typing-dots i { width:6px; height:6px; border-radius:50%; background:#9ca3af; opacity:.25; animation: blink 1.4s infinite ease-in-out }
+    .typing-dots i { width:6px; height:6px; border-radius:50%; background:#9ca3af; opacity:.25; animation: blink 1.2s infinite ease-in-out }
     .typing-dots i:nth-child(2){ animation-delay:.2s }
     .typing-dots i:nth-child(3){ animation-delay:.4s }
-    @keyframes blink { 0%, 80%, 100% { opacity:.2 } 40% { opacity: 1 } }
+    @keyframes blink { 0%, 80%, 100% { opacity:.2; transform: translateY(0) } 40% { opacity: 1; transform: translateY(-2px) } }
     .meta { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
     .chip { background: var(--chip); color: var(--muted); font-size:12px; padding:4px 8px; border-radius:999px; border:1px solid var(--border) }
     details { margin-top:10px }
     summary { cursor:pointer; color: var(--muted) }
     pre { background:#0a0f16; border:1px solid var(--border); padding:12px; overflow:auto; border-radius:10px }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace }
+
+    /* Smooth scroll & bubble animation */
+    html { scroll-behavior: smooth }
+    @keyframes bubbleIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.98) }
+      to { opacity: 1; transform: translateY(0) scale(1) }
+    }
+    .bubble { will-change: transform, opacity; animation: bubbleIn .22s ease-out both }
+    .msg-tools { display:flex; gap:6px; justify-content:flex-end; margin-top:6px }
+    .tool-btn { padding:6px 8px; border:1px solid var(--border); background:#0b1220; color:var(--text); border-radius:8px; cursor:pointer; font-size:12px }
+    .tool-btn:hover { border-color:#2a3b4f }
 
     .composer {
       position: sticky; bottom: 0; background: var(--panel);
@@ -71,51 +81,53 @@
     .send:disabled { background: var(--accent-weak); opacity:.7; cursor:not-allowed }
 
     .muted { color: var(--muted) }
+
+    /* Panels */
+    .panel { background: var(--panel); border:1px solid var(--border); border-radius: 12px; padding: 12px }
+
+    /* Desktop enhancements */
+    @media (min-width: 960px){
+      main { grid-template-columns: 300px 1fr; gap:16px; padding:16px }
+      .bubble { max-width: 70% }
+    }
+
+    /* Sidebar (hamburger) */
+    .ham { width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--border); border-radius:10px; background:#0b1220; color:var(--text); cursor:pointer }
+    .ham:hover { border-color:#2a3b4f }
+    .side-overlay { position:fixed; inset:0; background:rgba(0,0,0,.4); backdrop-filter: blur(2px); }
+    .side-drawer { position:fixed; top:0; bottom:0; left:0; width:280px; background:#0f141b; border-inline-end:1px solid var(--border); transform: translateX(-100%); transition: transform .2s ease; display:flex; flex-direction:column; z-index: 50 }
+    .side-drawer.open { transform: translateX(0) }
+    .side-overlay[hidden] { display:none }
+    .side-header { display:flex; align-items:center; justify-content:space-between; padding:12px; border-bottom:1px solid var(--border) }
+    .side-list { list-style:none; margin:0; padding:8px }
+    .side-link { display:block; padding:10px 12px; border-radius:8px; color:var(--text); text-decoration:none }
+    .side-link:hover { background:#0b1220 }
   </style>
 </head>
 <body>
-  <header>
-    <div class="nav">
-      <div class="brand">
-        <div class="dot"></div>
-        <h1>دادرس - دستیار گفت‌وگو</h1>
-      </div>
-      
-    </div>
-  </header>
+  {% include 'partials/header.html' %}
 
+  {% include 'partials/sidebar.html' %}
   <main>
-    <ul id="messages"></ul>
-    <details id="draftBox" style="margin-top:12px;">
-      <summary>تولید سند (بتا)</summary>
-      <div style="margin-top:10px; display:grid; gap:10px; grid-template-columns: 1fr;">
-        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-          <button class="btn" id="btnLoadTpls">بارگذاری فهرست قالب‌ها</button>
-          <select id="tplSelect" class="btn" style="min-width:220px;"></select>
-          <span class="muted" id="tplStatus"></span>
-        </div>
-        <label class="muted">فیلدها (JSON):</label>
-        <textarea id="tplFields" placeholder='{"نام_خواهان":"الف","نام_خوانده":"ب","پلاک":"۱۲۳"}'></textarea>
-        <div style="display:flex; gap:8px; align-items:center;">
-          <button class="send" id="btnDraft">تولید</button>
-          <button class="btn" id="btnSave">ذخیره TXT</button>
-          <a class="link" id="dlLink" href="#" download>دانلود</a>
-          <span class="muted" id="draftStatus"></span>
-        </div>
-        <label class="muted">خروجی:</label>
-        <pre id="draftOut" style="max-height:240px;"></pre>
-      </div>
-    </details>
+    {% include 'partials/notes.html' %}
+    <section id="chatAndEditors" style="display:flex; flex-direction:column; gap:12px;">
+      <ul id="messages" class="panel"></ul>
+    </section>
   </main>
 
-  <div class="composer">
-    <div class="bar">
-      <textarea id="q" placeholder="سؤال خود را بنویسید... (Shift+Enter برای خط جدید)"></textarea>
-      <button class="send" id="sendBtn">ارسال</button>
-    </div>
-  </div>
+  {% include 'partials/footer.html' %}
 
   <script>
+    // sidebar drawer
+    const hamBtn = document.getElementById('hamBtn');
+    const sideDrawer = document.getElementById('sideDrawer');
+    const sideOverlay = document.getElementById('sideOverlay');
+    const sideClose = document.getElementById('sideClose');
+    function openSide(){ sideDrawer.classList.add('open'); sideOverlay.hidden = false; sideDrawer.setAttribute('aria-hidden','false'); }
+    function closeSide(){ sideDrawer.classList.remove('open'); sideOverlay.hidden = true; sideDrawer.setAttribute('aria-hidden','true'); }
+    hamBtn?.addEventListener('click', openSide);
+    sideClose?.addEventListener('click', closeSide);
+    sideOverlay?.addEventListener('click', closeSide);
     const $ = (s)=>document.querySelector(s);
     const msgs = $('#messages');
     const q = $('#q');
@@ -130,6 +142,18 @@
     const draftStatus = $('#draftStatus');
     const btnSave = $('#btnSave');
     const dlLink = $('#dlLink');
+    // notes
+    const notesArea = $('#notesArea');
+    const notesSaveStatus = $('#notesSaveStatus');
+    const notesList = $('#notesList');
+    const btnRefreshNotes = $('#btnRefreshNotes');
+    const btnNewNote = $('#btnNewNote');
+    const noteTitle = $('#noteTitle');
+    const btnSaveCurrentNote = $('#btnSaveCurrentNote');
+    // chats
+    const chatList = document.getElementById('chatList');
+    const btnNewChat = document.getElementById('btnNewChat');
+    let currentChatId = '';
 
     function autoGrow(el){
       el.style.height = 'auto';
@@ -155,6 +179,36 @@
       bubble.className = 'bubble';
       bubble.innerHTML = formatText(text);
       li.appendChild(bubble);
+      // tools: move to notes
+      try{
+        const tools = document.createElement('div');
+        tools.className = 'msg-tools';
+        const btn = document.createElement('button');
+        btn.className = 'tool-btn';
+        btn.title = 'افزودن به یادداشت‌ها';
+        btn.textContent = '📝 افزودن به یادداشت';
+        btn.addEventListener('click', async ()=>{
+          try{
+            const area = document.getElementById('notesArea');
+            const titleEl = document.getElementById('noteTitle');
+            if(area){
+              const plain = (text||'');
+              area.value = (area.value||'') + ((area.value||'').trim()? '\n\n' : '') + plain;
+              if(titleEl && !(titleEl.value||'').trim()){
+                titleEl.value = (plain.split('\n')[0]||'').slice(0,60) || 'یادداشت';
+              }
+              if(typeof saveCurrentNote === 'function'){
+                const prev = btn.textContent;
+                btn.textContent = '… در حال ذخیره';
+                await saveCurrentNote();
+                btn.textContent = prev;
+              }
+            }
+          }catch(e){}
+        });
+        tools.appendChild(btn);
+        li.appendChild(tools);
+      }catch(e){}
       if(meta && (meta.intent || meta.domain || (meta.citations||[]).length)){
         const metaEl = document.createElement('div');
         metaEl.className = 'meta';
@@ -177,7 +231,7 @@
         li.appendChild(metaEl);
       }
       msgs.appendChild(li);
-      window.scrollTo({ top: document.body.scrollHeight });
+      setTimeout(()=>{ window.scrollTo({ top: document.body.scrollHeight, behavior:'smooth' }); }, 0);
     }
 
     async function fetchJson(url, options){
@@ -193,6 +247,15 @@
     async function ask(){
       const text = q.value.trim();
       if(!text) return;
+      // auto-create chat title from first question if not set
+      if(!currentChatId){
+        try{
+          const t = (text.split('\n')[0]||'').slice(0,60);
+          const c = await fetchJson('chats', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ title: t||'گفت‌وگو' }) });
+          currentChatId = c.id||'';
+          await refreshChats();
+        }catch(e){}
+      }
       addMsg('user', text);
       q.value=''; autoGrow(q); q.focus();
       sendBtn.disabled = true;
@@ -204,7 +267,7 @@
       typingBubble.innerHTML = '<span class="typing-dots"><i></i><i></i><i></i></span>';
       typingLi.appendChild(typingBubble);
       msgs.appendChild(typingLi);
-      window.scrollTo({ top: document.body.scrollHeight });
+      setTimeout(()=>{ window.scrollTo({ top: document.body.scrollHeight, behavior:'smooth' }); }, 0);
       try{
         const j = await fetchJson('ask', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({question:text}) });
         // replace typing bubble with final answer
@@ -233,6 +296,32 @@
         sendBtn.disabled = false;
       }
     }
+    async function refreshChats(){
+      try{
+        const j = await fetchJson('chats');
+        chatList.innerHTML='';
+        (j.items||[]).forEach(item=>{
+          const row = document.createElement('div'); row.style.display='flex'; row.style.gap='6px';
+          const b = document.createElement('button'); b.className='btn'; b.style.flex='1'; b.textContent=item.title||item.id;
+          b.addEventListener('click', ()=>{ currentChatId = item.id; });
+          const rn = document.createElement('button'); rn.className='btn'; rn.textContent='ویرایش';
+          rn.addEventListener('click', async()=>{
+            const nt = prompt('عنوان جدید؟', item.title||''); if(nt==null) return;
+            try{ await fetchJson('chats/rename', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id:item.id, title:nt }) }); refreshChats(); }catch(e){}
+          });
+          row.appendChild(b); row.appendChild(rn);
+          chatList.appendChild(row);
+        });
+      }catch(e){}
+    }
+    btnNewChat?.addEventListener('click', async()=>{
+      try{
+        const t = prompt('عنوان گفت‌وگو؟','گفت‌وگو جدید'); if(t==null) return;
+        const c = await fetchJson('chats', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ title: t }) });
+        currentChatId = c.id||''; refreshChats();
+      }catch(e){}
+    });
+    refreshChats();
 
     sendBtn.addEventListener('click', ask);
     q.addEventListener('keydown', (ev)=>{
@@ -268,12 +357,12 @@
       }catch(e){ draftStatus.textContent='خطا در تولید'; }
     }
 
-    btnLoadTpls.addEventListener('click', loadTemplates);
-    btnDraft.addEventListener('click', doDraft);
+    btnLoadTpls?.addEventListener('click', loadTemplates);
+    btnDraft?.addEventListener('click', doDraft);
     // preload template list on first open
-    document.getElementById('draftBox').addEventListener('toggle', (ev)=>{ if(ev.target.open){ loadTemplates(); } });
+    document.getElementById('draftBox')?.addEventListener('toggle', (ev)=>{ if(ev.target.open){ loadTemplates(); } });
 
-    btnSave.addEventListener('click', async ()=>{
+    btnSave?.addEventListener('click', async ()=>{
       const txt = draftOut.textContent||''; if(!txt){ draftStatus.textContent='چیزی برای ذخیره نیست'; return; }
       draftStatus.textContent='در حال ذخیره...'; dlLink.removeAttribute('href'); dlLink.textContent='دانلود';
       try{
@@ -286,8 +375,89 @@
       }catch(e){ draftStatus.textContent='خطا در ذخیره'; }
     });
 
-    // greeting
-    addMsg('assistant', 'سلام! من دستیار حقوقی دادرس هستم. سؤال خود را بنویسید.');
+    // greeting with capabilities and auth CTA if needed
+    (async ()=>{
+      try{
+        const me = await fetchJson('auth/me');
+        let text = 'سلام! من «دادرس» هستم؛ دستیار حقوقی شما.\n\n'+
+          'چه کارهایی می‌توانم انجام دهم؟\n'+
+          '- پاسخ به پرسش‌های حقوقی با استناد به متون بارگذاری‌شده\n'+
+          '- جمع‌بندی و استخراج نکات از متن‌ها\n'+
+          '- تولید پیش‌نویس‌های اولیه‌ی دادخواست/لایحه (بتا)\n'+
+          '- ثبت گفت‌وگوها و یادداشت‌ها برای مراجعات بعدی\n\n';
+        if(!(me && me.authenticated)){
+          text += 'برای امکانات کامل، لطفاً وارد شوید یا ثبت‌نام کنید.\n';
+          text += '<div style="margin-top:8px; display:flex; gap:8px;">'+
+                  '<a class="btn" href="/auth/login">ورود</a>'+ 
+                  '<a class="btn" href="/auth/signup">ثبت‌نام</a>'+ 
+                  '</div>';
+        } else {
+          text += 'می‌توانید سؤال خود را بپرسید یا ادامهٔ گفت‌وگو را پیش ببریم.';
+        }
+        addMsg('assistant', text);
+      }catch(e){ addMsg('assistant', 'سلام! من «دادرس» هستم. سؤال خود را بنویسید.'); }
+    })();
+
+    // notes: API helpers
+    async function saveCurrentNote(){
+      notesSaveStatus.textContent='در حال ذخیره...';
+      const title = (noteTitle.value||'').trim();
+      const content = notesArea.value||'';
+      try{
+        const r = await fetchJson('notes/save', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: currentNoteId||'', title, content }) });
+        currentNoteId = r.id||currentNoteId; notesSaveStatus.textContent='ذخیره شد'; refreshNotesList();
+      }catch(e){ notesSaveStatus.textContent='خطا در ذخیره'; }
+    }
+    btnSaveCurrentNote?.addEventListener('click', saveCurrentNote);
+
+    // sidebar multi-note
+    let currentNoteId = '';
+    async function refreshNotesList(){
+      try{
+        const j = await fetchJson('notes/list');
+        notesList.innerHTML='';
+        (j.items||[]).forEach(item=>{
+          const a = document.createElement('button');
+          a.className='btn';
+          a.style.display='flex'; a.style.justifyContent='space-between'; a.style.width='100%';
+          a.textContent = (item.title||item.id);
+          a.addEventListener('click', async ()=>{
+            try{
+              const d = await fetchJson('notes/get?id='+encodeURIComponent(item.id));
+              currentNoteId = d.id||item.id;
+              notesArea.value = d.content||'';
+              document.getElementById('notesBox').open = true;
+            }catch(e){ /* ignore */ }
+          });
+          const wrap = document.createElement('div'); wrap.style.display='flex'; wrap.style.gap='6px';
+          const del = document.createElement('button'); del.className='btn'; del.textContent='حذف';
+          del.addEventListener('click', async (ev)=>{
+            ev.stopPropagation();
+            if(!confirm('حذف این یادداشت؟')) return;
+            try{
+              const r = await fetchJson('notes/delete', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: item.id }) });
+              refreshNotesList();
+              if(currentNoteId===item.id){ notesArea.value=''; currentNoteId=''; }
+            }catch(e){}
+          });
+          const row = document.createElement('div'); row.style.display='flex'; row.style.gap='6px'; row.style.width='100%';
+          row.appendChild(a); row.appendChild(del);
+          notesList.appendChild(row);
+        });
+      }catch(e){ /* ignore */ }
+    }
+    async function newNote(){
+      const title = prompt('عنوان یادداشت؟','یادداشت جدید');
+      if(title==null) return;
+      try{
+        const r = await fetchJson('notes/save', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ title: title, content: '' }) });
+        currentNoteId = r.id||''; notesArea.value=''; document.getElementById('notesBox').open = true; refreshNotesList();
+      }catch(e){}
+    }
+    btnRefreshNotes?.addEventListener('click', refreshNotesList);
+    btnNewNote?.addEventListener('click', newNote);
+    // initial load
+    refreshNotesList();
   </script>
 </body>
 </html>
