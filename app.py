@@ -46,7 +46,7 @@ except Exception:
     DEEPSEEK_MAX_RETRIES = 3
 
 # Default DeepSeek API key (used only if env/config is unset)
-DEFAULT_DEEPSEEK_API_KEY = 'sk-ae2a92c7627046019ad9b07cb999a5db'
+DEFAULT_DEEPSEEK_API_KEY = 'sk-de7367663e3a4f43a5c315f63dd516cd'
 
 # In-memory corpus and index
 LOADED_FILES: List[str] = []
@@ -372,7 +372,13 @@ def _check_rate_limit(key: str, limit: int, window_sec: int) -> Tuple[bool, int]
 
 def _should_use_deepseek() -> bool:
     flag = str(os.getenv('USE_DEEPSEEK', '')).strip().lower()
-    return flag in ('1', 'true', 'yes', 'on') and bool(os.getenv('DEEPSEEK_API_KEY', '').strip())
+    key = (os.getenv('DEEPSEEK_API_KEY', '').strip() or DEFAULT_DEEPSEEK_API_KEY)
+    if flag in ('0', 'false', 'no', 'off'):
+        return False
+    if flag in ('1', 'true', 'yes', 'on'):
+        return bool(key)
+    # Default behavior: enable if a key is present
+    return bool(key)
 
 
 _OPENAI_CLIENT = None
