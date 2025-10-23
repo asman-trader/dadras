@@ -213,3 +213,20 @@
 2025-10-23 09:50:27,805 INFO 792af4c4ccba4eccb691d460e9d2424b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
 2025-10-23 09:50:27,805 INFO 792af4c4ccba4eccb691d460e9d2424b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
 2025-10-23 09:50:27,810 INFO - - - - - 127.0.0.1 - - [23/Oct/2025 09:50:27] "GET /notes/list HTTP/1.1" 200 -
+2025-10-23 12:27:24,194 INFO - - - - - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.164.247.99:3000
+2025-10-23 12:27:24,195 INFO - - - - - [33mPress CTRL+C to quit[0m
+2025-10-23 12:27:27,841 INFO 7cc9f4e4c0104c839cbf458f616cd065 127.0.0.1 GET / - request completed status=200 duration_ms=18
+2025-10-23 12:27:27,841 INFO 7cc9f4e4c0104c839cbf458f616cd065 127.0.0.1 GET / - request completed status=200 duration_ms=18
+2025-10-23 12:27:27,841 INFO - - - - - 127.0.0.1 - - [23/Oct/2025 12:27:27] "GET / HTTP/1.1" 200 -
+2025-10-23 12:27:27,991 INFO 0f578d7232cb4cc3ba5b685011246cd7 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=1
+2025-10-23 12:27:27,991 INFO 0f578d7232cb4cc3ba5b685011246cd7 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=1
+2025-10-23 12:27:27,991 INFO - - - - - 127.0.0.1 - - [23/Oct/2025 12:27:27] "GET /auth/me HTTP/1.1" 200 -
+2025-10-23 12:27:27,994 INFO 41a3c84bfbd54aa4a909633af7dff745 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-23 12:27:27,994 INFO 41a3c84bfbd54aa4a909633af7dff745 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-23 12:27:27,996 INFO - - - - - 127.0.0.1 - - [23/Oct/2025 12:27:27] "GET /notes/list HTTP/1.1" 200 -
+2025-10-23 12:27:28,130 INFO c8cb3763eb674225b39fb1393b5d9844 127.0.0.1 GET /chats - request completed status=200 duration_ms=141
+2025-10-23 12:27:28,130 INFO c8cb3763eb674225b39fb1393b5d9844 127.0.0.1 GET /chats - request completed status=200 duration_ms=141
+2025-10-23 12:27:28,130 INFO - - - - - 127.0.0.1 - - [23/Oct/2025 12:27:28] "GET /chats HTTP/1.1" 200 -

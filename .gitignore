@@ -1,0 +1,98 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.conda/
+pythonenv*
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Type checkers
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pyright
+
+# IDEs/editors
+.vscode/
+.idea/
+*.iml
+*.sublime-project
+*.sublime-workspace
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Flask/Runtime
+instance/
+*.db
+*.sqlite3
+
+# Logs
+logs/
+*.log
+*.pid
+
+# Environment & tooling
+.env
+.env.*
+.python-version
+
+# Project-specific data
+data/logs/
+data/output/
+data/chats/
+data/texts/
+
+# Volatile user/session state
+data/users/otp.json
+data/users/otp_rate.json
+data/users/sessions.json
