@@ -1,0 +1,1421 @@
+2025-10-22 12:25:31,213 INFO c55b9f8e93f94a94894a10ae047b9688 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=13
+2025-10-22 12:25:31,213 INFO c55b9f8e93f94a94894a10ae047b9688 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=13
+2025-10-22 12:25:31,255 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:25:31] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:25:47,338 INFO edcf749e6e69490cafeb4fff5e7bd3db 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:25:47,338 INFO edcf749e6e69490cafeb4fff5e7bd3db 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:25:47,338 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:25:47] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:26:47,353 INFO 5688b22a4c8b4db0828487b48c8c441d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 12:26:47,353 INFO 5688b22a4c8b4db0828487b48c8c441d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 12:26:47,355 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:26:47] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:27:47,441 INFO fd6825fb5cee443fbbe57d3acf7dbc42 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=5
+2025-10-22 12:27:47,441 INFO fd6825fb5cee443fbbe57d3acf7dbc42 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=5
+2025-10-22 12:27:47,443 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:27:47] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:28:45,275 INFO aafe823939ee4a079127fdb672b78af3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 12:28:45,275 INFO aafe823939ee4a079127fdb672b78af3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 12:28:45,275 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:28:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:29:45,294 INFO 985dab9bcf3c4e9295b385ce160aa5e6 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 12:29:45,294 INFO 985dab9bcf3c4e9295b385ce160aa5e6 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 12:29:45,294 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:29:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:30:45,273 INFO 821ee1ebed834843827937af6e85d666 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=9
+2025-10-22 12:30:45,273 INFO 821ee1ebed834843827937af6e85d666 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=9
+2025-10-22 12:30:45,276 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:30:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:31:45,268 INFO 024478d43c72433aa7640f9de049ead9 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 12:31:45,268 INFO 024478d43c72433aa7640f9de049ead9 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 12:31:45,273 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:31:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:32:45,270 INFO 8955bb94dde742c581f4259a5117c60b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:32:45,270 INFO 8955bb94dde742c581f4259a5117c60b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:32:45,275 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:32:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:33:45,300 INFO e90261853aa247fd959886c262ef0747 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 12:33:45,300 INFO e90261853aa247fd959886c262ef0747 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 12:33:45,300 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:33:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:34:45,269 INFO 17e645b1b77841588d632947c23027e3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 12:34:45,269 INFO 17e645b1b77841588d632947c23027e3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 12:34:45,292 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:34:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:35:45,281 INFO 96cf45cebb16410f952521aa3a50743b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=6
+2025-10-22 12:35:45,281 INFO 96cf45cebb16410f952521aa3a50743b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=6
+2025-10-22 12:35:45,283 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:35:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:36:45,266 INFO a90f52074c184819b14c755215af8a51 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 12:36:45,266 INFO a90f52074c184819b14c755215af8a51 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 12:36:45,266 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:36:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:37:45,356 INFO 672d22884e8c4a2ea9027e80d4353396 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:37:45,356 INFO 672d22884e8c4a2ea9027e80d4353396 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:37:45,356 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:37:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:38:45,291 INFO 9a8ad00ceb764d3ea5e0faec02ab4b54 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:38:45,291 INFO 9a8ad00ceb764d3ea5e0faec02ab4b54 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:38:45,291 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:38:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:39:45,254 INFO 6ce692aa560944fe912849b7a3384685 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:39:45,254 INFO 6ce692aa560944fe912849b7a3384685 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:39:45,254 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:39:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:40:45,288 INFO ac6fdf5ff2ba4c2e9c221ec6e335e253 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:40:45,288 INFO ac6fdf5ff2ba4c2e9c221ec6e335e253 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:40:45,288 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:40:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:41:45,266 INFO 60b9e3ee7dd94bd9830f6b746fe0db4a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:41:45,266 INFO 60b9e3ee7dd94bd9830f6b746fe0db4a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:41:45,266 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:41:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:42:45,276 INFO f80cbad3c434478cae61327d516b68d9 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 12:42:45,276 INFO f80cbad3c434478cae61327d516b68d9 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 12:42:45,276 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:42:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:43:45,288 INFO 84be5024a36545939c44ae115d9fe469 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:43:45,288 INFO 84be5024a36545939c44ae115d9fe469 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:43:45,293 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:43:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:44:45,268 INFO d6020dd009ef4ae5b2456cf7708b437f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:44:45,268 INFO d6020dd009ef4ae5b2456cf7708b437f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:44:45,268 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:44:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:45:45,291 INFO 7d5909cf78344b7289294fe258cb41ee 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=7
+2025-10-22 12:45:45,291 INFO 7d5909cf78344b7289294fe258cb41ee 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=7
+2025-10-22 12:45:45,292 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:45:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:46:45,267 INFO d77311c9008a4fc7b20bc6c2bc1bc08c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 12:46:45,267 INFO d77311c9008a4fc7b20bc6c2bc1bc08c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 12:46:45,267 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:46:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:47:45,260 INFO 6333bc75221b46d4b78991f4b8d912b8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:47:45,260 INFO 6333bc75221b46d4b78991f4b8d912b8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:47:45,260 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:47:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:48:45,323 INFO d0939daa15114e619bf3e9e452682c3b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:48:45,323 INFO d0939daa15114e619bf3e9e452682c3b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:48:45,323 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:48:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:49:45,273 INFO 1b4b5a30429c4dcf880597a5cb56409b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=11
+2025-10-22 12:49:45,273 INFO 1b4b5a30429c4dcf880597a5cb56409b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=11
+2025-10-22 12:49:45,273 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:49:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:50:45,282 INFO a75afd97d9d34f479b33155af617505b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=6
+2025-10-22 12:50:45,282 INFO a75afd97d9d34f479b33155af617505b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=6
+2025-10-22 12:50:45,283 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:50:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:51:45,267 INFO 6283e796dabe4c48939fcb9187f46707 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:51:45,267 INFO 6283e796dabe4c48939fcb9187f46707 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:51:45,282 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:51:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:52:45,297 INFO d0d75e64efb9483a956631eae4dbfac2 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=25
+2025-10-22 12:52:45,297 INFO d0d75e64efb9483a956631eae4dbfac2 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=25
+2025-10-22 12:52:45,297 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:52:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:53:45,275 INFO 72cb93ba29f447c8bbb7717422a05088 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 12:53:45,275 INFO 72cb93ba29f447c8bbb7717422a05088 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 12:53:45,275 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:53:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:54:45,276 INFO 0a71b7a2c5b04071a96cf281b1ac1d70 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 12:54:45,276 INFO 0a71b7a2c5b04071a96cf281b1ac1d70 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 12:54:45,276 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:54:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:55:45,294 INFO e0fde381536044a0b1c961180d2b9096 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:55:45,294 INFO e0fde381536044a0b1c961180d2b9096 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:55:45,294 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:55:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:56:45,263 INFO 92da62d764f142d0977ecee02a09ffd8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:56:45,263 INFO 92da62d764f142d0977ecee02a09ffd8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:56:45,274 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:56:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:57:45,276 INFO 2728c394f00840bea8bd204f9aa818f3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:57:45,276 INFO 2728c394f00840bea8bd204f9aa818f3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:57:45,276 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:57:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:58:45,281 INFO b567336f4ee643b1ab046d10e0da825d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 12:58:45,281 INFO b567336f4ee643b1ab046d10e0da825d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 12:58:45,281 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:58:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 12:59:45,267 INFO 5dac426487bb4d8d9b23285bd61845de 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:59:45,267 INFO 5dac426487bb4d8d9b23285bd61845de 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 12:59:45,273 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 12:59:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 13:00:45,298 INFO 8dcf110e4ce74ce7bdb5b5750717db2f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 13:00:45,298 INFO 8dcf110e4ce74ce7bdb5b5750717db2f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 13:00:45,298 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 13:00:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 13:01:45,273 INFO 8394c5c396e341a297ce9497515d958d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 13:01:45,273 INFO 8394c5c396e341a297ce9497515d958d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 13:01:45,273 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 13:01:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 13:02:45,264 INFO b64f6d53c667426ba5ce1e42d9b9c3e6 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 13:02:45,264 INFO b64f6d53c667426ba5ce1e42d9b9c3e6 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 13:02:45,271 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 13:02:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 13:03:45,274 INFO af4a6e7af3e943868614d799a2988a0c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 13:03:45,274 INFO af4a6e7af3e943868614d799a2988a0c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 13:03:45,274 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 13:03:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 13:04:45,264 INFO 90948c583e1c46009254a9f1c393e06e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 13:04:45,264 INFO 90948c583e1c46009254a9f1c393e06e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 13:04:45,264 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 13:04:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 13:05:45,293 INFO 4ceb9c08d1ed48cf8fa3b98be2f396dc 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 13:05:45,293 INFO 4ceb9c08d1ed48cf8fa3b98be2f396dc 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 13:05:45,293 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 13:05:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 13:06:45,288 INFO eab38ab59c0540789f4d9a7e7b84157d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=12
+2025-10-22 13:06:45,288 INFO eab38ab59c0540789f4d9a7e7b84157d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=12
+2025-10-22 13:06:45,288 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 13:06:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 13:07:45,264 INFO 92e89a4b13514b0996f65cb64bb4a02a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 13:07:45,264 INFO 92e89a4b13514b0996f65cb64bb4a02a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 13:07:45,264 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 13:07:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 13:08:45,266 INFO 012dff13bad04566be4b1e848474a290 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 13:08:45,266 INFO 012dff13bad04566be4b1e848474a290 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 13:08:45,266 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 13:08:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 13:09:45,288 INFO 63fd6fadd4a54c589ea0f864f4afca2c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 13:09:45,288 INFO 63fd6fadd4a54c589ea0f864f4afca2c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 13:09:45,288 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 13:09:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 13:10:45,259 INFO fb8e072c56da421cbfe2c519ec9c6c04 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 13:10:45,259 INFO fb8e072c56da421cbfe2c519ec9c6c04 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 13:10:45,275 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 13:10:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 13:11:45,277 INFO 355b9776d8ef46f5859279e7a8f5e6b5 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 13:11:45,277 INFO 355b9776d8ef46f5859279e7a8f5e6b5 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 13:11:45,277 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 13:11:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:30:40,366 INFO - - - - - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.164.247.99:3000
+2025-10-22 16:30:40,368 INFO - - - - - [33mPress CTRL+C to quit[0m
+2025-10-22 16:30:48,289 INFO 9858c711cdb64376b077f868830bd2ff 127.0.0.1 GET / - request completed status=200 duration_ms=172
+2025-10-22 16:30:48,289 INFO 9858c711cdb64376b077f868830bd2ff 127.0.0.1 GET / - request completed status=200 duration_ms=172
+2025-10-22 16:30:48,289 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:30:48] "GET / HTTP/1.1" 200 -
+2025-10-22 16:30:48,505 INFO 78d6c7692ec54069946791f4f489b6e0 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:30:48,505 INFO 78d6c7692ec54069946791f4f489b6e0 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:30:48,506 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:30:48] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:30:48,509 INFO 80d826913b6b4e388e63f127385602ad 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 16:30:48,509 INFO 80d826913b6b4e388e63f127385602ad 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 16:30:48,510 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:30:48] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:30:48,680 INFO 80165324be6046fb91ba9fe1cabc1958 127.0.0.1 GET /chats - request completed status=200 duration_ms=181
+2025-10-22 16:30:48,680 INFO 80165324be6046fb91ba9fe1cabc1958 127.0.0.1 GET /chats - request completed status=200 duration_ms=181
+2025-10-22 16:30:48,680 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:30:48] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:30:53,499 INFO a7f33c168c8c426ab7d9074b86cb8763 127.0.0.1 POST /chats - request completed status=200 duration_ms=5
+2025-10-22 16:30:53,499 INFO a7f33c168c8c426ab7d9074b86cb8763 127.0.0.1 POST /chats - request completed status=200 duration_ms=5
+2025-10-22 16:30:53,499 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:30:53] "POST /chats HTTP/1.1" 200 -
+2025-10-22 16:30:53,518 INFO f5c6038a826e43b9950d2244150d62e5 127.0.0.1 GET /chats - request completed status=200 duration_ms=16
+2025-10-22 16:30:53,518 INFO f5c6038a826e43b9950d2244150d62e5 127.0.0.1 GET /chats - request completed status=200 duration_ms=16
+2025-10-22 16:30:53,520 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:30:53] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:30:56,024 INFO 7e1603b56bb54fa0b079ada11d844930 127.0.0.1 POST /ask - creating OpenAI client base=https://api.deepseek.com/v1
+2025-10-22 16:30:56,024 INFO 7e1603b56bb54fa0b079ada11d844930 127.0.0.1 POST /ask - creating OpenAI client base=https://api.deepseek.com/v1
+2025-10-22 16:30:58,328 INFO ae89f45452714da39bd463dc098b3803 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:30:58,328 INFO ae89f45452714da39bd463dc098b3803 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:30:58,328 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:30:58] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:30:59,547 INFO 7e1603b56bb54fa0b079ada11d844930 127.0.0.1 POST /ask - HTTP Request: POST https://api.deepseek.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-22 16:31:00,938 INFO 7e1603b56bb54fa0b079ada11d844930 127.0.0.1 POST /ask - request completed status=200 duration_ms=7409
+2025-10-22 16:31:00,938 INFO 7e1603b56bb54fa0b079ada11d844930 127.0.0.1 POST /ask - request completed status=200 duration_ms=7409
+2025-10-22 16:31:00,938 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:31:00] "POST /ask HTTP/1.1" 200 -
+2025-10-22 16:31:08,324 INFO 01c63ed3f7a74488898ef79d9a6f52db 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:31:08,324 INFO 01c63ed3f7a74488898ef79d9a6f52db 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:31:08,324 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:31:08] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:31:18,331 INFO a2541cc343e9414b9a07ece3518fbd23 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 16:31:18,331 INFO a2541cc343e9414b9a07ece3518fbd23 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 16:31:18,333 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:31:18] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:31:21,395 INFO 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - HTTP Request: POST https://api.deepseek.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-22 16:31:28,318 INFO c40d2dd9390544388073778ee33ce8ec 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:31:28,318 INFO c40d2dd9390544388073778ee33ce8ec 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:31:28,318 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:31:28] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:31:36,404 INFO 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - Retrying request to /chat/completions in 0.423614 seconds
+2025-10-22 16:31:37,479 INFO 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - HTTP Request: POST https://api.deepseek.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-22 16:31:38,322 INFO 6de1fbc0e78a4825bd1ab6418f9f27fb 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:31:38,322 INFO 6de1fbc0e78a4825bd1ab6418f9f27fb 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:31:38,322 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:31:38] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:31:48,529 INFO d2390b3aec8c4a449468e0184c740747 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:31:48,529 INFO d2390b3aec8c4a449468e0184c740747 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:31:48,529 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:31:48] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:31:52,482 INFO 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - Retrying request to /chat/completions in 0.844314 seconds
+2025-10-22 16:31:54,106 INFO 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - HTTP Request: POST https://api.deepseek.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-22 16:32:04,076 INFO d37bc6e016e94b9293c8ce6b74557b74 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:32:04,076 INFO d37bc6e016e94b9293c8ce6b74557b74 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:32:04,076 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:32:04] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:32:09,107 WARNING 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - deepseek attempt=1 error=Request timed out.
+2025-10-22 16:32:09,107 WARNING 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - deepseek attempt=1 error=Request timed out.
+2025-10-22 16:32:10,582 INFO 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - HTTP Request: POST https://api.deepseek.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-22 16:32:14,064 INFO 63916169af2746778577913e0a35344c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:32:14,064 INFO 63916169af2746778577913e0a35344c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:32:14,064 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:32:14] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:32:24,066 INFO b41ec5746c6441e797a025c708d19fdc 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:32:24,066 INFO b41ec5746c6441e797a025c708d19fdc 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:32:24,066 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:32:24] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:32:25,586 INFO 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - Retrying request to /chat/completions in 0.429551 seconds
+2025-10-22 16:32:26,867 INFO 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - HTTP Request: POST https://api.deepseek.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-22 16:32:34,060 INFO 8fbd82f8941840a5a86987f630bfcd4c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:32:34,060 INFO 8fbd82f8941840a5a86987f630bfcd4c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:32:34,060 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:32:34] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:32:41,872 INFO 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - Retrying request to /chat/completions in 0.807165 seconds
+2025-10-22 16:32:43,380 INFO 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - HTTP Request: POST https://api.deepseek.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-22 16:32:44,231 INFO 39afcfaf8e384a4b8c6ae64713c79388 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=37
+2025-10-22 16:32:44,231 INFO 39afcfaf8e384a4b8c6ae64713c79388 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=37
+2025-10-22 16:32:44,257 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:32:44] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:32:54,067 INFO 11190eb800d749fbb69eb3ad8f0efbf3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=11
+2025-10-22 16:32:54,067 INFO 11190eb800d749fbb69eb3ad8f0efbf3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=11
+2025-10-22 16:32:54,067 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:32:54] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:32:58,394 WARNING 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - deepseek attempt=2 error=Request timed out.
+2025-10-22 16:32:58,394 WARNING 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - deepseek attempt=2 error=Request timed out.
+2025-10-22 16:33:00,480 INFO 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - HTTP Request: POST https://api.deepseek.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-22 16:33:04,065 INFO a64b31dd9f5447f0b4a323e3d9d346b8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:33:04,065 INFO a64b31dd9f5447f0b4a323e3d9d346b8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:33:04,065 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:33:04] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:33:15,485 INFO 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - Retrying request to /chat/completions in 0.475336 seconds
+2025-10-22 16:33:17,027 INFO 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - HTTP Request: POST https://api.deepseek.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-22 16:33:24,529 INFO 7a8bc9bfa5e9437090e1624cc657ade0 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:33:24,529 INFO 7a8bc9bfa5e9437090e1624cc657ade0 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:33:24,529 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:33:24] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:33:32,029 INFO 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - Retrying request to /chat/completions in 0.988156 seconds
+2025-10-22 16:33:33,815 INFO 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - HTTP Request: POST https://api.deepseek.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-22 16:33:34,013 INFO 337bf2e3dba24b9bbd69c52ff5a11460 127.0.0.1 GET /admin - request completed status=200 duration_ms=160
+2025-10-22 16:33:34,013 INFO 337bf2e3dba24b9bbd69c52ff5a11460 127.0.0.1 GET /admin - request completed status=200 duration_ms=160
+2025-10-22 16:33:34,017 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:33:34] "GET /admin HTTP/1.1" 200 -
+2025-10-22 16:33:34,198 INFO 51b44edb39db4508b21d38e3d6fc5b5a 127.0.0.1 GET /admin/stats - request completed status=200 duration_ms=136
+2025-10-22 16:33:34,198 INFO 51b44edb39db4508b21d38e3d6fc5b5a 127.0.0.1 GET /admin/stats - request completed status=200 duration_ms=136
+2025-10-22 16:33:34,198 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:33:34] "GET /admin/stats HTTP/1.1" 200 -
+2025-10-22 16:33:34,537 INFO 457054cbd4b540be9d86eeb5447b81bc 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:33:34,537 INFO 457054cbd4b540be9d86eeb5447b81bc 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:33:34,540 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:33:34] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:33:36,387 INFO 5d43241ddad84833b3096a259f8fa8ca 127.0.0.1 GET /admin/llm - request completed status=200 duration_ms=163
+2025-10-22 16:33:36,387 INFO 5d43241ddad84833b3096a259f8fa8ca 127.0.0.1 GET /admin/llm - request completed status=200 duration_ms=163
+2025-10-22 16:33:36,387 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:33:36] "GET /admin/llm HTTP/1.1" 200 -
+2025-10-22 16:33:36,424 INFO 9a59977f7d6343aca46329cbf4e9d57d 127.0.0.1 GET /admin/config - request completed status=200 duration_ms=3
+2025-10-22 16:33:36,424 INFO 9a59977f7d6343aca46329cbf4e9d57d 127.0.0.1 GET /admin/config - request completed status=200 duration_ms=3
+2025-10-22 16:33:36,424 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:33:36] "GET /admin/config HTTP/1.1" 200 -
+2025-10-22 16:33:40,675 INFO 3d2e86cbf4e4412cb4a71b98c0c9a29e 127.0.0.1 POST /admin/llm-check - request completed status=200 duration_ms=2897
+2025-10-22 16:33:40,675 INFO 3d2e86cbf4e4412cb4a71b98c0c9a29e 127.0.0.1 POST /admin/llm-check - request completed status=200 duration_ms=2897
+2025-10-22 16:33:40,675 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:33:40] "POST /admin/llm-check HTTP/1.1" 200 -
+2025-10-22 16:33:48,824 WARNING 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - deepseek attempt=3 error=Request timed out.
+2025-10-22 16:33:48,824 WARNING 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - deepseek attempt=3 error=Request timed out.
+2025-10-22 16:33:48,825 INFO 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - request completed status=200 duration_ms=148290
+2025-10-22 16:33:48,825 INFO 8092ef05d9d04236ac6f9731b67df167 127.0.0.1 POST /ask - request completed status=200 duration_ms=148290
+2025-10-22 16:33:48,825 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:33:48] "POST /ask HTTP/1.1" 200 -
+2025-10-22 16:33:52,797 INFO ce71670fc8cf46d59b8ffa145a8da5c1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:33:52,797 INFO ce71670fc8cf46d59b8ffa145a8da5c1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:33:52,797 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:33:52] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:34:02,788 INFO f0998bc114c34c11ab692b3b93b16be8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:34:02,788 INFO f0998bc114c34c11ab692b3b93b16be8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:34:02,788 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:34:02] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:34:12,790 INFO 89efdc1377df44e7aee779ba9cc77d95 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:34:12,790 INFO 89efdc1377df44e7aee779ba9cc77d95 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:34:12,790 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:34:12] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:34:23,533 INFO 8d0b428e8c9241a1bd5791de37aa245c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:34:23,533 INFO 8d0b428e8c9241a1bd5791de37aa245c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:34:23,533 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:34:23] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:34:33,542 INFO 8085414fc96444ebb8cfdc805eb0545e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:34:33,542 INFO 8085414fc96444ebb8cfdc805eb0545e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:34:33,542 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:34:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:34:43,529 INFO 22f7bce3e4f74dc59f42b5a27abb66bb 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:34:43,529 INFO 22f7bce3e4f74dc59f42b5a27abb66bb 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:34:43,529 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:34:43] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:34:53,547 INFO 90b70574888848f8a23ad0e633f708c9 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:34:53,547 INFO 90b70574888848f8a23ad0e633f708c9 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:34:53,547 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:34:53] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:35:03,542 INFO 687d3b4bdc0941e093bc174e966baf8b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 16:35:03,542 INFO 687d3b4bdc0941e093bc174e966baf8b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 16:35:03,542 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:35:03] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:35:13,542 INFO 1ebd32f7d56d4a3b8c4d6d77e80bdfa4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:35:13,542 INFO 1ebd32f7d56d4a3b8c4d6d77e80bdfa4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:35:13,542 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:35:13] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:35:39,538 INFO 0b2d92d581f94eb9a73ffa36c738378b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:35:39,538 INFO 0b2d92d581f94eb9a73ffa36c738378b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:35:39,538 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:35:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:36:39,545 INFO e66b3fa33ea940b092086ab929499088 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:36:39,545 INFO e66b3fa33ea940b092086ab929499088 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:36:39,545 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:36:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:37:39,536 INFO 5412783b214044698a09b31079df9bb7 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:37:39,536 INFO 5412783b214044698a09b31079df9bb7 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:37:39,536 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:37:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:38:36,230 INFO 43aed5958c7945fd82add2c5b0e56ac7 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:38:36,230 INFO 43aed5958c7945fd82add2c5b0e56ac7 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:38:36,230 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:38:36] "GET / HTTP/1.1" 200 -
+2025-10-22 16:38:36,279 INFO f46b416f40bf433aa3927eaa57e51fc5 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:38:36,279 INFO f46b416f40bf433aa3927eaa57e51fc5 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:38:36,279 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:38:36] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:38:36,285 INFO 2606ffe6ce454c60b39ff1dd36035b78 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=6
+2025-10-22 16:38:36,285 INFO 2606ffe6ce454c60b39ff1dd36035b78 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=6
+2025-10-22 16:38:36,285 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:38:36] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:38:36,298 INFO 359902c6c72c465d8d845e559b362a39 127.0.0.1 GET /chats - request completed status=200 duration_ms=20
+2025-10-22 16:38:36,298 INFO 359902c6c72c465d8d845e559b362a39 127.0.0.1 GET /chats - request completed status=200 duration_ms=20
+2025-10-22 16:38:36,298 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:38:36] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:38:46,536 INFO f27ecdd859a84db29e02c2da8b5f3e6c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:38:46,536 INFO f27ecdd859a84db29e02c2da8b5f3e6c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:38:46,536 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:38:46] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:38:56,564 INFO 3b8548a8c85c403fadfaaf9e6fbbf1fd 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 16:38:56,564 INFO 3b8548a8c85c403fadfaaf9e6fbbf1fd 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 16:38:56,566 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:38:56] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:39:06,543 INFO 4e19ac0f4cb84c289c8fb7c777059bd2 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:39:06,543 INFO 4e19ac0f4cb84c289c8fb7c777059bd2 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:39:06,543 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:39:06] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:39:16,534 INFO c078a1b65e4948289a93fbf2c107f545 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:39:16,534 INFO c078a1b65e4948289a93fbf2c107f545 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:39:16,534 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:39:16] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:39:26,558 INFO 80926d96329f4fdfad007cd16c530217 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 16:39:26,558 INFO 80926d96329f4fdfad007cd16c530217 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 16:39:26,560 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:39:26] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:39:36,542 INFO c88e4a98d694457289078218a53c1a6a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:39:36,542 INFO c88e4a98d694457289078218a53c1a6a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:39:36,542 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:39:36] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:39:46,535 INFO f2fe762e9a914db5ad5c4d2c870a5f02 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:39:46,535 INFO f2fe762e9a914db5ad5c4d2c870a5f02 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:39:46,535 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:39:46] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:40:26,023 INFO 31ab74ab6bd84d41ab7a58da1e782d3a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:40:26,023 INFO 31ab74ab6bd84d41ab7a58da1e782d3a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:40:26,023 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:40:26] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:40:36,019 INFO 1e287d69b14549bbadc0d7c5ba5f5679 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:40:36,019 INFO 1e287d69b14549bbadc0d7c5ba5f5679 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:40:36,019 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:40:36] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:40:46,018 INFO 80a6246eb5f54b438c780b4185895f0a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 16:40:46,018 INFO 80a6246eb5f54b438c780b4185895f0a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 16:40:46,018 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:40:46] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:40:56,022 INFO 41879791d2364c72af295e5fa2b0c11a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:40:56,022 INFO 41879791d2364c72af295e5fa2b0c11a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:40:56,022 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:40:56] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:41:04,242 INFO 23c64f36ac1949faa51a19ba4cb4c009 127.0.0.1 POST /auth/send-otp - request completed status=409 duration_ms=6
+2025-10-22 16:41:04,242 INFO 23c64f36ac1949faa51a19ba4cb4c009 127.0.0.1 POST /auth/send-otp - request completed status=409 duration_ms=6
+2025-10-22 16:41:04,242 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:04] "[31m[1mPOST /auth/send-otp HTTP/1.1[0m" 409 -
+2025-10-22 16:41:06,013 INFO e7e96f888fbd4534a31df1b40774db75 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 16:41:06,013 INFO e7e96f888fbd4534a31df1b40774db75 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 16:41:06,013 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:06] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:41:11,756 INFO 96b80b72b4594de1953ada94b510c651 127.0.0.1 POST /auth/send-otp - request completed status=409 duration_ms=0
+2025-10-22 16:41:11,756 INFO 96b80b72b4594de1953ada94b510c651 127.0.0.1 POST /auth/send-otp - request completed status=409 duration_ms=0
+2025-10-22 16:41:11,756 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:11] "[31m[1mPOST /auth/send-otp HTTP/1.1[0m" 409 -
+2025-10-22 16:41:16,016 INFO 57c7dd5bc67449d6a9c9848cd715278c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:41:16,016 INFO 57c7dd5bc67449d6a9c9848cd715278c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:41:16,016 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:16] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:41:18,423 INFO a9f60c86d54c4e3595598b80429bf732 127.0.0.1 GET / - request completed status=200 duration_ms=1
+2025-10-22 16:41:18,423 INFO a9f60c86d54c4e3595598b80429bf732 127.0.0.1 GET / - request completed status=200 duration_ms=1
+2025-10-22 16:41:18,423 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:18] "GET / HTTP/1.1" 200 -
+2025-10-22 16:41:18,460 INFO a5ba375acef44e1bab0aacffb0fa2d19 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:41:18,460 INFO a5ba375acef44e1bab0aacffb0fa2d19 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:41:18,462 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:18] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:41:18,467 INFO 3a8abef3dd3040a58cf9dad33b281d99 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 16:41:18,467 INFO 3a8abef3dd3040a58cf9dad33b281d99 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 16:41:18,468 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:18] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:41:18,486 INFO 9b5fff8234da46e3ab95e5c9697df438 127.0.0.1 GET /chats - request completed status=200 duration_ms=24
+2025-10-22 16:41:18,486 INFO 9b5fff8234da46e3ab95e5c9697df438 127.0.0.1 GET /chats - request completed status=200 duration_ms=24
+2025-10-22 16:41:18,486 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:18] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:41:28,462 INFO 677a768efb2b41af8e62eae307d59014 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 16:41:28,462 INFO 677a768efb2b41af8e62eae307d59014 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 16:41:28,462 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:28] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:41:29,550 INFO 87af5642df0f41b9a5602b58a294c941 127.0.0.1 GET /auth/profile - request completed status=200 duration_ms=0
+2025-10-22 16:41:29,550 INFO 87af5642df0f41b9a5602b58a294c941 127.0.0.1 GET /auth/profile - request completed status=200 duration_ms=0
+2025-10-22 16:41:29,560 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:29] "GET /auth/profile HTTP/1.1" 200 -
+2025-10-22 16:41:29,589 INFO e90cfea0b504444e878c43bafbc46398 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:41:29,589 INFO e90cfea0b504444e878c43bafbc46398 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:41:29,589 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:29] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:41:29,608 INFO 24d19b9bbca746c88d29538e3bdf5a11 127.0.0.1 GET /auth/files - request completed status=200 duration_ms=0
+2025-10-22 16:41:29,608 INFO 24d19b9bbca746c88d29538e3bdf5a11 127.0.0.1 GET /auth/files - request completed status=200 duration_ms=0
+2025-10-22 16:41:29,608 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:29] "GET /auth/files HTTP/1.1" 200 -
+2025-10-22 16:41:31,760 INFO 3587904a6dd54251af3316e6e0aa86ac 127.0.0.1 GET /auth/logout - request completed status=302 duration_ms=0
+2025-10-22 16:41:31,760 INFO 3587904a6dd54251af3316e6e0aa86ac 127.0.0.1 GET /auth/logout - request completed status=302 duration_ms=0
+2025-10-22 16:41:31,760 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:31] "[32mGET /auth/logout HTTP/1.1[0m" 302 -
+2025-10-22 16:41:31,779 INFO 04be0f4fffcb42f98f783be7451b8540 127.0.0.1 GET / - request completed status=200 duration_ms=6
+2025-10-22 16:41:31,779 INFO 04be0f4fffcb42f98f783be7451b8540 127.0.0.1 GET / - request completed status=200 duration_ms=6
+2025-10-22 16:41:31,782 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:31] "GET / HTTP/1.1" 200 -
+2025-10-22 16:41:31,811 INFO c1f093fbfdb6464eb1d9dff6b5b37bff 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:41:31,811 INFO c1f093fbfdb6464eb1d9dff6b5b37bff 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:41:31,811 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:31] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:41:31,820 INFO e7fea65d79f4464a898e7ed218d21f29 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:41:31,820 INFO e7fea65d79f4464a898e7ed218d21f29 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:41:31,826 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:31] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:41:31,834 INFO daeda1e6260c40c4949d64e65f434204 127.0.0.1 GET /chats - request completed status=200 duration_ms=23
+2025-10-22 16:41:31,834 INFO daeda1e6260c40c4949d64e65f434204 127.0.0.1 GET /chats - request completed status=200 duration_ms=23
+2025-10-22 16:41:31,838 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:31] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:41:38,824 INFO 2f9cdfc77012454682cf2635bede4e6f 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=6
+2025-10-22 16:41:38,824 INFO 2f9cdfc77012454682cf2635bede4e6f 127.0.0.1 GET /auth/login - request completed status=200 duration_ms=6
+2025-10-22 16:41:38,826 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:38] "GET /auth/login HTTP/1.1" 200 -
+2025-10-22 16:41:50,461 INFO b90f88237f7841a698c3a5204e35825a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 16:41:50,461 INFO b90f88237f7841a698c3a5204e35825a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 16:41:50,463 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:50] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:41:52,617 INFO baced83aaab3465f9686bbd856630590 127.0.0.1 POST /auth/send-otp - sms_ir_ok http=200 mobile=09121471301 template=335146 code=07**08
+2025-10-22 16:41:52,625 INFO baced83aaab3465f9686bbd856630590 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=2739
+2025-10-22 16:41:52,625 INFO baced83aaab3465f9686bbd856630590 127.0.0.1 POST /auth/send-otp - request completed status=200 duration_ms=2739
+2025-10-22 16:41:52,625 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:41:52] "POST /auth/send-otp HTTP/1.1" 200 -
+2025-10-22 16:42:00,455 INFO 25029e4a80674270923150a397580d1e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:42:00,455 INFO 25029e4a80674270923150a397580d1e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:42:00,455 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:42:00] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:42:05,390 INFO 1b4d3c06ffc54b33af68e790fb0fdb77 127.0.0.1 POST /auth/verify-otp - request completed status=200 duration_ms=39
+2025-10-22 16:42:05,390 INFO 1b4d3c06ffc54b33af68e790fb0fdb77 127.0.0.1 POST /auth/verify-otp - request completed status=200 duration_ms=39
+2025-10-22 16:42:05,390 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:42:05] "POST /auth/verify-otp HTTP/1.1" 200 -
+2025-10-22 16:42:05,768 INFO 919fcd26feaa4d12ab8a92e045c01246 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:42:05,768 INFO 919fcd26feaa4d12ab8a92e045c01246 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:42:05,768 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:42:05] "GET / HTTP/1.1" 200 -
+2025-10-22 16:42:05,799 INFO 458ab6b665f7464280a64bee20070f0d 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:42:05,799 INFO 458ab6b665f7464280a64bee20070f0d 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:42:05,799 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:42:05] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:42:05,807 INFO e1ee8cfda4c44a6eaf2837f2df0b7127 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=8
+2025-10-22 16:42:05,807 INFO e1ee8cfda4c44a6eaf2837f2df0b7127 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=8
+2025-10-22 16:42:05,809 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:42:05] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:42:05,815 INFO 187b18b4665f42b3a278ae61b744769f 127.0.0.1 GET /chats - request completed status=200 duration_ms=18
+2025-10-22 16:42:05,815 INFO 187b18b4665f42b3a278ae61b744769f 127.0.0.1 GET /chats - request completed status=200 duration_ms=18
+2025-10-22 16:42:05,815 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:42:05] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:42:15,796 INFO a43e0ddb19684b2cb906197b1bb3fe05 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=5
+2025-10-22 16:42:15,796 INFO a43e0ddb19684b2cb906197b1bb3fe05 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=5
+2025-10-22 16:42:15,796 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:42:15] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:42:25,807 INFO daf4409362124735b4ce0c7f447325b2 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:42:25,807 INFO daf4409362124735b4ce0c7f447325b2 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:42:25,807 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:42:25] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:42:35,805 INFO f14b8dbc22d1435cb2c34e066592637d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 16:42:35,805 INFO f14b8dbc22d1435cb2c34e066592637d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 16:42:35,805 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:42:35] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:42:46,574 INFO d8fad8c48bc042eba528a7a22b0520eb 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=14
+2025-10-22 16:42:46,574 INFO d8fad8c48bc042eba528a7a22b0520eb 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=14
+2025-10-22 16:42:46,581 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:42:46] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:42:56,545 INFO 1a576836e53b4d8d92bbe769dfefd2ea 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:42:56,545 INFO 1a576836e53b4d8d92bbe769dfefd2ea 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:42:56,545 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:42:56] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:43:06,543 INFO e38ed41153ee4bef86855366cfebc15b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 16:43:06,543 INFO e38ed41153ee4bef86855366cfebc15b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 16:43:06,543 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:43:06] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:43:16,535 INFO 1638b6501f62497492f3f88ec71683e4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:43:16,535 INFO 1638b6501f62497492f3f88ec71683e4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:43:16,535 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:43:16] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:43:26,549 INFO ba0f165915e648ffaaa6dcc956965fcc 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 16:43:26,549 INFO ba0f165915e648ffaaa6dcc956965fcc 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 16:43:26,551 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:43:26] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:43:36,538 INFO 8e7cc0a141c54f03b8154dad7c0b7212 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 16:43:36,538 INFO 8e7cc0a141c54f03b8154dad7c0b7212 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 16:43:36,538 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:43:36] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:44:37,538 INFO b7e4e66d7dda41c6a84332c963c57263 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:44:37,538 INFO b7e4e66d7dda41c6a84332c963c57263 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:44:37,538 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:44:37] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:47:20,007 INFO - - - - - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.164.247.99:3000
+2025-10-22 16:47:20,007 INFO - - - - - [33mPress CTRL+C to quit[0m
+2025-10-22 16:47:24,931 INFO b57c0ed3a62742eaa64c850bee9e77f9 127.0.0.1 GET / - request completed status=200 duration_ms=27
+2025-10-22 16:47:24,931 INFO b57c0ed3a62742eaa64c850bee9e77f9 127.0.0.1 GET / - request completed status=200 duration_ms=27
+2025-10-22 16:47:24,933 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:47:24] "GET / HTTP/1.1" 200 -
+2025-10-22 16:47:24,980 INFO b9d3036fe40a4483a641de25399deb89 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:47:24,980 INFO b9d3036fe40a4483a641de25399deb89 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:47:24,980 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:47:24] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:47:24,990 INFO b015994963cf454b920797d83985a930 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=5
+2025-10-22 16:47:24,990 INFO b015994963cf454b920797d83985a930 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=5
+2025-10-22 16:47:24,990 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:47:24] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:47:24,997 INFO 083447f7548646f19d6b40ec6c17a318 127.0.0.1 GET /chats - request completed status=200 duration_ms=24
+2025-10-22 16:47:24,997 INFO 083447f7548646f19d6b40ec6c17a318 127.0.0.1 GET /chats - request completed status=200 duration_ms=24
+2025-10-22 16:47:24,999 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:47:24] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:47:25,670 INFO 726acd288a4c45b5872da9531fe1d75b 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:47:25,670 INFO 726acd288a4c45b5872da9531fe1d75b 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:47:25,670 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:47:25] "GET / HTTP/1.1" 200 -
+2025-10-22 16:47:25,708 INFO bd2ccfa14f384fada180aaeb35046e61 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:47:25,708 INFO bd2ccfa14f384fada180aaeb35046e61 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:47:25,708 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:47:25] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:47:25,718 INFO b8b7bfef3ec24b9c8f1789f4d6a1be66 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=9
+2025-10-22 16:47:25,718 INFO b8b7bfef3ec24b9c8f1789f4d6a1be66 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=9
+2025-10-22 16:47:25,719 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:47:25] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:47:25,732 INFO cc808a92d55640439a4d955c88cfa24f 127.0.0.1 GET /chats - request completed status=200 duration_ms=23
+2025-10-22 16:47:25,732 INFO cc808a92d55640439a4d955c88cfa24f 127.0.0.1 GET /chats - request completed status=200 duration_ms=23
+2025-10-22 16:47:25,732 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:47:25] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:47:32,523 INFO 83050411197945aeaaede0ef463e4bf4 127.0.0.1 POST /notes/save - request completed status=200 duration_ms=0
+2025-10-22 16:47:32,523 INFO 83050411197945aeaaede0ef463e4bf4 127.0.0.1 POST /notes/save - request completed status=200 duration_ms=0
+2025-10-22 16:47:32,524 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:47:32] "POST /notes/save HTTP/1.1" 200 -
+2025-10-22 16:47:32,609 INFO 5db1f28045e14db08175721f78c10617 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=76
+2025-10-22 16:47:32,609 INFO 5db1f28045e14db08175721f78c10617 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=76
+2025-10-22 16:47:32,611 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:47:32] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:47:35,713 INFO e4dd36f4b1594003a463d75b6146f6e1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 16:47:35,713 INFO e4dd36f4b1594003a463d75b6146f6e1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 16:47:35,713 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:47:35] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:47:40,286 INFO 628c6d407b4d47bf94e6354ea7f0333e 127.0.0.1 POST /notes/save - request completed status=200 duration_ms=3
+2025-10-22 16:47:40,286 INFO 628c6d407b4d47bf94e6354ea7f0333e 127.0.0.1 POST /notes/save - request completed status=200 duration_ms=3
+2025-10-22 16:47:40,286 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:47:40] "POST /notes/save HTTP/1.1" 200 -
+2025-10-22 16:47:40,350 INFO ea9c31ce85b24e0b942fa59218166f4f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=49
+2025-10-22 16:47:40,350 INFO ea9c31ce85b24e0b942fa59218166f4f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=49
+2025-10-22 16:47:40,350 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:47:40] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:47:45,708 INFO a8af944a11d14c0ba8e1c3e520d27cf5 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=6
+2025-10-22 16:47:45,708 INFO a8af944a11d14c0ba8e1c3e520d27cf5 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=6
+2025-10-22 16:47:45,708 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:47:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:47:55,736 INFO 66a79e40a6d04ac38c41b1ab8dc7ffc4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=5
+2025-10-22 16:47:55,736 INFO 66a79e40a6d04ac38c41b1ab8dc7ffc4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=5
+2025-10-22 16:47:55,736 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:47:55] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:48:06,552 INFO a5938c0723ee414bb6da35d587e5b053 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:48:06,552 INFO a5938c0723ee414bb6da35d587e5b053 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:48:06,552 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:48:06] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:48:16,545 INFO 76cac4e4f2304255979ec8e328278b7d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:48:16,545 INFO 76cac4e4f2304255979ec8e328278b7d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:48:16,545 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:48:16] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:38,134 INFO - - - - - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.164.247.99:3000
+2025-10-22 16:52:38,141 INFO - - - - - [33mPress CTRL+C to quit[0m
+2025-10-22 16:52:39,303 INFO a157ba738036432199637686aade745c 127.0.0.1 GET / - request completed status=200 duration_ms=15
+2025-10-22 16:52:39,303 INFO a157ba738036432199637686aade745c 127.0.0.1 GET / - request completed status=200 duration_ms=15
+2025-10-22 16:52:39,303 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:39] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:39,340 INFO 7f3deb3f86f94c29b834ac6784e3d854 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:39,340 INFO 7f3deb3f86f94c29b834ac6784e3d854 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:39,341 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:39] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:39,342 INFO d5d59f076084484697108859eb1ba6a8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:52:39,342 INFO d5d59f076084484697108859eb1ba6a8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:52:39,342 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:39,353 INFO 2ed18436d4844b839f9f48e638eec52f 127.0.0.1 GET /chats - request completed status=200 duration_ms=14
+2025-10-22 16:52:39,353 INFO 2ed18436d4844b839f9f48e638eec52f 127.0.0.1 GET /chats - request completed status=200 duration_ms=14
+2025-10-22 16:52:39,353 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:39] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:40,017 INFO d4a3b64832154826acde5341311ad6da 127.0.0.1 GET / - request completed status=200 duration_ms=9
+2025-10-22 16:52:40,017 INFO d4a3b64832154826acde5341311ad6da 127.0.0.1 GET / - request completed status=200 duration_ms=9
+2025-10-22 16:52:40,018 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:40] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:40,056 INFO 7c7e37842dd2452089b7ce1dc9484da6 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:40,056 INFO 7c7e37842dd2452089b7ce1dc9484da6 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:40,056 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:40] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:40,069 INFO 9536bda210044439a01175ab48bfb7d8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=12
+2025-10-22 16:52:40,069 INFO 9536bda210044439a01175ab48bfb7d8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=12
+2025-10-22 16:52:40,069 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:40] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:40,069 INFO 3467ca5460684682ad6929eb0f392151 127.0.0.1 GET /chats - request completed status=200 duration_ms=12
+2025-10-22 16:52:40,069 INFO 3467ca5460684682ad6929eb0f392151 127.0.0.1 GET /chats - request completed status=200 duration_ms=12
+2025-10-22 16:52:40,069 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:40] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:40,624 INFO 257fa85e5aa944e69ff9d44e95215948 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:40,624 INFO 257fa85e5aa944e69ff9d44e95215948 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:40,624 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:40] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:40,684 INFO 8ade4f4ff76d4754a9ef9cfcb0f48447 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=11
+2025-10-22 16:52:40,684 INFO 8ade4f4ff76d4754a9ef9cfcb0f48447 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=11
+2025-10-22 16:52:40,685 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:40] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:40,689 INFO 0c1ad473baa94d9a8a815c364bb05b78 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=16
+2025-10-22 16:52:40,689 INFO 0c1ad473baa94d9a8a815c364bb05b78 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=16
+2025-10-22 16:52:40,689 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:40] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:40,699 INFO 3dc8ced2c2954b65a92e726a07aa4671 127.0.0.1 GET /chats - request completed status=200 duration_ms=28
+2025-10-22 16:52:40,699 INFO 3dc8ced2c2954b65a92e726a07aa4671 127.0.0.1 GET /chats - request completed status=200 duration_ms=28
+2025-10-22 16:52:40,699 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:40] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:41,858 INFO d90d37b738204f288009c0ad9c20818f 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:41,858 INFO d90d37b738204f288009c0ad9c20818f 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:41,861 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:41] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:41,904 INFO dbd6513a383840c79f6cf8deb4e71188 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:41,904 INFO dbd6513a383840c79f6cf8deb4e71188 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:41,904 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:41] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:41,904 INFO 2d8bb7a8a122442899acab9f41cce732 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:52:41,904 INFO 2d8bb7a8a122442899acab9f41cce732 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:52:41,919 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:41] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:41,922 INFO 57b1bf8384014fbeadc97721f8c772c6 127.0.0.1 GET /chats - request completed status=200 duration_ms=17
+2025-10-22 16:52:41,922 INFO 57b1bf8384014fbeadc97721f8c772c6 127.0.0.1 GET /chats - request completed status=200 duration_ms=17
+2025-10-22 16:52:41,922 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:41] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:42,204 INFO 7bd06b70b7894e8a9c421975e83071f9 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,204 INFO 7bd06b70b7894e8a9c421975e83071f9 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,204 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:42,254 INFO 2cb36c6d90524e8799c3ac76df547e9b 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,254 INFO 2cb36c6d90524e8799c3ac76df547e9b 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,255 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:42,259 INFO 6b768d674cac4d038a156ea338b025fa 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 16:52:42,259 INFO 6b768d674cac4d038a156ea338b025fa 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 16:52:42,262 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:42,270 INFO e7319ac3f5da49918321df8aaecdb465 127.0.0.1 GET /chats - request completed status=200 duration_ms=15
+2025-10-22 16:52:42,270 INFO e7319ac3f5da49918321df8aaecdb465 127.0.0.1 GET /chats - request completed status=200 duration_ms=15
+2025-10-22 16:52:42,272 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:42,354 INFO 57875222ff8143819dbb4e3b1b74b820 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,354 INFO 57875222ff8143819dbb4e3b1b74b820 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,354 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:42,396 INFO a33e4ca5fc944941811e960cf0aa862d 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,396 INFO a33e4ca5fc944941811e960cf0aa862d 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,396 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:42,404 INFO b934d304dd57409294f222b9bd37946d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=8
+2025-10-22 16:52:42,404 INFO b934d304dd57409294f222b9bd37946d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=8
+2025-10-22 16:52:42,404 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:42,411 INFO 253ecf051d884bcc80e1d1dcc62ed700 127.0.0.1 GET /chats - request completed status=200 duration_ms=15
+2025-10-22 16:52:42,411 INFO 253ecf051d884bcc80e1d1dcc62ed700 127.0.0.1 GET /chats - request completed status=200 duration_ms=15
+2025-10-22 16:52:42,411 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:42,492 INFO c03a75e393084874a59b9df946a26351 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,492 INFO c03a75e393084874a59b9df946a26351 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,492 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:42,533 INFO 7884f205b8b544ebb983b3b1d4c8a76d 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,533 INFO 7884f205b8b544ebb983b3b1d4c8a76d 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,541 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:42,546 INFO c746cc1c8c014348bcfa0f71a588b6e0 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 16:52:42,546 INFO c746cc1c8c014348bcfa0f71a588b6e0 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 16:52:42,546 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:42,549 INFO eb84f8cbd40f4c7e8fc90099e252fcee 127.0.0.1 GET /chats - request completed status=200 duration_ms=8
+2025-10-22 16:52:42,549 INFO eb84f8cbd40f4c7e8fc90099e252fcee 127.0.0.1 GET /chats - request completed status=200 duration_ms=8
+2025-10-22 16:52:42,549 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:42,654 INFO f2a333adf916469dae3a48f6bbec7393 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,654 INFO f2a333adf916469dae3a48f6bbec7393 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,654 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:42,704 INFO b617a38c557348c9b65fcbc7f80370cb 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,704 INFO b617a38c557348c9b65fcbc7f80370cb 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,706 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:42,713 INFO f7c641bd042248dd913c7d6a4ad150ef 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=9
+2025-10-22 16:52:42,713 INFO f7c641bd042248dd913c7d6a4ad150ef 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=9
+2025-10-22 16:52:42,713 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:42,722 INFO 9cb30ca834a4474bb68295ed25732aa4 127.0.0.1 GET /chats - request completed status=200 duration_ms=22
+2025-10-22 16:52:42,722 INFO 9cb30ca834a4474bb68295ed25732aa4 127.0.0.1 GET /chats - request completed status=200 duration_ms=22
+2025-10-22 16:52:42,722 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:42,804 INFO fe45a0a8fb29403da82b4f0405ae8c7a 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,804 INFO fe45a0a8fb29403da82b4f0405ae8c7a 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,804 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:42,854 INFO 58a34f405f164b3bb936258c9c799ee4 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,854 INFO 58a34f405f164b3bb936258c9c799ee4 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,854 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:42,862 INFO 16f384be36754dc4bc3d89cf885b7f94 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=8
+2025-10-22 16:52:42,862 INFO 16f384be36754dc4bc3d89cf885b7f94 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=8
+2025-10-22 16:52:42,862 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:42,862 INFO 6c9133c1038b4ae8ba09471bd9d2c5d5 127.0.0.1 GET /chats - request completed status=200 duration_ms=15
+2025-10-22 16:52:42,862 INFO 6c9133c1038b4ae8ba09471bd9d2c5d5 127.0.0.1 GET /chats - request completed status=200 duration_ms=15
+2025-10-22 16:52:42,871 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:42,959 INFO bd34c8040f1046bb9dca70c1160aef15 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,959 INFO bd34c8040f1046bb9dca70c1160aef15 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:42,959 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:42] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:43,008 INFO f12c92065b0e4cf888ade562ac364cb4 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,008 INFO f12c92065b0e4cf888ade562ac364cb4 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,008 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:43,020 INFO 285d8176ff434ac7ad53a4a8631a484f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=11
+2025-10-22 16:52:43,020 INFO 285d8176ff434ac7ad53a4a8631a484f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=11
+2025-10-22 16:52:43,020 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:43,020 INFO fa61bab6707a4eb1b78a56581ab16c73 127.0.0.1 GET /chats - request completed status=200 duration_ms=14
+2025-10-22 16:52:43,020 INFO fa61bab6707a4eb1b78a56581ab16c73 127.0.0.1 GET /chats - request completed status=200 duration_ms=14
+2025-10-22 16:52:43,027 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:43,108 INFO 41fb2720c50c441a86c5a8d6ca670d6b 127.0.0.1 GET / - request completed status=200 duration_ms=2
+2025-10-22 16:52:43,108 INFO 41fb2720c50c441a86c5a8d6ca670d6b 127.0.0.1 GET / - request completed status=200 duration_ms=2
+2025-10-22 16:52:43,108 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:43,141 INFO f662452e51194d3aa945434b80a518e6 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,141 INFO f662452e51194d3aa945434b80a518e6 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,141 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:43,153 INFO 3d8ea909d2894f4485f245280fa89ad5 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=12
+2025-10-22 16:52:43,153 INFO 3d8ea909d2894f4485f245280fa89ad5 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=12
+2025-10-22 16:52:43,153 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:43,158 INFO c6bf957d2d2c4f38bbb8ef1205602c7b 127.0.0.1 GET /chats - request completed status=200 duration_ms=17
+2025-10-22 16:52:43,158 INFO c6bf957d2d2c4f38bbb8ef1205602c7b 127.0.0.1 GET /chats - request completed status=200 duration_ms=17
+2025-10-22 16:52:43,158 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:43,239 INFO 338e3737c53d4e6984f5155727a0926b 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,239 INFO 338e3737c53d4e6984f5155727a0926b 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,239 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:43,270 INFO 9a559c2013c14ba584adc5fccec603f4 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,270 INFO 9a559c2013c14ba584adc5fccec603f4 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,270 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:43,276 INFO 94f4f5c71121408ba64bd9827a84cc90 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=5
+2025-10-22 16:52:43,276 INFO 94f4f5c71121408ba64bd9827a84cc90 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=5
+2025-10-22 16:52:43,276 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:43,285 INFO 86ecd3bdd89f48cf8ce2b775beca8ea0 127.0.0.1 GET /chats - request completed status=200 duration_ms=20
+2025-10-22 16:52:43,285 INFO 86ecd3bdd89f48cf8ce2b775beca8ea0 127.0.0.1 GET /chats - request completed status=200 duration_ms=20
+2025-10-22 16:52:43,285 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:43,410 INFO 9088580720cf44b3b07cf5ade013148e 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,410 INFO 9088580720cf44b3b07cf5ade013148e 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,415 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:43,455 INFO aed825b6f4924ca8b0ea5aceda397429 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=1
+2025-10-22 16:52:43,455 INFO aed825b6f4924ca8b0ea5aceda397429 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=1
+2025-10-22 16:52:43,456 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:43,460 INFO 28f0f9cc662a4fa29f0c969e7791d96e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=5
+2025-10-22 16:52:43,460 INFO 28f0f9cc662a4fa29f0c969e7791d96e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=5
+2025-10-22 16:52:43,460 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:43,460 INFO 9a1570fe7c1a4e1e91c62409855315e7 127.0.0.1 GET /chats - request completed status=200 duration_ms=2
+2025-10-22 16:52:43,460 INFO 9a1570fe7c1a4e1e91c62409855315e7 127.0.0.1 GET /chats - request completed status=200 duration_ms=2
+2025-10-22 16:52:43,460 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:43,561 INFO 7ca38438ac47495facf3414a19ffa35c 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,561 INFO 7ca38438ac47495facf3414a19ffa35c 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,561 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:43,607 INFO cb1e6d34b7bd4453a8806686114d60cb 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,607 INFO cb1e6d34b7bd4453a8806686114d60cb 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,607 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:43,607 INFO e7a76702c7794ecb98233d4da6dbd84b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,607 INFO e7a76702c7794ecb98233d4da6dbd84b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,607 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:43,621 INFO 9406059ce27b419894b312fd72749f9d 127.0.0.1 GET /chats - request completed status=200 duration_ms=14
+2025-10-22 16:52:43,621 INFO 9406059ce27b419894b312fd72749f9d 127.0.0.1 GET /chats - request completed status=200 duration_ms=14
+2025-10-22 16:52:43,621 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:43,715 INFO 2cbf7d7043464de0a16dfd5f6b014a3f 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,715 INFO 2cbf7d7043464de0a16dfd5f6b014a3f 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,715 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:43,756 INFO 8d9759a58483494d950d67c06fe0a1d7 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,756 INFO 8d9759a58483494d950d67c06fe0a1d7 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,756 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:43,766 INFO 95a229fb5aeb4920bce0175d5224a76b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=10
+2025-10-22 16:52:43,766 INFO 95a229fb5aeb4920bce0175d5224a76b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=10
+2025-10-22 16:52:43,766 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:43,774 INFO 1e25148ff06b4915b40fb752783c251d 127.0.0.1 GET /chats - request completed status=200 duration_ms=17
+2025-10-22 16:52:43,774 INFO 1e25148ff06b4915b40fb752783c251d 127.0.0.1 GET /chats - request completed status=200 duration_ms=17
+2025-10-22 16:52:43,774 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:43,855 INFO 94eb8d5638184017b9bc06a1474e7de0 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,855 INFO 94eb8d5638184017b9bc06a1474e7de0 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,855 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:43,907 INFO 98a16f4cef68403181ecadd205ece85e 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,907 INFO 98a16f4cef68403181ecadd205ece85e 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:43,907 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:43,908 INFO 80359912300a42b3ad20e9edd5e983d9 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 16:52:43,908 INFO 80359912300a42b3ad20e9edd5e983d9 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 16:52:43,908 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:43,921 INFO 514af46a88584904918d481f4ca8860c 127.0.0.1 GET /chats - request completed status=200 duration_ms=13
+2025-10-22 16:52:43,921 INFO 514af46a88584904918d481f4ca8860c 127.0.0.1 GET /chats - request completed status=200 duration_ms=13
+2025-10-22 16:52:43,921 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:43] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:44,027 INFO d60b510cf0b54d4b8014b34e2eae0be3 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,027 INFO d60b510cf0b54d4b8014b34e2eae0be3 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,029 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:44,073 INFO 7909eab1595e49e09ec8d047a7ad108f 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,073 INFO 7909eab1595e49e09ec8d047a7ad108f 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,073 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:44,079 INFO f7e377affa71456f95c5a6d291bb19d2 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=6
+2025-10-22 16:52:44,086 INFO 4b4005b5517f44939d393cc3bd6bbcd9 127.0.0.1 GET /chats - request completed status=200 duration_ms=13
+2025-10-22 16:52:44,079 INFO f7e377affa71456f95c5a6d291bb19d2 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=6
+2025-10-22 16:52:44,086 INFO 4b4005b5517f44939d393cc3bd6bbcd9 127.0.0.1 GET /chats - request completed status=200 duration_ms=13
+2025-10-22 16:52:44,097 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:44,097 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:44,161 INFO baab723de04d4d3cbce590ad12b5e341 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,161 INFO baab723de04d4d3cbce590ad12b5e341 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,161 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:44,196 INFO 94ddc84f451c4e898595121c0869116a 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,196 INFO 94ddc84f451c4e898595121c0869116a 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,196 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:44,207 INFO 98fe5c56db734a34b12e7d7e40f279da 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=11
+2025-10-22 16:52:44,207 INFO 98fe5c56db734a34b12e7d7e40f279da 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=11
+2025-10-22 16:52:44,207 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:44,216 INFO fa55b0e019bc4e229652d6627758943f 127.0.0.1 GET /chats - request completed status=200 duration_ms=20
+2025-10-22 16:52:44,216 INFO fa55b0e019bc4e229652d6627758943f 127.0.0.1 GET /chats - request completed status=200 duration_ms=20
+2025-10-22 16:52:44,216 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:44,329 INFO 2a27fd4d9aa64569a546e9ee13d13cf3 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,329 INFO 2a27fd4d9aa64569a546e9ee13d13cf3 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,329 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:44,379 INFO a07754376ef04a0ab726d72d803d5712 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,379 INFO a07754376ef04a0ab726d72d803d5712 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,379 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:44,379 INFO f2b6ef58fe044eb9bbc1817668c8c002 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,379 INFO f2b6ef58fe044eb9bbc1817668c8c002 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,379 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:44,396 INFO ea9d02f5cedc467d963e228c5096b38b 127.0.0.1 GET /chats - request completed status=200 duration_ms=16
+2025-10-22 16:52:44,396 INFO ea9d02f5cedc467d963e228c5096b38b 127.0.0.1 GET /chats - request completed status=200 duration_ms=16
+2025-10-22 16:52:44,396 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:44,508 INFO c384a89e08d249f8a6a31e93b45f0add 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,508 INFO c384a89e08d249f8a6a31e93b45f0add 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,510 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:44,557 INFO a3b466ca35964b86aed037ae20e1c9ff 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,557 INFO a3b466ca35964b86aed037ae20e1c9ff 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,557 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:44,557 INFO 450d6e1e7b6a4b5b91a41484dfee0b58 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=8
+2025-10-22 16:52:44,557 INFO 450d6e1e7b6a4b5b91a41484dfee0b58 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=8
+2025-10-22 16:52:44,565 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:44,573 INFO f55c0a0d2a21441f86688f15cbc90784 127.0.0.1 GET /chats - request completed status=200 duration_ms=24
+2025-10-22 16:52:44,573 INFO f55c0a0d2a21441f86688f15cbc90784 127.0.0.1 GET /chats - request completed status=200 duration_ms=24
+2025-10-22 16:52:44,573 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:52:44,636 INFO 985b679c1f2343e3938b40e5bb68b7a3 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,636 INFO 985b679c1f2343e3938b40e5bb68b7a3 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,636 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET / HTTP/1.1" 200 -
+2025-10-22 16:52:44,689 INFO 0ff8326668724e6ebccc62b34972f181 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,689 INFO 0ff8326668724e6ebccc62b34972f181 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:52:44,689 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:52:44,697 INFO 97f92e41ad31458991a3bcec66712049 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=8
+2025-10-22 16:52:44,697 INFO 97f92e41ad31458991a3bcec66712049 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=8
+2025-10-22 16:52:44,697 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:52:44,704 INFO a4c0eda390654974bd9bd41b022ccda7 127.0.0.1 GET /chats - request completed status=200 duration_ms=17
+2025-10-22 16:52:44,704 INFO a4c0eda390654974bd9bd41b022ccda7 127.0.0.1 GET /chats - request completed status=200 duration_ms=17
+2025-10-22 16:52:44,708 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:52:44] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:53:00,117 INFO 74d48b45630d47feb07c0fe5a259c141 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:53:00,117 INFO 74d48b45630d47feb07c0fe5a259c141 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 16:53:00,117 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:53:00] "GET / HTTP/1.1" 200 -
+2025-10-22 16:53:00,417 INFO 0e7349763cb140d99bd897aa1d415f23 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:53:00,417 INFO 0e7349763cb140d99bd897aa1d415f23 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 16:53:00,418 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:53:00] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 16:53:00,420 INFO c70ed27a577a4e739c4baf269defa1dd 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 16:53:00,420 INFO c70ed27a577a4e739c4baf269defa1dd 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 16:53:00,420 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:53:00] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:53:00,427 INFO 22ab76063bb94fc3968addb7d615e861 127.0.0.1 GET /chats - request completed status=200 duration_ms=11
+2025-10-22 16:53:00,427 INFO 22ab76063bb94fc3968addb7d615e861 127.0.0.1 GET /chats - request completed status=200 duration_ms=11
+2025-10-22 16:53:00,429 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:53:00] "GET /chats HTTP/1.1" 200 -
+2025-10-22 16:53:10,255 INFO 1c53009a11f145e5aa55926808a4cbc8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:53:10,255 INFO 1c53009a11f145e5aa55926808a4cbc8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:53:10,255 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:53:10] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:53:20,541 INFO 0ed30855b9bb47c0ae4e8e57c4c00770 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:53:20,541 INFO 0ed30855b9bb47c0ae4e8e57c4c00770 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:53:20,541 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:53:20] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:53:32,548 INFO 0e8901e54bec482b97afa1a2ade2886a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 16:53:32,548 INFO 0e8901e54bec482b97afa1a2ade2886a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 16:53:32,548 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:53:32] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:53:42,545 INFO f8b45b215e564e1bacc1460de46caa2a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=9
+2025-10-22 16:53:42,545 INFO f8b45b215e564e1bacc1460de46caa2a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=9
+2025-10-22 16:53:42,546 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:53:42] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:53:52,541 INFO b2e6fd5b901645d4bc86aede5e9cc863 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:53:52,541 INFO b2e6fd5b901645d4bc86aede5e9cc863 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:53:52,541 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:53:52] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:54:02,544 INFO d4832379537d45e8a7617d8cfb3c6130 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 16:54:02,544 INFO d4832379537d45e8a7617d8cfb3c6130 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 16:54:02,544 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:54:02] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:54:12,539 INFO 61cbdfa53bba43c9bab5ff3c4d584d16 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:54:12,539 INFO 61cbdfa53bba43c9bab5ff3c4d584d16 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:54:12,539 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:54:12] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:54:22,540 INFO cb7c8d907d6441088bcfc37b70d79b42 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:54:22,540 INFO cb7c8d907d6441088bcfc37b70d79b42 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:54:22,540 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:54:22] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:54:32,537 INFO 457d01d52cce48f5baf5653ba531035d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=7
+2025-10-22 16:54:32,537 INFO 457d01d52cce48f5baf5653ba531035d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=7
+2025-10-22 16:54:32,537 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:54:32] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:55:33,545 INFO 5719e89d1605484283454a12d111f06a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:55:33,545 INFO 5719e89d1605484283454a12d111f06a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:55:33,554 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:55:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:56:34,532 INFO ba4f07dc82d046b68889900e09759d10 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:56:34,532 INFO ba4f07dc82d046b68889900e09759d10 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:56:34,548 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:56:34] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:57:35,530 INFO 2ccc7f6ffe504f23b374482213079407 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:57:35,530 INFO 2ccc7f6ffe504f23b374482213079407 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:57:35,530 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:57:35] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:58:36,563 INFO 61129fcd02de4b1182477b4aaa7e9f92 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 16:58:36,563 INFO 61129fcd02de4b1182477b4aaa7e9f92 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 16:58:36,563 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:58:36] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 16:59:37,539 INFO 28928ebb30f1418ab12e4dee6869359d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:59:37,539 INFO 28928ebb30f1418ab12e4dee6869359d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 16:59:37,539 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 16:59:37] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:00:38,537 INFO 56011d0534f140428279c181cb45cd6d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:00:38,537 INFO 56011d0534f140428279c181cb45cd6d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:00:38,537 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:00:38] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:01:39,544 INFO 9c0993be680d49d588984a7f13a52471 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=15
+2025-10-22 17:01:39,544 INFO 9c0993be680d49d588984a7f13a52471 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=15
+2025-10-22 17:01:39,544 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:01:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:02:39,544 INFO e78eea5969af49e8b815203812bfe9be 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 17:02:39,544 INFO e78eea5969af49e8b815203812bfe9be 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 17:02:39,544 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:02:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:03:39,542 INFO 225292d49e004b9584c72e705aa71a73 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 17:03:39,542 INFO 225292d49e004b9584c72e705aa71a73 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 17:03:39,543 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:03:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:04:39,549 INFO e79a1b13bdb94ec599ed974b2aec5841 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 17:04:39,549 INFO e79a1b13bdb94ec599ed974b2aec5841 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 17:04:39,549 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:04:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:05:39,533 INFO 48dfb28fb05441f3becd0ee000f0804f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:05:39,533 INFO 48dfb28fb05441f3becd0ee000f0804f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:05:39,533 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:05:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:06:39,541 INFO 3489e4f46574495e90431239e659b695 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:06:39,541 INFO 3489e4f46574495e90431239e659b695 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:06:39,541 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:06:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:09:09,679 INFO - - - - - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.164.247.99:3000
+2025-10-22 17:09:09,679 INFO - - - - - [33mPress CTRL+C to quit[0m
+2025-10-22 17:09:26,774 INFO eafdc8e9a3e74fc48014aa8fcff6c10f 127.0.0.1 GET / - request completed status=200 duration_ms=31
+2025-10-22 17:09:26,774 INFO eafdc8e9a3e74fc48014aa8fcff6c10f 127.0.0.1 GET / - request completed status=200 duration_ms=31
+2025-10-22 17:09:26,776 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:09:26] "GET / HTTP/1.1" 200 -
+2025-10-22 17:09:26,836 INFO 82b28916fc254425a5047987b52ddc26 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 17:09:26,836 INFO 82b28916fc254425a5047987b52ddc26 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 17:09:26,836 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:09:26] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 17:09:26,838 INFO 896a428f93e74c43b1bc94fd7aa64f77 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=5
+2025-10-22 17:09:26,838 INFO 896a428f93e74c43b1bc94fd7aa64f77 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=5
+2025-10-22 17:09:26,840 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:09:26] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:09:26,842 INFO 2aa8d9d2bc0f47cb9c2246a78a913343 127.0.0.1 GET /chats - request completed status=200 duration_ms=15
+2025-10-22 17:09:26,842 INFO 2aa8d9d2bc0f47cb9c2246a78a913343 127.0.0.1 GET /chats - request completed status=200 duration_ms=15
+2025-10-22 17:09:26,842 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:09:26] "GET /chats HTTP/1.1" 200 -
+2025-10-22 17:09:36,829 INFO 65fb783ebff14bb99bd1868ca7d83214 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=6
+2025-10-22 17:09:36,829 INFO 65fb783ebff14bb99bd1868ca7d83214 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=6
+2025-10-22 17:09:36,831 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:09:36] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:09:38,059 INFO e867416810a842018a9ad4dce7b8838d 127.0.0.1 POST /chats - request completed status=200 duration_ms=7
+2025-10-22 17:09:38,059 INFO e867416810a842018a9ad4dce7b8838d 127.0.0.1 POST /chats - request completed status=200 duration_ms=7
+2025-10-22 17:09:38,059 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:09:38] "POST /chats HTTP/1.1" 200 -
+2025-10-22 17:09:38,140 INFO dc49c7e89447442cb01329fed3903fc7 127.0.0.1 GET /chats - request completed status=200 duration_ms=64
+2025-10-22 17:09:38,140 INFO dc49c7e89447442cb01329fed3903fc7 127.0.0.1 GET /chats - request completed status=200 duration_ms=64
+2025-10-22 17:09:38,142 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:09:38] "GET /chats HTTP/1.1" 200 -
+2025-10-22 17:09:42,119 INFO 728a2528184b47c5bc14d280d7d24fff 127.0.0.1 POST /ask - creating OpenAI client base=https://api.deepseek.com/v1
+2025-10-22 17:09:42,119 INFO 728a2528184b47c5bc14d280d7d24fff 127.0.0.1 POST /ask - creating OpenAI client base=https://api.deepseek.com/v1
+2025-10-22 17:09:46,815 INFO cec5ddb78a4c43ab92fc31dc07d72f4a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=8
+2025-10-22 17:09:46,815 INFO cec5ddb78a4c43ab92fc31dc07d72f4a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=8
+2025-10-22 17:09:46,821 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:09:46] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:09:49,665 INFO 728a2528184b47c5bc14d280d7d24fff 127.0.0.1 POST /ask - HTTP Request: POST https://api.deepseek.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-22 17:09:56,779 INFO 728a2528184b47c5bc14d280d7d24fff 127.0.0.1 POST /ask - request completed status=200 duration_ms=18611
+2025-10-22 17:09:56,779 INFO 728a2528184b47c5bc14d280d7d24fff 127.0.0.1 POST /ask - request completed status=200 duration_ms=18611
+2025-10-22 17:09:56,779 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:09:56] "POST /ask HTTP/1.1" 200 -
+2025-10-22 17:09:56,814 INFO 32ec5125203b4e08b3c69668960cd16c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 17:09:56,814 INFO 32ec5125203b4e08b3c69668960cd16c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 17:09:56,816 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:09:56] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:10:06,815 INFO 2ac8485034d64b0d8871043b525c0f56 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:10:06,815 INFO 2ac8485034d64b0d8871043b525c0f56 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:10:06,815 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:10:06] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:10:16,817 INFO cb132de6cadf4492b1fa5d17342fc08c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:10:16,817 INFO cb132de6cadf4492b1fa5d17342fc08c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:10:16,817 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:10:16] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:10:26,824 INFO 1c6470581cf7474d8f8eff2ce084f56e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:10:26,824 INFO 1c6470581cf7474d8f8eff2ce084f56e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:10:26,824 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:10:26] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:10:36,815 INFO a1e29eda3bbd4efd8c050e6f6ee37ccb 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:10:36,815 INFO a1e29eda3bbd4efd8c050e6f6ee37ccb 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:10:36,815 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:10:36] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:10:46,826 INFO 2d13f1534d5640bf8505cc382669183d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:10:46,826 INFO 2d13f1534d5640bf8505cc382669183d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:10:46,826 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:10:46] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:10:56,815 INFO 27b3ad5bc558408eb5d9b08f59019dc2 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=7
+2025-10-22 17:10:56,815 INFO 27b3ad5bc558408eb5d9b08f59019dc2 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=7
+2025-10-22 17:10:56,815 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:10:56] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:11:06,809 INFO 8682e597f57043738de2487b305b6b91 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:11:06,809 INFO 8682e597f57043738de2487b305b6b91 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:11:06,841 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:11:06] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:11:16,812 INFO 61a36d01aeba45609e780696b3be49d3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:11:16,812 INFO 61a36d01aeba45609e780696b3be49d3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:11:16,812 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:11:16] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:11:26,824 INFO 48b8d7ca6f3a45b983259aeefd219afa 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:11:26,824 INFO 48b8d7ca6f3a45b983259aeefd219afa 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:11:26,824 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:11:26] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:11:36,831 INFO 318aa58da9454b36b941b2b3f63de5dd 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 17:11:36,831 INFO 318aa58da9454b36b941b2b3f63de5dd 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 17:11:36,831 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:11:36] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:11:46,816 INFO 7f5cbdd7c42f4f4a83518eaf12c27138 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=11
+2025-10-22 17:11:46,816 INFO 7f5cbdd7c42f4f4a83518eaf12c27138 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=11
+2025-10-22 17:11:46,816 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:11:46] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:11:56,811 INFO ae403ce84b9e4bdb80468d22548e2e85 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:11:56,811 INFO ae403ce84b9e4bdb80468d22548e2e85 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:11:56,811 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:11:56] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:12:06,816 INFO 2905b1abeb9b4a818ea44c7df0352e29 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 17:12:06,816 INFO 2905b1abeb9b4a818ea44c7df0352e29 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 17:12:06,816 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:12:06] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:12:16,817 INFO d54c6686a55f4666ae46cee132b3e1bd 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:12:16,817 INFO d54c6686a55f4666ae46cee132b3e1bd 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:12:16,817 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:12:16] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:12:26,817 INFO 4954c74fa66a481381a2b4b2da98776f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:12:26,817 INFO 4954c74fa66a481381a2b4b2da98776f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:12:26,817 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:12:26] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:12:36,821 INFO 0cb1915522ec4101b9a472492b32ace7 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=9
+2025-10-22 17:12:36,821 INFO 0cb1915522ec4101b9a472492b32ace7 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=9
+2025-10-22 17:12:36,822 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:12:36] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:12:47,532 INFO 694cf21395f6476f893cbae25012664d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:12:47,532 INFO 694cf21395f6476f893cbae25012664d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:12:47,532 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:12:47] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:12:57,529 INFO c21e00e1af564b96af513bfb375d1966 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:12:57,529 INFO c21e00e1af564b96af513bfb375d1966 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:12:57,529 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:12:57] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:13:07,560 INFO 9452745146ed42e0b78886aa0cb4c3c6 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 17:13:07,560 INFO 9452745146ed42e0b78886aa0cb4c3c6 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 17:13:07,560 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:13:07] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:13:17,534 INFO 35dd9d9e6d394a1091e4389a7236704f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:13:17,534 INFO 35dd9d9e6d394a1091e4389a7236704f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:13:17,534 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:13:17] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:13:27,548 INFO 1ee69963010742d39a5b70b35166a3e2 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=8
+2025-10-22 17:13:27,548 INFO 1ee69963010742d39a5b70b35166a3e2 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=8
+2025-10-22 17:13:27,548 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:13:27] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:13:37,534 INFO ce57dc3edcd7457aa76c4745c95fdc89 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:13:37,534 INFO ce57dc3edcd7457aa76c4745c95fdc89 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:13:37,534 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:13:37] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:14:38,553 INFO 3ee1d45ac34f4c0f8ac1a306d90c8821 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:14:38,553 INFO 3ee1d45ac34f4c0f8ac1a306d90c8821 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:14:38,553 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:14:38] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:15:39,538 INFO c468b108e5194978b66da229f50cf447 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:15:39,538 INFO c468b108e5194978b66da229f50cf447 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:15:39,541 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:15:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:16:39,545 INFO b56cad50c4914cf5893cc6caed0a5edf 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:16:39,545 INFO b56cad50c4914cf5893cc6caed0a5edf 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:16:39,545 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:16:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:17:39,536 INFO 35c822ffbc9944538fb4c177fd045d3c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:17:39,536 INFO 35c822ffbc9944538fb4c177fd045d3c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:17:39,536 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:17:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:18:39,536 INFO a850834d026a4f96b7b79c45c11e5563 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:18:39,536 INFO a850834d026a4f96b7b79c45c11e5563 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:18:39,536 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:18:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:19:39,534 INFO 1af2cb15fe25459b9de09aa843dfbf66 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:19:39,534 INFO 1af2cb15fe25459b9de09aa843dfbf66 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:19:39,543 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:19:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:20:39,537 INFO 00856ae86ddc4109a5b0cc1de7629f95 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:20:39,537 INFO 00856ae86ddc4109a5b0cc1de7629f95 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:20:39,537 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:20:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:21:39,558 INFO a973ccadd77f4c7d8e757a612eb5ec2f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:21:39,558 INFO a973ccadd77f4c7d8e757a612eb5ec2f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:21:39,558 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:21:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:22:39,543 INFO 20c60ef53b78492484526562522a511d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 17:22:39,543 INFO 20c60ef53b78492484526562522a511d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 17:22:39,547 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:22:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:23:39,547 INFO 0d693cbb64154c708b3ef349c0a369fa 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 17:23:39,547 INFO 0d693cbb64154c708b3ef349c0a369fa 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 17:23:39,547 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:23:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 17:24:39,537 INFO 21a4ddbedb114df6877f8c066df80098 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:24:39,537 INFO 21a4ddbedb114df6877f8c066df80098 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 17:24:39,537 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 17:24:39] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:21:19,863 INFO e3d4d281253e433db4d837aaa98fb1c8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=12
+2025-10-22 20:21:19,863 INFO e3d4d281253e433db4d837aaa98fb1c8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=12
+2025-10-22 20:21:19,863 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:21:19] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:21:33,527 INFO aa7fd3ea698846e3afb6130137449f54 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 20:21:33,527 INFO aa7fd3ea698846e3afb6130137449f54 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 20:21:33,529 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:21:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:22:33,513 INFO 9625d3963c644dda8dfab64435bef394 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:22:33,513 INFO 9625d3963c644dda8dfab64435bef394 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:22:33,513 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:22:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:23:33,500 INFO 084aa2c585824e1a8f11eb1e5940154f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:23:33,500 INFO 084aa2c585824e1a8f11eb1e5940154f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:23:33,500 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:23:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:24:33,507 INFO edd0c7fcca7945968ef5083e7c3b124a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:24:33,507 INFO edd0c7fcca7945968ef5083e7c3b124a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:24:33,507 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:24:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:25:33,517 INFO 425f84cfa72e47bc8eccb936af3f5d51 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:25:33,517 INFO 425f84cfa72e47bc8eccb936af3f5d51 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:25:33,518 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:25:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:26:33,501 INFO b3499503879e4a6388878607fa6c5d15 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:26:33,501 INFO b3499503879e4a6388878607fa6c5d15 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:26:33,501 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:26:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:27:33,504 INFO a05873670a404e7f90b67c621ca6dd00 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:27:33,504 INFO a05873670a404e7f90b67c621ca6dd00 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:27:33,504 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:27:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:28:33,501 INFO 5bd7246ada0f4d9286f9d71860f033fc 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 20:28:33,501 INFO 5bd7246ada0f4d9286f9d71860f033fc 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 20:28:33,502 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:28:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:29:33,512 INFO 5d710de681384843ae4c1ce6dbb2f906 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:29:33,512 INFO 5d710de681384843ae4c1ce6dbb2f906 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:29:33,513 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:29:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:30:33,519 INFO fb39457d27ec4340bbb630cfcaca043d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:30:33,519 INFO fb39457d27ec4340bbb630cfcaca043d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:30:33,519 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:30:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:31:33,500 INFO e6868bba1eb44dfbaf2aa6698f1df9e1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:31:33,500 INFO e6868bba1eb44dfbaf2aa6698f1df9e1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:31:33,508 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:31:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:32:33,513 INFO e2fd1975ada749209f377fb74965770c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:32:33,513 INFO e2fd1975ada749209f377fb74965770c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:32:33,513 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:32:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:33:33,522 INFO a97b5fb60e38427ea8ab01200a33a07f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 20:33:33,522 INFO a97b5fb60e38427ea8ab01200a33a07f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 20:33:33,523 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:33:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:33:43,709 INFO - - - - - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.164.247.99:3000
+2025-10-22 20:33:43,710 INFO - - - - - [33mPress CTRL+C to quit[0m
+2025-10-22 20:33:55,549 INFO f2d0c849097e4ea493dc0349280d16cc 127.0.0.1 GET / - request completed status=200 duration_ms=27
+2025-10-22 20:33:55,549 INFO f2d0c849097e4ea493dc0349280d16cc 127.0.0.1 GET / - request completed status=200 duration_ms=27
+2025-10-22 20:33:55,549 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:33:55] "GET / HTTP/1.1" 200 -
+2025-10-22 20:33:55,738 INFO ca2754e3ec0d4163b1098e33757a5670 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 20:33:55,738 INFO ca2754e3ec0d4163b1098e33757a5670 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 20:33:55,739 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:33:55] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 20:33:55,742 INFO 4432c6642b4e4eaf914ea35600925800 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:33:55,742 INFO 4432c6642b4e4eaf914ea35600925800 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:33:55,742 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:33:55] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:33:55,752 INFO a3df21fae2f444828a868cac7bea7e77 127.0.0.1 GET /chats - request completed status=200 duration_ms=13
+2025-10-22 20:33:55,752 INFO a3df21fae2f444828a868cac7bea7e77 127.0.0.1 GET /chats - request completed status=200 duration_ms=13
+2025-10-22 20:33:55,753 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:33:55] "GET /chats HTTP/1.1" 200 -
+2025-10-22 20:34:05,591 INFO 9e95a872dd2648f7bf8c344bb39b55a3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:34:05,591 INFO 9e95a872dd2648f7bf8c344bb39b55a3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:34:05,591 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:34:05] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:34:15,588 INFO 36c4551e549a4aeaa5232bb404d12e06 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:34:15,588 INFO 36c4551e549a4aeaa5232bb404d12e06 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:34:15,588 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:34:15] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:34:25,589 INFO 568ad76b735f488892566d8a4d5c3627 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:34:25,589 INFO 568ad76b735f488892566d8a4d5c3627 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:34:25,589 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:34:25] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:34:33,505 INFO a0b6fb6684094747a4ab359ac0292a1c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:34:33,505 INFO a0b6fb6684094747a4ab359ac0292a1c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:34:33,505 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:34:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:34:35,601 INFO b452f429f5834f98961fb5c1abf65902 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:34:35,601 INFO b452f429f5834f98961fb5c1abf65902 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:34:35,601 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:34:35] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:34:45,590 INFO e19f14b27ffd4e0baef2d9a0c765ea23 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:34:45,590 INFO e19f14b27ffd4e0baef2d9a0c765ea23 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:34:45,590 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:34:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:34:55,587 INFO c438491ce78d450a81c74fa8b6867675 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:34:55,587 INFO c438491ce78d450a81c74fa8b6867675 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:34:55,587 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:34:55] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:35:05,588 INFO fda356396e8946aebe78361c3caeb7e0 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:35:05,588 INFO fda356396e8946aebe78361c3caeb7e0 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:35:05,588 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:35:05] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:35:15,587 INFO eb94d0121d5e4ee2b3ddd52000bd82a0 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:35:15,587 INFO eb94d0121d5e4ee2b3ddd52000bd82a0 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:35:15,587 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:35:15] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:35:25,587 INFO f2e985de36f946dbb5d9057f9151d952 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:35:25,587 INFO f2e985de36f946dbb5d9057f9151d952 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:35:25,587 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:35:25] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:35:33,500 INFO 57052388b16a4900b0c5f8c24667f14f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:35:33,500 INFO 57052388b16a4900b0c5f8c24667f14f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:35:33,500 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:35:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:35:35,594 INFO 4fc88e8f33494dc0b247e3fc4fa82ec4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=10
+2025-10-22 20:35:35,594 INFO 4fc88e8f33494dc0b247e3fc4fa82ec4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=10
+2025-10-22 20:35:35,594 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:35:35] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:35:45,596 INFO 52f2a935847a4f47b1269381ce9ac92c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:35:45,596 INFO 52f2a935847a4f47b1269381ce9ac92c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:35:45,596 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:35:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:35:55,597 INFO e1052da51eb04b8099f6d37c57f7dde1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=9
+2025-10-22 20:35:55,597 INFO e1052da51eb04b8099f6d37c57f7dde1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=9
+2025-10-22 20:35:55,597 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:35:55] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:36:05,597 INFO bdffdf811e6345239240acb16943e70e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:36:05,597 INFO bdffdf811e6345239240acb16943e70e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:36:05,597 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:36:05] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:36:15,593 INFO 96a7caa57d67426392db72715167d61e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:36:15,593 INFO 96a7caa57d67426392db72715167d61e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:36:15,593 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:36:15] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:36:25,592 INFO e8261e214f0f40519c162fae9a1e9047 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:36:25,592 INFO e8261e214f0f40519c162fae9a1e9047 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:36:25,592 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:36:25] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:36:33,503 INFO 6dc1a606029a4a4fa4ede37d4abde45f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:36:33,503 INFO 6dc1a606029a4a4fa4ede37d4abde45f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:36:33,503 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:36:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:36:35,602 INFO 61e4c847320c4f0d94a6cbe804bafbb6 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:36:35,602 INFO 61e4c847320c4f0d94a6cbe804bafbb6 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:36:35,602 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:36:35] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:36:45,587 INFO e8570cfcf7fa4b03896162e7cc14a3cb 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:36:45,587 INFO e8570cfcf7fa4b03896162e7cc14a3cb 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:36:45,587 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:36:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:36:55,590 INFO 93e2a0893d494b9aacd2cad75b86aeb7 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:36:55,590 INFO 93e2a0893d494b9aacd2cad75b86aeb7 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:36:55,590 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:36:55] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:37:05,591 INFO 8df823e80bf641979c1e0752d41b2abe 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:37:05,591 INFO 8df823e80bf641979c1e0752d41b2abe 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:37:05,591 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:37:05] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:37:15,589 INFO da71f06db38b4279ade29619ba3235ec 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:37:15,589 INFO da71f06db38b4279ade29619ba3235ec 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:37:15,589 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:37:15] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:37:25,584 INFO 00e25d81309e494195d24e70e54b3c68 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:37:25,584 INFO 00e25d81309e494195d24e70e54b3c68 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:37:25,584 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:37:25] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:37:33,494 INFO c8d072751e1c4dfc83849427dc178280 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:37:33,494 INFO c8d072751e1c4dfc83849427dc178280 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:37:33,494 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:37:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:37:35,591 INFO 0a49b971b86b4cdd9f9d994e8d5a7f35 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:37:35,591 INFO 0a49b971b86b4cdd9f9d994e8d5a7f35 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:37:35,591 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:37:35] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:37:45,599 INFO dce637e2d6184cbeb5e02d5edd4f788c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:37:45,599 INFO dce637e2d6184cbeb5e02d5edd4f788c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:37:45,599 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:37:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:37:55,594 INFO 84817989ff5d448f80b68864af26786a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:37:55,594 INFO 84817989ff5d448f80b68864af26786a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:37:55,594 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:37:55] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:38:05,590 INFO 7497dfd208574082a95af77070837953 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:38:05,590 INFO 7497dfd208574082a95af77070837953 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:38:05,590 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:38:05] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:38:15,587 INFO 91ce70c0544042a997e429f79a523952 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:38:15,587 INFO 91ce70c0544042a997e429f79a523952 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:38:15,587 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:38:15] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:38:25,589 INFO 8f1f3fa06b554bab9a22048f398710c2 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:38:25,589 INFO 8f1f3fa06b554bab9a22048f398710c2 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:38:25,589 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:38:25] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:38:33,506 INFO 434600154380456bb64a29a4b99a2713 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:38:33,506 INFO 434600154380456bb64a29a4b99a2713 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:38:33,506 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:38:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:38:35,589 INFO 23e2312accfa42ddb7f63ed9a0665cd5 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:38:35,589 INFO 23e2312accfa42ddb7f63ed9a0665cd5 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:38:35,589 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:38:35] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:38:45,595 INFO 09fa3bb0ff3644eeab44c0e65bb2eb01 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:38:45,595 INFO 09fa3bb0ff3644eeab44c0e65bb2eb01 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:38:45,595 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:38:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:38:55,596 INFO e9b5bedc3b1e454f9c4818003f3bc983 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:38:55,596 INFO e9b5bedc3b1e454f9c4818003f3bc983 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:38:55,596 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:38:55] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:39:05,600 INFO 96cc88c3503244c4bcc7896a6e3338d4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:39:05,600 INFO 96cc88c3503244c4bcc7896a6e3338d4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:39:05,600 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:39:05] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:39:15,597 INFO a574339828cb408296195d482fd95f5a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:39:15,597 INFO a574339828cb408296195d482fd95f5a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:39:15,597 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:39:15] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:39:25,590 INFO 9b5b106cf8834080b8464ddd299a21da 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:39:25,590 INFO 9b5b106cf8834080b8464ddd299a21da 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:39:25,590 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:39:25] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:39:33,505 INFO e7bebcc46d6f407bab3e372cd0e7b6ad 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=10
+2025-10-22 20:39:33,505 INFO e7bebcc46d6f407bab3e372cd0e7b6ad 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=10
+2025-10-22 20:39:33,505 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:39:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:39:35,580 INFO 9bb9d9f8439e46fd9e008dee82133ca1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:39:35,580 INFO 9bb9d9f8439e46fd9e008dee82133ca1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:39:35,580 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:39:35] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:39:45,587 INFO bc23b5d12d4e4553918acb8b876c552b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:39:45,587 INFO bc23b5d12d4e4553918acb8b876c552b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:39:45,589 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:39:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:39:55,590 INFO eade6f2a3ba14f14a3b82edde8144e28 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:39:55,590 INFO eade6f2a3ba14f14a3b82edde8144e28 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:39:55,590 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:39:55] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:40:05,589 INFO de20ebf70e1d412da94e23f2defd9bad 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:40:05,589 INFO de20ebf70e1d412da94e23f2defd9bad 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:40:05,589 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:40:05] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:40:15,587 INFO 72d5c8ff953d412f9f8b155b6193d889 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:40:15,587 INFO 72d5c8ff953d412f9f8b155b6193d889 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:40:15,587 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:40:15] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:40:25,589 INFO 5ce009f5bb7640e9801d6c27c7307d2e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:40:25,589 INFO 5ce009f5bb7640e9801d6c27c7307d2e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:40:25,589 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:40:25] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:40:33,509 INFO 82b0a0081c9d4c90b7107ee4eb409a72 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:40:33,509 INFO 82b0a0081c9d4c90b7107ee4eb409a72 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:40:33,509 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:40:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:40:35,586 INFO d0e7538fdd204d9c813488182b61f334 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:40:35,586 INFO d0e7538fdd204d9c813488182b61f334 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:40:35,586 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:40:35] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:40:44,884 INFO c8d4ad4818e242f794d63bec314bca22 127.0.0.1 POST /chats - request completed status=200 duration_ms=0
+2025-10-22 20:40:44,884 INFO c8d4ad4818e242f794d63bec314bca22 127.0.0.1 POST /chats - request completed status=200 duration_ms=0
+2025-10-22 20:40:44,884 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:40:44] "POST /chats HTTP/1.1" 200 -
+2025-10-22 20:40:44,909 INFO 74cd27239a3743539f7512c2c1399c17 127.0.0.1 GET /chats - request completed status=200 duration_ms=16
+2025-10-22 20:40:44,909 INFO 74cd27239a3743539f7512c2c1399c17 127.0.0.1 GET /chats - request completed status=200 duration_ms=16
+2025-10-22 20:40:44,909 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:40:44] "GET /chats HTTP/1.1" 200 -
+2025-10-22 20:40:45,580 INFO 062b2cb6b21a4ec58bc30e3db599c4dc 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:40:45,580 INFO 062b2cb6b21a4ec58bc30e3db599c4dc 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:40:45,580 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:40:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:40:46,446 INFO 9b4e9f6dd59d457aa0c8c254d7edca36 127.0.0.1 POST /ask - creating OpenAI client base=https://api.deepseek.com/v1
+2025-10-22 20:40:46,446 INFO 9b4e9f6dd59d457aa0c8c254d7edca36 127.0.0.1 POST /ask - creating OpenAI client base=https://api.deepseek.com/v1
+2025-10-22 20:40:49,490 INFO 9b4e9f6dd59d457aa0c8c254d7edca36 127.0.0.1 POST /ask - HTTP Request: POST https://api.deepseek.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-22 20:40:55,586 INFO ad2b8931deb841a292c30145e18315d4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:40:55,586 INFO ad2b8931deb841a292c30145e18315d4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:40:55,586 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:40:55] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:40:59,939 INFO 9b4e9f6dd59d457aa0c8c254d7edca36 127.0.0.1 POST /ask - request completed status=200 duration_ms=15014
+2025-10-22 20:40:59,939 INFO 9b4e9f6dd59d457aa0c8c254d7edca36 127.0.0.1 POST /ask - request completed status=200 duration_ms=15014
+2025-10-22 20:40:59,939 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:40:59] "POST /ask HTTP/1.1" 200 -
+2025-10-22 20:41:05,594 INFO 1eec8a0afaeb433aa44ecc375ee595e1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:41:05,594 INFO 1eec8a0afaeb433aa44ecc375ee595e1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:41:05,594 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:41:05] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:41:15,596 INFO e44e4071daf1402e821c50a892c1eb50 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:41:15,596 INFO e44e4071daf1402e821c50a892c1eb50 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:41:15,596 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:41:15] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:41:25,599 INFO ae11a618a3f3437fad3e65abc14fba62 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:41:25,599 INFO ae11a618a3f3437fad3e65abc14fba62 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:41:25,599 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:41:25] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:41:33,493 INFO 39f4e44a52fc49a9804e4184a069fcef 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:41:33,493 INFO 39f4e44a52fc49a9804e4184a069fcef 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:41:33,493 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:41:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:41:35,595 INFO c851b16a725247f6888360b1494a48d6 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:41:35,595 INFO c851b16a725247f6888360b1494a48d6 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:41:35,597 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:41:35] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:41:45,593 INFO b9644afb442f42b483c5e98a2d4f2df4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:41:45,593 INFO b9644afb442f42b483c5e98a2d4f2df4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:41:45,593 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:41:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:41:55,592 INFO 046999c5a5be46dfb2adfc988a7e2525 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:41:55,592 INFO 046999c5a5be46dfb2adfc988a7e2525 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:41:55,592 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:41:55] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:42:05,594 INFO dae57f8a66b740e1a1b7bee274a82ffe 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:42:05,594 INFO dae57f8a66b740e1a1b7bee274a82ffe 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:42:05,594 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:42:05] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:42:15,593 INFO 6d1bd06fb15a4e9eb25aa01fa3e3bd46 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:42:15,593 INFO 6d1bd06fb15a4e9eb25aa01fa3e3bd46 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:42:15,593 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:42:15] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:42:25,597 INFO 25208d9ceb8b401e996f9d7c6553d3d2 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:42:25,597 INFO 25208d9ceb8b401e996f9d7c6553d3d2 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:42:25,597 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:42:25] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:42:33,511 INFO ab2c6e6eeaf44393bcb71600b4240c95 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:42:33,511 INFO ab2c6e6eeaf44393bcb71600b4240c95 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:42:33,511 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:42:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:42:35,592 INFO fe6bdeaf9e2940588620ecfba075ce83 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:42:35,592 INFO fe6bdeaf9e2940588620ecfba075ce83 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:42:35,592 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:42:35] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:42:45,600 INFO 8d859d504d7948db90e4905781542b20 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:42:45,600 INFO 8d859d504d7948db90e4905781542b20 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:42:45,600 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:42:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:42:55,598 INFO 71a2377b59d74cf4ab0e3030f6bfa8de 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:42:55,598 INFO 71a2377b59d74cf4ab0e3030f6bfa8de 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:42:55,598 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:42:55] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:43:05,594 INFO 98ecd540918c478d816df79f948be02f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:43:05,594 INFO 98ecd540918c478d816df79f948be02f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:43:05,596 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:43:05] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:43:15,599 INFO c84c045e2cef4c5fa2149f570fce210a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:43:15,599 INFO c84c045e2cef4c5fa2149f570fce210a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:43:15,601 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:43:15] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:43:25,598 INFO 1fc5aac79fa947ca9d36b5ad643a215d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:43:25,598 INFO 1fc5aac79fa947ca9d36b5ad643a215d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:43:25,598 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:43:25] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:43:33,507 INFO a9cc6479cd2c494f8024f12e7d76dee4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:43:33,507 INFO a9cc6479cd2c494f8024f12e7d76dee4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:43:33,507 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:43:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:43:35,590 INFO c587ba444f594837a8a2745988ff1cc5 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:43:35,590 INFO c587ba444f594837a8a2745988ff1cc5 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:43:35,590 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:43:35] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:43:45,596 INFO ae0a1e6a563449289cf4cc1f069976c6 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:43:45,596 INFO ae0a1e6a563449289cf4cc1f069976c6 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:43:45,596 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:43:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:43:55,584 INFO a8fbabeea3fb46f293b6afd16594c79d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:43:55,584 INFO a8fbabeea3fb46f293b6afd16594c79d 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:43:55,584 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:43:55] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:44:05,601 INFO ae5e8d3563074a689d66e2bdbfb5810c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:44:05,601 INFO ae5e8d3563074a689d66e2bdbfb5810c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:44:05,601 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:44:05] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:44:15,588 INFO 3bb3a5ecb37a43d4922425d07dc6ba97 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:44:15,588 INFO 3bb3a5ecb37a43d4922425d07dc6ba97 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:44:15,588 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:44:15] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:44:21,965 INFO 5b58257323ab432d89d8236b6aa32435 127.0.0.1 POST /notes/save - request completed status=200 duration_ms=2
+2025-10-22 20:44:21,965 INFO 5b58257323ab432d89d8236b6aa32435 127.0.0.1 POST /notes/save - request completed status=200 duration_ms=2
+2025-10-22 20:44:21,965 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:44:21] "POST /notes/save HTTP/1.1" 200 -
+2025-10-22 20:44:22,023 INFO da54fe3fa2e34a4498e3482ef58a5250 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=41
+2025-10-22 20:44:22,023 INFO da54fe3fa2e34a4498e3482ef58a5250 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=41
+2025-10-22 20:44:22,026 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:44:22] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:44:25,598 INFO 7748333af64740059ff798680865a5ef 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=9
+2025-10-22 20:44:25,598 INFO 7748333af64740059ff798680865a5ef 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=9
+2025-10-22 20:44:25,598 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:44:25] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:44:33,501 INFO 9fd04dde89e5435c9955b262e015c087 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:44:33,501 INFO 9fd04dde89e5435c9955b262e015c087 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:44:33,501 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:44:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:44:35,595 INFO 27c97d6eb88e4995b7b8656a0ef573ca 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:44:35,595 INFO 27c97d6eb88e4995b7b8656a0ef573ca 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:44:35,595 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:44:35] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:44:35,815 INFO 9164e55eec9c482b9315c919aaa1719f 127.0.0.1 POST /notes/save - request completed status=200 duration_ms=0
+2025-10-22 20:44:35,815 INFO 9164e55eec9c482b9315c919aaa1719f 127.0.0.1 POST /notes/save - request completed status=200 duration_ms=0
+2025-10-22 20:44:35,816 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:44:35] "POST /notes/save HTTP/1.1" 200 -
+2025-10-22 20:44:35,822 INFO 25f2abe35f934237b3c4d0a920030e86 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:44:35,822 INFO 25f2abe35f934237b3c4d0a920030e86 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:44:35,822 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:44:35] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:44:45,581 INFO f8a88cd43c96410d84817a541ea2981f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:44:45,581 INFO f8a88cd43c96410d84817a541ea2981f 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:44:45,581 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:44:45] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:44:55,595 INFO 4db9fac5e1054379b81853f4868689be 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:44:55,595 INFO 4db9fac5e1054379b81853f4868689be 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:44:55,595 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:44:55] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:45:05,594 INFO e73ab543028041448130bffabe2272d8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:45:05,594 INFO e73ab543028041448130bffabe2272d8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:45:05,594 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:45:05] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:45:15,591 INFO d133c877ae0f464c85f3d198ce8b68dc 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=8
+2025-10-22 20:45:15,591 INFO d133c877ae0f464c85f3d198ce8b68dc 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=8
+2025-10-22 20:45:15,591 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:45:15] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:45:25,590 INFO 5bee2a471d4f47889f83f6367d2056bb 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:45:25,590 INFO 5bee2a471d4f47889f83f6367d2056bb 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:45:25,591 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:45:25] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:45:30,980 INFO 79c00d637d084b459c876e3d91128eef 127.0.0.1 GET /auth/profile - request completed status=200 duration_ms=2
+2025-10-22 20:45:30,980 INFO 79c00d637d084b459c876e3d91128eef 127.0.0.1 GET /auth/profile - request completed status=200 duration_ms=2
+2025-10-22 20:45:30,980 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:45:30] "GET /auth/profile HTTP/1.1" 200 -
+2025-10-22 20:45:31,012 INFO 400fc7438585447c8979ef369d8c88b6 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 20:45:31,012 INFO 400fc7438585447c8979ef369d8c88b6 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 20:45:31,012 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:45:31] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 20:45:31,026 INFO 878e3b240560414293cb27b2582ee46b 127.0.0.1 GET /auth/files - request completed status=200 duration_ms=0
+2025-10-22 20:45:31,026 INFO 878e3b240560414293cb27b2582ee46b 127.0.0.1 GET /auth/files - request completed status=200 duration_ms=0
+2025-10-22 20:45:31,026 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:45:31] "GET /auth/files HTTP/1.1" 200 -
+2025-10-22 20:45:32,957 INFO 650a18093ac248258e2e0a11124d2f28 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 20:45:32,957 INFO 650a18093ac248258e2e0a11124d2f28 127.0.0.1 GET / - request completed status=200 duration_ms=0
+2025-10-22 20:45:32,958 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:45:32] "GET / HTTP/1.1" 200 -
+2025-10-22 20:45:32,995 INFO 433126f6ae5e443e861f488356a34b9c 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 20:45:32,995 INFO 433126f6ae5e443e861f488356a34b9c 127.0.0.1 GET /auth/me - request completed status=200 duration_ms=0
+2025-10-22 20:45:32,995 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:45:32] "GET /auth/me HTTP/1.1" 200 -
+2025-10-22 20:45:32,999 INFO dfe9955191a54e8e925ee55c745e7b5c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=5
+2025-10-22 20:45:32,999 INFO dfe9955191a54e8e925ee55c745e7b5c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=5
+2025-10-22 20:45:33,001 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:45:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:45:33,002 INFO 10841c40822247328df0e6a3f6a14a5c 127.0.0.1 GET /chats - request completed status=200 duration_ms=16
+2025-10-22 20:45:33,002 INFO 10841c40822247328df0e6a3f6a14a5c 127.0.0.1 GET /chats - request completed status=200 duration_ms=16
+2025-10-22 20:45:33,002 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:45:33] "GET /chats HTTP/1.1" 200 -
+2025-10-22 20:45:33,500 INFO 5f3c5ee322844ec892270a04c199b5cb 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:45:33,500 INFO 5f3c5ee322844ec892270a04c199b5cb 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:45:33,500 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:45:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:45:42,982 INFO 110d2ce68764426592fae1dbe44914a6 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:45:42,982 INFO 110d2ce68764426592fae1dbe44914a6 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:45:42,982 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:45:42] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:45:52,977 INFO b5779a0e0010449e859997c8accca593 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:45:52,977 INFO b5779a0e0010449e859997c8accca593 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:45:52,977 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:45:52] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:46:02,981 INFO aef8767903094beb96e1d64d03033e3e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:46:02,981 INFO aef8767903094beb96e1d64d03033e3e 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:46:02,981 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:46:02] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:46:12,979 INFO b4ba6f9d7c074c399c28775b6457eade 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:46:12,979 INFO b4ba6f9d7c074c399c28775b6457eade 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:46:12,979 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:46:12] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:46:22,979 INFO 4c80ef9cebab497bac313a0abb5c85e9 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:46:22,979 INFO 4c80ef9cebab497bac313a0abb5c85e9 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:46:22,979 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:46:22] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:46:32,989 INFO 37adc36343184155adfe2a30fb0e24d1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:46:32,989 INFO 37adc36343184155adfe2a30fb0e24d1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:46:32,990 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:46:32] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:46:33,510 INFO f0ca90cd782842838b03695341c21b8a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 20:46:33,510 INFO f0ca90cd782842838b03695341c21b8a 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 20:46:33,511 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:46:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:46:43,512 INFO 5c26ce4af9ec41c3a49b95ef83b2eb44 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:46:43,512 INFO 5c26ce4af9ec41c3a49b95ef83b2eb44 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:46:43,512 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:46:43] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:46:53,504 INFO 73504bc858b64b25a75e74cd0d774273 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:46:53,504 INFO 73504bc858b64b25a75e74cd0d774273 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:46:53,504 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:46:53] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:47:03,504 INFO f1739680ba6644bc9ac99af874c91821 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:47:03,504 INFO f1739680ba6644bc9ac99af874c91821 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:47:03,504 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:47:03] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:47:13,497 INFO 0968e4fddb0140e294bb9a81dceed408 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:47:13,497 INFO 0968e4fddb0140e294bb9a81dceed408 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:47:13,497 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:47:13] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:47:23,502 INFO 22229dffc81344a7b14f6fd4a518ba31 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:47:23,502 INFO 22229dffc81344a7b14f6fd4a518ba31 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:47:23,502 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:47:23] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:47:33,498 INFO df88cf005c8540dbacf4bb97028778a1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:47:33,498 INFO df88cf005c8540dbacf4bb97028778a1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:47:33,498 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:47:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:47:33,510 INFO 0eb618ff3a904101adfc5b5fe3d4e90b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:47:33,510 INFO 0eb618ff3a904101adfc5b5fe3d4e90b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:47:33,510 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:47:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:48:33,506 INFO d5c17509739440ea960250de5e3baca0 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:48:33,506 INFO d5c17509739440ea960250de5e3baca0 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:48:33,506 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:48:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:48:33,512 INFO fbbff48725ec477581e1990664d148a5 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:48:33,512 INFO fbbff48725ec477581e1990664d148a5 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:48:33,512 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:48:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:49:33,505 INFO 756ed0a0b8c3402189920fcc21d76405 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:49:33,505 INFO 756ed0a0b8c3402189920fcc21d76405 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:49:33,505 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:49:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:49:33,521 INFO dcbdcadfa313467d9981985ff1e01be8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 20:49:33,521 INFO dcbdcadfa313467d9981985ff1e01be8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 20:49:33,521 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:49:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:50:33,503 INFO 51b55faec3644de18e6243719c029b25 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:50:33,503 INFO 51b55faec3644de18e6243719c029b25 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:50:33,503 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:50:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:50:33,509 INFO ebc68302e66c45cf88b0795574f41ba3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=5
+2025-10-22 20:50:33,509 INFO ebc68302e66c45cf88b0795574f41ba3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=5
+2025-10-22 20:50:33,509 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:50:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:51:33,534 INFO 34608d7618354d50b4a3512076a29db1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=23
+2025-10-22 20:51:33,534 INFO 34608d7618354d50b4a3512076a29db1 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=23
+2025-10-22 20:51:33,534 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:51:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:51:33,541 INFO 1772ea21a17f45d79eec206593ec12af 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=7
+2025-10-22 20:51:33,541 INFO 1772ea21a17f45d79eec206593ec12af 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=7
+2025-10-22 20:51:33,541 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:51:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:52:33,505 INFO e05bad66e26f4014831f9271055e91ba 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 20:52:33,505 INFO e05bad66e26f4014831f9271055e91ba 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=3
+2025-10-22 20:52:33,505 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:52:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:52:33,510 INFO 78f508cf512444998c21522895cd4d61 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:52:33,510 INFO 78f508cf512444998c21522895cd4d61 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=2
+2025-10-22 20:52:33,510 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:52:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:53:33,500 INFO 98909c82522243f281ed82ad5281c3f8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:53:33,500 INFO 98909c82522243f281ed82ad5281c3f8 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:53:33,500 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:53:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:53:33,513 INFO dbde029ae39843029eee98f33711d43b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:53:33,513 INFO dbde029ae39843029eee98f33711d43b 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:53:33,513 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:53:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:54:33,501 INFO a8224e8a033e4e2bbd630b9b4a19acd4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:54:33,501 INFO a8224e8a033e4e2bbd630b9b4a19acd4 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=1
+2025-10-22 20:54:33,501 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:54:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:54:33,509 INFO ca8027496746441fa9af6371553163cf 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:54:33,509 INFO ca8027496746441fa9af6371553163cf 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:54:33,509 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:54:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:55:33,501 INFO 3071775946d7493fa53e37b6b5baf7fd 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:55:33,501 INFO 3071775946d7493fa53e37b6b5baf7fd 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:55:33,501 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:55:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:55:33,509 INFO 93b2d144c9864e6cb7701fb481005731 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:55:33,509 INFO 93b2d144c9864e6cb7701fb481005731 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:55:33,509 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:55:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:56:33,508 INFO b4efbf291e0541069d9332f9cf694ebc 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:56:33,508 INFO b4efbf291e0541069d9332f9cf694ebc 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:56:33,508 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:56:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:56:33,519 INFO 9dde055266c3486abf09c746de128f76 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 20:56:33,519 INFO 9dde055266c3486abf09c746de128f76 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 20:56:33,519 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:56:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:57:33,514 INFO c7a13cfca53f455e8dd54bdb2d6d551c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 20:57:33,514 INFO c7a13cfca53f455e8dd54bdb2d6d551c 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=4
+2025-10-22 20:57:33,514 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:57:33] "GET /notes/list HTTP/1.1" 200 -
+2025-10-22 20:57:33,522 INFO 42fa608fec2b43fabb4e38a3678280a3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:57:33,522 INFO 42fa608fec2b43fabb4e38a3678280a3 127.0.0.1 GET /notes/list - request completed status=200 duration_ms=0
+2025-10-22 20:57:33,522 INFO - - - - - 127.0.0.1 - - [22/Oct/2025 20:57:33] "GET /notes/list HTTP/1.1" 200 -

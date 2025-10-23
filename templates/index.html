@@ -179,15 +179,16 @@
       bubble.className = 'bubble';
       bubble.innerHTML = formatText(text);
       li.appendChild(bubble);
-      // tools: move to notes
+      // tools: icons area attached under chat bubble (bottom)
       try{
         const tools = document.createElement('div');
         tools.className = 'msg-tools';
-        const btn = document.createElement('button');
-        btn.className = 'tool-btn';
-        btn.title = 'افزودن به یادداشت‌ها';
-        btn.textContent = '📝 افزودن به یادداشت';
-        btn.addEventListener('click', async ()=>{
+        // notes icon
+        const noteBtn = document.createElement('button');
+        noteBtn.className = 'tool-btn';
+        noteBtn.title = 'با این گزینه می‌توانید این چت را به یادداشت‌ها منتقل کنید';
+        noteBtn.textContent = '📝';
+        noteBtn.addEventListener('click', async ()=>{
           try{
             const area = document.getElementById('notesArea');
             const titleEl = document.getElementById('noteTitle');
@@ -198,15 +199,29 @@
                 titleEl.value = (plain.split('\n')[0]||'').slice(0,60) || 'یادداشت';
               }
               if(typeof saveCurrentNote === 'function'){
-                const prev = btn.textContent;
-                btn.textContent = '… در حال ذخیره';
+                const prev = noteBtn.textContent;
+                noteBtn.textContent = '…';
                 await saveCurrentNote();
-                btn.textContent = prev;
+                noteBtn.textContent = '📝';
               }
             }
           }catch(e){}
         });
-        tools.appendChild(btn);
+        // docs icon
+        const docsBtn = document.createElement('button');
+        docsBtn.className = 'tool-btn';
+        docsBtn.title = 'نمایش/مخفی‌سازی مستندات';
+        docsBtn.textContent = '📎';
+        docsBtn.addEventListener('click', ()=>{
+          try{
+            const metaEl = li.querySelector('.meta');
+            if(!metaEl){ return; }
+            const det = metaEl.querySelector('details');
+            if(det){ det.open = !det.open; det.scrollIntoView({behavior:'smooth', block:'center'}); }
+          }catch(e){}
+        });
+        tools.appendChild(noteBtn);
+        tools.appendChild(docsBtn);
         li.appendChild(tools);
       }catch(e){}
       if(meta && (meta.intent || meta.domain || (meta.citations||[]).length)){
@@ -234,6 +249,70 @@
       setTimeout(()=>{ window.scrollTo({ top: document.body.scrollHeight, behavior:'smooth' }); }, 0);
     }
 
+    // ===== Conversational Auth Wizard =====
+    function normalizeDigits(s){
+      const map = {'۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9','٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9'};
+      return (s||'').replace(/[۰-۹٠-٩]/g, ch=>map[ch]||ch);
+    }
+    function openAuthWizard(purpose){
+      const li = document.createElement('li'); li.className='msg assistant';
+      const box = document.createElement('div'); box.className='bubble';
+      box.innerHTML = `
+        <div style="display:flex; flex-direction:column; gap:10px; min-width:260px">
+          <div style="font-weight:600">${purpose==='signup'?'ثبت‌نام':'ورود'} با پیامک</div>
+          <div>
+            <label class="muted">شماره موبایل</label>
+            <input id="wizPhone" placeholder="0912xxxxxxx" style="width:100%; padding:10px; border:1px solid var(--border); background:#0b1220; color:var(--text); border-radius:10px">
+          </div>
+          <div id="wizCodeRow" style="display:none">
+            <label class="muted">کد تایید</label>
+            <input id="wizCode" placeholder="6 رقم" style="width:100%; padding:10px; border:1px solid var(--border); background:#0b1220; color:var(--text); border-radius:10px">
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap">
+            <button id="wizSend" class="btn" style="padding:10px 12px">ارسال کد</button>
+            <button id="wizVerify" class="btn" style="padding:10px 12px; display:none">تایید</button>
+          </div>
+          <div id="wizStatus" class="muted"></div>
+        </div>`;
+      li.appendChild(box); msgs.appendChild(li);
+      setTimeout(()=>{ document.getElementById('wizPhone')?.focus(); }, 0);
+
+      let cooldown = 0; let timer = null;
+      function setWizStatus(t, danger){ const el=document.getElementById('wizStatus'); if(!el) return; el.textContent=t||''; el.style.color = danger? '#fca5a5':'#94a3b8'; }
+      function tick(){ const btn=document.getElementById('wizSend'); if(btn){ btn.disabled = cooldown>0; btn.textContent = cooldown>0? `ارسال مجدد (${cooldown}s)` : 'ارسال کد'; } }
+      async function send(){
+        const phone = (document.getElementById('wizPhone').value||'').trim();
+        if(!/^\+?\d{10,15}$/.test(phone.replace(/\s/g,''))){ setWizStatus('شماره معتبر وارد کنید', true); return; }
+        setWizStatus('در حال ارسال...');
+        try{
+          const r = await fetch('auth/send-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone, purpose }) });
+          const ct = r.headers.get('content-type')||''; const j = ct.includes('application/json')? await r.json() : { ok:false };
+          if(!j.ok){
+            if(j.error==='cooldown'){ cooldown = j.retry_in_sec||60; clearInterval(timer); tick(); timer=setInterval(()=>{ cooldown--; tick(); if(cooldown<=0){ clearInterval(timer); } },1000); setWizStatus('لطفاً کمی صبر کنید'); return; }
+            setWizStatus('ارسال ناموفق بود', true); return;
+          }
+          document.getElementById('wizCodeRow').style.display='block';
+          document.getElementById('wizVerify').style.display='inline-block';
+          setWizStatus('کد ارسال شد'); cooldown = 60; clearInterval(timer); tick(); timer=setInterval(()=>{ cooldown--; tick(); if(cooldown<=0){ clearInterval(timer); } },1000);
+        }catch(e){ setWizStatus('خطا در ارتباط با سرور', true); }
+      }
+      async function verify(){
+        const phone = (document.getElementById('wizPhone').value||'').trim();
+        const raw = (document.getElementById('wizCode').value||'').trim();
+        const code = normalizeDigits(raw);
+        if(!/^\d{4,8}$/.test(code)){ setWizStatus('کد نامعتبر است', true); return; }
+        setWizStatus('بررسی کد...');
+        try{
+          const r = await fetch('auth/verify-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone, code, purpose }) });
+          const ct = r.headers.get('content-type')||''; const j = ct.includes('application/json')? await r.json() : { ok:false };
+          if(!j.ok){ setWizStatus('کد نامعتبر است', true); return; }
+          setWizStatus('انجام شد؛ در حال بروز‌رسانی...'); setTimeout(()=>{ location.reload(); }, 300);
+        }catch(e){ setWizStatus('خطا در ارتباط با سرور', true); }
+      }
+      box.querySelector('#wizSend').addEventListener('click', send);
+      box.querySelector('#wizVerify').addEventListener('click', verify);
+    }
+
     async function fetchJson(url, options){
       const r = await fetch(url, options);
       const ct = r.headers.get('content-type') || '';
@@ -247,6 +326,10 @@
     async function ask(){
       const text = q.value.trim();
       if(!text) return;
+      const tnorm = (text||'').toLowerCase();
+      // intercept auth intents
+      if(tnorm.includes('ورود') || tnorm.includes('login')){ addMsg('assistant','فرایند ورود آغاز شد.'); openAuthWizard('login'); q.value=''; return; }
+      if(tnorm.includes('ثبت') || tnorm.includes('signup') || tnorm.includes('register')){ addMsg('assistant','فرایند ثبت‌نام آغاز شد.'); openAuthWizard('signup'); q.value=''; return; }
       // auto-create chat title from first question if not set
       if(!currentChatId){
         try{

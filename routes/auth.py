@@ -299,12 +299,14 @@ def _inject_current_user():
 
 @auth_bp.get('/auth/login')
 def login_page():
-    return render_template('auth/login.html')
+    # Login/signup views are handled in chat; redirect to home
+    return redirect('/')
 
 
 @auth_bp.get('/auth/signup')
 def signup_page():
-    return render_template('auth/signup.html')
+    # Login/signup views are handled in chat; redirect to home
+    return redirect('/')
 
 
 @auth_bp.post('/auth/send-otp')
