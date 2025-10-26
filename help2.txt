@@ -1,0 +1,117 @@
+اسکریپت Bash خودکار: setup_flask_apache.sh
+
+#!/bin/bash
+
+# نام دامنه و مسیر پروژه
+DOMAIN="dadras.ai"
+PROJECT_DIR="/www/wwwroot/dadras"
+APP_FILE="$PROJECT_DIR/app.py"
+VHOST_DIR="/www/server/apache/conf/vhost"
+WSGI_FILE="$PROJECT_DIR/app.wsgi"
+LOGS_DIR="$PROJECT_DIR/logs"
+VHOST_FILE="$VHOST_DIR/dadras.conf"
+APACHE_BIN="/www/server/apache/bin/apachectl"
+WSGI_MODULE="/usr/lib/apache2/modules/mod_wsgi.so"
+
+echo "=== بررسی وجود پروژه Flask ==="
+if [ ! -d "$PROJECT_DIR" ]; then
+    echo "خطا: پوشه پروژه $PROJECT_DIR وجود ندارد!"
+    exit 1
+fi
+
+if [ ! -f "$APP_FILE" ]; then
+    echo "خطا: فایل app.py در $PROJECT_DIR موجود نیست!"
+    exit 1
+fi
+
+echo "=== مرحله 1: نصب mod_wsgi و python3-venv ==="
+sudo apt update
+sudo apt install libapache2-mod-wsgi-py3 python3-venv -y
+
+echo "=== مرحله 2: بررسی و لود ماژول WSGI ==="
+if ! $APACHE_BIN -M | grep -q wsgi; then
+    echo "LoadModule wsgi_module $WSGI_MODULE" | sudo tee -a /www/server/apache/conf/httpd.conf
+    echo "ماژول WSGI اضافه شد."
+else
+    echo "ماژول WSGI فعال است."
+fi
+
+echo "=== مرحله 3: ایجاد فایل WSGI ==="
+sudo tee $WSGI_FILE > /dev/null <<EOL
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+
+sys.path.insert(0, "$PROJECT_DIR")
+from app import app as application
+EOL
+
+sudo chown www-data:www-data $WSGI_FILE
+sudo chmod 644 $WSGI_FILE
+
+echo "=== مرحله 4: ایجاد پوشه Logs ==="
+sudo mkdir -p $LOGS_DIR
+sudo chown -R www-data:www-data $LOGS_DIR
+sudo chmod -R 755 $LOGS_DIR
+
+echo "=== مرحله 5: ایجاد فایل vhost ==="
+sudo mkdir -p $VHOST_DIR
+sudo tee $VHOST_FILE > /dev/null <<EOL
+<VirtualHost *:80>
+    ServerName $DOMAIN
+    ServerAlias www.$DOMAIN
+
+    DocumentRoot $PROJECT_DIR
+    WSGIScriptAlias / $WSGI_FILE
+
+    <Directory $PROJECT_DIR>
+        Require all granted
+        Options FollowSymLinks
+        AllowOverride All
+    </Directory>
+
+    ErrorLog $LOGS_DIR/error.log
+    CustomLog $LOGS_DIR/access.log combined
+</VirtualHost>
+EOL
+
+echo "=== مرحله 6: بررسی Syntax Apache ==="
+$APACHE_BIN -t
+
+echo "=== مرحله 7: ریستارت Apache ==="
+sudo systemctl restart httpd
+
+echo "=== مرحله 8: تست سایت ==="
+curl -I http://$DOMAIN
+curl -I http://www.$DOMAIN
+
+echo "=== همه مراحل انجام شد! سایت باید بالا باشد ✅ ==="
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------
+sudo nano setup_flask_apache.sh
+
+sudo chmod +x setup_flask_apache.sh
+
+
+sudo ./setup_flask_apache.sh
+
+
+

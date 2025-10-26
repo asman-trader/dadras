@@ -227,6 +227,7 @@ def _create_user(phone_norm_98: str) -> str:
         'id': uid,
         'phone_norm': phone_norm_98,
         'created_at': int(time.time()),
+        'plan': 'free',
     }
     _write_json(USERS_PATH, users)
     return uid
@@ -254,15 +255,29 @@ def _update_user(uid: str, fields: Dict[str, Any]) -> None:
     first_name = (fields.get('first_name') or '').strip()
     last_name = (fields.get('last_name') or '').strip()
     role = _normalize_role(fields.get('role') or '')
+    plan = _normalize_plan(fields.get('plan') or '')
     if first_name:
         u['first_name'] = first_name
     if last_name:
         u['last_name'] = last_name
     if role:
         u['role'] = role
+    if plan:
+        u['plan'] = plan
     u['updated_at'] = int(time.time())
     users[uid] = u
     _write_json(USERS_PATH, users)
+
+
+def _normalize_plan(plan: str) -> str:
+    p = (plan or '').strip().lower()
+    mapping = {
+        'free': 'free', 'رایگان': 'free',
+        'plus': 'plus', 'پلاس': 'plus',
+        'pro': 'pro', 'حرفه ای': 'pro', 'حرفه‌ای': 'pro',
+        'team': 'team', 'سازمانی': 'team'
+    }
+    return mapping.get(p, '')
 
 
 @auth_bp.before_app_request
@@ -462,7 +477,13 @@ def me():
         'first_name': u.get('first_name', ''),
         'last_name': u.get('last_name', ''),
         'role': u.get('role', ''),
+        'plan': u.get('plan', 'free'),
     }})
+
+
+@auth_bp.get('/pricing')
+def pricing_page():
+    return render_template('auth/pricing.html')
 
 
 
@@ -490,4 +511,26 @@ def profile_files():
     except Exception:
         items = []
     return jsonify({'ok': True, 'items': items})
+
+
+@auth_bp.get('/auth/plan')
+def get_plan():
+    u = g.get('current_user') or {}
+    return jsonify({'ok': True, 'plan': (u.get('plan') or 'free')})
+
+
+@auth_bp.post('/auth/plan')
+def set_plan():
+    u = g.get('current_user') or {}
+    if not u:
+        return jsonify({'ok': False, 'error': 'auth_required'}), 401
+    data = request.get_json(silent=True) or {}
+    plan = _normalize_plan(data.get('plan') or '')
+    if not plan:
+        return jsonify({'ok': False, 'error': 'invalid_plan'}), 400
+    try:
+        _update_user(str(u.get('id') or ''), {'plan': plan})
+        return jsonify({'ok': True, 'plan': plan})
+    except Exception:
+        return jsonify({'ok': False}), 500
 

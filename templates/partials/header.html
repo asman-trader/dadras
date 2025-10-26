@@ -9,9 +9,30 @@
       <h2>dadras</h2>
     </div>
     <div class="toolbar" style="margin-inline-start:auto">
+      <span id="planBadge" class="btn" style="padding:6px 10px; font-size:12px; border-radius:999px; cursor:pointer" title="مدیریت طرح">طرح: ...</span>
+      <a href="/pricing" class="btn" id="upgradeLink" style="padding:6px 10px;">ارتقا</a>
       <button class="ham" id="hamBtn" aria-label="منو">≡</button>
     </div>
   </div>
+  <script>
+    (async ()=>{
+      try{
+        const r = await fetch('/auth/me');
+        const j = await r.json();
+        const badge = document.getElementById('planBadge');
+        const up = document.getElementById('upgradeLink');
+        if(j && j.authenticated){
+          const plan = (j.user&&j.user.plan) || 'free';
+          const map = { free:'رایگان', plus:'پلاس', pro:'حرفه‌ای', team:'سازمانی' };
+          if(badge){ badge.textContent = 'طرح: ' + (map[plan]||plan); badge.onclick = ()=>{ window.location.href = '/pricing'; }; }
+          if(up){ up.href = '/pricing'; up.style.display = 'inline-flex'; up.textContent = (plan==='free')? 'ارتقا' : 'تغییر طرح'; }
+        } else {
+          if(badge){ badge.textContent = 'میهمان'; badge.onclick = ()=>{ window.location.href = '/auth/login'; }; }
+          if(up){ up.textContent = 'ورود'; up.href = '/auth/login'; }
+        }
+      }catch(e){}
+    })();
+  </script>
 </header>
 
 

@@ -9,3 +9,19 @@ git pull origin main
 
 
 git clone https://github.com/asman-trader/dadras.git
+
+
+
+
+
+اگر بخوای هر دو کار (نصب + آپدیت) با هم و تمیز انجام بشه:
+  pip install --upgrade --force-reinstall -r requirements.txt
+
+
+
+
+pip install -r requirements.txt
+
+
+۱. راه‌اندازی مجدد سرویس aaPanel
+/etc/init.d/bt restart

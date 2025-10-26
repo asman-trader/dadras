@@ -21,7 +21,7 @@
     html, body { height: 100% }
     body {
       margin: 0; background: var(--bg); color: var(--text);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      font-family: 'Vazirmatn', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       display: flex; flex-direction: column;
     }
     header {
@@ -66,7 +66,7 @@
       from { opacity: 0; transform: translateY(10px) scale(0.98) }
       to { opacity: 1; transform: translateY(0) scale(1) }
     }
-    .bubble { will-change: transform, opacity; animation: bubbleIn .22s ease-out both }
+    .bubble { will-change: transform, opacity; animation: bubbleIn .22s ease-out both; box-shadow: 0 2px 10px rgba(0,0,0,.15) }
     .msg-tools { display:flex; gap:6px; justify-content:flex-end; margin-top:6px }
     .tool-btn { padding:6px 8px; border:1px solid var(--border); background:#0b1220; color:var(--text); border-radius:8px; cursor:pointer; font-size:12px }
     .tool-btn:hover { border-color:#2a3b4f }
@@ -83,7 +83,7 @@
     .muted { color: var(--muted) }
 
     /* Panels */
-    .panel { background: var(--panel); border:1px solid var(--border); border-radius: 12px; padding: 12px }
+    .panel { background: var(--panel); border:1px solid var(--border); border-radius: 12px; padding: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.18) }
 
     /* Desktop enhancements */
     @media (min-width: 960px){
@@ -103,6 +103,9 @@
     .side-link { display:block; padding:10px 12px; border-radius:8px; color:var(--text); text-decoration:none }
     .side-link:hover { background:#0b1220 }
   </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   {% include 'partials/header.html' %}
@@ -112,6 +115,7 @@
     {% include 'partials/notes.html' %}
     <section id="chatAndEditors" style="display:flex; flex-direction:column; gap:12px;">
       <ul id="messages" class="panel"></ul>
+      <button id="scrollDown" aria-label="بازگشت به پایین" class="btn" style="position:fixed; inset-inline-end:16px; inset-block-end:90px; display:none; padding:10px 12px;">↓</button>
     </section>
   </main>
 
@@ -132,6 +136,9 @@
     const msgs = $('#messages');
     const q = $('#q');
     const sendBtn = $('#sendBtn');
+    const sendIcon = document.getElementById('sendIcon');
+    let inFlight = false;
+    let askAbort = null;
     // removed status/ingest controls
     const btnLoadTpls = $('#btnLoadTpls');
     const tplSelect = $('#tplSelect');
@@ -154,6 +161,8 @@
     const chatList = document.getElementById('chatList');
     const btnNewChat = document.getElementById('btnNewChat');
     let currentChatId = '';
+    let authWizardOpen = false;
+    let pendingQuestionText = '';
 
     function autoGrow(el){
       el.style.height = 'auto';
@@ -161,6 +170,16 @@
     }
     q.addEventListener('input', ()=> autoGrow(q));
     autoGrow(q);
+    // Disable send when input empty + persist draft
+    function updateSendState(){
+      const hasText = (q.value||'').trim().length > 0;
+      sendBtn.disabled = (!hasText) && !inFlight;
+      try{ localStorage.setItem('draft_msg', q.value||''); }catch(e){}
+    }
+    q.addEventListener('input', updateSendState);
+    (function(){
+      try{ const d = localStorage.getItem('draft_msg')||''; if(d){ q.value = d; autoGrow(q); updateSendState(); } }catch(e){}
+    })();
 
     function formatText(t){
       // basic formatting: code fences and newlines
@@ -255,18 +274,41 @@
       return (s||'').replace(/[۰-۹٠-٩]/g, ch=>map[ch]||ch);
     }
     function openAuthWizard(purpose){
+      if(authWizardOpen){ try{ document.getElementById('authWizardBox')?.scrollIntoView({behavior:'smooth', block:'center'}); }catch(e){} return; }
       const li = document.createElement('li'); li.className='msg assistant';
       const box = document.createElement('div'); box.className='bubble';
+      li.id = 'authWizardBox';
       box.innerHTML = `
         <div style="display:flex; flex-direction:column; gap:10px; min-width:260px">
           <div style="font-weight:600">${purpose==='signup'?'ثبت‌نام':'ورود'} با پیامک</div>
           <div>
             <label class="muted">شماره موبایل</label>
-            <input id="wizPhone" placeholder="0912xxxxxxx" style="width:100%; padding:10px; border:1px solid var(--border); background:#0b1220; color:var(--text); border-radius:10px">
+            <input id="wizPhone" placeholder="0912xxxxxxx" dir="ltr" style="width:100%; padding:10px; border:1px solid var(--border); background:#0b1220; color:var(--text); border-radius:10px">
           </div>
           <div id="wizCodeRow" style="display:none">
             <label class="muted">کد تایید</label>
-            <input id="wizCode" placeholder="6 رقم" style="width:100%; padding:10px; border:1px solid var(--border); background:#0b1220; color:var(--text); border-radius:10px">
+            <input id="wizCode" placeholder="6 رقم" dir="ltr" style="width:100%; padding:10px; border:1px solid var(--border); background:#0b1220; color:var(--text); border-radius:10px">
+          </div>
+          <div id="wizSignupExtra" style="display:none; gap:10px;">
+            <div style="display:flex; gap:8px; flex-wrap:wrap">
+              <div style="flex:1; min-width:160px">
+                <label class="muted">نام</label>
+                <input id="wizFirstName" placeholder="نام" style="width:100%; padding:10px; border:1px solid var(--border); background:#0b1220; color:var(--text); border-radius:10px">
+              </div>
+              <div style="flex:1; min-width:160px">
+                <label class="muted">نام خانوادگی</label>
+                <input id="wizLastName" placeholder="نام خانوادگی" style="width:100%; padding:10px; border:1px solid var(--border); background:#0b1220; color:var(--text); border-radius:10px">
+              </div>
+            </div>
+            <div>
+              <label class="muted">نقش</label>
+              <select id="wizRole" style="width:100%; padding:10px; border:1px solid var(--border); background:#0b1220; color:var(--text); border-radius:10px">
+                <option value="">انتخاب نقش</option>
+                <option value="شهروند">شهروند</option>
+                <option value="وکیل">وکیل</option>
+                <option value="قاضی">قاضی</option>
+              </select>
+            </div>
           </div>
           <div style="display:flex; gap:8px; flex-wrap:wrap">
             <button id="wizSend" class="btn" style="padding:10px 12px">ارسال کد</button>
@@ -276,41 +318,98 @@
         </div>`;
       li.appendChild(box); msgs.appendChild(li);
       setTimeout(()=>{ document.getElementById('wizPhone')?.focus(); }, 0);
+      authWizardOpen = true;
 
       let cooldown = 0; let timer = null;
+      let inFlightSend = false; let inFlightVerify = false;
+      let currentPurpose = (typeof purpose === 'string' ? purpose.toLowerCase() : 'auto');
       function setWizStatus(t, danger){ const el=document.getElementById('wizStatus'); if(!el) return; el.textContent=t||''; el.style.color = danger? '#fca5a5':'#94a3b8'; }
       function tick(){ const btn=document.getElementById('wizSend'); if(btn){ btn.disabled = cooldown>0; btn.textContent = cooldown>0? `ارسال مجدد (${cooldown}s)` : 'ارسال کد'; } }
       async function send(){
+        if(inFlightSend || cooldown>0) return;
+        inFlightSend = true;
         const phone = (document.getElementById('wizPhone').value||'').trim();
-        if(!/^\+?\d{10,15}$/.test(phone.replace(/\s/g,''))){ setWizStatus('شماره معتبر وارد کنید', true); return; }
+        if(!/^\+?\d{10,15}$/.test(phone.replace(/\s/g,''))){ setWizStatus('شماره معتبر وارد کنید', true); inFlightSend=false; return; }
         setWizStatus('در حال ارسال...');
-        try{
-          const r = await fetch('auth/send-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone, purpose }) });
-          const ct = r.headers.get('content-type')||''; const j = ct.includes('application/json')? await r.json() : { ok:false };
-          if(!j.ok){
-            if(j.error==='cooldown'){ cooldown = j.retry_in_sec||60; clearInterval(timer); tick(); timer=setInterval(()=>{ cooldown--; tick(); if(cooldown<=0){ clearInterval(timer); } },1000); setWizStatus('لطفاً کمی صبر کنید'); return; }
-            setWizStatus('ارسال ناموفق بود', true); return;
-          }
+        const showCodeUI = ()=>{
           document.getElementById('wizCodeRow').style.display='block';
           document.getElementById('wizVerify').style.display='inline-block';
-          setWizStatus('کد ارسال شد'); cooldown = 60; clearInterval(timer); tick(); timer=setInterval(()=>{ cooldown--; tick(); if(cooldown<=0){ clearInterval(timer); } },1000);
+          cooldown = 60; clearInterval(timer); tick(); timer=setInterval(()=>{ cooldown--; tick(); if(cooldown<=0){ clearInterval(timer); } },1000);
+          setTimeout(()=>{ document.getElementById('wizCode')?.focus(); }, 0);
+        };
+        try{
+          // Try signup first to detect if user exists
+          const r1 = await fetch('auth/send-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone, purpose: 'signup' }) });
+          const ct1 = r1.headers.get('content-type')||''; const j1 = ct1.includes('application/json')? await r1.json() : { ok:false };
+          if(j1 && j1.ok){
+            currentPurpose = 'signup';
+            document.getElementById('wizSignupExtra').style.display='block';
+            setWizStatus('کد ارسال شد (ثبت‌نام)');
+            showCodeUI();
+            return;
+          }
+          if(j1 && j1.error === 'already_registered'){
+            // Fallback to login
+            const r2 = await fetch('auth/send-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone, purpose: 'login' }) });
+            const ct2 = r2.headers.get('content-type')||''; const j2 = ct2.includes('application/json')? await r2.json() : { ok:false };
+            if(j2 && j2.ok){
+              currentPurpose = 'login';
+              document.getElementById('wizSignupExtra').style.display='none';
+              setWizStatus('کد ارسال شد (ورود)');
+              showCodeUI();
+              return;
+            }
+            if(j2 && j2.error==='cooldown'){
+              cooldown = j2.retry_in_sec||60; clearInterval(timer); tick(); timer=setInterval(()=>{ cooldown--; tick(); if(cooldown<=0){ clearInterval(timer); } },1000); setWizStatus('لطفاً کمی صبر کنید'); return;
+            }
+            setWizStatus('ارسال کد ورود ناموفق بود', true); return;
+          }
+          if(j1 && j1.error==='cooldown'){
+            cooldown = j1.retry_in_sec||60; clearInterval(timer); tick(); timer=setInterval(()=>{ cooldown--; tick(); if(cooldown<=0){ clearInterval(timer); } },1000); setWizStatus('لطفاً کمی صبر کنید'); return;
+          }
+          setWizStatus('ارسال ناموفق بود', true);
         }catch(e){ setWizStatus('خطا در ارتباط با سرور', true); }
+        finally{ inFlightSend = false; }
       }
       async function verify(){
+        if(inFlightVerify) return;
+        inFlightVerify = true;
         const phone = (document.getElementById('wizPhone').value||'').trim();
         const raw = (document.getElementById('wizCode').value||'').trim();
         const code = normalizeDigits(raw);
-        if(!/^\d{4,8}$/.test(code)){ setWizStatus('کد نامعتبر است', true); return; }
+        if(!/^\d{4,8}$/.test(code)){ setWizStatus('کد نامعتبر است', true); inFlightVerify=false; return; }
         setWizStatus('بررسی کد...');
         try{
-          const r = await fetch('auth/verify-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone, code, purpose }) });
+          const payload = { phone, code, purpose: (currentPurpose==='signup' ? 'signup' : 'login') };
+          if(currentPurpose === 'signup'){
+            payload.first_name = (document.getElementById('wizFirstName').value||'').trim();
+            payload.last_name = (document.getElementById('wizLastName').value||'').trim();
+            payload.role = (document.getElementById('wizRole').value||'').trim();
+          }
+          const r = await fetch('auth/verify-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
           const ct = r.headers.get('content-type')||''; const j = ct.includes('application/json')? await r.json() : { ok:false };
           if(!j.ok){ setWizStatus('کد نامعتبر است', true); return; }
-          setWizStatus('انجام شد؛ در حال بروز‌رسانی...'); setTimeout(()=>{ location.reload(); }, 300);
+          setWizStatus('انجام شد؛ ورود/ثبت‌نام با موفقیت انجام شد.');
+          try{
+            const me = await fetchJson('auth/me');
+            if(me && me.authenticated){
+              addMsg('assistant', 'خوش آمدید! اکنون می‌توانید سؤال خود را بپرسید.');
+              try{ li.remove(); }catch(e){}
+              authWizardOpen = false;
+              if((pendingQuestionText||'').trim()){
+                try{ q.value = pendingQuestionText; pendingQuestionText = ''; await ask(); }catch(e){}
+              }
+            }
+          }catch(e){}
         }catch(e){ setWizStatus('خطا در ارتباط با سرور', true); }
+        finally{ inFlightVerify = false; try{ clearInterval(timer); }catch(e){} }
       }
       box.querySelector('#wizSend').addEventListener('click', send);
       box.querySelector('#wizVerify').addEventListener('click', verify);
+      const phoneEl = document.getElementById('wizPhone');
+      const codeEl = document.getElementById('wizCode');
+      phoneEl?.addEventListener('keydown', (ev)=>{ if(ev.key==='Enter'){ ev.preventDefault(); send(); } });
+      codeEl?.addEventListener('keydown', (ev)=>{ if(ev.key==='Enter'){ ev.preventDefault(); verify(); } });
     }
 
     async function fetchJson(url, options){
@@ -341,7 +440,9 @@
       }
       addMsg('user', text);
       q.value=''; autoGrow(q); q.focus();
-      sendBtn.disabled = true;
+      // block concurrent send
+      if(inFlight){ return; }
+      inFlight = true; if(sendIcon){ sendIcon.textContent = '■'; } sendBtn.title='توقف'; sendBtn.setAttribute('aria-label','توقف'); sendBtn.classList.add('danger');
       // show typing indicator like DeepSeek
       const typingLi = document.createElement('li');
       typingLi.className = 'msg assistant';
@@ -352,10 +453,20 @@
       msgs.appendChild(typingLi);
       setTimeout(()=>{ window.scrollTo({ top: document.body.scrollHeight, behavior:'smooth' }); }, 0);
       try{
-        const j = await fetchJson('ask', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({question:text}) });
+        // abortable fetch
+        askAbort = new AbortController();
+        const r = await fetch('ask', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({question:text}), signal: askAbort.signal });
+        const ct = r.headers.get('content-type') || '';
+        if(!r.ok || !ct.includes('application/json')){ const t = await r.text(); throw new Error(t.slice(0,200)); }
+        const j = await r.json();
         // replace typing bubble with final answer
         if(typingLi && typingLi.parentNode){ msgs.removeChild(typingLi); }
         addMsg('assistant', j.answer||'');
+        // If server asks for auth, open wizard inline
+        if(j && j.intent === 'auth'){
+          pendingQuestionText = text;
+          setTimeout(()=>{ try{ openAuthWizard('login'); }catch(e){} }, 0);
+        }
         // attach meta chips to last assistant msg
         const last = msgs.lastElementChild; if(last){
           const meta = { intent: j.intent, domain: j.domain, citations: j.citations };
@@ -374,9 +485,13 @@
         }
       }catch(e){
         if(typingLi && typingLi.parentNode){ msgs.removeChild(typingLi); }
-        addMsg('assistant', 'خطا در ارتباط با سرور: '+(e && e.message ? e.message : e));
+        if(e && e.name === 'AbortError'){
+          addMsg('assistant', 'پاسخ متوقف شد.');
+        } else {
+          addMsg('assistant', 'خطا در ارتباط با سرور: '+(e && e.message ? e.message : e));
+        }
       }finally{
-        sendBtn.disabled = false;
+        inFlight = false; if(sendIcon){ sendIcon.textContent = '➤'; } sendBtn.title='ارسال'; sendBtn.setAttribute('aria-label','ارسال پیام'); sendBtn.classList.remove('danger'); sendBtn.disabled = false; askAbort = null;
       }
     }
     async function refreshChats(){
@@ -406,10 +521,27 @@
     });
     refreshChats();
 
-    sendBtn.addEventListener('click', ask);
+    sendBtn.addEventListener('click', (ev)=>{
+      ev.preventDefault();
+      if(inFlight){ try{ if(askAbort){ askAbort.abort(); } }catch(e){} return; }
+      ask();
+    });
     q.addEventListener('keydown', (ev)=>{
       if(ev.key==='Enter' && !ev.shiftKey){ ev.preventDefault(); ask(); }
     });
+    // style helper for danger state
+    (function(){
+      const style = document.createElement('style');
+      style.textContent = '.danger{ background:#ef4444 !important; color:#0a0a0a !important; }';
+      document.head.appendChild(style);
+    })();
+    // Floating scroll-to-bottom button
+    const sc = document.getElementById('scrollDown');
+    window.addEventListener('scroll', ()=>{
+      const nearBottom = (window.innerHeight + window.scrollY) >= (document.body.scrollHeight - 200);
+      sc.style.display = nearBottom ? 'none' : 'inline-flex';
+    });
+    sc.addEventListener('click', ()=> window.scrollTo({ top: document.body.scrollHeight, behavior:'smooth' }));
 
     // ingest button removed
 
@@ -471,8 +603,8 @@
         if(!(me && me.authenticated)){
           text += 'برای امکانات کامل، لطفاً وارد شوید یا ثبت‌نام کنید.\n';
           text += '<div style="margin-top:8px; display:flex; gap:8px;">'+
-                  '<a class="btn" href="/auth/login">ورود</a>'+ 
-                  '<a class="btn" href="/auth/signup">ثبت‌نام</a>'+ 
+                  '<button class="btn" id="ctaLoginBtn">ورود</button>'+ 
+                  '<button class="btn" id="ctaSignupBtn">ثبت‌نام</button>'+ 
                   '</div>';
         } else {
           text += 'می‌توانید سؤال خود را بپرسید یا ادامهٔ گفت‌وگو را پیش ببریم.';
@@ -480,6 +612,22 @@
         addMsg('assistant', text);
       }catch(e){ addMsg('assistant', 'سلام! من «دادرس» هستم. سؤال خود را بنویسید.'); }
     })();
+
+    // CTA buttons in greeting -> open inline auth wizard
+    document.addEventListener('click', (ev)=>{
+      const t = ev.target;
+      if(!t) return;
+      if(t.id === 'ctaLoginBtn'){
+        ev.preventDefault();
+        addMsg('assistant','فرایند ورود آغاز شد.');
+        openAuthWizard('login');
+      }
+      if(t.id === 'ctaSignupBtn'){
+        ev.preventDefault();
+        addMsg('assistant','فرایند ثبت‌نام آغاز شد.');
+        openAuthWizard('signup');
+      }
+    });
 
     // notes: API helpers
     async function saveCurrentNote(){

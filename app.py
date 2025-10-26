@@ -307,6 +307,31 @@ def _get_client_id() -> str:
     return uuid.uuid4().hex
 
 
+def _get_current_plan_limits() -> Tuple[int, int]:
+    """Return (limit, window_sec) based on authenticated user's plan; fallback to env defaults.
+    Plans: free, plus, pro, team
+    """
+    try:
+        u = getattr(g, 'current_user', None) or {}
+        plan = (u.get('plan') or 'free').strip().lower()
+    except Exception:
+        plan = 'free'
+    # Base window sec from env or default
+    try:
+        base_window = int(os.getenv('RATE_WINDOW_SEC', str(RATE_WINDOW_SEC)))
+    except Exception:
+        base_window = RATE_WINDOW_SEC
+    # Per-plan ask limits per window
+    plan_limits = {
+        'free': 8,
+        'plus': 20,
+        'pro': 60,
+        'team': 120,
+    }
+    limit = int(plan_limits.get(plan, plan_limits['free']))
+    return max(1, limit), max(10, base_window)
+
+
 def _append_session(cid: str, role: str, text: str) -> None:
     if not cid or not text:
         return
@@ -742,11 +767,12 @@ def ask_endpoint():
         if not request.cookies.get('client_id'):
             r.set_cookie('client_id', cid, max_age=30*24*3600, httponly=False, samesite='Lax')
         return r
-    # rate limit per client/ip
-    rl_key = request.remote_addr or cid
-    ok, remaining = _check_rate_limit(rl_key, RATE_LIMIT_ASK, RATE_WINDOW_SEC)
+    # rate limit per client/ip with plan-based limits
+    rl_key = (getattr(g, 'current_user', {}).get('id') if getattr(g, 'current_user', None) else None) or request.remote_addr or cid
+    plan_limit, plan_window = _get_current_plan_limits()
+    ok, remaining = _check_rate_limit(rl_key, plan_limit, plan_window)
     if not ok:
-        return jsonify({'error': 'rate_limited', 'retry_in_sec': RATE_WINDOW_SEC, 'limit': RATE_LIMIT_ASK}), 429
+        return jsonify({'error': 'rate_limited', 'retry_in_sec': plan_window, 'limit': plan_limit}), 429
     _append_session(cid, 'user', question)
     # Retrieve local snippets (RAG)
     results = _retrieve(question, top_k=top_k)

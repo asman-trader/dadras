@@ -4,11 +4,5 @@
     "purpose": "login",
     "expires_at": 1761054452,
     "tries_left": 5
-  },
-  "989101528014": {
-    "code": "654713",
-    "purpose": "login",
-    "expires_at": 1761054444,
-    "tries_left": 5
   }
 }

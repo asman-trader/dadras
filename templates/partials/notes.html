@@ -1,24 +1,29 @@
-<aside id="notesSidebar" class="panel" aria-label="دفترچه یادداشت" style="display:flex; flex-direction:column; gap:8px;">
-  <details id="notesBox">
-    <summary style="display:flex; align-items:center; gap:8px; cursor:pointer;">
-      <strong style="display:flex; align-items:center; gap:6px;">🗒️ یادداشت‌ها</strong>
-      <span style="margin-inline-start:auto"></span>
-      <button class="btn" id="btnNewNote" title="یادداشت جدید" aria-label="یادداشت جدید" style="padding:4px 8px;">➕</button>
+<aside id="notesSidebar" class="panel" aria-label="دفترچه یادداشت" style="display:flex; flex-direction:column; gap:10px;">
+  <details id="notesBox" open>
+    <summary style="display:flex; align-items:center; gap:10px; cursor:pointer; padding:6px 8px; border-bottom:1px solid var(--border);">
+      <strong style="display:flex; align-items:center; gap:8px;">🗒️ یادداشت‌ها</strong>
+      <span class="muted" id="notesCount" style="font-size:11px; margin-inline-start:auto"></span>
+      <div style="display:flex; gap:6px; align-items:center;">
+        <button class="btn" id="btnRefreshNotes" title="بازآوری" aria-label="بازآوری" style="padding:6px 10px;">↻</button>
+        <button class="btn" id="btnNewNote" title="یادداشت جدید" aria-label="یادداشت جدید" style="padding:6px 10px;">➕</button>
+      </div>
     </summary>
 
-    <div style="margin-top:8px; display:grid; gap:6px; grid-template-columns: 1fr;">
-      <input id="notesSearch" class="btn" style="min-width:120px; padding:6px 8px;" placeholder="جستجو" aria-label="جستجو در یادداشت‌ها" />
+    <div style="display:grid; gap:10px; grid-template-columns: 1fr; padding:8px 6px;">
+      <input id="notesSearch" class="btn" style="padding:8px 10px; border-radius:10px;" placeholder="جستجو در یادداشت‌ها..." aria-label="جستجو در یادداشت‌ها" />
 
-      <div id="notesList" style="display:flex; flex-direction:column; gap:6px; max-height:32vh; overflow:auto"></div>
-      <div id="notesEmpty" class="muted" style="display:none; font-size:12px;">یادداشتی وجود ندارد. با «➕» بسازید.</div>
+      <div id="notesList" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap:8px; max-height:32vh; overflow:auto; padding:2px;">
+        <!-- ردیف‌های یادداشت از اسکریپت صفحه اضافه می‌شوند -->
+      </div>
+      <div id="notesEmpty" class="muted" style="display:none; font-size:12px; text-align:center; padding:10px; border:1px dashed var(--border); border-radius:10px;">یادداشتی وجود ندارد. با «یادداشت جدید» بسازید.</div>
 
-      <input id="noteTitle" placeholder="عنوان" class="btn" style="min-width:160px; padding:6px 8px;" aria-label="عنوان یادداشت" />
-      <textarea id="notesArea" placeholder="متن یادداشت..." style="min-height:120px; padding:8px;" aria-label="متن یادداشت"></textarea>
-
-      <div style="display:flex; gap:8px; align-items:center; justify-content:flex-end;">
-        <span class="muted" id="notesCount" style="font-size:11px; margin-inline-end:auto"></span>
-        <span class="muted" id="notesSaveStatus" style="font-size:11px; margin-inline-end:auto"></span>
-        <button class="send" id="btnSaveCurrentNote" title="ذخیره" aria-label="ذخیره یادداشت" style="padding:8px 10px;">💾</button>
+      <div style="display:grid; gap:8px; grid-template-columns: 1fr; background: var(--panel); border:1px solid var(--border); border-radius:12px; padding:10px;">
+        <input id="noteTitle" placeholder="عنوان یادداشت" class="btn" style="padding:8px 10px; border-radius:10px;" aria-label="عنوان یادداشت" />
+        <textarea id="notesArea" placeholder="متن یادداشت..." style="min-height:140px; padding:10px; border-radius:10px; border:1px solid var(--border); background:#0b1220; color:var(--text);" aria-label="متن یادداشت"></textarea>
+        <div style="display:flex; gap:8px; align-items:center; justify-content:flex-end;">
+          <span class="muted" id="notesSaveStatus" style="font-size:11px; margin-inline-end:auto"></span>
+          <button class="send" id="btnSaveCurrentNote" title="ذخیره" aria-label="ذخیره یادداشت" style="padding:10px 12px;">ذخیره</button>
+        </div>
       </div>
     </div>
   </details>

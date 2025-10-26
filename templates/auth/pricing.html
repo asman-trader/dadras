@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>طرح‌های اشتراک - دادرس</title>
+  <style>
+    body { margin:0; background:#0b0f14; color:#e2e8f0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    .wrap { max-width:960px; margin: 20px auto; padding: 16px }
+    .grid { display:grid; gap:12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .card { background:#0f141b; border:1px solid #1f2937; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px }
+    .title { font-weight:700 }
+    .muted { color:#94a3b8; font-size:12px }
+    .price { font-size:18px; color:#22c55e }
+    .btn { padding:10px 14px; background:#22c55e; color:#03120a; border:0; border-radius:10px; cursor:pointer; text-align:center }
+    .btn.secondary { background:#0b1220; color:#e2e8f0; border:1px solid #1f2937 }
+    header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px }
+    a { color:inherit; text-decoration:none }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div style="display:flex; align-items:center; gap:10px"><a href="/" class="btn secondary">بازگشت</a><div class="muted">طرح‌های اشتراک</div></div>
+      <a class="btn secondary" href="/auth/profile">پروفایل</a>
+    </header>
+    <div class="grid">
+      <div class="card">
+        <div class="title">رایگان</div>
+        <div class="muted">سؤال روزانه محدود، ذخیره‌سازی پایه</div>
+        <div class="price">0 تومان</div>
+        <button class="btn" data-plan="free">انتخاب</button>
+      </div>
+      <div class="card">
+        <div class="title">پلاس</div>
+        <div class="muted">سقف بالاتر، خروجی بدون واترمارک</div>
+        <div class="price">ماهانه ...</div>
+        <button class="btn" data-plan="plus">ارتقا به پلاس</button>
+      </div>
+      <div class="card">
+        <div class="title">حرفه‌ای</div>
+        <div class="muted">قالب‌های تخصصی و استناد عمیق</div>
+        <div class="price">ماهانه ...</div>
+        <button class="btn" data-plan="pro">ارتقا به حرفه‌ای</button>
+      </div>
+      <div class="card">
+        <div class="title">سازمانی</div>
+        <div class="muted">چندکاربره، نقش‌ها، SSO</div>
+        <div class="price">تماس بگیرید</div>
+        <button class="btn" data-plan="team">درخواست تماس</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('click', async (ev)=>{
+      const t = ev.target;
+      if(!(t && t.matches && t.matches('button.btn[data-plan]'))) return;
+      const plan = t.getAttribute('data-plan');
+      try{
+        const r = await fetch('/auth/plan', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ plan }) });
+        const j = await r.json();
+        if(j.ok){ alert('طرح بروزرسانی شد'); window.location.href = '/'; }
+        else { alert('خطا در بروزرسانی طرح'); }
+      }catch(e){ alert('خطا در ارتباط'); }
+    });
+  </script>
+</body>
+</html>
