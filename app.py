@@ -1364,6 +1364,18 @@ def admin_logs_page():
     return make_response('<p>admin log page not found</p>', 404)
 
 
+@app.route('/webhook', methods=['POST', 'GET'])
+def webhook():
+    """GitHub webhook endpoint for automatic deployment"""
+    if request.method == 'POST':
+        # اجرای اسکریپت آپدیت
+        import subprocess
+        subprocess.Popen(["bash", "/www/wwwroot/dadras/update-dadras.sh"])
+        return jsonify({"status": "success", "message": "Deployment triggered ✅"}), 200
+    else:
+        return jsonify({"status": "waiting", "message": "Send a POST request from GitHub"}), 200
+
+
 if __name__ == '__main__':
     _ensure_data_dirs()
     try:
