@@ -1,0 +1,67 @@
+{
+  "code": "commercial_law",
+  "title": "قانون تجارت ایران",
+  "title_en": "Iranian Commercial Code",
+  "date_approved": "1311/05/13",
+  "date_last_modified": "1402/01/01",
+  "approved_by": "مجلس شورای ملی",
+  "total_books": 3,
+  "total_articles": 744,
+  "sections": [
+    {
+      "name": "تجار و اعمال تجاری",
+      "code": "merchants",
+      "description": "تعریف تاجر، اعمال تجاری و تکالیف تجار",
+      "article_range": [1, 100],
+      "total_articles": 100
+    },
+    {
+      "name": "شرکت‌های تجاری",
+      "code": "companies",
+      "description": "انواع شرکت‌ها و نحوه تأسیس و اداره آنها",
+      "article_range": [101, 300],
+      "total_articles": 200
+    },
+    {
+      "name": "اوراق تجاری",
+      "code": "securities",
+      "description": "سفته، چک، برات و سایر اوراق تجاری",
+      "article_range": [301, 500],
+      "total_articles": 200
+    }
+  ],
+  "tags": [
+    "قانون_تجارت",
+    "حقوق_تجاری",
+    "شرکت",
+    "اوراق_تجاری",
+    "تاجر"
+  ],
+  "description": "قانون تجارت مجموعه قواعد و مقررات حقوقی است که روابط تجاری و بازرگانی را تنظیم می‌کند.",
+  "scope": "این قانون برای تمامی معاملات و اعمال تجاری در ایران قابل اجرا است.",
+  "references": [
+    "قانون تجارت - مصوب ۱۳۱۱",
+    "قانون اصلاح قانون تجارت - مصوب ۱۳۴۷",
+    "قانون تجارت الکترونیک - مصوب ۱۳۸۲"
+  ],
+  "related_laws": [
+    {
+      "code": "civil_law",
+      "title": "قانون مدنی",
+      "relationship": "مکمل"
+    },
+    {
+      "code": "companies_act",
+      "title": "قانون تجارت اصلاحی",
+      "relationship": "اصلاحیه"
+    }
+  ],
+  "version": "1.0.0",
+  "created_at": "2025-10-27T20:25:00",
+  "updated_at": "2025-10-27T20:25:00",
+  "status": "pending",
+  "language": "fa",
+  "jurisdiction": "ایران",
+  "notes": "این بخش در حال تکمیل است و به زودی مواد آن اضافه خواهد شد."
+}
+

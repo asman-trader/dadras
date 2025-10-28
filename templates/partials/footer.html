@@ -2,12 +2,203 @@
 
 <div class="composer" style="backdrop-filter: blur(6px);">
   <div class="bar" style="padding:0; width:100%; max-width:980px;">
-    <div id="inputWrap" style="display:flex; align-items:center; gap:8px; width:100%; background:#0b1220; border:1px solid var(--border); border-radius: 14px; padding: 8px 10px;">
-      <button class="btn" id="btnAttach" aria-label="افزودن" title="افزودن" style="border:0; background:transparent; padding:6px; font-size:18px; line-height:1;">📎</button>
-      <textarea id="q" placeholder="سؤال خود را بنویسید... (Shift+Enter برای خط جدید)" aria-label="ورود متن" style="flex:1; background:transparent; border:0; outline:0; resize:none; min-height:24px; max-height:120px; color: var(--text);"></textarea>
-      <button class="send" id="sendBtn" aria-label="ارسال پیام" title="ارسال" style="width:40px; height:40px; min-width:40px; padding:0; display:inline-flex; align-items:center; justify-content:center; border-radius:10px;"><span id="sendIcon" aria-hidden="true">➤</span></button>
+    <!-- Thinking Indicator (shown during processing) -->
+    <div class="thinking-indicator" id="thinkingIndicator" style="display:none; padding:8px 12px; background:#0f141b; border:1px solid #3b82f6; border-radius:8px; font-size:12px; color:#3b82f6; margin-bottom:8px; animation:pulse 2s infinite;">
+      <span id="thinkingTimer">⏳ در حال فکر کردن... <span id="thinkingSeconds">0</span>s</span>
+    </div>
+    
+    <!-- Input Row -->
+    <div class="input-row" style="display:flex; gap:8px; align-items:flex-end; width:100%;">
+      <div id="inputWrap" style="display:flex; align-items:center; gap:8px; flex:1; background:#0b1220; border:1px solid var(--border); border-radius: 14px; padding: 8px 10px;">
+        <button class="btn" id="btnAttach" aria-label="افزودن" title="افزودن" style="border:0; background:transparent; padding:6px; font-size:18px; line-height:1;">📎</button>
+        <textarea id="q" placeholder="سؤال خود را بنویسید... (Shift+Enter برای خط جدید)" aria-label="ورود متن" style="flex:1; background:transparent; border:0; outline:0; resize:none; min-height:24px; max-height:120px; color: var(--text);"></textarea>
+      </div>
+      
+      <!-- Deep Thinking Dropdown -->
+      <div class="thinking-selector" id="thinkingSelector" style="position:relative;">
+        <button class="thinking-trigger" id="thinkingTrigger" title="فکر عمیق: 0 ثانیه">
+          <span class="icon" id="currentThinkingIcon">0</span>
+        </button>
+        
+        <div class="thinking-dropdown">
+          <div class="thinking-option active" data-thinking="0">
+            <span class="number">0</span>
+            <span class="label">عادی</span>
+            <span class="check">✓</span>
+          </div>
+          <div class="thinking-option" data-thinking="15">
+            <span class="number">15</span>
+            <span class="label">سریع</span>
+            <span class="check">✓</span>
+          </div>
+          <div class="thinking-option" data-thinking="30">
+            <span class="number">30</span>
+            <span class="label">متوسط</span>
+            <span class="check">✓</span>
+          </div>
+          <div class="thinking-option" data-thinking="60">
+            <span class="number">60</span>
+            <span class="label">عمیق</span>
+            <span class="check">✓</span>
+          </div>
+        </div>
+      </div>
+      
+      <button class="send" id="sendBtn" aria-label="ارسال پیام" title="ارسال" style="width:44px; height:44px; min-width:44px; padding:0; display:inline-flex; align-items:center; justify-content:center; border-radius:10px;">
+        <span id="sendIcon" aria-hidden="true">➤</span>
+      </button>
     </div>
   </div>
 </div>
+
+<style>
+  /* Thinking Selector Dropdown */
+  .thinking-selector {
+    position: relative;
+  }
+  
+  .thinking-trigger {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(34,197,94,.08);
+    border: 1px solid rgba(34,197,94,.25);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 16px;
+    font-weight: 700;
+    color: #22c55e;
+  }
+  
+  .thinking-trigger:hover {
+    background: rgba(34,197,94,.15);
+    border-color: rgba(34,197,94,.4);
+    box-shadow: 0 2px 8px rgba(34,197,94,.2);
+    transform: translateY(-2px);
+  }
+  
+  .thinking-dropdown {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: 0;
+    background: rgba(15,20,27,.98);
+    border: 1px solid rgba(34,197,94,.3);
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.4), 0 0 40px rgba(34,197,94,.15);
+    padding: 4px;
+    min-width: 120px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    z-index: 1000;
+  }
+  
+  .thinking-selector.open .thinking-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  
+  .thinking-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #94a3b8;
+  }
+  
+  .thinking-option:hover {
+    background: rgba(34,197,94,.1);
+    color: #22c55e;
+  }
+  
+  .thinking-option.active {
+    background: linear-gradient(135deg, rgba(34,197,94,.2) 0%, rgba(16,185,129,.15) 100%);
+    color: #22c55e;
+  }
+  
+  .thinking-option .number {
+    font-size: 16px;
+    font-weight: 700;
+    min-width: 24px;
+    text-align: center;
+  }
+  
+  .thinking-option .label {
+    font-size: 12px;
+    font-weight: 600;
+    flex: 1;
+  }
+  
+  .thinking-option .check {
+    font-size: 12px;
+    opacity: 0;
+  }
+  
+  .thinking-option.active .check {
+    opacity: 1;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+</style>
+
+<script>
+  // Thinking Selector Dropdown
+  (function(){
+    const thinkingSelector = document.getElementById('thinkingSelector');
+    const thinkingTrigger = document.getElementById('thinkingTrigger');
+    const thinkingOptions = document.querySelectorAll('.thinking-option');
+    const currentThinkingIcon = document.getElementById('currentThinkingIcon');
+    
+    // Toggle dropdown
+    thinkingTrigger?.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      thinkingSelector.classList.toggle('open');
+    });
+    
+    // Close on outside click
+    document.addEventListener('click', (e)=>{
+      if(!thinkingSelector?.contains(e.target)){
+        thinkingSelector?.classList.remove('open');
+      }
+    });
+    
+    // Handle thinking time selection
+    thinkingOptions.forEach(option=>{
+      option.addEventListener('click', ()=>{
+        const thinkingTime = parseInt(option.dataset.thinking);
+        const number = option.querySelector('.number').textContent;
+        
+        // Update UI
+        thinkingOptions.forEach(opt=>opt.classList.remove('active'));
+        option.classList.add('active');
+        currentThinkingIcon.textContent = number;
+        
+        // Update trigger title
+        if(thinkingTrigger){
+          thinkingTrigger.title = `فکر عمیق: ${number} ثانیه`;
+        }
+        
+        // Close dropdown
+        thinkingSelector.classList.remove('open');
+        
+        // Trigger the thinking time change event
+        window.dispatchEvent(new CustomEvent('thinkingTimeChanged', { 
+          detail: { thinkingTime } 
+        }));
+      });
+    });
+  })();
+</script>
 
 

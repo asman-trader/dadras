@@ -3,66 +3,180 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>طرح‌های اشتراک - دادرس</title>
+  <title>ارتقای طرح - دادرس</title>
   <style>
     body { margin:0; background:#0b0f14; color:#e2e8f0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
-    .wrap { max-width:960px; margin: 20px auto; padding: 16px }
-    .grid { display:grid; gap:12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-    .card { background:#0f141b; border:1px solid #1f2937; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px }
-    .title { font-weight:700 }
-    .muted { color:#94a3b8; font-size:12px }
-    .price { font-size:18px; color:#22c55e }
-    .btn { padding:10px 14px; background:#22c55e; color:#03120a; border:0; border-radius:10px; cursor:pointer; text-align:center }
+    .container { max-width:1100px; margin: 18px auto; padding: 0 16px }
+    .topbar { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:8px 12px; background:rgba(15,20,27,.6); border:1px solid #1f2937; border-radius:12px; backdrop-filter:saturate(120%) blur(6px) }
+    .brand { display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px }
+    .brand-badge { width:28px; height:28px; border-radius:8px; display:grid; place-items:center; background:#1a2230; border:1px solid #243042; color:#93c5fd; font-size:14px }
+    .actions { display:flex; gap:8px }
+    .hero { text-align:center; margin: 14px 0 18px }
+    .hero h1 { font-size:24px; margin:6px 0 10px }
+    .seg { display:inline-flex; gap:6px; background:#0f141b; border:1px solid #1f2937; padding:4px; border-radius:999px }
+    .seg button { background:transparent; color:#cbd5e1; border:0; padding:6px 12px; border-radius:999px; cursor:pointer; font-size:13px }
+    .seg .active { background:#1a2230; color:#e2e8f0 }
+    .grid { display:grid; gap:14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); align-items:stretch }
+    .card { background:#0f141b; border:1px solid #1f2937; border-radius:16px; padding:16px; display:flex; flex-direction:column; gap:12px; position:relative }
+    .card.highlight { border-color:#3b82f6; box-shadow:0 0 0 1px #3b82f6 inset }
+    .badge { position:absolute; top:10px; left:10px; font-size:10px; background:#1e293b; color:#93c5fd; border:1px solid #334155; padding:3px 7px; border-radius:999px }
+    .title { font-weight:800; font-size:17px }
+    .subtitle { color:#94a3b8; font-size:12px }
+    .priceRow { display:flex; align-items:baseline; gap:6px }
+    .price { font-size:22px; color:#e2e8f0; font-weight:800 }
+    .per { color:#94a3b8; font-size:12px }
+    .btn { padding:10px 14px; background:#3b82f6; color:#e2e8f0; border:0; border-radius:10px; cursor:pointer; text-align:center }
     .btn.secondary { background:#0b1220; color:#e2e8f0; border:1px solid #1f2937 }
-    header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px }
+    .btn:disabled { opacity:.5; cursor:not-allowed }
+    ul.features { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; color:#cbd5e1; font-size:13px }
     a { color:inherit; text-decoration:none }
+    .muted { color:#94a3b8; font-size:12px }
   </style>
+  <script>
+    function switchTab(tab){
+      document.querySelectorAll('.seg button').forEach(b=>b.classList.remove('active'));
+      document.getElementById('tab-'+tab).classList.add('active');
+      document.getElementById('grid-personal').style.display = (tab==='personal') ? 'grid' : 'none';
+      document.getElementById('grid-business').style.display = (tab==='business') ? 'grid' : 'none';
+    }
+    window.addEventListener('DOMContentLoaded', ()=> switchTab('personal'))
+  </script>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div style="display:flex; align-items:center; gap:10px"><a href="/" class="btn secondary">بازگشت</a><div class="muted">طرح‌های اشتراک</div></div>
-      <a class="btn secondary" href="/auth/profile">پروفایل</a>
-    </header>
-    <div class="grid">
+  <div class="container">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-badge">د</div>
+        <div>دادرس</div>
+      </div>
+      <div class="actions">
+        <a href="/" class="btn secondary" title="خانه">خانه</a>
+        <a class="btn secondary" href="/auth/profile" title="پروفایل">پروفایل</a>
+      </div>
+    </div>
+    <div class="hero">
+      <h1>ارتقای طرح شما</h1>
+      <div class="seg">
+        <button id="tab-personal" class="active" onclick="switchTab('personal')">شخصی</button>
+        <button id="tab-business" onclick="switchTab('business')">سازمانی</button>
+      </div>
+    </div>
+
+    <div id="grid-personal" class="grid">
       <div class="card">
         <div class="title">رایگان</div>
-        <div class="muted">سؤال روزانه محدود، ذخیره‌سازی پایه</div>
-        <div class="price">0 تومان</div>
-        <button class="btn" data-plan="free">انتخاب</button>
+        <div class="subtitle">برای کارهای روزمره</div>
+        <div class="priceRow"><div class="price">۰</div><div class="per">تومان / ماه</div></div>
+        <ul class="features">
+          <li>دسترسی پایه</li>
+          <li>آپلود محدود فایل</li>
+          <li>حافظه و زمینه محدود</li>
+        </ul>
       </div>
-      <div class="card">
+      <div class="card highlight">
+        <div class="badge">پرمخاطب</div>
         <div class="title">پلاس</div>
-        <div class="muted">سقف بالاتر، خروجی بدون واترمارک</div>
-        <div class="price">ماهانه ...</div>
-        <button class="btn" data-plan="plus">ارتقا به پلاس</button>
+        <div class="subtitle">دسترسی و سرعت بیشتر</div>
+        <div class="priceRow"><div class="price">۹۹٬۰۰۰</div><div class="per">تومان / ماه</div></div>
+        <button class="btn" data-plan="plus" data-paid="1">ارتقا به پلاس</button>
+        <ul class="features">
+          <li>پردازش پیشرفته</li>
+          <li>پیام‌ها و آپلود بیشتر</li>
+          <li>حافظه توسعه‌یافته</li>
+        </ul>
       </div>
       <div class="card">
         <div class="title">حرفه‌ای</div>
-        <div class="muted">قالب‌های تخصصی و استناد عمیق</div>
-        <div class="price">ماهانه ...</div>
-        <button class="btn" data-plan="pro">ارتقا به حرفه‌ای</button>
-      </div>
-      <div class="card">
-        <div class="title">سازمانی</div>
-        <div class="muted">چندکاربره، نقش‌ها، SSO</div>
-        <div class="price">تماس بگیرید</div>
-        <button class="btn" data-plan="team">درخواست تماس</button>
+        <div class="subtitle">امکانات کامل</div>
+        <div class="priceRow"><div class="price">۱۹۹٬۰۰۰</div><div class="per">تومان / ماه</div></div>
+        <button class="btn" data-plan="pro" data-paid="1">ارتقا به حرفه‌ای</button>
+        <ul class="features">
+          <li>پیام و آپلود نامحدود</li>
+          <li>پردازش و حافظه حداکثر</li>
+          <li>امکانات تحقیق عمیق</li>
+        </ul>
       </div>
     </div>
+
+    <div id="grid-business" class="grid" style="display:none">
+      <div class="card highlight">
+        <div class="title">سازمانی</div>
+        <div class="subtitle">چندکاربره، نقش‌ها و SSO</div>
+        <div class="priceRow"><div class="price">۱٬۹۹۰٬۰۰۰</div><div class="per">تومان / ماه</div></div>
+        <button class="btn" data-plan="team" data-paid="1">ارتقا به سازمانی</button>
+        <ul class="features">
+          <li>چندکاربره و مدیریت نقش‌ها</li>
+          <li>SSO و کنترل دسترسی</li>
+          <li>پشتیبانی اولویت‌دار</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="title">وضعیت اشتراک</div>
+      <div class="muted" id="active-plan" style="margin:6px 0 6px">در حال بارگذاری...</div>
+      <div class="muted" id="remaining" style="margin:0 0 10px"></div>
+      <div class="muted">تاریخچه پرداخت</div>
+      <div id="history" class="muted">—</div>
+    </div>
   </div>
+
   <script>
     document.addEventListener('click', async (ev)=>{
       const t = ev.target;
       if(!(t && t.matches && t.matches('button.btn[data-plan]'))) return;
       const plan = t.getAttribute('data-plan');
+      const isPaid = !!t.getAttribute('data-paid');
       try{
-        const r = await fetch('/auth/plan', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ plan }) });
-        const j = await r.json();
-        if(j.ok){ alert('طرح بروزرسانی شد'); window.location.href = '/'; }
-        else { alert('خطا در بروزرسانی طرح'); }
+        if(isPaid){
+          const r = await fetch(`/auth/pay/start?plan=${encodeURIComponent(plan)}`, { method:'POST' });
+          const j = await r.json();
+          if(j.ok && j.url){ window.location.href = j.url; }
+          else { alert('خطا در آغاز پرداخت'); }
+        } else {
+          const r = await fetch('/auth/plan', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ plan }) });
+          const j = await r.json();
+          if(j.ok){ alert('طرح بروزرسانی شد'); window.location.href = '/'; }
+          else { alert('خطا در بروزرسانی طرح'); }
+        }
       }catch(e){ alert('خطا در ارتباط'); }
     });
+    async function loadHistory(){
+      try{
+        const r = await fetch('/auth/pay/history');
+        const j = await r.json();
+        const activeEl = document.getElementById('active-plan');
+        const remEl = document.getElementById('remaining');
+        const histEl = document.getElementById('history');
+        if(!(j && j.ok)) { activeEl.textContent = 'وضعیت کاربر نامشخص'; return; }
+        const plan = (j.plan||'free');
+        activeEl.textContent = `طرح فعال: ${plan}`;
+        const days = Number(j.remaining_days||0);
+        remEl.textContent = days>0 ? `روزهای باقی‌مانده: ${days}` : '';
+        const order = ['free','plus','pro','team'];
+        const idx = order.indexOf(plan);
+        document.querySelectorAll('button.btn[data-plan]').forEach(btn=>{
+          const p = btn.getAttribute('data-plan');
+          const dpi = order.indexOf(p);
+          if(dpi <= idx){
+            btn.disabled = true;
+            btn.classList.add('secondary');
+            btn.textContent = 'فعال است';
+          }
+        });
+        const arr = Array.isArray(j.history) ? j.history : [];
+        if(arr.length === 0){ histEl.textContent = 'تراکنشی ثبت نشده است.'; return; }
+        const fmt = ts => new Date(ts*1000).toLocaleString('fa-IR');
+        histEl.innerHTML = arr.map(h=>{
+          const ref = h.ref_id ? `، رسید: ${h.ref_id}` : '';
+          const amt = (h.amount_toman||0).toLocaleString('fa-IR');
+          return `<div>• ${fmt(h.ts)} — طرح ${h.plan} — مبلغ ${amt} تومان${ref}</div>`;
+        }).join('');
+      }catch(e){
+        try{ document.getElementById('active-plan').textContent = 'خطا در دریافت تاریخچه'; }catch(_){ }
+      }
+    }
+    loadHistory();
   </script>
 </body>
 </html>

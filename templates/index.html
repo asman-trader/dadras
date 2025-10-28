@@ -54,9 +54,27 @@
     .typing-dots i:nth-child(3){ animation-delay:.4s }
     @keyframes blink { 0%, 80%, 100% { opacity:.2; transform: translateY(0) } 40% { opacity: 1; transform: translateY(-2px) } }
     .meta { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
-    .chip { background: var(--chip); color: var(--muted); font-size:12px; padding:4px 8px; border-radius:999px; border:1px solid var(--border) }
+    .chip { background: var(--chip); color: var(--muted); font-size:12px; padding:6px 12px; border-radius:999px; border:1px solid var(--border); transition: all 0.2s; display: inline-flex; align-items: center; gap: 4px }
+    .chip:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3) }
+    .intent-chip { animation: slideInLeft 0.3s ease-out }
+    .domain-chip { animation: slideInRight 0.3s ease-out }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-20px) } to { opacity: 1; transform: translateX(0) } }
+    @keyframes slideInRight { from { opacity: 0; transform: translateX(20px) } to { opacity: 1; transform: translateX(0) } }
+    @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+    @keyframes slideDown { from { opacity: 0; transform: translate(-50%, -20px) } to { opacity: 1; transform: translate(-50%, 0) } }
+    @keyframes fadeOut { from { opacity: 1 } to { opacity: 0 } }
+    @keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
     details { margin-top:10px }
-    summary { cursor:pointer; color: var(--muted) }
+    summary { cursor:pointer; color: var(--muted); transition: all 0.2s }
+    summary:hover { color: var(--text); background: #0b1220; }
+    .citation-card { transition: all 0.2s }
+    .citation-card:hover { transform: translateX(4px); box-shadow: 0 2px 8px rgba(34,197,94,0.15) }
+    .citation-card .btn:hover { background: #1e3a8a; color: #93c5fd }
+    /* Custom scrollbar for citations */
+    .meta details div::-webkit-scrollbar { width: 6px }
+    .meta details div::-webkit-scrollbar-track { background: #0a0f16 }
+    .meta details div::-webkit-scrollbar-thumb { background: #22c55e; border-radius: 3px }
+    .meta details div::-webkit-scrollbar-thumb:hover { background: #16a34a }
     pre { background:#0a0f16; border:1px solid var(--border); padding:12px; overflow:auto; border-radius:10px }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace }
 
@@ -75,8 +93,12 @@
       position: sticky; bottom: 0; background: var(--panel);
       border-top: 1px solid var(--border); padding: 12px 16px;
     }
-    .bar { max-width:980px; margin:0 auto; display:flex; gap:8px; align-items:flex-end }
-    textarea { flex:1; min-height: 44px; max-height: 200px; padding: 12px 14px; background: #0b1220; color: var(--text); border-radius: 10px; border:1px solid var(--border); resize: none }
+    .bar { max-width:980px; margin:0 auto; padding:12px 0; }
+    textarea { flex:1; min-height: 44px; max-height: 500px; padding: 12px 14px; background: #0b1220; color: var(--text); border-radius: 10px; border:1px solid var(--border); resize: vertical; overflow-y: auto; line-height: 1.5 }
+    textarea::-webkit-scrollbar { width: 8px }
+    textarea::-webkit-scrollbar-track { background: #0a0f16; border-radius: 10px }
+    textarea::-webkit-scrollbar-thumb { background: #22c55e; border-radius: 10px }
+    textarea::-webkit-scrollbar-thumb:hover { background: #16a34a }
     .send { padding: 10px 14px; background: var(--accent); color:#03120a; font-weight:600; border:0; border-radius:10px; cursor:pointer }
     .send:disabled { background: var(--accent-weak); opacity:.7; cursor:not-allowed }
 
@@ -127,11 +149,60 @@
     const sideDrawer = document.getElementById('sideDrawer');
     const sideOverlay = document.getElementById('sideOverlay');
     const sideClose = document.getElementById('sideClose');
-    function openSide(){ sideDrawer.classList.add('open'); sideOverlay.hidden = false; sideDrawer.setAttribute('aria-hidden','false'); }
-    function closeSide(){ sideDrawer.classList.remove('open'); sideOverlay.hidden = true; sideDrawer.setAttribute('aria-hidden','true'); }
+    function openSide(){ 
+      sideDrawer.classList.add('open'); 
+      sideOverlay.hidden = false; 
+      sideDrawer.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+      document.querySelector('header').style.opacity = '0.5';
+      document.querySelector('main').style.opacity = '0.5';
+      document.querySelector('footer').style.opacity = '0.5';
+      const composer = document.querySelector('.composer');
+      if(composer) composer.style.opacity = '0.5';
+    }
+    function closeSide(){ 
+      sideDrawer.classList.remove('open'); 
+      sideOverlay.hidden = true; 
+      sideDrawer.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+      document.querySelector('header').style.opacity = '1';
+      document.querySelector('main').style.opacity = '1';
+      document.querySelector('footer').style.opacity = '1';
+      const composer = document.querySelector('.composer');
+      if(composer) composer.style.opacity = '1';
+    }
     hamBtn?.addEventListener('click', openSide);
     sideClose?.addEventListener('click', closeSide);
     sideOverlay?.addEventListener('click', closeSide);
+    
+    // Listen for thinking time changes from footer dropdown
+    window.addEventListener('thinkingTimeChanged', (e)=>{
+      selectedThinkingTime = e.detail.thinkingTime || 0;
+    });
+    
+    // Listen for role changes from header dropdown
+    window.addEventListener('roleChanged', (e)=>{
+      selectedRole = e.detail.role || 'default';
+      
+      // Show notification
+      const roleNames = {
+        'default': '👤 حالت عادی',
+        'lawyer': '⚖️ وکیل پرونده',
+        'judge': '👨‍⚖️ قاضی پرونده'
+      };
+      const roleName = roleNames[selectedRole] || selectedRole;
+      
+      // Create toast notification
+      const toast = document.createElement('div');
+      toast.style.cssText = 'position:fixed; top:80px; left:50%; transform:translateX(-50%); background:#065f46; color:#10b981; padding:12px 20px; border-radius:10px; border:1px solid #10b981; font-size:13px; z-index:10000; box-shadow:0 4px 12px rgba(0,0,0,0.3); animation:slideDown 0.3s ease-out';
+      toast.textContent = `✓ حالت تغییر کرد به: ${roleName}`;
+      document.body.appendChild(toast);
+      
+      setTimeout(()=>{
+        toast.style.animation = 'fadeOut 0.3s ease-out';
+        setTimeout(()=>toast.remove(), 300);
+      }, 2000);
+    });
     const $ = (s)=>document.querySelector(s);
     const msgs = $('#messages');
     const q = $('#q');
@@ -139,6 +210,14 @@
     const sendIcon = document.getElementById('sendIcon');
     let inFlight = false;
     let askAbort = null;
+    
+    // Deep Thinking State
+    let selectedThinkingTime = 0;
+    let thinkingTimer = null;
+    let thinkingStartTime = 0;
+    
+    // Role State
+    let selectedRole = 'default';
     // removed status/ingest controls
     const btnLoadTpls = $('#btnLoadTpls');
     const tplSelect = $('#tplSelect');
@@ -161,12 +240,48 @@
     const chatList = document.getElementById('chatList');
     const btnNewChat = document.getElementById('btnNewChat');
     let currentChatId = '';
+    function setCurrentChatId(id){
+      currentChatId = id||'';
+      try{ if(currentChatId){ window.history.pushState({chatId: currentChatId}, '', '/c/'+currentChatId); } }catch(e){}
+    }
+    (function initChatIdFromUrl(){
+      try{
+        const m = location.pathname.match(/\/c\/([\w-]+)/);
+        if(m && m[1]){ currentChatId = m[1]; }
+      }catch(e){}
+    })();
+    window.addEventListener('popstate', (ev)=>{
+      try{
+        const m = location.pathname.match(/\/c\/([\w-]+)/);
+        if(m && m[1]){ currentChatId = m[1]; }
+      }catch(e){}
+    });
+
+    async function loadChatById(id){
+      if(!id) return;
+      try{
+        const j = await fetchJson('/chats/get?id='+encodeURIComponent(id));
+        if(!(j && j.ok)) return;
+        msgs.innerHTML = '';
+        const items = (j.data && Array.isArray(j.data.items)) ? j.data.items : [];
+        items.forEach(it=>{
+          if(it.role === 'user'){
+            addMsg('user', it.text||'');
+          } else {
+            const meta = { citations: Array.isArray(it.citations) ? it.citations : [] };
+            addMsg('assistant', it.text||'', meta);
+          }
+        });
+        setTimeout(()=>{ window.scrollTo({ top: document.body.scrollHeight, behavior:'smooth' }); }, 0);
+        try{ document.getElementById('q')?.focus(); }catch(e){}
+      }catch(e){}
+    }
     let authWizardOpen = false;
     let pendingQuestionText = '';
 
     function autoGrow(el){
       el.style.height = 'auto';
-      el.style.height = Math.min(el.scrollHeight, 200) + 'px';
+      el.style.height = Math.min(el.scrollHeight, 500) + 'px';
     }
     q.addEventListener('input', ()=> autoGrow(q));
     autoGrow(q);
@@ -190,6 +305,160 @@
     function escapeHtml(s){
       return (s||'').replace(/[&<>"']/g, (c)=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
     }
+    function buildCitationsMessage(list){
+      const arr = Array.isArray(list) ? list.slice(0,6) : [];
+      if(arr.length === 0) return '';
+      const lines = arr.map((c,i)=>{
+        const snip = escapeHtml((c.snippet||'').slice(0,400));
+        const src = c.source ? ` — منبع: ${escapeHtml(c.source)}` : '';
+        return `${i+1}) ${snip}${src}`;
+      });
+      return 'استنادات مرتبط:<br>' + lines.join('<br>');
+    }
+
+    function createCitationCard(citation, index){
+      const card = document.createElement('div');
+      card.className = 'citation-card';
+      card.style.cssText = 'margin:8px 0; padding:12px; background:#0b1220; border:1px solid var(--border); border-radius:10px; cursor:pointer; transition:all 0.2s';
+      card.onmouseover = ()=>{ card.style.borderColor='#22c55e'; card.style.background='#0f1419'; };
+      card.onmouseout = ()=>{ card.style.borderColor='var(--border)'; card.style.background='#0b1220'; };
+      
+      // Header با شماره و منبع
+      const header = document.createElement('div');
+      header.style.cssText = 'display:flex; align-items:center; gap:8px; margin-bottom:8px; flex-wrap:wrap';
+      
+      const badge = document.createElement('span');
+      badge.style.cssText = 'background:#22c55e; color:#000; padding:2px 8px; border-radius:6px; font-size:11px; font-weight:600';
+      badge.textContent = `#${index+1}`;
+      header.appendChild(badge);
+      
+      if(citation.source){
+        const sourceSpan = document.createElement('span');
+        sourceSpan.className = 'muted';
+        sourceSpan.style.fontSize = '12px';
+        sourceSpan.textContent = '📚 ' + citation.source;
+        header.appendChild(sourceSpan);
+      }
+      
+      if(citation.article_number){
+        const artSpan = document.createElement('span');
+        artSpan.style.cssText = 'background:#1e3a8a; color:#93c5fd; padding:2px 8px; border-radius:6px; font-size:11px; font-weight:600';
+        artSpan.textContent = `ماده ${citation.article_number}`;
+        header.appendChild(artSpan);
+      }
+      
+      card.appendChild(header);
+      
+      // متن استناد
+      const snippet = document.createElement('div');
+      snippet.style.cssText = 'color:#cbd5e1; font-size:13px; line-height:1.6; margin-bottom:8px';
+      snippet.textContent = citation.snippet || citation.text || '';
+      card.appendChild(snippet);
+      
+      // Footer با اکشن‌ها
+      const footer = document.createElement('div');
+      footer.style.cssText = 'display:flex; gap:6px; flex-wrap:wrap';
+      
+      // دکمه کپی
+      const copyBtn = document.createElement('button');
+      copyBtn.className = 'btn';
+      copyBtn.style.cssText = 'padding:4px 10px; font-size:11px; min-width:auto';
+      copyBtn.textContent = '📋 کپی';
+      copyBtn.onclick = (e)=>{
+        e.stopPropagation();
+        const text = citation.snippet || citation.text || '';
+        navigator.clipboard.writeText(text).then(()=>{
+          const prev = copyBtn.textContent;
+          copyBtn.textContent = '✅ کپی شد';
+          setTimeout(()=>{ copyBtn.textContent = prev; }, 1500);
+        });
+      };
+      footer.appendChild(copyBtn);
+      
+      // دکمه مشاهده کامل
+      if(citation.full_text || (citation.snippet && citation.snippet.length > 200)){
+        const expandBtn = document.createElement('button');
+        expandBtn.className = 'btn';
+        expandBtn.style.cssText = 'padding:4px 10px; font-size:11px; min-width:auto';
+        expandBtn.textContent = '📖 مشاهده کامل';
+        expandBtn.onclick = (e)=>{
+          e.stopPropagation();
+          const fullText = citation.full_text || citation.snippet || '';
+          snippet.textContent = snippet.textContent.length > 200 ? citation.snippet.slice(0,200)+'...' : fullText;
+          expandBtn.textContent = snippet.textContent.length > 200 ? '📖 مشاهده کامل' : '📕 خلاصه';
+        };
+        footer.appendChild(expandBtn);
+      }
+      
+      // تگ‌ها
+      if(citation.tags && Array.isArray(citation.tags)){
+        citation.tags.slice(0,3).forEach(tag=>{
+          const tagSpan = document.createElement('span');
+          tagSpan.style.cssText = 'background:#1e293b; color:#94a3b8; padding:2px 8px; border-radius:6px; font-size:10px';
+          tagSpan.textContent = '#'+tag;
+          footer.appendChild(tagSpan);
+        });
+      }
+      
+      card.appendChild(footer);
+      
+      return card;
+    }
+
+    // تابع ایجاد chip نیت با آیکون و رنگ مناسب
+    function createIntentChip(intent){
+      const intentMap = {
+        'qa': { icon: '❓', label: 'پرسش و پاسخ', color: '#3b82f6', bg: '#1e3a8a', desc: 'سوال حقوقی' },
+        'draft': { icon: '📝', label: 'تهیه سند', color: '#10b981', bg: '#065f46', desc: 'پیش‌نویس قانونی' },
+        'advice': { icon: '💡', label: 'مشاوره', color: '#f59e0b', bg: '#78350f', desc: 'مشاوره حقوقی' },
+        'search': { icon: '🔍', label: 'جستجو', color: '#8b5cf6', bg: '#4c1d95', desc: 'جستجوی قانون' },
+        'analysis': { icon: '📊', label: 'تحلیل', color: '#ec4899', bg: '#831843', desc: 'تحلیل پرونده' },
+        'general': { icon: '💬', label: 'عمومی', color: '#6b7280', bg: '#1f2937', desc: 'گفتگوی عمومی' }
+      };
+      
+      const info = intentMap[intent] || intentMap['general'];
+      const chip = document.createElement('span');
+      chip.className = 'chip intent-chip';
+      chip.style.cssText = `background:${info.bg}; color:${info.color}; border-color:${info.color}40; font-weight:600; cursor:help`;
+      chip.title = info.desc;
+      chip.innerHTML = `${info.icon} <span style="font-size:11px">نیت:</span> ${info.label}`;
+      
+      return chip;
+    }
+
+    // تابع ایجاد chip حوزه با آیکون و رنگ مناسب
+    function createDomainChip(domain){
+      const domainMap = {
+        'civil': { icon: '⚖️', label: 'مدنی', color: '#3b82f6', bg: '#1e3a8a', desc: 'حقوق مدنی و قراردادها' },
+        'criminal': { icon: '🔒', label: 'کیفری', color: '#ef4444', bg: '#7f1d1d', desc: 'حقوق جزا و کیفری' },
+        'family': { icon: '👨‍👩‍👧‍👦', label: 'خانواده', color: '#f59e0b', bg: '#78350f', desc: 'حقوق خانواده و ازدواج' },
+        'commercial': { icon: '💼', label: 'تجاری', color: '#10b981', bg: '#065f46', desc: 'حقوق تجارت و شرکت‌ها' },
+        'labor': { icon: '👷', label: 'کار', color: '#8b5cf6', bg: '#4c1d95', desc: 'حقوق کار و تامین اجتماعی' },
+        'tax': { icon: '💰', label: 'مالیاتی', color: '#f97316', bg: '#7c2d12', desc: 'حقوق مالیاتی' },
+        'property': { icon: '🏠', label: 'املاک', color: '#06b6d4', bg: '#164e63', desc: 'حقوق ثبت و املاک' },
+        'administrative': { icon: '🏛️', label: 'اداری', color: '#6366f1', bg: '#312e81', desc: 'حقوق اداری و دیوان' },
+        'general': { icon: '📚', label: 'عمومی', color: '#6b7280', bg: '#1f2937', desc: 'حوزه عمومی' }
+      };
+      
+      const info = domainMap[domain] || domainMap['general'];
+      const chip = document.createElement('span');
+      chip.className = 'chip domain-chip';
+      chip.style.cssText = `background:${info.bg}; color:${info.color}; border-color:${info.color}40; font-weight:600; cursor:help`;
+      chip.title = info.desc;
+      chip.innerHTML = `${info.icon} <span style="font-size:11px">حوزه:</span> ${info.label}`;
+      
+      // کلیک برای نمایش اطلاعات بیشتر
+      chip.onclick = (e)=>{
+        e.stopPropagation();
+        const tooltip = document.createElement('div');
+        tooltip.style.cssText = 'position:absolute; background:#0f141b; border:1px solid '+info.color+'; padding:8px 12px; border-radius:8px; font-size:12px; z-index:1000; box-shadow:0 4px 12px rgba(0,0,0,0.5)';
+        tooltip.textContent = info.desc;
+        chip.appendChild(tooltip);
+        setTimeout(()=>tooltip.remove(), 2000);
+      };
+      
+      return chip;
+    }
 
     function addMsg(role, text, meta){
       const li = document.createElement('li');
@@ -198,74 +467,162 @@
       bubble.className = 'bubble';
       bubble.innerHTML = formatText(text);
       li.appendChild(bubble);
-      // tools: icons area attached under chat bubble (bottom)
-      try{
-        const tools = document.createElement('div');
-        tools.className = 'msg-tools';
-        // notes icon
-        const noteBtn = document.createElement('button');
-        noteBtn.className = 'tool-btn';
-        noteBtn.title = 'با این گزینه می‌توانید این چت را به یادداشت‌ها منتقل کنید';
-        noteBtn.textContent = '📝';
-        noteBtn.addEventListener('click', async ()=>{
-          try{
-            const area = document.getElementById('notesArea');
-            const titleEl = document.getElementById('noteTitle');
-            if(area){
-              const plain = (text||'');
-              area.value = (area.value||'') + ((area.value||'').trim()? '\n\n' : '') + plain;
-              if(titleEl && !(titleEl.value||'').trim()){
-                titleEl.value = (plain.split('\n')[0]||'').slice(0,60) || 'یادداشت';
-              }
-              if(typeof saveCurrentNote === 'function'){
-                const prev = noteBtn.textContent;
-                noteBtn.textContent = '…';
-                await saveCurrentNote();
-                noteBtn.textContent = '📝';
-              }
-            }
-          }catch(e){}
+      
+      // دکمه‌های Action برای پیام‌های Assistant
+      if(role === 'assistant'){
+        const actionsBar = document.createElement('div');
+        actionsBar.className = 'msg-actions';
+        actionsBar.style.cssText = 'display:flex; gap:4px; margin-top:8px; opacity:0.6; transition:opacity 0.3s';
+        actionsBar.onmouseenter = ()=> actionsBar.style.opacity = '1';
+        actionsBar.onmouseleave = ()=> actionsBar.style.opacity = '0.6';
+        
+        // دکمه کپی
+        const copyBtn = createActionBtn('📋', 'کپی', ()=>{
+          navigator.clipboard.writeText(text).then(()=>{
+            copyBtn.innerHTML = '✅';
+            setTimeout(()=>{ copyBtn.innerHTML = '📋'; }, 1500);
+          });
         });
-        // docs icon
-        const docsBtn = document.createElement('button');
-        docsBtn.className = 'tool-btn';
-        docsBtn.title = 'نمایش/مخفی‌سازی مستندات';
-        docsBtn.textContent = '📎';
-        docsBtn.addEventListener('click', ()=>{
-          try{
-            const metaEl = li.querySelector('.meta');
-            if(!metaEl){ return; }
-            const det = metaEl.querySelector('details');
-            if(det){ det.open = !det.open; det.scrollIntoView({behavior:'smooth', block:'center'}); }
-          }catch(e){}
+        
+        // دکمه لایک
+        const likeBtn = createActionBtn('👍', 'پسندیدم', ()=>{
+          likeBtn.classList.toggle('active');
+          if(likeBtn.classList.contains('active')){
+            likeBtn.style.background = 'rgba(34,197,94,.15)';
+            dislikeBtn.classList.remove('active');
+            dislikeBtn.style.background = '';
+          } else {
+            likeBtn.style.background = '';
+          }
         });
-        tools.appendChild(noteBtn);
-        tools.appendChild(docsBtn);
-        li.appendChild(tools);
-      }catch(e){}
+        
+        // دکمه دیسلایک
+        const dislikeBtn = createActionBtn('👎', 'نپسندیدم', ()=>{
+          dislikeBtn.classList.toggle('active');
+          if(dislikeBtn.classList.contains('active')){
+            dislikeBtn.style.background = 'rgba(239,68,68,.15)';
+            likeBtn.classList.remove('active');
+            likeBtn.style.background = '';
+          } else {
+            dislikeBtn.style.background = '';
+          }
+        });
+        
+        // دکمه اشتراک‌گذاری
+        const shareBtn = createActionBtn('↗️', 'اشتراک‌گذاری', ()=>{
+          if(navigator.share){
+            navigator.share({ text: text }).catch(()=>{});
+          } else {
+            navigator.clipboard.writeText(text).then(()=>{
+              shareBtn.innerHTML = '✅';
+              setTimeout(()=>{ shareBtn.innerHTML = '↗️'; }, 1500);
+            });
+          }
+        });
+        
+        // دکمه رفرش
+        const refreshBtn = createActionBtn('🔄', 'بازآوری', ()=>{
+          refreshBtn.style.animation = 'spin 0.5s linear';
+          setTimeout(()=>{ refreshBtn.style.animation = ''; }, 500);
+          // اینجا می‌توان منطق رفرش را اضافه کرد
+        });
+        
+        actionsBar.appendChild(copyBtn);
+        actionsBar.appendChild(likeBtn);
+        actionsBar.appendChild(dislikeBtn);
+        actionsBar.appendChild(shareBtn);
+        actionsBar.appendChild(refreshBtn);
+        
+        bubble.appendChild(actionsBar);
+      }
+      
       if(meta && (meta.intent || meta.domain || (meta.citations||[]).length)){
         const metaEl = document.createElement('div');
         metaEl.className = 'meta';
-        if(meta.intent){ const c=document.createElement('span'); c.className='chip'; c.textContent='نیت: '+meta.intent; metaEl.appendChild(c); }
-        if(meta.domain){ const c=document.createElement('span'); c.className='chip'; c.textContent='حوزه: '+meta.domain; metaEl.appendChild(c); }
+        if(meta.intent){ metaEl.appendChild(createIntentChip(meta.intent)); }
+        if(meta.domain){ metaEl.appendChild(createDomainChip(meta.domain)); }
         if(Array.isArray(meta.citations) && meta.citations.length){
           const det = document.createElement('details');
           const sum = document.createElement('summary');
-          sum.textContent = 'استنادات ('+meta.citations.length+')';
+          sum.style.cssText = 'cursor:pointer; padding:8px; background:#0f141b; border-radius:8px; font-weight:600; user-select:none';
+          sum.innerHTML = `📎 استنادات مرتبط <span style="background:#22c55e; color:#000; padding:2px 8px; border-radius:12px; font-size:11px; margin-inline-start:6px">${meta.citations.length}</span>`;
           det.appendChild(sum);
-          meta.citations.slice(0,6).forEach((c,i)=>{
-            const p = document.createElement('div');
-            p.className='muted';
-            p.style.margin='6px 0';
-            p.textContent = (i+1)+') '+(c.snippet||'');
-            det.appendChild(p);
+          
+          // Container برای استنادات
+          const citContainer = document.createElement('div');
+          citContainer.style.cssText = 'margin-top:8px; max-height:400px; overflow-y:auto; padding:4px';
+          
+          // نمایش جستجو اگر بیش از 5 استناد
+          if(meta.citations.length > 5){
+            const searchBox = document.createElement('input');
+            searchBox.type = 'text';
+            searchBox.placeholder = '🔍 جستجو در استنادات...';
+            searchBox.style.cssText = 'width:100%; padding:8px 12px; background:#0b1220; border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:13px; margin-bottom:8px';
+            searchBox.oninput = ()=>{
+              const query = searchBox.value.toLowerCase();
+              citContainer.querySelectorAll('.citation-card').forEach(card=>{
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? '' : 'none';
+              });
+            };
+            citContainer.appendChild(searchBox);
+          }
+          
+          // تمام استنادات (نه فقط 6 تا!)
+          meta.citations.forEach((c,i)=>{
+            citContainer.appendChild(createCitationCard(c, i));
           });
+          
+          // دکمه کپی همه
+          if(meta.citations.length > 1){
+            const copyAllBtn = document.createElement('button');
+            copyAllBtn.className = 'btn';
+            copyAllBtn.style.cssText = 'width:100%; margin-top:8px; padding:8px';
+            copyAllBtn.textContent = '📋 کپی تمام استنادات';
+            copyAllBtn.onclick = ()=>{
+              const allText = meta.citations.map((c,i)=>
+                `${i+1}. ${c.source || ''}\n${c.snippet || c.text || ''}\n`
+              ).join('\n');
+              navigator.clipboard.writeText(allText).then(()=>{
+                const prev = copyAllBtn.textContent;
+                copyAllBtn.textContent = '✅ همه کپی شد';
+                setTimeout(()=>{ copyAllBtn.textContent = prev; }, 1500);
+              });
+            };
+            citContainer.appendChild(copyAllBtn);
+          }
+          
+          det.appendChild(citContainer);
           metaEl.appendChild(det);
         }
         li.appendChild(metaEl);
       }
       msgs.appendChild(li);
       setTimeout(()=>{ window.scrollTo({ top: document.body.scrollHeight, behavior:'smooth' }); }, 0);
+      return li;
+    }
+    
+    // تابع کمکی برای ساخت دکمه‌های Action
+    function createActionBtn(icon, title, onClick){
+      const btn = document.createElement('button');
+      btn.className = 'action-btn';
+      btn.innerHTML = icon;
+      btn.title = title;
+      btn.style.cssText = 'width:28px; height:28px; display:flex; align-items:center; justify-content:center; background:rgba(15,23,42,.6); border:1px solid rgba(100,116,139,.2); border-radius:6px; cursor:pointer; transition:all 0.2s; font-size:14px';
+      btn.onclick = onClick;
+      btn.onmouseenter = ()=>{
+        btn.style.background = 'rgba(34,197,94,.1)';
+        btn.style.borderColor = 'rgba(34,197,94,.4)';
+        btn.style.transform = 'translateY(-2px)';
+      };
+      btn.onmouseleave = ()=>{
+        if(!btn.classList.contains('active')){
+          btn.style.background = 'rgba(15,23,42,.6)';
+          btn.style.borderColor = 'rgba(100,116,139,.2)';
+        }
+        btn.style.transform = '';
+      };
+      return btn;
     }
 
     // ===== Conversational Auth Wizard =====
@@ -339,7 +696,7 @@
         };
         try{
           // Try signup first to detect if user exists
-          const r1 = await fetch('auth/send-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone, purpose: 'signup' }) });
+          const r1 = await fetch('/auth/send-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone, purpose: 'signup' }) });
           const ct1 = r1.headers.get('content-type')||''; const j1 = ct1.includes('application/json')? await r1.json() : { ok:false };
           if(j1 && j1.ok){
             currentPurpose = 'signup';
@@ -350,7 +707,7 @@
           }
           if(j1 && j1.error === 'already_registered'){
             // Fallback to login
-            const r2 = await fetch('auth/send-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone, purpose: 'login' }) });
+            const r2 = await fetch('/auth/send-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone, purpose: 'login' }) });
             const ct2 = r2.headers.get('content-type')||''; const j2 = ct2.includes('application/json')? await r2.json() : { ok:false };
             if(j2 && j2.ok){
               currentPurpose = 'login';
@@ -386,12 +743,12 @@
             payload.last_name = (document.getElementById('wizLastName').value||'').trim();
             payload.role = (document.getElementById('wizRole').value||'').trim();
           }
-          const r = await fetch('auth/verify-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+          const r = await fetch('/auth/verify-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
           const ct = r.headers.get('content-type')||''; const j = ct.includes('application/json')? await r.json() : { ok:false };
           if(!j.ok){ setWizStatus('کد نامعتبر است', true); return; }
           setWizStatus('انجام شد؛ ورود/ثبت‌نام با موفقیت انجام شد.');
           try{
-            const me = await fetchJson('auth/me');
+            const me = await fetchJson('/auth/me');
             if(me && me.authenticated){
               addMsg('assistant', 'خوش آمدید! اکنون می‌توانید سؤال خود را بپرسید.');
               try{ li.remove(); }catch(e){}
@@ -425,24 +782,22 @@
     async function ask(){
       const text = q.value.trim();
       if(!text) return;
-      const tnorm = (text||'').toLowerCase();
-      // intercept auth intents
-      if(tnorm.includes('ورود') || tnorm.includes('login')){ addMsg('assistant','فرایند ورود آغاز شد.'); openAuthWizard('login'); q.value=''; return; }
-      if(tnorm.includes('ثبت') || tnorm.includes('signup') || tnorm.includes('register')){ addMsg('assistant','فرایند ثبت‌نام آغاز شد.'); openAuthWizard('signup'); q.value=''; return; }
-      // auto-create chat title from first question if not set
+      // block concurrent send + ensure chatId is set
+      if(inFlight){ return; }
+      // auto-create chat if none exists
       if(!currentChatId){
         try{
           const t = (text.split('\n')[0]||'').slice(0,60);
-          const c = await fetchJson('chats', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ title: t||'گفت‌وگو' }) });
-          currentChatId = c.id||'';
+          const c = await fetchJson('/chats', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ title: t||'گفت‌وگو' }) });
+          setCurrentChatId(c.id||'');
+          msgs.innerHTML = '';
           await refreshChats();
-        }catch(e){}
+        }catch(e){ return; }
       }
       addMsg('user', text);
+      try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: currentChatId||'', role:'user', text }) }); }catch(e){}
       q.value=''; autoGrow(q); q.focus();
-      // block concurrent send
-      if(inFlight){ return; }
-      inFlight = true; if(sendIcon){ sendIcon.textContent = '■'; } sendBtn.title='توقف'; sendBtn.setAttribute('aria-label','توقف'); sendBtn.classList.add('danger');
+       inFlight = true; if(sendIcon){ sendIcon.textContent = '■'; } sendBtn.title='توقف'; sendBtn.setAttribute('aria-label','توقف'); sendBtn.classList.add('danger');
       // show typing indicator like DeepSeek
       const typingLi = document.createElement('li');
       typingLi.className = 'msg assistant';
@@ -453,37 +808,133 @@
       msgs.appendChild(typingLi);
       setTimeout(()=>{ window.scrollTo({ top: document.body.scrollHeight, behavior:'smooth' }); }, 0);
       try{
+        // Show thinking indicator if deep thinking is enabled
+        const thinkingIndicator = document.getElementById('thinkingIndicator');
+        const thinkingSecondsEl = document.getElementById('thinkingSeconds');
+        if(selectedThinkingTime > 0 && thinkingIndicator){
+          thinkingIndicator.style.display = 'block';
+          thinkingStartTime = Date.now();
+          thinkingTimer = setInterval(()=>{
+            const elapsed = Math.floor((Date.now() - thinkingStartTime) / 1000);
+            if(thinkingSecondsEl){
+              thinkingSecondsEl.textContent = elapsed;
+            }
+          }, 100);
+        }
+        
         // abortable fetch
         askAbort = new AbortController();
-        const r = await fetch('ask', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({question:text}), signal: askAbort.signal });
+        const r = await fetch('/ask', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({question:text, thinking_time: selectedThinkingTime, role: selectedRole}), signal: askAbort.signal });
         const ct = r.headers.get('content-type') || '';
         if(!r.ok || !ct.includes('application/json')){ const t = await r.text(); throw new Error(t.slice(0,200)); }
         const j = await r.json();
+        
+        // Hide thinking indicator
+        if(thinkingTimer){
+          clearInterval(thinkingTimer);
+          thinkingTimer = null;
+        }
+        if(thinkingIndicator){
+          thinkingIndicator.style.display = 'none';
+        }
         // replace typing bubble with final answer
         if(typingLi && typingLi.parentNode){ msgs.removeChild(typingLi); }
-        addMsg('assistant', j.answer||'');
-        // If server asks for auth, open wizard inline
-        if(j && j.intent === 'auth'){
+        
+        // Add badges if deep thinking or special role was used
+        let answerText = j.answer || '';
+        let badges = '';
+        
+        if(selectedThinkingTime > 0){
+          badges += `<span style="display:inline-flex; align-items:center; gap:4px; background:#1e3a8a; color:#3b82f6; padding:4px 10px; border-radius:8px; font-size:11px; margin-left:6px; font-weight:600">🧠 فکر عمیق: ${selectedThinkingTime}s</span>`;
+        }
+        
+        if(selectedRole && selectedRole !== 'default'){
+          const roleIcons = {
+            'lawyer': '⚖️ وکیل پرونده',
+            'judge': '👨‍⚖️ قاضی پرونده'
+          };
+          const roleLabel = roleIcons[selectedRole] || selectedRole;
+          badges += `<span style="display:inline-flex; align-items:center; gap:4px; background:#065f46; color:#10b981; padding:4px 10px; border-radius:8px; font-size:11px; font-weight:600">${roleLabel}</span>`;
+        }
+        
+        if(badges){
+          answerText = `<div style="margin-bottom:8px">${badges}</div>\n\n` + answerText;
+        }
+        
+        const answerLi = addMsg('assistant', answerText);
+        try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: currentChatId||'', role:'assistant', text: j.answer||'', citations: j.citations||[] }) }); }catch(e){}
+        let citLi = null;
+        if(Array.isArray(j.citations) && j.citations.length){
+          const citText = buildCitationsMessage(j.citations);
+          if(citText){ citLi = addMsg('assistant', citText); try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: currentChatId||'', role:'assistant', text: citText }) }); }catch(e){} }
+        }
+        // If server detects auth intent via AI, open wizard inline
+        if(j && (j.intent === 'auth' || j.intent === 'login' || j.intent === 'signup')){
           pendingQuestionText = text;
-          setTimeout(()=>{ try{ openAuthWizard('login'); }catch(e){} }, 0);
+          const purpose = (j.intent === 'signup') ? 'signup' : 'login';
+          setTimeout(()=>{ 
+            try{ 
+              // پیام استقبال قبل از باز کردن wizard
+              if(j.intent === 'signup'){
+                addMsg('assistant','✨ فرایند ثبت‌نام آغاز شد. لطفاً اطلاعات خود را وارد کنید.');
+              } else {
+                addMsg('assistant','🔐 فرایند ورود آغاز شد. شماره موبایل خود را وارد کنید.');
+              }
+              openAuthWizard(purpose); 
+            }catch(e){} 
+          }, 100);
         }
-        // attach meta chips to last assistant msg
-        const last = msgs.lastElementChild; if(last){
-          const meta = { intent: j.intent, domain: j.domain, citations: j.citations };
-          if(meta.intent || meta.domain || (meta.citations||[]).length){
-            const metaEl = document.createElement('div'); metaEl.className='meta';
-            if(meta.intent){ const c=document.createElement('span'); c.className='chip'; c.textContent='نیت: '+meta.intent; metaEl.appendChild(c); }
-            if(meta.domain){ const c=document.createElement('span'); c.className='chip'; c.textContent='حوزه: '+meta.domain; metaEl.appendChild(c); }
-            if(Array.isArray(meta.citations) && meta.citations.length){
-              const det = document.createElement('details');
-              const sum = document.createElement('summary'); sum.textContent = 'استنادات ('+meta.citations.length+')'; det.appendChild(sum);
-              meta.citations.slice(0,6).forEach((c,i)=>{ const p=document.createElement('div'); p.className='muted'; p.style.margin='6px 0'; p.textContent=(i+1)+') '+(c.snippet||''); det.appendChild(p); });
-              metaEl.appendChild(det);
-            }
-            last.appendChild(metaEl);
-          }
-        }
+        // footer: actions (moved) + domain/intent chips
+        try{
+          const dom = (j.domain||'-');
+          const it = (j.intent||'-');
+          const li = document.createElement('li'); li.className='msg assistant';
+          const bubble = document.createElement('div'); bubble.className='bubble';
+          bubble.style.background = '#0b1220'; bubble.style.color = '#94a3b8'; bubble.style.fontSize='12px';
+          const tools = document.createElement('div'); tools.className='msg-tools';
+          const noteBtn = document.createElement('button'); noteBtn.className='tool-btn'; noteBtn.title='افزودن پاسخ به یادداشت‌ها'; noteBtn.textContent='📝';
+          noteBtn.addEventListener('click', async ()=>{
+            try{
+              const area = document.getElementById('notesArea');
+              const titleEl = document.getElementById('noteTitle');
+              if(area){
+                const plain = (j.answer||'');
+                area.value = (area.value||'') + ((area.value||'').trim()? '\n\n' : '') + plain;
+                if(titleEl && !(titleEl.value||'').trim()){
+                  titleEl.value = (plain.split('\n')[0]||'').slice(0,60) || 'یادداشت';
+                }
+                if(typeof saveCurrentNote === 'function'){
+                  const prev = noteBtn.textContent; noteBtn.textContent='…'; await saveCurrentNote(); noteBtn.textContent=prev;
+                }
+              }
+            }catch(e){}
+          });
+          const docsBtn = document.createElement('button'); docsBtn.className='tool-btn'; docsBtn.title='نمایش/مخفی‌سازی استنادات'; docsBtn.textContent='📎';
+          docsBtn.addEventListener('click', ()=>{
+            try{
+              if(citLi){
+                const disp = citLi.style.display === 'none' ? '' : 'none';
+                citLi.style.display = disp;
+                if(disp===''){ citLi.scrollIntoView({behavior:'smooth', block:'center'}); }
+              }
+            }catch(e){}
+          });
+          const chipDom = document.createElement('span'); chipDom.className='chip'; chipDom.textContent = 'حوزه: '+dom;
+          const chipInt = document.createElement('span'); chipInt.className='chip'; chipInt.textContent = 'نیت: '+it;
+          tools.appendChild(noteBtn); tools.appendChild(docsBtn); tools.appendChild(chipDom); tools.appendChild(chipInt);
+          bubble.appendChild(tools); li.appendChild(bubble); msgs.appendChild(li);
+        }catch(e){}
       }catch(e){
+        // Clean up thinking indicator on error
+        if(thinkingTimer){
+          clearInterval(thinkingTimer);
+          thinkingTimer = null;
+        }
+        const thinkingIndicator = document.getElementById('thinkingIndicator');
+        if(thinkingIndicator){
+          thinkingIndicator.style.display = 'none';
+        }
+        
         if(typingLi && typingLi.parentNode){ msgs.removeChild(typingLi); }
         if(e && e.name === 'AbortError'){
           addMsg('assistant', 'پاسخ متوقف شد.');
@@ -496,28 +947,137 @@
     }
     async function refreshChats(){
       try{
-        const j = await fetchJson('chats');
+        const j = await fetchJson('/chats');
         chatList.innerHTML='';
+        const byDate = {};
         (j.items||[]).forEach(item=>{
-          const row = document.createElement('div'); row.style.display='flex'; row.style.gap='6px';
-          const b = document.createElement('button'); b.className='btn'; b.style.flex='1'; b.textContent=item.title||item.id;
-          b.addEventListener('click', ()=>{ currentChatId = item.id; });
-          const rn = document.createElement('button'); rn.className='btn'; rn.textContent='ویرایش';
-          rn.addEventListener('click', async()=>{
-            const nt = prompt('عنوان جدید؟', item.title||''); if(nt==null) return;
-            try{ await fetchJson('chats/rename', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id:item.id, title:nt }) }); refreshChats(); }catch(e){}
+          const d = new Date((item.mtime||0)*1000);
+          const key = d.toLocaleDateString('fa-IR', {year:'numeric', month:'2-digit', day:'2-digit'});
+          if(!byDate[key]) byDate[key] = [];
+          byDate[key].push(item);
+        });
+        Object.entries(byDate).sort((a,b)=>b[0].localeCompare(a[0])).forEach(([date,items])=>{
+          const section = document.createElement('div');
+          section.style.display = 'flex'; section.style.flexDirection = 'column'; section.style.gap = '8px';
+          const header = document.createElement('div');
+          header.style.cssText = 'padding:10px 12px; color:#94a3b8; font-size:12px; font-weight:600; border-bottom:1px solid #1f2937; margin-bottom:8px';
+          header.textContent = date;
+          section.appendChild(header);
+          items.forEach(item=>{
+            const row = document.createElement('div'); row.style.display='flex'; row.style.gap='6px';
+            const b = document.createElement('button'); b.className='btn'; b.style.flex='1'; b.textContent=item.title||item.id;
+            b.addEventListener('click', async()=>{ 
+              setCurrentChatId(item.id); 
+              msgs.innerHTML = '';
+              await loadChatById(item.id);
+            });
+            const editBtn = document.createElement('button'); editBtn.className='btn'; editBtn.textContent='✏️'; editBtn.title='ویرایش عنوان';
+            editBtn.style.padding='8px';
+            editBtn.addEventListener('click', async(ev)=>{
+              ev.stopPropagation();
+              openChatEditor(item.id, item.title||'');
+            });
+            const delBtn = document.createElement('button'); delBtn.className='btn'; delBtn.textContent='🗑️'; delBtn.title='حذف چت'; delBtn.style.padding='8px';
+            delBtn.addEventListener('click', async(ev)=>{
+              ev.stopPropagation();
+              openDeleteConfirm(item.id, item.title||'');
+            });
+            row.appendChild(b); row.appendChild(editBtn); row.appendChild(delBtn);
+            section.appendChild(row);
           });
-          row.appendChild(b); row.appendChild(rn);
-          chatList.appendChild(row);
+          chatList.appendChild(section);
         });
       }catch(e){}
     }
+    async function openChatEditor(chatId, title, isNew=false){
+      const modal = document.createElement('div');
+      modal.style.cssText = 'position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:10000; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px)';
+      const box = document.createElement('div');
+      box.style.cssText = 'background:#0f141b; border:1px solid #1f2937; border-radius:16px; padding:24px; min-width:320px; max-width:90vw';
+      box.innerHTML = `
+        <div style="margin-bottom:16px; font-size:18px; font-weight:600;">${isNew ? 'ایجاد گفت‌وگوی جدید' : 'ویرایش گفت‌وگو'}</div>
+        <input id="chatTitleInput" type="text" placeholder="عنوان گفت‌وگو..." value="${title}" style="width:100%; padding:12px 14px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:10px; font-size:14px; margin-bottom:16px;">
+        <div style="display:flex; gap:8px; justify-content:flex-end;">
+          <button id="chatCancel" class="btn" style="padding:10px 16px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:10px; cursor:pointer;">انصراف</button>
+          <button id="chatSave" class="btn" style="padding:10px 16px; background:#22c55e; color:#03120a; border:0; border-radius:10px; cursor:pointer; font-weight:600;">${isNew ? 'ایجاد' : 'ذخیره'}</button>
+        </div>
+      `;
+      modal.appendChild(box);
+      document.body.appendChild(modal);
+      const input = box.querySelector('#chatTitleInput');
+      const cancelBtn = box.querySelector('#chatCancel');
+      const saveBtn = box.querySelector('#chatSave');
+      input.focus();
+      input.select();
+      const close = ()=>document.body.removeChild(modal);
+      cancelBtn.addEventListener('click', close);
+      saveBtn.addEventListener('click', async()=>{
+        const newTitle = input.value.trim();
+        if(!newTitle){ return; }
+        try{
+          if(isNew){
+            const c = await fetchJson('/chats', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ title: newTitle }) });
+            setCurrentChatId(c.id||'');
+            msgs.innerHTML = '';
+            await refreshChats();
+            await loadChatById(c.id||'');
+            close();
+            // Auto-add a greeting message
+            const greeting = 'سلام! چطور می‌تونم کمکتون کنم؟';
+            addMsg('assistant', greeting);
+            try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: c.id||'', role:'assistant', text: greeting }) }); }catch(e){}
+            setTimeout(()=>{ q.focus(); }, 100);
+          } else {
+            await fetchJson('/chats/rename', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id:chatId, title:newTitle }) });
+            refreshChats();
+            close();
+          }
+        }catch(e){}
+      });
+      modal.addEventListener('click', (ev)=>{
+        if(ev.target===modal) close();
+      });
+      input.addEventListener('keydown', (ev)=>{
+        if(ev.key==='Enter'){ ev.preventDefault(); saveBtn.click(); }
+        if(ev.key==='Escape'){ ev.preventDefault(); close(); }
+      });
+    }
+    async function openDeleteConfirm(chatId, title){
+      const modal = document.createElement('div');
+      modal.style.cssText = 'position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:10000; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px)';
+      const box = document.createElement('div');
+      box.style.cssText = 'background:#0f141b; border:1px solid #ef4444; border-radius:16px; padding:24px; min-width:320px; max-width:90vw';
+      box.innerHTML = `
+        <div style="margin-bottom:16px; font-size:18px; font-weight:600; color:#ef4444;">⚠️ حذف گفت‌وگو</div>
+        <div style="margin-bottom:20px; color:#94a3b8; line-height:1.6;">آیا از حذف گفت‌وگوی <strong style="color:#e2e8f0;">${title}</strong> اطمینان دارید؟ این عملیات غیرقابل برگشت است.</div>
+        <div style="display:flex; gap:8px; justify-content:flex-end;">
+          <button id="deleteCancel" class="btn" style="padding:10px 16px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:10px; cursor:pointer;">انصراف</button>
+          <button id="deleteConfirm" class="btn" style="padding:10px 16px; background:#ef4444; color:#03120a; border:0; border-radius:10px; cursor:pointer; font-weight:600;">حذف گفت‌وگو</button>
+        </div>
+      `;
+      modal.appendChild(box);
+      document.body.appendChild(modal);
+      const cancelBtn = box.querySelector('#deleteCancel');
+      const confirmBtn = box.querySelector('#deleteConfirm');
+      const close = ()=>document.body.removeChild(modal);
+      cancelBtn.addEventListener('click', close);
+      confirmBtn.addEventListener('click', async()=>{
+        try{
+          await fetchJson('/chats', { method:'DELETE', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: chatId }) });
+          if(currentChatId === chatId){ msgs.innerHTML=''; currentChatId=''; setCurrentChatId(''); }
+          refreshChats();
+          close();
+        }catch(e){}
+      });
+      modal.addEventListener('click', (ev)=>{
+        if(ev.target===modal) close();
+      });
+      cancelBtn.addEventListener('keydown', (ev)=>{
+        if(ev.key==='Escape'){ ev.preventDefault(); close(); }
+      });
+    }
     btnNewChat?.addEventListener('click', async()=>{
-      try{
-        const t = prompt('عنوان گفت‌وگو؟','گفت‌وگو جدید'); if(t==null) return;
-        const c = await fetchJson('chats', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ title: t }) });
-        currentChatId = c.id||''; refreshChats();
-      }catch(e){}
+      openChatEditor('', 'گفت‌وگو جدید', true);
     });
     refreshChats();
 
@@ -535,6 +1095,155 @@
       style.textContent = '.danger{ background:#ef4444 !important; color:#0a0a0a !important; }';
       document.head.appendChild(style);
     })();
+    // تابع محاسبه و نمایش آمار مکالمه
+    function showChatAnalytics(){
+      const modal = document.createElement('div');
+      modal.style.cssText = 'position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(4px); z-index:10000; display:flex; align-items:center; justify-content:center; animation:fadeIn 0.3s';
+      
+      // محاسبه آمار از تمام پیام‌ها
+      const intentCounts = {};
+      const domainCounts = {};
+      let totalMessages = 0;
+      
+      document.querySelectorAll('.msg.assistant').forEach(msg=>{
+        totalMessages++;
+        const intentChip = msg.querySelector('.intent-chip');
+        const domainChip = msg.querySelector('.domain-chip');
+        
+        if(intentChip){
+          const intent = intentChip.textContent.match(/نیت:\s*(.+)/)?.[1]?.trim();
+          if(intent) intentCounts[intent] = (intentCounts[intent] || 0) + 1;
+        }
+        
+        if(domainChip){
+          const domain = domainChip.textContent.match(/حوزه:\s*(.+)/)?.[1]?.trim();
+          if(domain) domainCounts[domain] = (domainCounts[domain] || 0) + 1;
+        }
+      });
+      
+      const intentEntries = Object.entries(intentCounts).sort((a,b)=>b[1]-a[1]);
+      const domainEntries = Object.entries(domainCounts).sort((a,b)=>b[1]-a[1]);
+      
+      // ساخت پنل
+      const panel = document.createElement('div');
+      panel.style.cssText = 'background:#0f141b; border:1px solid var(--border); border-radius:16px; padding:24px; max-width:600px; width:90%; max-height:80vh; overflow:auto';
+      
+      panel.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
+          <h2 style="margin:0; font-size:20px">📊 آمار مکالمه</h2>
+          <button id="closeAnalytics" style="background:transparent; border:none; color:var(--muted); font-size:24px; cursor:pointer; padding:0; width:32px; height:32px">×</button>
+        </div>
+        
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px; margin-bottom:24px">
+          <div style="background:#1e3a8a; padding:16px; border-radius:12px; text-align:center">
+            <div style="font-size:32px; font-weight:700; color:#3b82f6">${totalMessages}</div>
+            <div style="font-size:12px; color:#93c5fd; margin-top:4px">کل پاسخ‌ها</div>
+          </div>
+          <div style="background:#065f46; padding:16px; border-radius:12px; text-align:center">
+            <div style="font-size:32px; font-weight:700; color:#10b981">${intentEntries.length}</div>
+            <div style="font-size:12px; color:#6ee7b7; margin-top:4px">نوع نیت</div>
+          </div>
+          <div style="background:#78350f; padding:16px; border-radius:12px; text-align:center">
+            <div style="font-size:32px; font-weight:700; color:#f59e0b">${domainEntries.length}</div>
+            <div style="font-size:12px; color:#fbbf24; margin-top:4px">حوزه حقوقی</div>
+          </div>
+        </div>
+        
+        ${intentEntries.length > 0 ? `
+          <div style="margin-bottom:20px">
+            <h3 style="font-size:16px; margin-bottom:12px; color:#93c5fd">❓ نیت‌های مکالمه</h3>
+            <div style="display:flex; flex-direction:column; gap:8px">
+              ${intentEntries.map(([intent, count])=>{
+                const percent = Math.round(count / totalMessages * 100);
+                return `
+                  <div style="background:#0b1220; padding:12px; border-radius:8px">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
+                      <span style="font-size:13px">${intent}</span>
+                      <span style="font-size:12px; color:var(--muted)">${count} پاسخ (${percent}%)</span>
+                    </div>
+                    <div style="background:#1f2937; height:6px; border-radius:3px; overflow:hidden">
+                      <div style="background:#3b82f6; height:100%; width:${percent}%; transition:width 0.5s"></div>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        ` : ''}
+        
+        ${domainEntries.length > 0 ? `
+          <div>
+            <h3 style="font-size:16px; margin-bottom:12px; color:#fbbf24">⚖️ حوزه‌های حقوقی</h3>
+            <div style="display:flex; flex-direction:column; gap:8px">
+              ${domainEntries.map(([domain, count])=>{
+                const percent = Math.round(count / totalMessages * 100);
+                return `
+                  <div style="background:#0b1220; padding:12px; border-radius:8px">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
+                      <span style="font-size:13px">${domain}</span>
+                      <span style="font-size:12px; color:var(--muted)">${count} پاسخ (${percent}%)</span>
+                    </div>
+                    <div style="background:#1f2937; height:6px; border-radius:3px; overflow:hidden">
+                      <div style="background:#f59e0b; height:100%; width:${percent}%; transition:width 0.5s"></div>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        ` : ''}
+        
+        ${totalMessages === 0 ? `
+          <div style="text-align:center; padding:40px; color:var(--muted)">
+            <div style="font-size:48px; margin-bottom:12px">💬</div>
+            <div>هنوز پیامی وجود ندارد</div>
+          </div>
+        ` : ''}
+      `;
+      
+      modal.appendChild(panel);
+      document.body.appendChild(modal);
+      
+      // بستن مودال
+      const closeBtn = panel.querySelector('#closeAnalytics');
+      const close = ()=>document.body.removeChild(modal);
+      closeBtn?.addEventListener('click', close);
+      modal.addEventListener('click', (e)=>{ if(e.target === modal) close(); });
+      document.addEventListener('keydown', function escHandler(e){
+        if(e.key === 'Escape'){ close(); document.removeEventListener('keydown', escHandler); }
+      });
+    }
+    
+    // اضافه کردن دکمه آمار به header (اختیاری - می‌توان از کنسول هم فراخوانی کرد)
+    window.showChatAnalytics = showChatAnalytics;
+    
+    // به‌روزرسانی badge تعداد پیام‌ها
+    function updateAnalyticsBadge(){
+      const badge = document.getElementById('analyticsBadge');
+      if(badge){
+        const count = document.querySelectorAll('.msg.assistant').length;
+        if(count > 0){
+          badge.textContent = count;
+          badge.style.display = '';
+        } else {
+          badge.style.display = 'none';
+        }
+      }
+    }
+    
+    // فراخوانی از دکمه header
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const analyticsBtn = document.getElementById('analyticsBtn');
+      analyticsBtn?.addEventListener('click', showChatAnalytics);
+      
+      // به‌روزرسانی badge هنگام لود
+      updateAnalyticsBadge();
+      
+      // Observer برای به‌روزرسانی خودکار
+      const observer = new MutationObserver(updateAnalyticsBadge);
+      observer.observe(msgs, { childList: true, subtree: true });
+    });
+    
     // Floating scroll-to-bottom button
     const sc = document.getElementById('scrollDown');
     window.addEventListener('scroll', ()=>{
@@ -548,7 +1257,7 @@
     async function loadTemplates(){
       tplStatus.textContent='گرفتن فهرست...';
       try{
-        const j = await fetchJson('templates');
+        const j = await fetchJson('/templates');
         tplSelect.innerHTML = '';
         (j.templates||[]).forEach(name=>{
           const opt = document.createElement('option'); opt.value = name; opt.textContent = name; tplSelect.appendChild(opt);
@@ -565,7 +1274,7 @@
       const raw = tplFields.value.trim();
       if(raw){ try{ fields = JSON.parse(raw); }catch(e){ draftStatus.textContent='JSON نامعتبر'; return; } }
       try{
-        const j = await fetchJson('draft', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ template: tplSelect.value||'sample_template.txt', fields }) });
+        const j = await fetchJson('/draft', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ template: tplSelect.value||'sample_template.txt', fields }) });
         if(j.error){ draftStatus.textContent = 'خطا: '+j.error; return; }
         draftOut.textContent = j.draft||'';
         draftStatus.textContent='آماده';
@@ -581,7 +1290,7 @@
       const txt = draftOut.textContent||''; if(!txt){ draftStatus.textContent='چیزی برای ذخیره نیست'; return; }
       draftStatus.textContent='در حال ذخیره...'; dlLink.removeAttribute('href'); dlLink.textContent='دانلود';
       try{
-        const j = await fetchJson('draft/save', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ draft: txt, name: 'draft_'+Date.now()+'.txt' }) });
+        const j = await fetchJson('/draft/save', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ draft: txt, name: 'draft_'+Date.now()+'.txt' }) });
         if(!j.ok){ draftStatus.textContent='خطا در ذخیره'; return; }
         const file = (j.file||'').split('output\\').pop() || '';
         dlLink.href = 'draft/download?file='+encodeURIComponent(file);
@@ -635,7 +1344,7 @@
       const title = (noteTitle.value||'').trim();
       const content = notesArea.value||'';
       try{
-        const r = await fetchJson('notes/save', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: currentNoteId||'', title, content }) });
+        const r = await fetchJson('/notes/save', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: currentNoteId||'', title, content }) });
         currentNoteId = r.id||currentNoteId; notesSaveStatus.textContent='ذخیره شد'; refreshNotesList();
       }catch(e){ notesSaveStatus.textContent='خطا در ذخیره'; }
     }
@@ -645,7 +1354,7 @@
     let currentNoteId = '';
     async function refreshNotesList(){
       try{
-        const j = await fetchJson('notes/list');
+        const j = await fetchJson('/notes/list');
         notesList.innerHTML='';
         (j.items||[]).forEach(item=>{
           const a = document.createElement('button');
@@ -654,10 +1363,9 @@
           a.textContent = (item.title||item.id);
           a.addEventListener('click', async ()=>{
             try{
-              const d = await fetchJson('notes/get?id='+encodeURIComponent(item.id));
+              const d = await fetchJson('/notes/get?id='+encodeURIComponent(item.id));
               currentNoteId = d.id||item.id;
-              notesArea.value = d.content||'';
-              document.getElementById('notesBox').open = true;
+              openNoteEditor(item.id, d.title||'', d.content||'');
             }catch(e){ /* ignore */ }
           });
           const wrap = document.createElement('div'); wrap.style.display='flex'; wrap.style.gap='6px';
@@ -666,7 +1374,7 @@
             ev.stopPropagation();
             if(!confirm('حذف این یادداشت؟')) return;
             try{
-              const r = await fetchJson('notes/delete', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: item.id }) });
+              const r = await fetchJson('/notes/delete', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: item.id }) });
               refreshNotesList();
               if(currentNoteId===item.id){ notesArea.value=''; currentNoteId=''; }
             }catch(e){}
@@ -677,13 +1385,55 @@
         });
       }catch(e){ /* ignore */ }
     }
+    async function openNoteEditor(noteId, existingTitle, existingContent){
+      const modal = document.createElement('div');
+      modal.style.cssText = 'position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:10000; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px)';
+      const box = document.createElement('div');
+      box.style.cssText = 'background:#0f141b; border:1px solid #1f2937; border-radius:16px; padding:24px; min-width:380px; max-width:90vw; max-height:80vh; overflow:auto';
+      box.innerHTML = `
+        <div style="margin-bottom:16px; font-size:18px; font-weight:600;">${noteId ? 'ویرایش یادداشت' : 'یادداشت جدید'}</div>
+        <input id="modalNoteTitle" type="text" placeholder="عنوان یادداشت..." value="${existingTitle||''}" style="width:100%; padding:12px 14px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:10px; font-size:14px; margin-bottom:12px;">
+        <textarea id="modalNoteContent" placeholder="متن یادداشت..." style="width:100%; min-height:180px; padding:12px 14px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:10px; font-size:14px; resize:vertical; margin-bottom:16px;">${existingContent||''}</textarea>
+        <div style="display:flex; gap:8px; justify-content:flex-end;">
+          <button id="noteCancel" class="btn" style="padding:10px 16px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:10px; cursor:pointer;">انصراف</button>
+          <button id="noteSave" class="btn" style="padding:10px 16px; background:#22c55e; color:#03120a; border:0; border-radius:10px; cursor:pointer; font-weight:600;">ذخیره</button>
+        </div>
+      `;
+      modal.appendChild(box);
+      document.body.appendChild(modal);
+      const titleInput = box.querySelector('#modalNoteTitle');
+      const contentInput = box.querySelector('#modalNoteContent');
+      const cancelBtn = box.querySelector('#noteCancel');
+      const saveBtn = box.querySelector('#noteSave');
+      titleInput.focus();
+      const close = ()=>document.body.removeChild(modal);
+      cancelBtn.addEventListener('click', close);
+      saveBtn.addEventListener('click', async()=>{
+        const title = titleInput.value.trim();
+        const content = contentInput.value.trim();
+        if(!title){ return; }
+        try{
+          await fetchJson('/notes/save', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: noteId||'', title, content }) });
+          if(noteId){ currentNoteId = noteId; noteTitle.value = title; notesArea.value = content; } else {
+            currentNoteId = ''; noteTitle.value = title; notesArea.value = content;
+          }
+          refreshNotesList();
+          close();
+        }catch(e){}
+      });
+      modal.addEventListener('click', (ev)=>{
+        if(ev.target===modal) close();
+      });
+      titleInput.addEventListener('keydown', (ev)=>{
+        if(ev.key==='Enter' && !ev.shiftKey){ ev.preventDefault(); saveBtn.click(); }
+        if(ev.key==='Escape'){ ev.preventDefault(); close(); }
+      });
+      contentInput.addEventListener('keydown', (ev)=>{
+        if(ev.key==='Escape'){ ev.preventDefault(); close(); }
+      });
+    }
     async function newNote(){
-      const title = prompt('عنوان یادداشت؟','یادداشت جدید');
-      if(title==null) return;
-      try{
-        const r = await fetchJson('notes/save', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ title: title, content: '' }) });
-        currentNoteId = r.id||''; notesArea.value=''; document.getElementById('notesBox').open = true; refreshNotesList();
-      }catch(e){}
+      openNoteEditor();
     }
     btnRefreshNotes?.addEventListener('click', refreshNotesList);
     btnNewNote?.addEventListener('click', newNote);

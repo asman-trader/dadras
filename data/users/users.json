@@ -2,7 +2,10 @@
   "b0cf7b9a477d4f08985eadfcb2be1d38": {
     "id": "b0cf7b9a477d4f08985eadfcb2be1d38",
     "phone_norm": "989121471301",
-    "created_at": 1761029107
+    "created_at": 1761029107,
+    "plan_expires_at": 1764084168,
+    "plan": "plus",
+    "updated_at": 1761492168
   },
   "44db12d0d9d84288ba6b81fe54d4ddb3": {
     "id": "44db12d0d9d84288ba6b81fe54d4ddb3",
@@ -11,6 +14,7 @@
     "first_name": "مسعود",
     "last_name": "حسینی",
     "role": "citizen",
-    "updated_at": 1761030282
+    "updated_at": 1761489226,
+    "plan": "team"
   }
 }

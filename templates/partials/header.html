@@ -1,17 +1,348 @@
 <header>
-  <div class="nav">
+  <div class="header-container">
     <style>
-      header .brand .logo { width:22px; height:22px; border-radius:50%; background:#3b82f6; box-shadow:0 0 10px #3b82f6 }
-      header .brand h2 { margin:0; font-size:18px; color:#60a5fa; letter-spacing:.3px }
+      header {
+        background: linear-gradient(135deg, rgba(15,20,27,.98) 0%, rgba(11,15,20,.95) 100%);
+        border-bottom: 1px solid rgba(34,197,94,.15);
+        box-shadow: 0 4px 24px rgba(0,0,0,.3), 0 0 80px rgba(34,197,94,.08);
+      }
+      
+      header .header-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 16px;
+      }
+      
+      /* Top Row */
+      header .top-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 0;
+      }
+      
+      header .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 6px 12px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, rgba(34,197,94,.1) 0%, rgba(16,185,129,.05) 100%);
+        border: 1px solid rgba(34,197,94,.2);
+        transition: all 0.3s;
+      }
+      
+      header .brand:hover {
+        background: linear-gradient(135deg, rgba(34,197,94,.15) 0%, rgba(16,185,129,.08) 100%);
+        border-color: rgba(34,197,94,.3);
+        box-shadow: 0 4px 12px rgba(34,197,94,.2);
+      }
+      
+      header .brand .logo {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        box-shadow: 0 0 20px rgba(34,197,94,.4), inset 0 1px 2px rgba(255,255,255,.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        animation: glow 3s ease-in-out infinite;
+      }
+      
+      @keyframes glow {
+        0%, 100% { box-shadow: 0 0 20px rgba(34,197,94,.4), inset 0 1px 2px rgba(255,255,255,.3); }
+        50% { box-shadow: 0 0 30px rgba(34,197,94,.6), inset 0 1px 2px rgba(255,255,255,.3); }
+      }
+      
+      header .brand h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 700;
+        background: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: 0.5px;
+      }
+      
+      header .top-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      
+      header .plan-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        border: 1px solid rgba(100,116,139,.3);
+        color: #e2e8f0;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+        transition: all 0.3s;
+        box-shadow: 0 2px 8px rgba(0,0,0,.2);
+      }
+      
+      header .plan-badge:hover {
+        border-color: #22c55e;
+        box-shadow: 0 4px 16px rgba(34,197,94,.3);
+        transform: translateY(-2px);
+      }
+      
+      header .plan-badge .spark {
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        border-radius: 50%;
+        font-size: 12px;
+        animation: rotate 4s linear infinite;
+      }
+      
+      @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      
+      header .action-btn {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(100,116,139,.3);
+        border-radius: 10px;
+        background: rgba(15,23,42,.8);
+        color: #e2e8f0;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 18px;
+        position: relative;
+      }
+      
+      header .action-btn:hover {
+        border-color: #22c55e;
+        background: rgba(34,197,94,.1);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(34,197,94,.2);
+      }
+      
+      header .action-btn .badge {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        color: #000;
+        font-size: 10px;
+        padding: 2px 6px;
+        border-radius: 10px;
+        font-weight: 700;
+        box-shadow: 0 2px 8px rgba(34,197,94,.4);
+      }
+      
+      /* Role Selector Dropdown */
+      header .role-selector {
+        position: relative;
+        margin-right: 12px;
+      }
+      
+      header .role-trigger {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        background: rgba(34,197,94,.08);
+        border: 1px solid rgba(34,197,94,.25);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 13px;
+        font-weight: 600;
+        color: #22c55e;
+      }
+      
+      header .role-trigger:hover {
+        background: rgba(34,197,94,.15);
+        border-color: rgba(34,197,94,.4);
+        box-shadow: 0 2px 8px rgba(34,197,94,.2);
+      }
+      
+      header .role-trigger .icon {
+        font-size: 16px;
+      }
+      
+      header .role-trigger .arrow {
+        font-size: 10px;
+        transition: transform 0.3s;
+      }
+      
+      header .role-selector.open .role-trigger .arrow {
+        transform: rotate(180deg);
+      }
+      
+      header .role-dropdown {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        background: rgba(15,20,27,.98);
+        border: 1px solid rgba(34,197,94,.3);
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0,0,0,.4), 0 0 40px rgba(34,197,94,.15);
+        padding: 6px;
+        min-width: 180px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s;
+        z-index: 1000;
+      }
+      
+      header .role-selector.open .role-dropdown {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      
+      header .role-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+        color: #94a3b8;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      
+      header .role-option:hover {
+        background: rgba(34,197,94,.1);
+        color: #22c55e;
+      }
+      
+      header .role-option.active {
+        background: linear-gradient(135deg, rgba(34,197,94,.2) 0%, rgba(16,185,129,.15) 100%);
+        color: #22c55e;
+        border: 1px solid rgba(34,197,94,.3);
+      }
+      
+      header .role-option .icon {
+        font-size: 18px;
+      }
+      
+      header .role-option .check {
+        margin-right: auto;
+        font-size: 14px;
+        opacity: 0;
+      }
+      
+      header .role-option.active .check {
+        opacity: 1;
+      }
+      
+      /* Responsive */
+      @media (max-width: 768px) {
+        header .plan-badge {
+          display: none;
+        }
+        
+        header .brand {
+          padding: 4px 8px;
+        }
+        
+        header .brand .logo {
+          width: 24px;
+          height: 24px;
+          font-size: 14px;
+        }
+        
+        header .brand h2 {
+          font-size: 16px;
+        }
+        
+        header .role-trigger {
+          padding: 4px 10px;
+          font-size: 12px;
+        }
+        
+        header .role-trigger .icon {
+          font-size: 14px;
+        }
+        
+        header .action-btn {
+          width: 36px;
+          height: 36px;
+          font-size: 16px;
+        }
+      }
+      
+      @media (min-width: 960px) {
+        body.sidebar-collapsed .side-drawer {
+          transform: translateX(-100%);
+        }
+      }
     </style>
-    <div class="brand" style="gap:8px;">
-      <div class="logo"></div>
-      <h2>dadras</h2>
-    </div>
-    <div class="toolbar" style="margin-inline-start:auto">
-      <span id="planBadge" class="btn" style="padding:6px 10px; font-size:12px; border-radius:999px; cursor:pointer" title="مدیریت طرح">طرح: ...</span>
-      <a href="/pricing" class="btn" id="upgradeLink" style="padding:6px 10px;">ارتقا</a>
-      <button class="ham" id="hamBtn" aria-label="منو">≡</button>
+    
+    <!-- Header Row -->
+    <div class="top-row">
+      <div style="display:flex; align-items:center; gap:0;">
+        <div class="brand">
+          <div class="logo">⚖️</div>
+          <h2>دادرس</h2>
+        </div>
+        
+        <!-- Role Selector Dropdown -->
+        <div class="role-selector" id="roleSelector">
+          <div class="role-trigger" id="roleTrigger">
+            <span class="icon" id="currentRoleIcon">👤</span>
+            <span id="currentRoleText">شهروند</span>
+            <span class="arrow">▼</span>
+          </div>
+          
+          <div class="role-dropdown">
+            <div class="role-option active" data-role="default">
+              <span class="icon">👤</span>
+              <span>شهروند</span>
+              <span class="check">✓</span>
+            </div>
+            <div class="role-option" data-role="lawyer">
+              <span class="icon">⚖️</span>
+              <span>وکیل</span>
+              <span class="check">✓</span>
+            </div>
+            <div class="role-option" data-role="judge">
+              <span class="icon">👨‍⚖️</span>
+              <span>قاضی</span>
+              <span class="check">✓</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="top-actions">
+        <a id="planBadge" href="/pricing" class="plan-badge" title="طرح فعلی">
+          <span class="spark">✦</span>
+          <b id="planLabel">طرح: ...</b>
+        </a>
+        
+        <button class="action-btn" id="analyticsBtn" aria-label="آمار مکالمه" title="نمایش آمار و تحلیل مکالمه">
+          📊
+          <span id="analyticsBadge" class="badge" style="display:none"></span>
+        </button>
+        
+        <button class="action-btn" id="hamBtn" aria-label="منو" title="باز کردن منو">
+          ☰
+        </button>
+      </div>
     </div>
   </div>
   <script>
@@ -20,17 +351,71 @@
         const r = await fetch('/auth/me');
         const j = await r.json();
         const badge = document.getElementById('planBadge');
-        const up = document.getElementById('upgradeLink');
+        const label = document.getElementById('planLabel');
         if(j && j.authenticated){
           const plan = (j.user&&j.user.plan) || 'free';
           const map = { free:'رایگان', plus:'پلاس', pro:'حرفه‌ای', team:'سازمانی' };
-          if(badge){ badge.textContent = 'طرح: ' + (map[plan]||plan); badge.onclick = ()=>{ window.location.href = '/pricing'; }; }
-          if(up){ up.href = '/pricing'; up.style.display = 'inline-flex'; up.textContent = (plan==='free')? 'ارتقا' : 'تغییر طرح'; }
+          if(badge && label){ label.textContent = 'طرح: ' + (map[plan]||plan); badge.href = '/pricing'; badge.title='مشاهده و ارتقا طرح'; }
         } else {
-          if(badge){ badge.textContent = 'میهمان'; badge.onclick = ()=>{ window.location.href = '/auth/login'; }; }
-          if(up){ up.textContent = 'ورود'; up.href = '/auth/login'; }
+          if(badge && label){ label.textContent = 'دریافت پلاس'; badge.href = '/pricing'; badge.title='پلن پایه پلاس را دریافت کنید'; }
         }
       }catch(e){}
+    })();
+    
+    // Role Selector Dropdown
+    (function(){
+      const roleSelector = document.getElementById('roleSelector');
+      const roleTrigger = document.getElementById('roleTrigger');
+      const roleOptions = document.querySelectorAll('.role-option');
+      const currentRoleIcon = document.getElementById('currentRoleIcon');
+      const currentRoleText = document.getElementById('currentRoleText');
+      
+      // Toggle dropdown
+      roleTrigger?.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        roleSelector.classList.toggle('open');
+      });
+      
+      // Close on outside click
+      document.addEventListener('click', (e)=>{
+        if(!roleSelector?.contains(e.target)){
+          roleSelector?.classList.remove('open');
+        }
+      });
+      
+      // Handle role selection
+      roleOptions.forEach(option=>{
+        option.addEventListener('click', ()=>{
+          const role = option.dataset.role;
+          const icon = option.querySelector('.icon').textContent;
+          const text = option.querySelector('span:nth-child(2)').textContent;
+          
+          // Update UI
+          roleOptions.forEach(opt=>opt.classList.remove('active'));
+          option.classList.add('active');
+          currentRoleIcon.textContent = icon;
+          currentRoleText.textContent = text;
+          
+          // Close dropdown
+          roleSelector.classList.remove('open');
+          
+          // Trigger the role change event (will be caught by index.html)
+          window.dispatchEvent(new CustomEvent('roleChanged', { detail: { role } }));
+        });
+      });
+    })();
+    
+    // GPT-style toggle sidebar: click avatar (ham) toggles drawer; Esc closes
+    (function(){
+      const ham = document.getElementById('hamBtn');
+      const drawer = document.getElementById('sideDrawer');
+      const overlay = document.getElementById('sideOverlay');
+      function open(){ drawer.classList.add('open'); overlay.hidden=false; drawer.setAttribute('aria-hidden','false'); }
+      function close(){ drawer.classList.remove('open'); overlay.hidden=true; drawer.setAttribute('aria-hidden','true'); }
+      ham?.addEventListener('click', ()=>{ if(drawer.classList.contains('open')) close(); else open(); });
+      overlay?.addEventListener('click', close);
+      document.getElementById('sideClose')?.addEventListener('click', close);
+      document.addEventListener('keydown', (ev)=>{ if(ev.key==='Escape'){ close(); }});
     })();
   </script>
 </header>

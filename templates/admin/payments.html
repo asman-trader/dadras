@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>تنظیمات پرداخت</title>
+  <style>
+    body { margin:0; background:#0b0f14; color:#e2e8f0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    .wrap { max-width:900px; margin: 20px auto; padding: 16px }
+    .card { background:#0f141b; border:1px solid #1f2937; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px }
+    .row { display:grid; grid-template-columns: 160px 1fr; gap:10px; align-items:center }
+    input,select { background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:8px; padding:8px }
+    button { padding:10px 14px; background:#22c55e; color:#03120a; border:0; border-radius:10px; cursor:pointer }
+    .muted { color:#94a3b8; font-size:12px }
+  </style>
+  <script>
+    async function load(){
+      const r = await fetch('/admin/api/pay/settings');
+      const j = await r.json();
+      const s = (j.settings)||{};
+      document.getElementById('subscription_days').value = s.subscription_days ?? 30;
+      const p = s.prices||{};
+      document.getElementById('price_plus').value = p.plus ?? 99000;
+      document.getElementById('price_pro').value = p.pro ?? 199000;
+      document.getElementById('price_team').value = p.team ?? 1990000;
+      document.getElementById('quota_free').value = s.QUOTA_FREE_MB ?? 10;
+      document.getElementById('quota_plus').value = s.QUOTA_PLUS_MB ?? 100;
+      document.getElementById('quota_pro').value = s.QUOTA_PRO_MB ?? 500;
+      document.getElementById('quota_team').value = s.QUOTA_TEAM_MB ?? 1024;
+      document.getElementById('sandbox').checked = !!s.sandbox;
+      document.getElementById('mock').checked = !!s.mock;
+    }
+    async function save(){
+      const body = {
+        subscription_days: Number(document.getElementById('subscription_days').value||30),
+        prices: {
+          plus: Number(document.getElementById('price_plus').value||0),
+          pro: Number(document.getElementById('price_pro').value||0),
+          team: Number(document.getElementById('price_team').value||0),
+        },
+        QUOTA_FREE_MB: Number(document.getElementById('quota_free').value||10),
+        QUOTA_PLUS_MB: Number(document.getElementById('quota_plus').value||100),
+        QUOTA_PRO_MB: Number(document.getElementById('quota_pro').value||500),
+        QUOTA_TEAM_MB: Number(document.getElementById('quota_team').value||1024),
+        sandbox: !!document.getElementById('sandbox').checked,
+        mock: !!document.getElementById('mock').checked,
+      };
+      const r = await fetch('/admin/api/pay/settings', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+      const j = await r.json();
+      if(j.ok) alert('ذخیره شد'); else alert('خطا در ذخیره');
+    }
+    window.addEventListener('DOMContentLoaded', load);
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center">
+        <div>تنظیمات پرداخت</div>
+        <a href="/admin" style="color:#e2e8f0">بازگشت</a>
+      </div>
+
+      <div class="row"><label>طول اشتراک (روز)</label><input id="subscription_days" type="number" min="1" max="3650"></div>
+      <div class="row"><label>قیمت پلاس (تومان)</label><input id="price_plus" type="number" min="0"></div>
+      <div class="row"><label>قیمت حرفه‌ای (تومان)</label><input id="price_pro" type="number" min="0"></div>
+      <div class="row"><label>قیمت سازمانی (تومان)</label><input id="price_team" type="number" min="0"></div>
+      <hr style="border:0; border-top:1px solid #1f2937">
+      <div class="row"><label>حافظه Free (MB)</label><input id="quota_free" type="number" min="1"></div>
+      <div class="row"><label>حافظه Plus (MB)</label><input id="quota_plus" type="number" min="1"></div>
+      <div class="row"><label>حافظه Pro (MB)</label><input id="quota_pro" type="number" min="1"></div>
+      <div class="row"><label>حافظه Team (MB)</label><input id="quota_team" type="number" min="1"></div>
+      <div class="row"><label>Sandbox</label><input id="sandbox" type="checkbox"></div>
+      <div class="row"><label>Mock</label><input id="mock" type="checkbox"></div>
+      <div>
+        <button onclick="save()">ذخیره تنظیمات</button>
+      </div>
+      <div class="muted">برای محافظت، از هدر X-Admin-Token استفاده کنید اگر در برنامه تنظیم شده است.</div>
+    </div>
+  </div>
+</body>
+</html>
+

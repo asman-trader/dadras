@@ -2,6 +2,7 @@ import os
 import re
 import uuid
 from flask import Blueprint, request, jsonify, make_response
+from flask import g
 
 notes_bp = Blueprint('notes', __name__)
 
@@ -71,8 +72,25 @@ def save_notes():
     cid = _get_client_id_from_cookie()
     data = request.get_json(silent=True) or {}
     txt = str(data.get('notes') or '')
-    if len(txt) > 200_000:
-        return jsonify({'ok': False, 'error': 'too_large'}), 400
+    # Enforce per-plan quota using total size of user's notes directory
+    try:
+        from app import _plan_storage_quota_bytes
+        quota = int(_plan_storage_quota_bytes())
+    except Exception:
+        quota = 10 * 1024 * 1024
+    base_dir = _notes_dir_for(cid)
+    # compute current usage
+    used = 0
+    try:
+        for name in os.listdir(base_dir):
+            path = os.path.join(base_dir, name)
+            if os.path.isfile(path):
+                used += os.stat(path).st_size
+    except Exception:
+        used = 0
+    incoming = len(txt.encode('utf-8'))
+    if (used + incoming) > quota:
+        return jsonify({'ok': False, 'error': 'quota_exceeded', 'quota_bytes': int(quota), 'used_bytes': int(used)}), 400
     path = os.path.join(DATA_DIR, 'texts', f'{cid}.txt')
     try:
         with open(path, 'w', encoding='utf-8') as f:

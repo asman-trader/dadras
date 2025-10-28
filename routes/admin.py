@@ -54,3 +54,35 @@ def admin_logs_page():
         return render_template('admin/log.html')
     return make_response('<p>admin log page not found</p>', 404)
 
+
+@admin_bp.get('/admin/payments')
+def admin_payments_page():
+    pay_tpl = os.path.join(APP_DIR, 'templates', 'admin', 'payments.html')
+    if os.path.exists(pay_tpl):
+        return render_template('admin/payments.html')
+    return make_response('<p>admin payments page not found</p>', 404)
+
+
+@admin_bp.get('/admin/api/pay/settings')
+def admin_get_pay_settings():
+    from .auth import _read_json, PAY_SETTINGS_PATH
+    err = _require_admin_if_configured()
+    if err:
+        return err
+    data = _read_json(PAY_SETTINGS_PATH)
+    if not isinstance(data, dict):
+        data = {}
+    return jsonify({'ok': True, 'settings': data})
+
+
+@admin_bp.post('/admin/api/pay/settings')
+def admin_set_pay_settings():
+    from .auth import _write_json, PAY_SETTINGS_PATH
+    err = _require_admin_if_configured()
+    if err:
+        return err
+    body = request.get_json(silent=True) or {}
+    if not isinstance(body, dict):
+        body = {}
+    _write_json(PAY_SETTINGS_PATH, body)
+    return jsonify({'ok': True})

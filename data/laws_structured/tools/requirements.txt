@@ -1,0 +1,15 @@
+# Requirements برای نسخه Performance Edition
+# نصب: pip install -r requirements.txt
+
+# Core dependencies
+psutil>=5.9.0        # نظارت بر CPU و حافظه
+tqdm>=4.65.0         # Progress bar
+
+# Optional (برای بهبود سرعت)
+ujson>=5.7.0         # JSON سریع‌تر (اختیاری)
+orjson>=3.8.0        # JSON بسیار سریع (اختیاری)
+
+# Development
+pytest>=7.2.0        # تست (اختیاری)
+black>=23.0.0        # فرمت کد (اختیاری)
+

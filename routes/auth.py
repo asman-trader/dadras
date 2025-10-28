@@ -17,11 +17,58 @@ USERS_PATH = os.path.join(USERS_DIR, 'users.json')
 SESSIONS_PATH = os.path.join(USERS_DIR, 'sessions.json')
 OTP_PATH = os.path.join(USERS_DIR, 'otp.json')
 OTP_RATE_PATH = os.path.join(USERS_DIR, 'otp_rate.json')
+PAY_SETTINGS_PATH = os.path.join(USERS_DIR, 'payments_settings.json')
 
 # OTP send policy (defaults; can be overridden by env at runtime)
 OTP_COOLDOWN_SEC = 60           # min seconds between sends per phone
 OTP_WINDOW_SEC = 3600           # rate window (e.g., 1h)
 OTP_MAX_PER_WINDOW = 6          # max sends per phone per window
+# Fixed Zarinpal merchant ID (user-provided)
+ZARINPAL_MERCHANT_ID_FIXED = 'd38153db-0752-4a5b-9723-ad4e10c830a9'
+# Fixed payment mode/endpoints (True = sandbox, False = production)
+PAYMENT_SANDBOX_FIXED = False
+# Plan prices (Toman)
+PLAN_PRICE_TOMAN = {
+    'plus': 99000,
+    'pro': 199000,
+    'team': 1990000,
+}
+
+def _read_pay_settings() -> Dict[str, Any]:
+    d = _read_json(PAY_SETTINGS_PATH)
+    return d if isinstance(d, dict) else {}
+
+def _get_subscription_days() -> int:
+    d = _read_pay_settings()
+    try:
+        days = int(d.get('subscription_days', 30))
+    except Exception:
+        days = 30
+    return max(1, min(3650, days))
+
+def _get_price_toman(plan: str) -> int:
+    d = _read_pay_settings()
+    prices = d.get('prices') if isinstance(d.get('prices'), dict) else {}
+    try:
+        v = int(prices.get(plan, PLAN_PRICE_TOMAN.get(plan, 0)))
+    except Exception:
+        v = int(PLAN_PRICE_TOMAN.get(plan, 0))
+    return max(0, v)
+
+def _is_mock_mode() -> bool:
+    d = _read_pay_settings()
+    v = d.get('mock')
+    if isinstance(v, bool):
+        return v
+    return (os.getenv('PAYMENT_MOCK', '0').strip() in ('1', 'true', 'TRUE'))
+
+def _is_sandbox() -> bool:
+    d = _read_pay_settings()
+    v = d.get('sandbox')
+    if isinstance(v, bool):
+        return v
+    return PAYMENT_SANDBOX_FIXED
+
 
 
 def _get_otp_policy() -> Dict[str, int]:
@@ -263,10 +310,45 @@ def _update_user(uid: str, fields: Dict[str, Any]) -> None:
     if role:
         u['role'] = role
     if plan:
+        now = int(time.time())
+        # Extend or set expiry for paid plans (plus/pro/team). Free clears expiry
+        if plan in ('plus','pro','team'):
+            duration = _get_subscription_days() * 24 * 3600
+            cur_exp = int(u.get('plan_expires_at') or 0)
+            base = cur_exp if cur_exp > now else now
+            u['plan_expires_at'] = base + duration
+        else:
+            u.pop('plan_expires_at', None)
         u['plan'] = plan
     u['updated_at'] = int(time.time())
     users[uid] = u
     _write_json(USERS_PATH, users)
+
+
+def _append_payment_history(uid: str, rec: Dict[str, Any]) -> None:
+    """Append a payment record for a user into data/users/payments_history.json.
+    Structure: { uid: [ {ts, plan, amount_toman, authority, api, ref_id}, ... ] }
+    """
+    hist_path = os.path.join(USERS_DIR, 'payments_history.json')
+    data = _read_json(hist_path)
+    if not isinstance(data, dict):
+        data = {}
+    arr = data.get(uid)
+    if not isinstance(arr, list):
+        arr = []
+    try:
+        # keep latest first, limit length
+        rec = {
+            'ts': int(time.time()),
+            **{k: v for k, v in rec.items() if k in ('plan','amount_toman','authority','api','ref_id')}
+        }
+        arr.insert(0, rec)
+        if len(arr) > 50:
+            arr = arr[:50]
+    except Exception:
+        pass
+    data[uid] = arr
+    _write_json(hist_path, data)
 
 
 def _normalize_plan(plan: str) -> str:
@@ -471,6 +553,14 @@ def me():
     u = g.get('current_user')
     if not u:
         return jsonify({'ok': False, 'authenticated': False}), 200
+    # remaining days
+    rem_days = 0
+    try:
+        exp = int((u or {}).get('plan_expires_at') or 0)
+        if exp > int(time.time()):
+            rem_days = max(0, (exp - int(time.time())) // 86400)
+    except Exception:
+        rem_days = 0
     return jsonify({'ok': True, 'authenticated': True, 'user': {
         'id': u.get('id'),
         'phone': u.get('phone_norm'),
@@ -478,6 +568,8 @@ def me():
         'last_name': u.get('last_name', ''),
         'role': u.get('role', ''),
         'plan': u.get('plan', 'free'),
+        'plan_expires_at': int(u.get('plan_expires_at') or 0),
+        'plan_remaining_days': int(rem_days),
     }})
 
 
@@ -516,7 +608,34 @@ def profile_files():
 @auth_bp.get('/auth/plan')
 def get_plan():
     u = g.get('current_user') or {}
-    return jsonify({'ok': True, 'plan': (u.get('plan') or 'free')})
+    rem_days = 0
+    try:
+        exp = int((u or {}).get('plan_expires_at') or 0)
+        if exp > int(time.time()):
+            rem_days = max(0, (exp - int(time.time())) // 86400)
+    except Exception:
+        rem_days = 0
+    return jsonify({'ok': True, 'plan': (u.get('plan') or 'free'), 'remaining_days': int(rem_days), 'expires_at': int(u.get('plan_expires_at') or 0)})
+
+
+@auth_bp.get('/auth/pay/history')
+def pay_history():
+    u = g.get('current_user') or {}
+    if not u:
+        return jsonify({'ok': False, 'error': 'auth_required'}), 401
+    hist_path = os.path.join(USERS_DIR, 'payments_history.json')
+    data = _read_json(hist_path)
+    arr = data.get(str(u.get('id'))) if isinstance(data, dict) else []
+    if not isinstance(arr, list):
+        arr = []
+    rem_days = 0
+    try:
+        exp = int((u or {}).get('plan_expires_at') or 0)
+        if exp > int(time.time()):
+            rem_days = max(0, (exp - int(time.time())) // 86400)
+    except Exception:
+        rem_days = 0
+    return jsonify({'ok': True, 'plan': (u.get('plan') or 'free'), 'remaining_days': int(rem_days), 'expires_at': int(u.get('plan_expires_at') or 0), 'history': arr})
 
 
 @auth_bp.post('/auth/plan')
@@ -534,3 +653,198 @@ def set_plan():
     except Exception:
         return jsonify({'ok': False}), 500
 
+
+# -------------------- Zarinpal Sandbox Integration --------------------
+@auth_bp.post('/auth/pay/start')
+def pay_start():
+    """Start a Zarinpal sandbox payment and return redirect URL.
+    Plans: plus -> 99000, pro -> 199000 (IRR)
+    """
+    u = g.get('current_user') or {}
+    if not u:
+        return jsonify({'ok': False, 'error': 'auth_required'}), 401
+    plan = _normalize_plan((request.args.get('plan') or request.form.get('plan') or '').strip())
+    if plan not in ('plus', 'pro', 'team'):
+        return jsonify({'ok': False, 'error': 'invalid_plan'}), 400
+    amount_toman = int(PLAN_PRICE_TOMAN.get(plan) or 0)
+    amount_rial = amount_toman * 10
+
+    # Zarinpal sandbox endpoints (v4 with v1 fallback)
+    merchant_id = ZARINPAL_MERCHANT_ID_FIXED
+    # Allow mock mode without merchant id
+    mock_mode = (os.getenv('PAYMENT_MOCK', '0').strip() in ('1', 'true', 'TRUE'))
+    if (not merchant_id or merchant_id.startswith('XXXX')) and not mock_mode:
+        return jsonify({'ok': False, 'error': 'merchant_missing', 'hint': 'Set ZARINPAL_MERCHANT_ID or enable mock via PAYMENT_MOCK=1'}), 400
+
+    sandbox = PAYMENT_SANDBOX_FIXED
+    v4_req_url = os.getenv('ZARINPAL_V4_REQUEST_URL', 'https://sandbox.zarinpal.com/pg/v4/payment/request.json' if sandbox else 'https://api.zarinpal.com/pg/v4/payment/request.json')
+    v4_verify_url = os.getenv('ZARINPAL_V4_VERIFY_URL', 'https://sandbox.zarinpal.com/pg/v4/payment/verify.json' if sandbox else 'https://api.zarinpal.com/pg/v4/payment/verify.json')
+    v1_req_url = os.getenv('ZARINPAL_REQUEST_URL', 'https://sandbox.zarinpal.com/pg/rest/WebGate/PaymentRequest.json' if sandbox else 'https://api.zarinpal.com/pg/rest/WebGate/PaymentRequest.json')
+    start_url = os.getenv('ZARINPAL_START_URL', 'https://sandbox.zarinpal.com/pg/StartPay/' if sandbox else 'https://www.zarinpal.com/pg/StartPay/')
+    callback_url = os.getenv('ZARINPAL_CALLBACK_URL', '').strip() or (request.url_root.rstrip('/') + '/auth/pay/callback')
+
+    try:
+        import requests
+        headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+        if mock_mode:
+            # Simulate authority and redirect immediately to callback as success
+            authority = 'MOCK-' + uuid.uuid4().hex[:12]
+            pend_path = os.path.join(USERS_DIR, 'payments.json')
+            pend = _read_json(pend_path)
+            pend[authority] = {'uid': u.get('id'), 'plan': plan, 'amount_toman': amount_toman, 'amount_rial': amount_rial, 'created_at': int(time.time()), 'api': 'mock'}
+            _write_json(pend_path, pend)
+            cb = (request.url_root.rstrip('/') + f"/auth/pay/callback?Status=OK&Authority={authority}")
+            return jsonify({'ok': True, 'url': cb})
+        # Try v4 first
+        v4_payload = {
+            'merchant_id': merchant_id,
+            'amount': int(amount_toman),
+            'description': f'Dadras subscription upgrade: {plan}',
+            'callback_url': callback_url,
+            'currency': 'IRT'
+        }
+        r4 = requests.post(v4_req_url, json=v4_payload, headers=headers, timeout=15)
+        j4 = {}
+        try:
+            j4 = r4.json() or {}
+        except Exception:
+            j4 = {}
+        data4 = j4.get('data') or {}
+        if r4.ok and int(data4.get('code') or 0) in (100, 101) and (data4.get('authority')):
+            authority = data4['authority']
+            # Some integrations require zpl mode, append if configured
+            zpl = os.getenv('ZARINPAL_START_QUERY', '')
+            url = f"{start_url}{authority}{('?' + zpl) if zpl else ''}"
+            pend_path = os.path.join(USERS_DIR, 'payments.json')
+            pend = _read_json(pend_path)
+            pend[authority] = {'uid': u.get('id'), 'plan': plan, 'amount_toman': amount_toman, 'amount_rial': amount_rial, 'created_at': int(time.time()), 'api': 'v4'}
+            _write_json(pend_path, pend)
+            return jsonify({'ok': True, 'url': url})
+
+        # Fallback to v1
+        v1_payload = {
+            'MerchantID': merchant_id,
+            'Amount': int(amount_rial),
+            'Description': f'Dadras subscription upgrade: {plan}',
+            'CallbackURL': callback_url,
+        }
+        r1 = requests.post(v1_req_url, json=v1_payload, headers=headers, timeout=15)
+        j1 = {}
+        try:
+            j1 = r1.json() or {}
+        except Exception:
+            j1 = {}
+        if r1.ok and (j1.get('Status') in (100, '100')) and j1.get('Authority'):
+            authority = j1['Authority']
+            zpl = os.getenv('ZARINPAL_START_QUERY', '')
+            url = f"{start_url}{authority}{('?' + zpl) if zpl else ''}"
+            pend_path = os.path.join(USERS_DIR, 'payments.json')
+            pend = _read_json(pend_path)
+            pend[authority] = {'uid': u.get('id'), 'plan': plan, 'amount_toman': amount_toman, 'amount_rial': amount_rial, 'created_at': int(time.time()), 'api': 'v1'}
+            _write_json(pend_path, pend)
+            return jsonify({'ok': True, 'url': url})
+
+        return jsonify({'ok': False, 'error': 'request_failed', 'detail': (j4 or j1 or {})}), 502
+    except Exception as exc:
+        return jsonify({'ok': False, 'error': 'exception', 'detail': str(exc)}), 500
+
+
+@auth_bp.get('/auth/pay/callback')
+def pay_callback():
+    """Zarinpal callback verification (sandbox)."""
+    try:
+        authority = (request.args.get('Authority') or '').strip()
+        status = (request.args.get('Status') or '').strip()
+        if not authority:
+            return redirect('/auth/profile')
+        pend_path = os.path.join(USERS_DIR, 'payments.json')
+        pend = _read_json(pend_path)
+        intent = pend.get(authority) or {}
+        if status.lower() != 'ok' or not intent:
+            # cleanup and redirect
+            try:
+                pend.pop(authority, None); _write_json(pend_path, pend)
+            except Exception:
+                pass
+            return redirect('/auth/profile')
+
+        # Verify payment (try v4 then v1)
+        merchant_id = ZARINPAL_MERCHANT_ID_FIXED
+        sandbox = PAYMENT_SANDBOX_FIXED
+        v4_verify_url = os.getenv('ZARINPAL_V4_VERIFY_URL', 'https://sandbox.zarinpal.com/pg/v4/payment/verify.json' if sandbox else 'https://api.zarinpal.com/pg/v4/payment/verify.json')
+        v1_verify_url = os.getenv('ZARINPAL_VERIFY_URL', 'https://sandbox.zarinpal.com/pg/rest/WebGate/PaymentVerification.json' if sandbox else 'https://api.zarinpal.com/pg/rest/WebGate/PaymentVerification.json')
+        try:
+            import requests
+            headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+            # For v4 (IRT), for v1 (IRR)
+            amount_toman = int(intent.get('amount_toman') or 0)
+            amount_rial = int(intent.get('amount_rial') or (amount_toman * 10))
+            amount = amount_toman
+            # v4
+            v4_payload = { 'merchant_id': merchant_id, 'authority': authority, 'amount': amount }
+            rv4 = requests.post(v4_verify_url, json=v4_payload, headers=headers, timeout=15)
+            jv4 = {}
+            try:
+                jv4 = rv4.json() or {}
+            except Exception:
+                jv4 = {}
+            data4 = jv4.get('data') or {}
+            if rv4.ok and int(data4.get('code') or 0) in (100, 101):
+                uid = str(intent.get('uid') or '')
+                plan = str(intent.get('plan') or '')
+                if uid and plan:
+                    try:
+                        _update_user(uid, {'plan': plan})
+                        _append_payment_history(uid, {
+                            'plan': plan,
+                            'amount_toman': int(intent.get('amount_toman') or 0),
+                            'authority': authority,
+                            'api': 'v4',
+                            'ref_id': str((data4.get('ref_id') or ''))
+                        })
+                    except Exception:
+                        pass
+                try:
+                    pend.pop(authority, None); _write_json(pend_path, pend)
+                except Exception:
+                    pass
+                return redirect('/auth/profile')
+
+            # v1 fallback
+            v1_payload = { 'MerchantID': merchant_id, 'Authority': authority, 'Amount': amount_rial }
+            rv1 = requests.post(v1_verify_url, json=v1_payload, headers=headers, timeout=15)
+            jv1 = {}
+            try:
+                jv1 = rv1.json() or {}
+            except Exception:
+                jv1 = {}
+            if rv1.ok and (jv1.get('Status') in (100, '100')):
+                uid = str(intent.get('uid') or '')
+                plan = str(intent.get('plan') or '')
+                if uid and plan:
+                    try:
+                        _update_user(uid, {'plan': plan})
+                        _append_payment_history(uid, {
+                            'plan': plan,
+                            'amount_toman': int(intent.get('amount_toman') or 0),
+                            'authority': authority,
+                            'api': 'v1',
+                            'ref_id': str((jv1.get('RefID') or jv1.get('ref_id') or ''))
+                        })
+                    except Exception:
+                        pass
+                try:
+                    pend.pop(authority, None); _write_json(pend_path, pend)
+                except Exception:
+                    pass
+                return redirect('/auth/profile')
+        except Exception:
+            pass
+        # failed or not verified
+        try:
+            pend.pop(authority, None); _write_json(pend_path, pend)
+        except Exception:
+            pass
+        return redirect('/auth/profile')
+    except Exception:
+        return redirect('/auth/profile')

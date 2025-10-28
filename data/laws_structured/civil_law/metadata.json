@@ -1,0 +1,67 @@
+{
+  "code": "civil_law",
+  "title": "قانون مدنی جمهوری اسلامی ایران",
+  "title_en": "Iranian Civil Code",
+  "date_approved": "1307/05/08",
+  "date_last_modified": "1402/01/01",
+  "approved_by": "مجلس شورای ملی",
+  "total_books": 3,
+  "total_articles": 1335,
+  "sections": [
+    {
+      "name": "اموال و مالکیت",
+      "code": "properties",
+      "description": "کتاب اول - مواد مربوط به تعریف اموال، انواع مالکیت و نحوه انتقال آن",
+      "article_range": [1, 182],
+      "total_articles": 182
+    },
+    {
+      "name": "معاملات و عقود",
+      "code": "transactions",
+      "description": "کتاب سوم - مواد مربوط به عقود، معاملات و انواع آن",
+      "article_range": [183, 338],
+      "total_articles": 156
+    },
+    {
+      "name": "ضمانت‌های معاملات",
+      "code": "guarantees",
+      "description": "مواد مربوط به رهن، ضمان و سایر تضمینات",
+      "article_range": [339, 500],
+      "total_articles": 162
+    }
+  ],
+  "tags": [
+    "قانون_مدنی",
+    "حقوق_مدنی",
+    "معاملات",
+    "عقود",
+    "مالکیت",
+    "اموال"
+  ],
+  "description": "قانون مدنی شامل مجموعه قواعد و مقررات حقوقی است که روابط افراد با یکدیگر را در زمینه اموال، معاملات، ارث و سایر امور مدنی تنظیم می‌کند.",
+  "scope": "این قانون در سراسر کشور برای تمامی شهروندان ایرانی و اتباع خارجی مقیم ایران قابل اجرا است.",
+  "references": [
+    "قانون مدنی - مصوب ۸ اردیبهشت ۱۳۰۷",
+    "اصلاحیه‌های بعدی تا سال ۱۴۰۲",
+    "آیین‌نامه‌های اجرایی"
+  ],
+  "related_laws": [
+    {
+      "code": "commercial_law",
+      "title": "قانون تجارت",
+      "relationship": "مکمل"
+    },
+    {
+      "code": "civil_procedure",
+      "title": "قانون آیین دادرسی مدنی",
+      "relationship": "اجرایی"
+    }
+  ],
+  "version": "1.0.0",
+  "created_at": "2025-10-27T20:20:00",
+  "updated_at": "2025-10-27T20:20:00",
+  "status": "active",
+  "language": "fa",
+  "jurisdiction": "ایران"
+}
+

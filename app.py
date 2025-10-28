@@ -24,6 +24,7 @@ except Exception:
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, 'data')
+CONFIG_PATH = os.path.join(DATA_DIR, 'config.json')
 ADMIN_TOKEN = os.getenv('ADMIN_TOKEN', '').strip()
 APP_VERSION = os.getenv('APP_VERSION', '1.0.0').strip() or '1.0.0'
 try:
@@ -332,6 +333,31 @@ def _get_current_plan_limits() -> Tuple[int, int]:
     return max(1, limit), max(10, base_window)
 
 
+def _plan_storage_quota_bytes() -> int:
+    """Per-user storage quota in bytes based on plan.
+    free: 10 MB, plus: 100 MB, pro: 500 MB, team: 1 GB
+    """
+    try:
+        u = getattr(g, 'current_user', None) or {}
+        plan = (u.get('plan') or 'free').strip().lower()
+    except Exception:
+        plan = 'free'
+    # admin-configurable quotas (bytes) in data/config.json: { QUOTA_FREE_MB, QUOTA_PLUS_MB, QUOTA_PRO_MB, QUOTA_TEAM_MB }
+    cfg = _read_config()
+    def mb(key, default_mb):
+        try:
+            return int(float(cfg.get(key, default_mb)) * 1024 * 1024)
+        except Exception:
+            return default_mb * 1024 * 1024
+    table = {
+        'free': mb('QUOTA_FREE_MB', 10),
+        'plus': mb('QUOTA_PLUS_MB', 100),
+        'pro': mb('QUOTA_PRO_MB', 500),
+        'team': mb('QUOTA_TEAM_MB', 1024),
+    }
+    return int(table.get(plan, table['free']))
+
+
 def _append_session(cid: str, role: str, text: str) -> None:
     if not cid or not text:
         return
@@ -357,15 +383,87 @@ def _require_admin_if_configured():
 
 def _detect_intent_domain(question: str) -> Dict[str, str]:
     q = _normalize_text(question)
-    # very light keyword rules
+    
+    # If DeepSeek is available, use AI for better intent detection
+    if _should_use_deepseek():
+        try:
+            prompt = f"""تحلیل کن این سوال کاربر و intent و domain رو مشخص کن.
+فقط یک JSON برگردون بدون توضیح اضافی:
+
+Intent ها:
+- login: کاربر میخواد وارد بشه، ثبت نام کنه، اکانت بسازه
+- signup: کاربر میخواد عضو بشه، حساب کاربری بسازه
+- advice: درخواست مشاوره حقوقی
+- document: درخواست تهیه سند یا دادخواست
+- analysis: تحلیل پرونده یا وضعیت
+- qa: سوال و جواب عمومی
+
+Domain ها:
+- family: حقوق خانواده (طلاق، نفقه، حضانت، مهریه)
+- criminal: حقوق کیفری (سرقت، کلاهبرداری)
+- commerce: حقوق تجاری (قرارداد، شرکت، چک)
+- property: حقوق املاک
+- general: عمومی
+
+سوال کاربر: "{question}"
+
+پاسخ (فقط JSON):"""
+            
+            api_key = (os.getenv('DEEPSEEK_API_KEY', '').strip() or DEFAULT_DEEPSEEK_API_KEY)
+            model = (os.getenv('DEEPSEEK_MODEL', '').strip() or 'deepseek-chat')
+            
+            headers = {
+                'Authorization': f'Bearer {api_key}',
+                'Content-Type': 'application/json'
+            }
+            payload = {
+                'model': model,
+                'messages': [{'role': 'user', 'content': prompt}],
+                'temperature': 0.3,
+                'max_tokens': 100
+            }
+            
+            resp = requests.post(
+                'https://api.deepseek.com/chat/completions',
+                headers=headers,
+                json=payload,
+                timeout=10
+            )
+            
+            if resp.status_code == 200:
+                data = resp.json()
+                ai_response = data.get('choices', [{}])[0].get('message', {}).get('content', '').strip()
+                # Try to parse JSON from response
+                import json
+                import re
+                # Extract JSON from markdown code blocks if present
+                json_match = re.search(r'```(?:json)?\s*(\{[^`]+\})\s*```', ai_response)
+                if json_match:
+                    ai_response = json_match.group(1)
+                # Try direct JSON parse
+                try:
+                    result = json.loads(ai_response)
+                    if 'intent' in result and 'domain' in result:
+                        return {
+                            'domain': result['domain'],
+                            'intent': result['intent']
+                        }
+                except:
+                    pass
+        except Exception:
+            pass  # Fall back to keyword-based detection
+    
+    # Fallback: keyword-based detection
     domains = {
-        'family': ['نفقه', 'طلاق', 'حضانت', 'مهریه'],
-        'criminal': ['کیفری', 'سرقت', 'کلاهبرداری', 'ضرب و جرح'],
+        'family': ['نفقه', 'طلاق', 'حضانت', 'مهریه', 'ازدواج', 'خانواده'],
+        'criminal': ['کیفری', 'سرقت', 'کلاهبرداری', 'ضرب و جرح', 'جرم'],
         'commerce': ['قرارداد', 'شرکت', 'تجارت', 'چک', 'اسناد تجاری'],
-        'property': ['تصرف', 'ملک', 'پلاک', 'رفع تصرف', 'عدوانی'],
+        'property': ['تصرف', 'ملک', 'پلاک', 'رفع تصرف', 'عدوانی', 'املاک'],
     }
     intents = {
-        'advice': ['مشاوره', 'راهکار', 'چه کنم', 'قانون'],
+        'login': ['ورود', 'وارد شوم', 'لاگین', 'login', 'sign in', 'دخول'],
+        'signup': ['ثبت نام', 'عضویت', 'حساب کاربری', 'اکانت', 'signup', 'register', 'ثبتنام'],
+        'advice': ['مشاوره', 'راهکار', 'چه کنم', 'قانون', 'توصیه'],
         'document': ['دادخواست', 'لایحه', 'درخواست', 'تنظیم', 'نمونه'],
         'analysis': ['تحلیل', 'ارزیابی', 'نتیجه', 'شانس', 'ریسک'],
     }
@@ -434,13 +532,77 @@ def _get_openai_client():
     return client
 
 
-def _deepseek_chat(question: str, context: str) -> Tuple[bool, str]:
-    """Call DeepSeek via OpenAI SDK with retries; returns (ok, text_or_error)."""
+def _deepseek_chat(question: str, context: str, thinking_time: int = 0, role: str = 'default') -> Tuple[bool, str]:
+    """Call DeepSeek via OpenAI SDK with retries; returns (ok, text_or_error).
+    
+    Args:
+        question: The user's question
+        context: RAG context from documents
+        thinking_time: Time in seconds for deep thinking (0, 15, 30, 60)
+        role: The role to adopt (default, lawyer, judge)
+    """
     key = (os.getenv('DEEPSEEK_API_KEY', '').strip() or DEFAULT_DEEPSEEK_API_KEY)
     if not key:
         return False, 'DEEPSEEK_API_KEY not set'
     model = (os.getenv('DEEPSEEK_MODEL', '').strip() or 'deepseek-chat')
-    system = 'شما یک دستیار حقوقی فارسی هستید. پاسخ کوتاه، دقیق و مستند بده.'
+    
+    # Base system prompts for different roles
+    role_prompts = {
+        'default': 'شما یک دستیار حقوقی فارسی هستید.',
+        'lawyer': '''شما یک وکیل پایه یک دادگستری با سال‌ها تجربه هستید.
+
+🎓 شخصیت شما:
+- وکیل مدافع و حامی موکل
+- استراتژی‌های دفاعی قوی
+- تمرکز بر منافع موکل
+- زبان حرفه‌ای و متقاعدکننده
+
+⚖️ سبک پاسخ:
+- تحلیل از دیدگاه دفاعی
+- شناسایی نقاط قوت پرونده
+- راهکارهای عملی برای برد
+- هشدار درباره خطرات و ریسک‌ها
+- پیشنهاد اقدامات فوری''',
+        'judge': '''شما یک قاضی باتجربه دادگاه عمومی هستید.
+
+⚖️ شخصیت شما:
+- بی‌طرف و عادل
+- تحلیل از دیدگاه قانون
+- دقت در اصول و رویه
+- زبان رسمی و قضایی
+
+👨‍⚖️ سبک پاسخ:
+- تحلیل حقوقی کامل
+- بررسی دو طرف پرونده
+- استناد دقیق به قوانین و رویه قضایی
+- پیش‌بینی رأی احتمالی دادگاه
+- توضیح استدلال‌های حقوقی'''
+    }
+    
+    base_system = role_prompts.get(role, role_prompts['default'])
+    
+    # Adjust system prompt based on thinking time
+    if thinking_time > 0:
+        system = f'''{base_system}
+
+⏰ زمان تحلیل: {thinking_time} ثانیه
+
+🎯 راهنمای فکر عمیق:
+1. ابتدا سوال را به دقت تحلیل کن
+2. تمام جنبه‌های حقوقی مرتبط را بررسی کن
+3. قوانین و مواد مربوطه را شناسایی کن
+4. به استنادات موجود در زمینه دقت کن
+5. پاسخ جامع و مستند ارائه ده
+
+📚 پاسخ باید:
+- جامع و کامل باشد
+- دارای استناد به قوانین باشد
+- جنبه‌های مختلف مسئله را پوشش دهد
+- پیشنهادات عملی داشته باشد
+- به زبان ساده و قابل فهم باشد'''
+    else:
+        system = base_system + ' پاسخ کوتاه، دقیق و مستند بده.'
+    
     user = f"[زمینه]\n{context}\n\n[سؤال]\n{question}"
     try:
         client = _get_openai_client()
@@ -450,6 +612,18 @@ def _deepseek_chat(question: str, context: str) -> Tuple[bool, str]:
     last_error = ''
     for attempt in range(max(1, DEEPSEEK_MAX_RETRIES)):
         try:
+            # Adjust max_tokens based on thinking time
+            max_tokens = 512
+            if thinking_time >= 60:
+                max_tokens = 2048
+            elif thinking_time >= 30:
+                max_tokens = 1024
+            elif thinking_time >= 15:
+                max_tokens = 768
+            
+            # Adjust timeout based on thinking time
+            timeout = max(DEEPSEEK_TIMEOUT_SEC, thinking_time + 30)
+            
             resp = client.chat.completions.create(
                 model=model,
                 messages=[
@@ -457,8 +631,9 @@ def _deepseek_chat(question: str, context: str) -> Tuple[bool, str]:
                     {"role": "user", "content": user},
                 ],
                 stream=False,
-                max_tokens=512,
-                timeout=DEEPSEEK_TIMEOUT_SEC,
+                max_tokens=max_tokens,
+                timeout=timeout,
+                temperature=0.7 if thinking_time > 0 else 0.3,
             )
             text = (resp.choices[0].message.content or '').strip()
             return (True, text)
@@ -698,6 +873,19 @@ def index():
     return resp
 
 
+# Friendly chat URL: /c/<chat_id> → same UI, JS picks ID from URL
+@app.get('/c/<chat_id>')
+def chat_shortlink(chat_id: str):
+    tpl_path = os.path.join(BASE_DIR, 'templates', 'index.html')
+    cid = _get_client_id()
+    if os.path.exists(tpl_path):
+        html = render_template('index.html')
+        resp = make_response(html)
+        if not request.cookies.get('client_id'):
+            resp.set_cookie('client_id', cid, max_age=30*24*3600, httponly=False, samesite='Lax')
+        return resp
+    return index()
+
 # Notes routes moved to routes/notes.py blueprint
 
 @app.post('/ingest')
@@ -753,6 +941,17 @@ def ask_endpoint():
         top_k = int(data.get('top_k', 5))
     except Exception:
         top_k = 5
+    try:
+        thinking_time = int(data.get('thinking_time', 0))
+        # Validate thinking_time is one of allowed values
+        if thinking_time not in [0, 15, 30, 60]:
+            thinking_time = 0
+    except Exception:
+        thinking_time = 0
+    role = (data.get('role') or 'default').strip()
+    # Validate role is one of allowed values
+    if role not in ['default', 'lawyer', 'judge']:
+        role = 'default'
     meta = _detect_intent_domain(question)
     cid = _get_client_id()
     # Require authentication for asking
@@ -789,7 +988,7 @@ def ask_endpoint():
 
     # If DeepSeek configured, prefer DeepSeek answer with RAG context
     if _should_use_deepseek():
-        ok, ds_text = _deepseek_chat(question, rag_context)
+        ok, ds_text = _deepseek_chat(question, rag_context, thinking_time, role)
         if ok and ds_text:
             resp = jsonify({'answer': ds_text, 'citations': citations, 'intent': meta['intent'], 'domain': meta['domain'], 'clarify': []})
             r = make_response(resp)

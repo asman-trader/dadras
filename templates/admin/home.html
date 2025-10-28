@@ -5,26 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>پنل ادمین - خانه</title>
   <style>
-    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; background:#0b0f14; color:#e2e8f0 }
+    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 0; background:#0b0f14; color:#e2e8f0 }
     a { color:#93c5fd; text-decoration:none }
-    a:hover { text-decoration:underline }
-    .card { border:1px solid #1f2937; background:#0f141b; border-radius:12px; padding:16px; margin-bottom:12px }
-    h1 { font-size:18px }
+    .container { max-width:1100px; margin: 18px auto; padding: 0 16px }
+    .topbar { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:10px 12px; background:rgba(15,20,27,.6); border:1px solid #1f2937; border-radius:12px; backdrop-filter:saturate(120%) blur(6px); margin: 18px auto }
+    .brand { display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px }
+    .brand-badge { width:28px; height:28px; border-radius:8px; display:grid; place-items:center; background:#1a2230; border:1px solid #243042; color:#93c5fd; font-size:14px }
+    .grid { display:grid; gap:14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .card { border:1px solid #1f2937; background:#0f141b; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px }
+    .muted { color:#94a3b8; font-size:12px }
+    .btn { padding:10px 12px; border:1px solid #1f2937; background:#0b1220; color:#e2e8f0; border-radius:10px; cursor:pointer; text-align:center }
   </style>
 </head>
 <body>
-  <h1>پنل ادمین</h1>
-  <div class="card">
-    <h2 style="font-size:16px; margin:0 0 8px;">مدیریت مدل‌های هوش</h2>
-    <p><a href="/admin/llm">رفتن به صفحه تنظیمات مدل</a></p>
-  </div>
-  <div class="card">
-    <h2 style="font-size:16px; margin:0 0 8px;">مدیریت داده‌ها</h2>
-    <p><a href="/admin/data">رفتن به صفحه مدیریت داده</a></p>
-  </div>
-  <div class="card">
-    <h2 style="font-size:16px; margin:0 0 8px;">آمار سریع</h2>
-    <pre id="statOut" style="max-height:220px"></pre>
+  <div class="container">
+    <div class="topbar">
+      <div class="brand"><div class="brand-badge">د</div><div>پنل ادمین</div></div>
+      <div style="display:flex; gap:8px"><a href="/" class="btn">خانه</a><a href="/auth/profile" class="btn">پروفایل</a></div>
+    </div>
+    <div class="grid">
+      <a class="card" href="/admin/llm">
+        <div style="font-weight:700">مدل‌های هوش</div>
+        <div class="muted">پیکربندی DeepSeek و Ollama، بررسی اتصال</div>
+        <div class="btn">باز کردن</div>
+      </a>
+      <a class="card" href="/admin/data">
+        <div style="font-weight:700">داده‌ها</div>
+        <div class="muted">مدیریت فایل‌های ورودی و قالب‌ها</div>
+        <div class="btn">باز کردن</div>
+      </a>
+      <a class="card" href="/admin/logs/view">
+        <div style="font-weight:700">لاگ‌ها</div>
+        <div class="muted">مشاهده رویدادها و خطاها</div>
+        <div class="btn">باز کردن</div>
+      </a>
+      <a class="card" href="/admin/payments">
+        <div style="font-weight:700">پرداخت</div>
+        <div class="muted">تنظیمات قیمت، طول اشتراک، Sandbox/Mock</div>
+        <div class="btn">باز کردن</div>
+      </a>
+    </div>
+    <div class="card">
+      <div style="font-weight:700">آمار سریع</div>
+      <pre id="statOut" style="max-height:220px"></pre>
+    </div>
   </div>
 
   <script>

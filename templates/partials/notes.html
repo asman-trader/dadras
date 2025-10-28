@@ -1,37 +1,491 @@
-<aside id="notesSidebar" class="panel" aria-label="دفترچه یادداشت" style="display:flex; flex-direction:column; gap:10px;">
-  <details id="notesBox" open>
-    <summary style="display:flex; align-items:center; gap:10px; cursor:pointer; padding:6px 8px; border-bottom:1px solid var(--border);">
-      <strong style="display:flex; align-items:center; gap:8px;">🗒️ یادداشت‌ها</strong>
-      <span class="muted" id="notesCount" style="font-size:11px; margin-inline-start:auto"></span>
-      <div style="display:flex; gap:6px; align-items:center;">
-        <button class="btn" id="btnRefreshNotes" title="بازآوری" aria-label="بازآوری" style="padding:6px 10px;">↻</button>
-        <button class="btn" id="btnNewNote" title="یادداشت جدید" aria-label="یادداشت جدید" style="padding:6px 10px;">➕</button>
-      </div>
-    </summary>
-
-    <div style="display:grid; gap:10px; grid-template-columns: 1fr; padding:8px 6px;">
-      <input id="notesSearch" class="btn" style="padding:8px 10px; border-radius:10px;" placeholder="جستجو در یادداشت‌ها..." aria-label="جستجو در یادداشت‌ها" />
-
-      <div id="notesList" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap:8px; max-height:32vh; overflow:auto; padding:2px;">
-        <!-- ردیف‌های یادداشت از اسکریپت صفحه اضافه می‌شوند -->
-      </div>
-      <div id="notesEmpty" class="muted" style="display:none; font-size:12px; text-align:center; padding:10px; border:1px dashed var(--border); border-radius:10px;">یادداشتی وجود ندارد. با «یادداشت جدید» بسازید.</div>
-
-      <div style="display:grid; gap:8px; grid-template-columns: 1fr; background: var(--panel); border:1px solid var(--border); border-radius:12px; padding:10px;">
-        <input id="noteTitle" placeholder="عنوان یادداشت" class="btn" style="padding:8px 10px; border-radius:10px;" aria-label="عنوان یادداشت" />
-        <textarea id="notesArea" placeholder="متن یادداشت..." style="min-height:140px; padding:10px; border-radius:10px; border:1px solid var(--border); background:#0b1220; color:var(--text);" aria-label="متن یادداشت"></textarea>
-        <div style="display:flex; gap:8px; align-items:center; justify-content:flex-end;">
-          <span class="muted" id="notesSaveStatus" style="font-size:11px; margin-inline-end:auto"></span>
-          <button class="send" id="btnSaveCurrentNote" title="ذخیره" aria-label="ذخیره یادداشت" style="padding:10px 12px;">ذخیره</button>
+<aside id="notesSidebar" class="panel" style="padding:0; display:flex; flex-direction:column; height:100%; max-height:calc(100vh - 100px);">
+  <style>
+    #notesSidebar { 
+      background: linear-gradient(135deg, rgba(15,20,27,.95) 0%, rgba(11,15,20,.98) 100%);
+      border: 1px solid rgba(34,197,94,.15);
+      box-shadow: 0 4px 24px rgba(0,0,0,.2);
+    }
+    
+    #notesHeader { 
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px;
+      border-bottom: 1px solid rgba(34,197,94,.15);
+      background: linear-gradient(135deg, rgba(34,197,94,.05) 0%, rgba(16,185,129,.02) 100%);
+    }
+    
+    #notesHeader h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+    }
+    
+    #notesHeader .icon-badge {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      box-shadow: 0 0 20px rgba(34,197,94,.3);
+    }
+    
+    #notesActions {
+      display: flex;
+      gap: 6px;
+    }
+    
+    #notesActions .btn {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(100,116,139,.3);
+      background: rgba(15,23,42,.8);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 16px;
+    }
+    
+    #notesActions .btn:hover {
+      border-color: #22c55e;
+      background: rgba(34,197,94,.1);
+      transform: translateY(-2px);
+    }
+    
+    #notesListWrap {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 12px;
+      gap: 12px;
+    }
+    
+    #notesSearch {
+      width: 100%;
+      padding: 10px 12px;
+      background: rgba(11,18,32,.6);
+      border: 1px solid rgba(34,197,94,.2);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 13px;
+      transition: all 0.3s;
+    }
+    
+    #notesSearch:focus {
+      outline: none;
+      border-color: #22c55e;
+      box-shadow: 0 0 0 3px rgba(34,197,94,.1);
+    }
+    
+    #notesList {
+      flex: 1;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    #notesList::-webkit-scrollbar { width: 6px; }
+    #notesList::-webkit-scrollbar-track { background: #0a0f16; border-radius: 3px; }
+    #notesList::-webkit-scrollbar-thumb { background: #22c55e; border-radius: 3px; }
+    #notesList::-webkit-scrollbar-thumb:hover { background: #16a34a; }
+    
+    .note-card {
+      background: rgba(15,23,42,.6);
+      border: 1px solid rgba(100,116,139,.2);
+      border-radius: 10px;
+      padding: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+    }
+    
+    .note-card:hover {
+      border-color: rgba(34,197,94,.5);
+      background: rgba(34,197,94,.05);
+      transform: translateX(4px);
+      box-shadow: 0 2px 8px rgba(34,197,94,.2);
+    }
+    
+    .note-card.pinned {
+      border-color: rgba(251,191,36,.5);
+      background: rgba(251,191,36,.05);
+    }
+    
+    .note-card.pinned::before {
+      content: '📌';
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      font-size: 12px;
+    }
+    
+    .note-card-title {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+    
+    .note-card-preview {
+      font-size: 12px;
+      color: var(--muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      line-height: 1.4;
+    }
+    
+    .note-card-meta {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    
+    .note-tag {
+      font-size: 10px;
+      padding: 2px 6px;
+      background: rgba(34,197,94,.15);
+      border: 1px solid rgba(34,197,94,.3);
+      border-radius: 4px;
+      color: #22c55e;
+    }
+    
+    #notesEmpty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+    }
+    
+    #notesEmpty .empty-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+    
+    /* Templates Menu */
+    #templatesMenu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: rgba(15,20,27,.98);
+      border: 1px solid rgba(34,197,94,.3);
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.4), 0 0 40px rgba(34,197,94,.15);
+      padding: 4px;
+      min-width: 200px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s;
+      z-index: 1000;
+    }
+    
+    #templatesMenu.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .template-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #94a3b8;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    
+    .template-option:hover {
+      background: rgba(34,197,94,.1);
+      color: #22c55e;
+    }
+    
+    .template-option .icon {
+      font-size: 18px;
+    }
+  </style>
+  
+  <div id="notesHeader">
+    <div class="icon-badge">📝</div>
+    <h3>یادداشت‌ها</h3>
+    <div id="notesActions" style="position:relative;">
+      <button class="btn" id="btnTemplates" title="قالب‌های آماده">📋</button>
+      <button class="btn" id="btnNewNote" title="یادداشت جدید">➕</button>
+      <button class="btn" id="btnRefreshNotes" title="بازآوری">↻</button>
+      
+      <!-- Templates Dropdown -->
+      <div id="templatesMenu">
+        <div class="template-option" data-template="case">
+          <span class="icon">📁</span>
+          <span>پرونده</span>
+        </div>
+        <div class="template-option" data-template="meeting">
+          <span class="icon">🤝</span>
+          <span>جلسه</span>
+        </div>
+        <div class="template-option" data-template="consultation">
+          <span class="icon">💡</span>
+          <span>مشاوره</span>
+        </div>
+        <div class="template-option" data-template="contract">
+          <span class="icon">📄</span>
+          <span>قرارداد</span>
+        </div>
+        <div class="template-option" data-template="lawsuit">
+          <span class="icon">⚖️</span>
+          <span>دادخواست</span>
         </div>
       </div>
     </div>
-  </details>
+  </div>
+  
+  <div id="notesListWrap">
+    <input id="notesSearch" type="text" placeholder="🔍 جستجو در یادداشت‌ها..." aria-label="جستجو در یادداشت‌ها" />
+    <div id="notesList"></div>
+    <div id="notesEmpty" style="display:none;">
+      <div class="empty-icon">📝</div>
+      <div style="font-size:14px; font-weight:600; margin-bottom:4px;">هنوز یادداشتی ندارید</div>
+      <div style="font-size:12px;">از قالب‌های آماده یا دکمه ➕ استفاده کنید</div>
+    </div>
+  </div>
 </aside>
 
+<!-- Delete Confirmation Modal -->
+<div id="deleteNoteModal" class="modal" style="display:none;">
+  <div class="modal-backdrop" onclick="closeDeleteNoteModal()"></div>
+  <div class="modal-content" style="max-width:400px;">
+    <div class="modal-header">
+      <h3 style="margin:0; font-size:16px;">⚠️ حذف یادداشت</h3>
+      <button class="btn" onclick="closeDeleteNoteModal()" aria-label="بستن">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="margin:0; color:var(--muted); line-height:1.6;">آیا مطمئن هستید که می‌خواهید این یادداشت را حذف کنید؟ این عملیات قابل بازگشت نیست.</p>
+      <div id="deleteNoteInfo" style="margin-top:12px; padding:10px; background:#0b1220; border:1px solid var(--border); border-radius:8px;">
+        <div id="deleteNoteTitle" style="font-weight:600; margin-bottom:4px;"></div>
+        <div id="deleteNotePreview" style="font-size:13px; color:var(--muted); max-height:60px; overflow:hidden;"></div>
+      </div>
+    </div>
+    <div class="modal-footer" style="gap:8px;">
+      <button class="btn" onclick="closeDeleteNoteModal()" style="flex:1;">انصراف</button>
+      <button class="send" id="confirmDeleteNote" style="flex:1; background:#ef4444; border-color:#dc2626;">حذف</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  #deleteNoteModal .modal { position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; }
+  #deleteNoteModal .modal-backdrop { position:absolute; inset:0; background:rgba(0,0,0,0.7); backdrop-filter:blur(4px); }
+  #deleteNoteModal .modal-content { position:relative; background:#0f141b; border:1px solid var(--border); border-radius:16px; max-width:90%; max-height:90vh; overflow:auto; }
+  #deleteNoteModal .modal-header { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-bottom:1px solid var(--border); }
+  #deleteNoteModal .modal-body { padding:20px; }
+  #deleteNoteModal .modal-footer { display:flex; padding:16px 20px; border-top:1px solid var(--border); }
+  #deleteNoteModal .send:hover { background:#dc2626; }
+</style>
 
 <script>
   (function(){
+    // Legal Templates
+    const legalTemplates = {
+      case: {
+        title: '📁 پرونده جدید',
+        content: `# پرونده: [عنوان پرونده]
+
+## اطلاعات کلی
+- شماره پرونده: 
+- نوع پرونده: 
+- تاریخ ثبت: ${new Date().toLocaleDateString('fa-IR')}
+- موکل: 
+- طرف مقابل: 
+
+## موضوع پرونده
+
+
+## مراحل انجام شده
+- [ ] مشاوره اولیه
+- [ ] جمع‌آوری مدارک
+- [ ] تنظیم دادخواست
+- [ ] ثبت در دادگاه
+- [ ] پیگیری
+
+## یادداشت‌ها
+
+
+## پیوست‌ها و مدارک
+`,
+        tags: ['پرونده', 'مهم']
+      },
+      meeting: {
+        title: '🤝 جلسه',
+        content: `# جلسه ${new Date().toLocaleDateString('fa-IR')}
+
+## حاضرین
+- 
+- 
+
+## دستور جلسه
+1. 
+2. 
+3. 
+
+## نتیجه و تصمیمات
+- 
+
+## اقدامات بعدی
+- [ ] 
+- [ ] 
+
+## یادداشت‌ها
+`,
+        tags: ['جلسه']
+      },
+      consultation: {
+        title: '💡 مشاوره',
+        content: `# مشاوره حقوقی
+
+## اطلاعات مراجع
+- نام: 
+- تاریخ: ${new Date().toLocaleDateString('fa-IR')}
+- موضوع: 
+
+## شرح مسئله
+
+
+## تحلیل حقوقی
+- قوانین مرتبط: 
+- رویه قضایی: 
+
+## راهکارهای پیشنهادی
+1. 
+2. 
+3. 
+
+## هزینه خدمات
+
+
+## پیگیری
+- [ ] ارسال نظریه کتبی
+- [ ] پیگیری تلفنی
+`,
+        tags: ['مشاوره']
+      },
+      contract: {
+        title: '📄 قرارداد',
+        content: `# قرارداد
+
+## طرفین قرارداد
+- طرف اول: 
+- طرف دوم: 
+
+## موضوع قرارداد
+
+
+## شرایط و ضوابط
+1. 
+2. 
+3. 
+
+## مدت قرارداد
+- تاریخ شروع: 
+- تاریخ پایان: 
+
+## هزینه و نحوه پرداخت
+
+
+## شروط خاص
+
+
+## ضمانت اجرا
+`,
+        tags: ['قرارداد']
+      },
+      lawsuit: {
+        title: '⚖️ دادخواست',
+        content: `# دادخواست
+
+## مشخصات خواهان
+- نام: 
+- نشانی: 
+- کد ملی: 
+
+## مشخصات خوانده
+- نام: 
+- نشانی: 
+- کد ملی: 
+
+## خواسته
+
+
+## دلایل و مستندات
+1. 
+2. 
+3. 
+
+## مواد قانونی مرتبط
+- 
+
+## ارزش خواسته
+
+
+## دادگاه صالح
+
+
+## پیوست‌ها
+1. 
+2. 
+`,
+        tags: ['دادخواست', 'مهم']
+      }
+    };
+
+    // Templates dropdown
+    const btnTemplates = document.getElementById('btnTemplates');
+    const templatesMenu = document.getElementById('templatesMenu');
+    
+    btnTemplates?.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      templatesMenu.classList.toggle('open');
+    });
+    
+    document.addEventListener('click', (e)=>{
+      if(!templatesMenu?.contains(e.target) && e.target !== btnTemplates){
+        templatesMenu?.classList.remove('open');
+      }
+    });
+    
+    // Handle template selection
+    document.querySelectorAll('.template-option').forEach(option=>{
+      option.addEventListener('click', async ()=>{
+        const templateType = option.dataset.template;
+        const template = legalTemplates[templateType];
+        
+        if(template && typeof openNoteEditor === 'function'){
+          templatesMenu.classList.remove('open');
+          // Create note with template
+          openNoteEditor('', template.title, template.content);
+        }
+      });
+    });
+
     // auto refresh
     let notesAutoTimer = null;
     function startNotesAuto(){
@@ -48,12 +502,13 @@
     const search = document.getElementById('notesSearch');
     function filterNotes(){
       try{
-        const q = (search.value||'').trim();
+        const q = (search.value||'').trim().toLowerCase();
         const list = document.getElementById('notesList');
         Array.from(list.children||[]).forEach(row=>{
-          const text = (row.textContent||'').trim();
+          const text = (row.textContent||'').trim().toLowerCase();
           row.style.display = (!q || text.includes(q)) ? '' : 'none';
         });
+        toggleEmptyState();
       }catch(e){}
     }
     search?.addEventListener('input', filterNotes);
@@ -67,14 +522,66 @@
       empty.style.display = hasAny ? 'none' : '';
     }
 
-    // char count
-    const area = document.getElementById('notesArea');
-    const count = document.getElementById('notesCount');
-    function updateCount(){ try{ count.textContent = (area.value||'').length + ' کاراکتر'; }catch(e){} }
-    area?.addEventListener('input', updateCount);
-
     // init
     startNotesAuto();
-    setTimeout(()=>{ toggleEmptyState(); updateCount(); }, 0);
+    setTimeout(()=>{ toggleEmptyState(); }, 0);
   })();
+
+  // Delete Modal Functions
+  let noteToDelete = null;
+
+  function openDeleteNoteModal(noteId, noteTitle, noteContent) {
+    noteToDelete = noteId;
+    document.getElementById('deleteNoteTitle').textContent = noteTitle || 'بدون عنوان';
+    document.getElementById('deleteNotePreview').textContent = noteContent || 'بدون متن';
+    document.getElementById('deleteNoteModal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDeleteNoteModal() {
+    noteToDelete = null;
+    document.getElementById('deleteNoteModal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  // Confirm Delete
+  document.getElementById('confirmDeleteNote')?.addEventListener('click', async function() {
+    if (!noteToDelete) return;
+    
+    try {
+      const res = await fetch(`/notes/${noteToDelete}`, { method: 'DELETE' });
+      if (res.ok) {
+        closeDeleteNoteModal();
+        // Refresh the notes list
+        if (typeof refreshNotesList === 'function') {
+          refreshNotesList();
+        }
+        // Show success message if available
+        if (typeof showToast === 'function') {
+          showToast('یادداشت با موفقیت حذف شد', 'success');
+        }
+      } else {
+        const err = await res.json();
+        if (typeof showToast === 'function') {
+          showToast(err.error || 'خطا در حذف یادداشت', 'error');
+        } else {
+          alert(err.error || 'خطا در حذف یادداشت');
+        }
+      }
+    } catch (err) {
+      console.error('Delete note error:', err);
+      if (typeof showToast === 'function') {
+        showToast('خطا در ارتباط با سرور', 'error');
+      } else {
+        alert('خطا در ارتباط با سرور');
+      }
+    }
+  });
+
+  // Close modal on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('deleteNoteModal').style.display === 'flex') {
+      closeDeleteNoteModal();
+    }
+  });
   </script>
