@@ -194,8 +194,33 @@ def _log_request_end(response):
         app.logger.info(f"request completed status={response.status_code} duration_ms={dur_ms}")
     except Exception:
         pass
+    try:
+        if not request.cookies.get('client_id'):
+            response.set_cookie('client_id', _get_client_id(), max_age=30*24*3600, httponly=False, samesite='Lax')
+    except Exception:
+        pass
     return response
 
+
+@app.before_request
+def _auto_user_by_ip():
+    """Always attach a lightweight user object based on client IP.
+    This replaces the login/signup flow and ensures templates and
+    rate limiting have a stable identifier.
+    """
+    try:
+        uid = _get_client_id()
+        g.current_user = {
+            'id': uid,
+            'phone_norm': '',
+            'plan': 'free',
+            'role': 'citizen',
+        }
+    except Exception:
+        try:
+            g.current_user = {'id': 'ipua:unknown', 'phone_norm': '', 'plan': 'free', 'role': 'citizen'}
+        except Exception:
+            pass
 
 def _read_config() -> Dict[str, object]:
     _ensure_data_dirs()
@@ -264,6 +289,7 @@ def _inject_globals():
     ver = os.getenv('APP_VERSION', APP_VERSION) or APP_VERSION
     return {
         'APP_VERSION': ver,
+        'current_user': getattr(g, 'current_user', None),
     }
 
 
@@ -335,10 +361,25 @@ def _rebuild_index(paragraphs: List[str]) -> Dict[str, Set[int]]:
             s.add(i)
     return inv
 def _get_client_id() -> str:
-    cid = request.cookies.get('client_id')
-    if cid and isinstance(cid, str) and len(cid) >= 8:
-        return cid
-    return uuid.uuid4().hex
+    """Deterministic client id from IP + User-Agent; fallback to cookie if present.
+    Stable across refresh/restart and differentiates devices behind same network.
+    """
+    try:
+        cid = request.cookies.get('client_id')
+        if cid and isinstance(cid, str) and len(cid) >= 8:
+            return cid
+    except Exception:
+        pass
+    try:
+        ip_hdr = (request.headers.get('X-Forwarded-For') or '').strip()
+        ip = (ip_hdr.split(',')[0].strip() if ip_hdr else (request.remote_addr or '0.0.0.0'))
+        ua = (request.headers.get('User-Agent') or '').strip()
+        import hashlib
+        fp = f"{ip}|{ua}".encode('utf-8', 'ignore')
+        h = hashlib.sha256(fp).hexdigest()[:24]
+        return f"ipua_{h}"
+    except Exception:
+        return uuid.uuid4().hex
 
 
 def _get_current_plan_limits() -> Tuple[int, int]:
@@ -970,9 +1011,25 @@ def ingest_endpoint():
         return guard
     _ensure_data_dirs()
     data = request.get_json(silent=True) or {}
-    dir_path = data.get('dir') or DATA_DIR
+    dir_path = data.get('dir') or os.path.join(DATA_DIR, 'texts')
     recursive = bool(data.get('recursive', True))
     files_loaded, paragraphs_added = _ingest_directory(dir_path, recursive=recursive)
+    return jsonify({
+        'dir': os.path.abspath(dir_path),
+        'files_loaded': files_loaded,
+        'paragraphs_added': paragraphs_added,
+        'total_paragraphs': len(PARAGRAPHS)
+    })
+
+
+@app.post('/ingest-texts')
+def ingest_texts_endpoint():
+    guard = _require_admin_if_configured()
+    if guard is not None:
+        return guard
+    _ensure_data_dirs()
+    dir_path = os.path.join(DATA_DIR, 'texts')
+    files_loaded, paragraphs_added = _ingest_directory(dir_path, recursive=True)
     return jsonify({
         'dir': os.path.abspath(dir_path),
         'files_loaded': files_loaded,
@@ -1449,18 +1506,6 @@ def ask_endpoint():
         role = 'default'
     meta = _detect_intent_domain(question)
     cid = _get_client_id()
-    # Require authentication for asking
-    if not getattr(g, 'current_user', None):
-        cta = '<div style="margin-top:8px; display:flex; gap:8px;">' \
-              + '<a class="btn" href="/auth/login">ورود</a>' \
-              + '<a class="btn" href="/auth/signup">ثبت‌نام</a>' \
-              + '</div>'
-        txt = 'برای ادامهٔ گفتگو لطفاً ابتدا وارد شوید یا ثبت‌نام کنید.\n' + cta
-        resp = jsonify({'answer': txt, 'citations': [], 'intent': 'auth', 'domain': meta['domain'], 'clarify': []})
-        r = make_response(resp)
-        if not request.cookies.get('client_id'):
-            r.set_cookie('client_id', cid, max_age=30*24*3600, httponly=False, samesite='Lax')
-        return r
     # rate limit per client/ip with plan-based limits
     rl_key = (getattr(g, 'current_user', {}).get('id') if getattr(g, 'current_user', None) else None) or request.remote_addr or cid
     plan_limit, plan_window = _get_current_plan_limits()
@@ -1944,9 +1989,10 @@ if __name__ == '__main__':
     except Exception:
         pass
     try:
-        _ingest_directory(DATA_DIR, recursive=True)
+        # Only index legal texts from data/texts for focused پاسخ از قوانین
+        _ingest_directory(os.path.join(DATA_DIR, 'texts'), recursive=True)
     except Exception:
         pass
-    app.run(host='0.0.0.0', port=3000, debug=False)
+    app.run(host='0.0.0.0', port=5000, debug=False)
 
 

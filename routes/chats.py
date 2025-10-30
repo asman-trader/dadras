@@ -1,6 +1,7 @@
 import os
 import re
 import uuid
+import hashlib
 import json as _json
 from flask import Blueprint, request, jsonify
 
@@ -16,10 +17,21 @@ def _ensure_chat_dirs() -> None:
 
 
 def _get_client_id() -> str:
-    cid = request.cookies.get('client_id')
-    if cid and isinstance(cid, str) and len(cid) >= 8:
-        return cid
-    return uuid.uuid4().hex
+    """Deterministic client id based on IP + User-Agent; fall back to cookie."""
+    try:
+        cid = request.cookies.get('client_id')
+        if cid and isinstance(cid, str) and len(cid) >= 8:
+            return cid
+    except Exception:
+        pass
+    try:
+        ip_hdr = (request.headers.get('X-Forwarded-For') or '').strip()
+        ip = (ip_hdr.split(',')[0].strip() if ip_hdr else (request.remote_addr or '0.0.0.0'))
+        ua = (request.headers.get('User-Agent') or '').strip()
+        h = hashlib.sha256(f"{ip}|{ua}".encode('utf-8', 'ignore')).hexdigest()[:24]
+        return f"ipua_{h}"
+    except Exception:
+        return uuid.uuid4().hex
 
 
 def _chat_dir_for(cid: str) -> str:
@@ -57,7 +69,10 @@ def chats_list():
         items.sort(key=lambda x: x['mtime'], reverse=True)
     except Exception as exc:
         return jsonify({'ok': False, 'error': 'list_failed', 'detail': str(exc)}), 500
-    return jsonify({'ok': True, 'items': items})
+    r = jsonify({'ok': True, 'items': items})
+    if not request.cookies.get('client_id'):
+        r.set_cookie('client_id', cid, max_age=30*24*3600, httponly=False, samesite='Lax')
+    return r
 
 
 @chats_bp.post('/chats')
@@ -74,7 +89,10 @@ def chats_create():
             _json.dump(meta, f, ensure_ascii=False)
     except Exception as exc:
         return jsonify({'ok': False, 'error': 'create_failed', 'detail': str(exc)}), 500
-    return jsonify({'ok': True, 'id': chat_id, 'title': title, 'url': f"/c/{chat_id}"})
+    r = jsonify({'ok': True, 'id': chat_id, 'title': title, 'url': f"/c/{chat_id}"})
+    if not request.cookies.get('client_id'):
+        r.set_cookie('client_id', cid, max_age=30*24*3600, httponly=False, samesite='Lax')
+    return r
 
 
 @chats_bp.post('/chats/rename')
@@ -98,7 +116,10 @@ def chats_rename():
             _json.dump(meta, f, ensure_ascii=False)
     except Exception as exc:
         return jsonify({'ok': False, 'error': 'rename_failed', 'detail': str(exc)}), 500
-    return jsonify({'ok': True, 'url': f"/c/{chat_id}"})
+    r = jsonify({'ok': True, 'url': f"/c/{chat_id}"})
+    if not request.cookies.get('client_id'):
+        r.set_cookie('client_id', cid, max_age=30*24*3600, httponly=False, samesite='Lax')
+    return r
 
 
 @chats_bp.delete('/chats')
@@ -116,7 +137,10 @@ def chats_delete():
         os.remove(path)
     except Exception as exc:
         return jsonify({'ok': False, 'error': 'delete_failed', 'detail': str(exc)}), 500
-    return jsonify({'ok': True})
+    r = jsonify({'ok': True})
+    if not request.cookies.get('client_id'):
+        r.set_cookie('client_id', cid, max_age=30*24*3600, httponly=False, samesite='Lax')
+    return r
 
 
 def _plan_quota_bytes() -> int:

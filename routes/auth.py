@@ -575,7 +575,8 @@ def me():
 
 @auth_bp.get('/pricing')
 def pricing_page():
-    return render_template('auth/pricing.html')
+    # Pricing page removed -> redirect to home
+    return redirect('/')
 
 
 

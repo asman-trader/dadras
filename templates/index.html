@@ -31,42 +31,77 @@
       background: linear-gradient(180deg, rgba(15,20,27,.9), rgba(15,20,27,.65));
       border-bottom: 1px solid var(--border);
     }
-    .nav { max-width: 980px; margin: 0 auto; padding: 12px 16px; display:flex; gap:12px; align-items:center; justify-content:flex-start }
-    .brand { display:flex; gap:10px; align-items:center }
+    .nav {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display:flex;
+      flex-direction: column;
+      gap:12px;
+      align-items:flex-start;
+      justify-content:flex-start;
+    }
+    .brand { display:flex; gap:10px; align-items:center; width:100%; justify-content:space-between }
     .brand .dot { width:10px; height:10px; border-radius:50%; background: var(--accent); box-shadow: 0 0 12px var(--accent) }
     .brand h1 { margin:0; font-size:16px; font-weight:600 }
-    .toolbar { display:flex; gap:8px; align-items:center }
-    .btn { padding: 8px 12px; border:1px solid var(--border); background: #0b1220; color: var(--text); border-radius: 8px; cursor:pointer }
+    .toolbar {
+      display:flex;
+      gap:8px;
+      align-items:center;
+      width:100%;
+      flex-wrap:wrap;
+      justify-content:flex-start;
+    }
+    .btn { padding: 8px 12px; border:1px solid var(--border); background: #0b1220; color: var(--text); border-radius: 8px; cursor:pointer; width:100% }
+
+    @media (min-width: 640px) {
+      .nav { flex-direction: row; align-items: center; gap:16px; }
+      .brand { width:auto; justify-content:flex-start; }
+      .toolbar { width:auto; flex-wrap:nowrap; margin-inline-start:auto; }
+      .btn { width:auto; }
+    }
     .btn:hover { border-color:#2a3b4f }
     a.link { color: var(--muted); text-decoration:none; font-size:13px }
     a.link:hover { color: var(--text) }
 
-    main { max-width: 980px; width:100%; margin: 0 auto; flex:1; display:flex; flex-direction:column; gap:12px; padding-block:12px; padding-inline:12px; box-sizing:border-box }
-
-    body.timeline-active { --timeline-offset: clamp(200px, 16vw, 252px); }
-    body.case-info-active { --caseinfo-offset: clamp(220px, 18vw, 312px); }
-
-    body.timeline-active header { padding-inline-start: calc(16px + var(--timeline-offset)); }
-    body.case-info-active header { padding-inline-end: calc(16px + var(--caseinfo-offset)); }
-    body.timeline-active main { padding-inline-start: calc(12px + var(--timeline-offset)); }
-    body.case-info-active main { padding-inline-end: calc(12px + var(--caseinfo-offset)); }
-    body.timeline-active .composer { padding-inline-start: calc(16px + var(--timeline-offset)); }
-    body.case-info-active .composer { padding-inline-end: calc(16px + var(--caseinfo-offset)); }
-    body.timeline-active footer { padding-inline-start: calc(16px + var(--timeline-offset)); }
-    body.case-info-active footer { padding-inline-end: calc(16px + var(--caseinfo-offset)); }
-
-    @media (max-width: 1280px) {
-      body.timeline-active { --timeline-offset: 0px; }
+    main {
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      padding:16px;
+      box-sizing:border-box;
     }
 
-    @media (max-width: 1199px) {
-      body.case-info-active { --caseinfo-offset: 0px; }
+    @media (min-width: 768px) {
+      main { padding-inline:24px; gap:20px; }
     }
-    #messages { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px }
-    .msg { display:flex; gap:12px }
+
+    @media (min-width: 1024px) {
+      main { gap:24px; }
+    }
+
+    @media (min-width: 1100px) {
+      body.timeline-active { --timeline-offset: clamp(200px, 16vw, 252px); }
+      body.case-info-active { --caseinfo-offset: clamp(220px, 18vw, 312px); }
+
+      body.timeline-active header { padding-inline-start: calc(16px + var(--timeline-offset)); }
+      body.case-info-active header { padding-inline-end: calc(16px + var(--caseinfo-offset)); }
+      body.timeline-active main { padding-inline-start: calc(12px + var(--timeline-offset)); }
+      body.case-info-active main { padding-inline-end: calc(12px + var(--caseinfo-offset)); }
+      body.timeline-active .composer { padding-inline-start: calc(16px + var(--timeline-offset)); }
+      body.case-info-active .composer { padding-inline-end: calc(16px + var(--caseinfo-offset)); }
+      body.timeline-active footer { padding-inline-start: calc(16px + var(--timeline-offset)); }
+      body.case-info-active footer { padding-inline-end: calc(16px + var(--caseinfo-offset)); }
+    }
+    #messages { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px; width:100% }
+    .msg { display:flex; gap:12px; width:100%; }
     .msg.assistant { justify-content:flex-start }
     .msg.user { justify-content:flex-end }
-    .bubble { padding:12px 14px; border-radius: 14px; border:1px solid var(--border); line-height:1.7; max-width:100% }
+    .bubble { padding:12px 14px; border-radius: 14px; border:1px solid var(--border); line-height:1.7; width:100%; max-width:100%; }
     .user .bubble { background: var(--user) }
     .assistant .bubble { background: var(--assistant) }
     .bubble.typing { display:inline-flex; align-items:center }
@@ -115,7 +150,7 @@
       position: sticky; bottom: 0; background: var(--panel);
       border-top: 1px solid var(--border); padding: 12px 16px;
     }
-    .bar { max-width:980px; margin:0 auto; padding:12px 0; }
+    .bar { width:100%; max-width:960px; margin:0 auto; padding:12px 0; }
     textarea { flex:1; min-height: 44px; max-height: 500px; padding: 12px 14px; background: #0b1220; color: var(--text); border-radius: 10px; border:1px solid var(--border); resize: vertical; overflow-y: auto; line-height: 1.5 }
     textarea::-webkit-scrollbar { width: 8px }
     textarea::-webkit-scrollbar-track { background: #0a0f16; border-radius: 10px }
@@ -130,9 +165,12 @@
     .panel { background: var(--panel); border:1px solid var(--border); border-radius: 12px; padding: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.18) }
 
     /* Desktop enhancements */
+    @media (min-width: 640px){
+      .bubble { max-width: 82%; }
+    }
+
     @media (min-width: 960px){
-      main { padding:16px }
-      .bubble { max-width: 70% }
+      .bubble { max-width: 70%; }
     }
 
     /* Sidebar (hamburger) */
@@ -148,77 +186,107 @@
     .side-link:hover { background:#0b1220 }
     
     /* Timeline عمودی - قابل جابجایی */
+    /* Case Info panel + Timeline disabled */
+    #caseInfoPanel { display: none !important; }
+    #verticalCaseTimeline { display: none !important; }
     body:not(.timeline-active) #verticalCaseTimeline { display: none; }
     body:not(.case-info-active) #caseInfoPanel { display: none; }
 
-    #verticalCaseTimeline {
-      position: fixed;
-      left: 16px;
-      top: 80px;
-      width: 220px;
-      background: linear-gradient(135deg, rgba(15,20,27,.98) 0%, rgba(11,15,20,.95) 100%);
-      border: 1px solid rgba(34,197,94,.2);
-      border-radius: 12px;
-      padding: 0;
-      box-shadow: 0 8px 32px rgba(0,0,0,.3);
-      backdrop-filter: blur(10px);
-      z-index: 40;
-      max-height: calc(100vh - 100px);
-      display: block;
-      transition: width 0.3s ease;
-    }
-    
-    #verticalCaseTimeline.collapsed {
-      width: 200px;
-    }
-    
-    #verticalCaseTimeline.dragging {
-      cursor: move;
-      opacity: 0.9;
-      box-shadow: 0 12px 48px rgba(0,0,0,.5);
-    }
-    
-    /* پنل اطلاعات پرونده در سمت راست */
+    #verticalCaseTimeline,
     #caseInfoPanel {
-      position: fixed;
-      right: 16px;
-      top: 80px;
-      width: 280px;
-      background: linear-gradient(135deg, rgba(15,20,27,.98) 0%, rgba(11,15,20,.95) 100%);
-      border: 1px solid rgba(59,130,246,.2);
-      border-radius: 12px;
-      padding: 16px 12px;
-      box-shadow: 0 8px 32px rgba(0,0,0,.3);
-      backdrop-filter: blur(10px);
-      z-index: 40;
-      max-height: calc(100vh - 100px);
-      overflow-y: auto;
+      position: static;
       display: block;
-      transition: width 0.3s ease;
+      width: 100%;
+      background: linear-gradient(135deg, rgba(15,20,27,.98) 0%, rgba(11,15,20,.95) 100%);
+      border: 1px solid rgba(31,41,55,.8);
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.18);
+      margin: 12px 0;
     }
-    
-    #caseInfoPanel.collapsed {
-      width: 200px;
+
+    #verticalCaseTimeline {
+      padding: 0;
+      overflow: hidden;
     }
-    
-    #caseInfoPanel.dragging {
-      cursor: move;
-      opacity: 0.9;
-      box-shadow: 0 12px 48px rgba(0,0,0,.5);
+
+    #caseInfoPanel {
+      border: 1px solid rgba(59,130,246,.2);
+      padding: 16px 12px;
+      overflow: hidden;
     }
-    
-    #caseInfoPanel::-webkit-scrollbar {
-      width: 4px;
-    }
-    
-    #caseInfoPanel::-webkit-scrollbar-track {
-      background: rgba(15,20,27,.5);
-      border-radius: 2px;
-    }
-    
-    #caseInfoPanel::-webkit-scrollbar-thumb {
-      background: #3b82f6;
-      border-radius: 2px;
+
+    @media (min-width: 1100px) {
+      #verticalCaseTimeline,
+      #caseInfoPanel {
+        margin-top: 0;
+      }
+
+      #verticalCaseTimeline {
+        position: fixed;
+        left: 16px;
+        top: 80px;
+        width: 220px;
+        border: 1px solid rgba(34,197,94,.2);
+        box-shadow: 0 8px 32px rgba(0,0,0,.3);
+        backdrop-filter: blur(10px);
+        z-index: 40;
+        max-height: calc(100vh - 100px);
+        transition: width 0.3s ease;
+      }
+      
+      #verticalCaseTimeline.collapsed {
+        width: 200px;
+      }
+      
+      #verticalCaseTimeline.dragging {
+        cursor: move;
+        opacity: 0.9;
+        box-shadow: 0 12px 48px rgba(0,0,0,.5);
+      }
+      
+      /* پنل اطلاعات پرونده در سمت راست */
+      #caseInfoPanel {
+        position: fixed;
+        right: 16px;
+        top: 80px;
+        width: 280px;
+        background: linear-gradient(135deg, rgba(15,20,27,.98) 0%, rgba(11,15,20,.95) 100%);
+        border: 1px solid rgba(59,130,246,.2);
+        border-radius: 12px;
+        padding: 16px 12px;
+        box-shadow: 0 8px 32px rgba(0,0,0,.3);
+        backdrop-filter: blur(10px);
+        z-index: 40;
+        max-height: calc(100vh - 100px);
+        overflow-y: auto;
+        display: block;
+        transition: width 0.3s ease;
+      }
+      
+      #caseInfoPanel.collapsed {
+        width: 200px;
+      }
+      
+      #caseInfoPanel.dragging {
+        cursor: move;
+        opacity: 0.9;
+        box-shadow: 0 12px 48px rgba(0,0,0,.5);
+      }
+      
+      #caseInfoPanel::-webkit-scrollbar {
+        width: 4px;
+      }
+      
+      #caseInfoPanel::-webkit-scrollbar-track {
+        background: rgba(15,20,27,.5);
+        border-radius: 2px;
+      }
+      
+      #caseInfoPanel::-webkit-scrollbar-thumb {
+        background: #3b82f6;
+        border-radius: 2px;
+      }
+
     }
     
     .case-info-header {
@@ -376,7 +444,6 @@
     #verticalCaseTimeline.collapsed .v-timeline-body {
       display: none;
     }
-    
     /* اضافه کردن padding به main برای جلوگیری از تداخل */
     @media (min-width: 1400px) {
       body.timeline-active main {
@@ -396,7 +463,7 @@
     }
     
     /* پنل اطلاعات در صفحات کوچک */
-    @media (max-width: 1199px) {
+    @media (min-width: 1100px) and (max-width: 1199px) {
       #caseInfoPanel {
         width: 240px;
         right: 8px;
@@ -406,12 +473,6 @@
       
       body.case-info-active main {
         padding-right: 0 !important;
-      }
-    }
-    
-    @media (max-width: 1280px) {
-      #verticalCaseTimeline {
-        display: none !important;
       }
     }
     
@@ -905,27 +966,21 @@
       const timeline = document.getElementById('verticalCaseTimeline');
       const timelineBtn = document.getElementById('timelineCollapseBtn');
       if(timeline){
-        timeline.style.display = 'block';
-        timeline.classList.remove('collapsed');
-        document.body.classList.add('timeline-active');
-        if(timelineBtn){
-          timelineBtn.textContent = '◀';
-          timelineBtn.title = 'جمع کردن';
-        }
-        try{ localStorage.setItem('timeline_collapsed', 'false'); }catch(e){}
+        // Timeline disabled
+        timeline.style.display = 'none';
+        document.body.classList.remove('timeline-active');
+        if(timelineBtn){ timelineBtn.setAttribute('disabled','true'); }
+        try{ localStorage.setItem('timeline_collapsed', 'true'); }catch(e){}
       }
 
       const casePanel = document.getElementById('caseInfoPanel');
       const caseCollapseBtn = document.getElementById('caseInfoCollapseBtn');
       if(casePanel){
-        casePanel.style.display = 'block';
-        casePanel.classList.remove('collapsed');
-        document.body.classList.add('case-info-active');
-        if(caseCollapseBtn){
-          caseCollapseBtn.textContent = '▶';
-          caseCollapseBtn.title = 'جمع کردن';
-        }
-        try{ localStorage.setItem('caseinfo_collapsed', 'false'); }catch(e){}
+        // Case info disabled
+        casePanel.style.display = 'none';
+        document.body.classList.remove('case-info-active');
+        if(caseCollapseBtn){ caseCollapseBtn.setAttribute('disabled','true'); }
+        try{ localStorage.setItem('caseinfo_collapsed', 'true'); }catch(e){}
       }
     }
 
@@ -1047,15 +1102,9 @@
     
     // Timeline Management
     function updateTimelineVisibility(chatTitle){
-      // مدیریت نمایش timeline عمودی و پنل اطلاعات
-      if(chatTitle && chatTitle.startsWith('📁')){
-        // نمایش و به‌روزرسانی timeline عمودی و پنل اطلاعات برای پرونده‌ها
-        refreshTimelineFromLocalStorage(currentChatId);
-      } else {
-        // مخفی کردن timeline عمودی و پنل اطلاعات برای چت‌های عادی
-        hideVerticalTimeline();
-        hideCaseInfoPanel();
-      }
+      // Timeline and case info disabled
+      hideVerticalTimeline();
+      hideCaseInfoPanel();
     }
     
     let authWizardOpen = false;
@@ -1796,7 +1845,7 @@
       try{
         const j = await fetchJson('/chats');
         chatList.innerHTML='';
-        caseList.innerHTML='';
+        if(caseList){ caseList.innerHTML=''; }
         
         // Separate cases and chats
         const cases = [];
@@ -1810,49 +1859,43 @@
         });
         
         // Update counts
-        caseCount.textContent = `(${cases.length})`;
-        chatCount.textContent = `(${chats.length})`;
+        if(caseCount){ caseCount.textContent = `(${cases.length})`; }
+        if(chatCount){ chatCount.textContent = `(${chats.length})`; }
         
-        // Render Cases
-        if(cases.length === 0){
-          const empty = document.createElement('div');
-          empty.className = 'empty-state';
-          empty.textContent = 'هنوز پرونده‌ای ندارید';
-          caseList.appendChild(empty);
-        } else {
-          const casesByDate = {};
-          cases.forEach(item=>{
-            const d = new Date((item.mtime||0)*1000);
-            const key = d.toLocaleDateString('fa-IR', {year:'numeric', month:'2-digit', day:'2-digit'});
-            if(!casesByDate[key]) casesByDate[key] = [];
-            casesByDate[key].push(item);
-          });
-          
-          Object.entries(casesByDate).sort((a,b)=>b[0].localeCompare(a[0])).forEach(([date,items])=>{
-            items.forEach(item=>{
-              const row = document.createElement('div'); row.style.display='flex'; row.style.gap='6px';
-              const b = document.createElement('button'); b.className='btn'; b.style.flex='1'; b.textContent=item.title||item.id;
-              b.addEventListener('click', async()=>{ 
-                setCurrentChatId(item.id, true); 
-                msgs.innerHTML = '';
-                await loadChatById(item.id);
-                closeSide(); // Close sidebar after selecting chat
-              });
-              const editBtn = document.createElement('button'); editBtn.className='btn'; editBtn.textContent='✏️'; editBtn.title='ویرایش عنوان';
-              editBtn.style.padding='8px';
-              editBtn.addEventListener('click', async(ev)=>{
-                ev.stopPropagation();
-                openCaseEditor(item.id, item.title.replace('📁 ', '')||'');
-              });
-              const delBtn = document.createElement('button'); delBtn.className='btn'; delBtn.textContent='🗑️'; delBtn.title='حذف پرونده'; delBtn.style.padding='8px';
-              delBtn.addEventListener('click', async(ev)=>{
-                ev.stopPropagation();
-                openDeleteConfirm(item.id, item.title||'');
-              });
-              row.appendChild(b); row.appendChild(editBtn); row.appendChild(delBtn);
-              caseList.appendChild(row);
+        // Render Cases (disabled if elements are absent)
+        if(caseList && caseCount){
+          if(cases.length === 0){
+            const empty = document.createElement('div');
+            empty.className = 'empty-state';
+            empty.textContent = 'هنوز پرونده‌ای ندارید';
+            caseList.appendChild(empty);
+          } else {
+            const casesByDate = {};
+            cases.forEach(item=>{
+              const d = new Date((item.mtime||0)*1000);
+              const key = d.toLocaleDateString('fa-IR', {year:'numeric', month:'2-digit', day:'2-digit'});
+              if(!casesByDate[key]) casesByDate[key] = [];
+              casesByDate[key].push(item);
             });
-          });
+            Object.entries(casesByDate).sort((a,b)=>b[0].localeCompare(a[0])).forEach(([date,items])=>{
+              items.forEach(item=>{
+                const row = document.createElement('div'); row.style.display='flex'; row.style.gap='6px';
+                const b = document.createElement('button'); b.className='btn'; b.style.flex='1'; b.textContent=item.title||item.id;
+                b.addEventListener('click', async()=>{ 
+                  setCurrentChatId(item.id, true); 
+                  msgs.innerHTML = '';
+                  await loadChatById(item.id);
+                  closeSide();
+                });
+                const editBtn = document.createElement('button'); editBtn.className='btn'; editBtn.textContent='✏️'; editBtn.title='ویرایش عنوان'; editBtn.style.padding='8px';
+                editBtn.addEventListener('click', async(ev)=>{ ev.stopPropagation(); openCaseEditor(item.id, item.title.replace('📁 ', '')||''); });
+                const delBtn = document.createElement('button'); delBtn.className='btn'; delBtn.textContent='🗑️'; delBtn.title='حذف پرونده'; delBtn.style.padding='8px';
+                delBtn.addEventListener('click', async(ev)=>{ ev.stopPropagation(); openDeleteConfirm(item.id, item.title||''); });
+                row.appendChild(b); row.appendChild(editBtn); row.appendChild(delBtn);
+                caseList.appendChild(row);
+              });
+            });
+          }
         }
         
         // Render Regular Chats
@@ -1944,15 +1987,11 @@
               }catch(err){ console.warn('Unable to close sidebar after chat creation:', err); }
             });
             
-            // Auto-add a greeting message
-            const greeting = 'سلام! چطور می‌تونم کمکتون کنم؟';
-            addMsg('assistant', greeting);
-            try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: c.id||'', role:'assistant', text: greeting }) }); }catch(e){}
-            
             // Hide timeline for regular chats
             updateTimelineVisibility(newTitle);
             
-            setTimeout(()=>{ q.focus(); }, 100);
+            // نمایش صفحه شروع چت جدید تا قبل از اولین پیام
+            setTimeout(()=>{ try{ showNewChatIntro(); }catch(e){} }, 80);
           } else {
             await fetchJson('/chats/rename', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id:chatId, title:newTitle }) });
             refreshChats();
@@ -2702,50 +2741,8 @@
     }
     
     function updateVerticalTimeline(caseInfo){
-      /**
-       * به‌روزرسانی تایم‌لاین عمودی بر اساس اطلاعات پرونده
-       */
-      const timeline = document.getElementById('verticalCaseTimeline');
-      if(!timeline) return;
-      
-      // تشخیص مرحله فعلی
-      const currentStage = detectCaseStage(caseInfo);
-      
-      // لیست مراحل به ترتیب
-      const stagesOrder = [
-        'pre_complaint',
-        'complaint_filed',
-        'case_review',
-        'court_session',
-        'verdict',
-        'appeal',
-        'execution',
-        'closed'
-      ];
-      
-      const currentIndex = stagesOrder.indexOf(currentStage);
-      
-      // به‌روزرسانی وضعیت هر مرحله
-      const steps = timeline.querySelectorAll('.v-step');
-      steps.forEach((step, index) => {
-        const stepStage = step.getAttribute('data-stage');
-        const stepIndex = stagesOrder.indexOf(stepStage);
-        
-        // حذف کلاس‌های قبلی
-        step.classList.remove('completed', 'active');
-        
-        if(stepIndex < currentIndex){
-          // مراحل گذشته
-          step.classList.add('completed');
-        } else if(stepIndex === currentIndex){
-          // مرحله فعلی
-          step.classList.add('active');
-        }
-      });
-      
-      // نمایش timeline و اضافه کردن padding به محتوا
-      timeline.style.display = 'block';
-      document.body.classList.add('timeline-active');
+      // Timeline disabled
+      return;
     }
     
     function hideVerticalTimeline(){
@@ -2763,138 +2760,8 @@
     // ===== Timeline Collapse & Draggable =====
     
     (function initTimelineControls(){
-      const timeline = document.getElementById('verticalCaseTimeline');
-      const collapseBtn = document.getElementById('timelineCollapseBtn');
-      const dragHandle = document.getElementById('timelineDragHandle');
-      
-      if(!timeline || !collapseBtn || !dragHandle) return;
-      
-      // بارگذاری وضعیت collapsed از localStorage
-      const isCollapsed = localStorage.getItem('timeline_collapsed') === 'true';
-      if(isCollapsed){
-        timeline.classList.add('collapsed');
-        collapseBtn.textContent = '▶';
-      }
-      
-      // بارگذاری موقعیت از localStorage
-      const savedPosition = localStorage.getItem('timeline_position');
-      if(savedPosition){
-        const pos = JSON.parse(savedPosition);
-        timeline.style.left = pos.left;
-        timeline.style.top = pos.top;
-      }
-      
-      // Toggle collapse
-      collapseBtn.addEventListener('click', (e)=>{
-        e.stopPropagation();
-        timeline.classList.toggle('collapsed');
-        const collapsed = timeline.classList.contains('collapsed');
-        collapseBtn.textContent = collapsed ? '▶' : '◀';
-        collapseBtn.title = collapsed ? 'باز کردن' : 'جمع کردن';
-        localStorage.setItem('timeline_collapsed', collapsed);
-      });
-      
-      // Drag functionality
-      let isDragging = false;
-      let startX, startY, startLeft, startTop;
-      
-      dragHandle.addEventListener('mousedown', (e)=>{
-        // فقط اگر روی header کلیک شد، نه روی دکمه
-        if(e.target.closest('.v-timeline-btn')) return;
-        
-        isDragging = true;
-        timeline.classList.add('dragging');
-        
-        startX = e.clientX;
-        startY = e.clientY;
-        
-        const rect = timeline.getBoundingClientRect();
-        startLeft = rect.left;
-        startTop = rect.top;
-        
-        e.preventDefault();
-      });
-      
-      document.addEventListener('mousemove', (e)=>{
-        if(!isDragging) return;
-        
-        const deltaX = e.clientX - startX;
-        const deltaY = e.clientY - startY;
-        
-        let newLeft = startLeft + deltaX;
-        let newTop = startTop + deltaY;
-        
-        // محدود کردن به مرزهای صفحه
-        const maxLeft = window.innerWidth - timeline.offsetWidth - 16;
-        const maxTop = window.innerHeight - timeline.offsetHeight - 16;
-        
-        newLeft = Math.max(16, Math.min(newLeft, maxLeft));
-        newTop = Math.max(16, Math.min(newTop, maxTop));
-        
-        timeline.style.left = newLeft + 'px';
-        timeline.style.top = newTop + 'px';
-      });
-      
-      document.addEventListener('mouseup', ()=>{
-        if(!isDragging) return;
-        
-        isDragging = false;
-        timeline.classList.remove('dragging');
-        
-        // ذخیره موقعیت در localStorage
-        localStorage.setItem('timeline_position', JSON.stringify({
-          left: timeline.style.left,
-          top: timeline.style.top
-        }));
-      });
-      
-      // Touch support for mobile
-      dragHandle.addEventListener('touchstart', (e)=>{
-        if(e.target.closest('.v-timeline-btn')) return;
-        
-        isDragging = true;
-        timeline.classList.add('dragging');
-        
-        const touch = e.touches[0];
-        startX = touch.clientX;
-        startY = touch.clientY;
-        
-        const rect = timeline.getBoundingClientRect();
-        startLeft = rect.left;
-        startTop = rect.top;
-      });
-      
-      document.addEventListener('touchmove', (e)=>{
-        if(!isDragging) return;
-        
-        const touch = e.touches[0];
-        const deltaX = touch.clientX - startX;
-        const deltaY = touch.clientY - startY;
-        
-        let newLeft = startLeft + deltaX;
-        let newTop = startTop + deltaY;
-        
-        const maxLeft = window.innerWidth - timeline.offsetWidth - 16;
-        const maxTop = window.innerHeight - timeline.offsetHeight - 16;
-        
-        newLeft = Math.max(16, Math.min(newLeft, maxLeft));
-        newTop = Math.max(16, Math.min(newTop, maxTop));
-        
-        timeline.style.left = newLeft + 'px';
-        timeline.style.top = newTop + 'px';
-      });
-      
-      document.addEventListener('touchend', ()=>{
-        if(!isDragging) return;
-        
-        isDragging = false;
-        timeline.classList.remove('dragging');
-        
-        localStorage.setItem('timeline_position', JSON.stringify({
-          left: timeline.style.left,
-          top: timeline.style.top
-        }));
-      });
+      // Timeline disabled
+      return;
     })();
     
     // ===== Case Info Panel Draggable =====
@@ -3039,12 +2906,13 @@
     // ===== پنل اطلاعات پرونده در سمت راست =====
     
     function updateCaseInfoPanel(caseInfo){
+      // Case info disabled
+      return;
       /**
        * به‌روزرسانی پنل اطلاعات پرونده
        */
       const panel = document.getElementById('caseInfoPanel');
       if(!panel){
-        console.error("Case info panel element not found!");
         return;
       }
 
@@ -3473,7 +3341,17 @@
       });
     }
     btnNewChat?.addEventListener('click', async()=>{
-      openChatEditor('', 'گفت‌وگو جدید', true);
+      try{
+        const title = 'گفت‌وگو';
+        const c = await fetchJson('/chats', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ title }) });
+        setCurrentChatId(c.id||'', false);
+        msgs.innerHTML = '';
+        await refreshChats();
+        await loadChatById(c.id||'');
+        try{ closeSide(); }catch(e){ try{ window.closeSidebarDrawer?.(); }catch(_){} }
+        updateTimelineVisibility(title);
+        setTimeout(()=>{ try{ showNewChatIntro(); }catch(e){} }, 80);
+      }catch(e){}
     });
     
     // دکمه پرونده‌ای جدید
@@ -3740,6 +3618,66 @@
         openAuthWizard('signup');
       }
     });
+
+  // ===== Intro overlay for brand-new chat =====
+  function showNewChatIntro(){
+    if(document.getElementById('introOverlay')) return;
+    const ov = document.createElement('div');
+    ov.id = 'introOverlay';
+    ov.style.cssText = 'position:fixed; inset:0; background:radial-gradient(circle at 50% 0%, rgba(15,20,27,.6), rgba(11,15,20,.92)); display:flex; align-items:center; justify-content:center; z-index:10000; backdrop-filter:blur(6px)';
+    const box = document.createElement('div');
+    box.style.cssText = 'width:min(720px,90vw); padding:28px 20px; border:1px solid #1f2937; border-radius:16px; background:#0f141b; box-shadow:0 20px 48px rgba(0,0,0,.35); display:flex; flex-direction:column; gap:16px; text-align:center';
+    box.innerHTML = `
+      <div style="display:flex; flex-direction:column; align-items:center; gap:8px; color:#e2e8f0">
+        <div style="font-size:40px; line-height:1">⚖️</div>
+        <div style="font-size:22px; font-weight:800">چطور می‌تونم کمکتون کنم؟</div>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center; background:#0b1220; border:1px solid #1f2937; border-radius:14px; padding:10px 12px; position:relative;">
+        <textarea id="introQ" placeholder="پیام خود را بنویسید... (Enter)" style="flex:1; background:transparent; border:0; outline:0; resize:none; color:#e2e8f0; min-height:28px; max-height:140px"></textarea>
+        <button id="introSend" class="send" title="ارسال" style="width:44px; height:44px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center">➤</button>
+      </div>
+      <div style="display:flex; justify-content:center;">
+        <button id="introDeepThinkPill" aria-pressed="false"
+          style="margin-top:6px; background: rgba(17,24,39,.45); color:#e5e7eb; border:1px solid rgba(148,163,184,.35); border-radius:999px; padding:6px 12px; font-size:12px; font-weight:600; cursor:pointer; transition: all .2s ease;">
+          فکر عمیق
+        </button>
+      </div>
+    `;
+    ov.appendChild(box);
+    document.body.appendChild(ov);
+    const introQ = box.querySelector('#introQ');
+    const introSend = box.querySelector('#introSend');
+    const dtPill = box.querySelector('#introDeepThinkPill');
+    if(introQ){ introQ.focus(); }
+    function hide(){ try{ document.body.removeChild(ov); }catch(e){} }
+    async function sendIntro(){
+      const t = (introQ?.value||'').trim();
+      if(!t) return;
+      try{
+        q.value = t;
+        hide();
+        await ask();
+      }catch(e){ hide(); }
+    }
+    introSend?.addEventListener('click', sendIntro);
+    introQ?.addEventListener('keydown', (ev)=>{ if(ev.key==='Enter' && !ev.shiftKey){ ev.preventDefault(); sendIntro(); }});
+    dtPill?.addEventListener('click', ()=>{
+      const on = !(dtPill.getAttribute('aria-pressed') === 'true');
+      dtPill.setAttribute('aria-pressed', on ? 'true' : 'false');
+      if(on){
+        dtPill.style.borderColor = 'rgba(59,130,246,.9)';
+        dtPill.style.color = '#93c5fd';
+        dtPill.style.boxShadow = 'inset 0 0 0 1px rgba(59,130,246,.6)';
+      } else {
+        dtPill.style.borderColor = 'rgba(148,163,184,.35)';
+        dtPill.style.color = '#e5e7eb';
+        dtPill.style.boxShadow = 'none';
+      }
+      try{ selectedThinkingTime = on ? 60 : 0; window.dispatchEvent(new CustomEvent('thinkingTimeChanged', { detail: { thinkingTime: selectedThinkingTime } })); }catch(e){}
+    });
+    ov.addEventListener('click', (ev)=>{ if(ev.target===ov) hide(); });
+    document.addEventListener('keydown', function escIntro(e){ if(e.key==='Escape'){ hide(); document.removeEventListener('keydown', escIntro); } });
+  }
 
     // notes: API helpers
     async function saveCurrentNote(){

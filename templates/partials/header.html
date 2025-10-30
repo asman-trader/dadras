@@ -3,23 +3,27 @@
     <style>
       header {
         background: transparent;
-        border-bottom: 1px solid rgba(34,197,94,.15);
+        border-bottom: 0;
         box-shadow: none;
       }
       
       header .header-container {
-        max-width: 1400px;
+        width: 100%;
+        max-width: 960px;
         margin: 0 auto;
         padding: 0 16px;
       }
       
       /* Top Row */
       header .top-row {
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
         align-items: center;
-        justify-content: space-between;
+        gap: 8px;
         padding: 16px 0;
       }
+      
+      header .brand-wrap { display: contents; }
       
       header .brand {
         display: flex;
@@ -27,28 +31,30 @@
         gap: 12px;
         padding: 6px 12px;
         border-radius: 12px;
-        background: linear-gradient(135deg, rgba(34,197,94,.1) 0%, rgba(16,185,129,.05) 100%);
-        border: 1px solid rgba(34,197,94,.2);
+        background: transparent;
+        border: 0;
         transition: all 0.3s;
+        justify-content: center;
+        grid-column: 2;
       }
       
       header .brand:hover {
-        background: linear-gradient(135deg, rgba(34,197,94,.15) 0%, rgba(16,185,129,.08) 100%);
-        border-color: rgba(34,197,94,.3);
-        box-shadow: 0 4px 12px rgba(34,197,94,.2);
+        background: transparent;
+        border-color: transparent;
+        box-shadow: none;
       }
       
       header .brand .logo {
         width: 28px;
         height: 28px;
         border-radius: 8px;
-        background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-        box-shadow: 0 0 20px rgba(34,197,94,.4), inset 0 1px 2px rgba(255,255,255,.3);
+        background: transparent;
+        box-shadow: none;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 16px;
-        animation: glow 3s ease-in-out infinite;
+        animation: none;
       }
       
       @keyframes glow {
@@ -67,11 +73,14 @@
         letter-spacing: 0.5px;
       }
       
-      header .top-actions {
+      header .header-right,
+      header .header-left {
         display: flex;
         align-items: center;
         gap: 12px;
       }
+      header .header-right { grid-column: 1; justify-self: start; }
+      header .header-left { grid-column: 3; justify-self: end; }
       
       header .action-btn {
         width: 40px;
@@ -109,157 +118,36 @@
         box-shadow: 0 2px 8px rgba(34,197,94,.4);
       }
       
-      /* Role Selector Dropdown */
-      header .role-selector {
-        position: relative;
-        margin-right: 12px;
-      }
-      
-      header .role-trigger {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 12px;
-        background: rgba(34,197,94,.08);
-        border: 1px solid rgba(34,197,94,.25);
-        border-radius: 10px;
-        cursor: pointer;
-        transition: all 0.3s;
-        font-size: 13px;
-        font-weight: 600;
-        color: #22c55e;
-      }
-      
-      header .role-trigger:hover {
-        background: rgba(34,197,94,.15);
-        border-color: rgba(34,197,94,.4);
-        box-shadow: 0 2px 8px rgba(34,197,94,.2);
-      }
-      
-      header .role-trigger .icon {
-        font-size: 16px;
-      }
-      
-      header .role-trigger .arrow {
-        font-size: 10px;
-        transition: transform 0.3s;
-      }
-      
-      header .role-selector.open .role-trigger .arrow {
-        transform: rotate(180deg);
-      }
-      
-      header .role-dropdown {
-        position: absolute;
-        top: calc(100% + 8px);
-        left: 0;
-        background: rgba(15,20,27,.98);
-        border: 1px solid rgba(34,197,94,.3);
-        border-radius: 12px;
-        box-shadow: 0 8px 24px rgba(0,0,0,.4), 0 0 40px rgba(34,197,94,.15);
-        padding: 6px;
-        min-width: 180px;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-10px);
-        transition: all 0.3s;
-        z-index: 1000;
-      }
-      
-      header .role-selector.open .role-dropdown {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-      }
-      
-      header .role-option {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 12px;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.2s;
-        color: #94a3b8;
-        font-size: 13px;
-        font-weight: 600;
-      }
-      
-      header .role-option:hover {
-        background: rgba(34,197,94,.1);
-        color: #22c55e;
-      }
-      
-      header .role-option.active {
-        background: linear-gradient(135deg, rgba(34,197,94,.2) 0%, rgba(16,185,129,.15) 100%);
-        color: #22c55e;
-        border: 1px solid rgba(34,197,94,.3);
-      }
-      
-      header .role-option .icon {
-        font-size: 18px;
-      }
-      
-      header .role-option .check {
-        margin-right: auto;
-        font-size: 14px;
-        opacity: 0;
-      }
-      
-      header .role-option.active .check {
-        opacity: 1;
-      }
-      
-      header .role-option.disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        position: relative;
-      }
-      
-      header .role-option.disabled:hover {
-        background: transparent;
-        color: #94a3b8;
-      }
-      
-      header .role-option.disabled::after {
-        content: '🔒';
-        position: absolute;
-        left: 12px;
-        font-size: 12px;
-      }
-      
       /* Responsive */
-      @media (max-width: 768px) {
+
+      @media (min-width: 640px) {
+        header .top-row {
+          flex-direction: row;
+          gap: 16px;
+          align-items: center;
+        }
+        header .brand-wrap {
+          flex-direction: row;
+          align-items: center;
+          gap: 16px;
+          width: auto;
+        }
         header .brand {
-          padding: 4px 8px;
+          width: auto;
         }
-        
-        header .brand .logo {
-          width: 24px;
-          height: 24px;
-          font-size: 14px;
+        header .role-selector {
+          width: auto;
+          margin-right: 12px;
         }
-        
-        header .brand h2 {
-          font-size: 16px;
-        }
-        
         header .role-trigger {
-          padding: 4px 10px;
-          font-size: 12px;
+          width: auto;
+          justify-content: flex-start;
         }
-        
-        header .role-trigger .icon {
-          font-size: 14px;
-        }
-        
-        header .action-btn {
-          width: 36px;
-          height: 36px;
-          font-size: 16px;
+        header .top-actions {
+          width: auto;
         }
       }
-      
+
       @media (min-width: 960px) {
         body.sidebar-collapsed .side-drawer {
           transform: translateX(-100%);
@@ -269,51 +157,18 @@
     
     <!-- Header Row -->
     <div class="top-row">
-      <div style="display:flex; align-items:center; gap:0;">
-        <div class="brand">
-          <div class="logo">⚖️</div>
-          <h2>دادرس</h2>
-        </div>
-        
-        <!-- Role Selector Dropdown -->
-        <div class="role-selector" id="roleSelector">
-          <div class="role-trigger" id="roleTrigger">
-            <span class="icon" id="currentRoleIcon">👤</span>
-            <span id="currentRoleText">دستیار شهروند</span>
-            <span class="arrow">▼</span>
-          </div>
-          
-          <div class="role-dropdown">
-            <div class="role-option active" data-role="default">
-              <span class="icon">👤</span>
-              <span>دستیار شهروند</span>
-              <span class="check">✓</span>
-            </div>
-            <div class="role-option disabled" data-role="lawyer">
-              <span class="icon">⚖️</span>
-              <span>دستیار وکیل</span>
-              <span class="check">✓</span>
-            </div>
-            <div class="role-option disabled" data-role="judge">
-              <span class="icon">👨‍⚖️</span>
-              <span>دستیار قاضی</span>
-              <span class="check">✓</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="top-actions">
-        <button class="action-btn" id="analyticsBtn" aria-label="آمار مکالمه" title="نمایش آمار و تحلیل مکالمه">
-          📊
-          <span id="analyticsBadge" class="badge" style="display:none"></span>
-        </button>
-        
+      <div class="header-right">
         <button class="action-btn" id="notesBtn" aria-label="یادداشت‌ها" title="باز کردن یادداشت‌ها">
           📝
           <span id="notesBadge" class="badge" style="display:none">0</span>
         </button>
-        
+      </div>
+      <div class="brand-wrap">
+        <div class="brand">
+          <div class="logo" title="قوه قضائیه" aria-label="قوه قضائیه">⚖️</div>
+        </div>
+      </div>
+      <div class="header-left">
         <button class="action-btn" id="hamBtn" aria-label="منو" title="باز کردن منو">
           ☰
         </button>
@@ -321,108 +176,6 @@
     </div>
   </div>
   <script>
-    // Role Selector Dropdown
-    (function(){
-      const roleSelector = document.getElementById('roleSelector');
-      const roleTrigger = document.getElementById('roleTrigger');
-      const roleOptions = document.querySelectorAll('.role-option');
-      const currentRoleIcon = document.getElementById('currentRoleIcon');
-      const currentRoleText = document.getElementById('currentRoleText');
-      
-      // Toggle dropdown
-      roleTrigger?.addEventListener('click', (e)=>{
-        e.stopPropagation();
-        roleSelector.classList.toggle('open');
-      });
-      
-      // Close on outside click
-      document.addEventListener('click', (e)=>{
-        if(!roleSelector?.contains(e.target)){
-          roleSelector?.classList.remove('open');
-        }
-      });
-      
-      // Handle role selection
-      roleOptions.forEach(option=>{
-        option.addEventListener('click', ()=>{
-          // بررسی اگر گزینه disabled است
-          if(option.classList.contains('disabled')){
-            // نمایش اخطار
-            const text = option.querySelector('span:nth-child(2)').textContent;
-            
-            // ایجاد toast notification
-            const toast = document.createElement('div');
-            toast.style.cssText = `
-              position: fixed;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-              background: linear-gradient(135deg, rgba(251,146,60,.95) 0%, rgba(249,115,22,.95) 100%);
-              color: #fff;
-              padding: 20px 32px;
-              border-radius: 16px;
-              border: 2px solid rgba(251,146,60,.5);
-              box-shadow: 0 8px 32px rgba(0,0,0,.4), 0 0 60px rgba(251,146,60,.3);
-              z-index: 10000;
-              font-size: 16px;
-              font-weight: 600;
-              text-align: center;
-              animation: scaleIn 0.3s ease-out;
-              min-width: 300px;
-            `;
-            
-            toast.innerHTML = `
-              <div style="font-size: 32px; margin-bottom: 12px;">⚠️</div>
-              <div style="margin-bottom: 8px;">${text}</div>
-              <div style="font-size: 13px; opacity: 0.9; font-weight: 500;">در حال توسعه - به زودی...</div>
-            `;
-            
-            document.body.appendChild(toast);
-            
-            // اضافه کردن animation
-            const style = document.createElement('style');
-            style.textContent = `
-              @keyframes scaleIn {
-                from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-                to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-              }
-              @keyframes scaleOut {
-                from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-                to { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-              }
-            `;
-            document.head.appendChild(style);
-            
-            // حذف toast بعد از 3 ثانیه
-            setTimeout(()=>{
-              toast.style.animation = 'scaleOut 0.3s ease-out';
-              setTimeout(()=>toast.remove(), 300);
-            }, 3000);
-            
-            // بستن dropdown
-            roleSelector.classList.remove('open');
-            return;
-          }
-          
-          const role = option.dataset.role;
-          const icon = option.querySelector('.icon').textContent;
-          const text = option.querySelector('span:nth-child(2)').textContent;
-          
-          // Update UI
-          roleOptions.forEach(opt=>opt.classList.remove('active'));
-          option.classList.add('active');
-          currentRoleIcon.textContent = icon;
-          currentRoleText.textContent = text;
-          
-          // Close dropdown
-          roleSelector.classList.remove('open');
-          
-          // Trigger the role change event (will be caught by index.html)
-          window.dispatchEvent(new CustomEvent('roleChanged', { detail: { role } }));
-        });
-      });
-    })();
-    
     // GPT-style toggle sidebar: click avatar (ham) toggles drawer; Esc closes
     (function(){
       const ham = document.getElementById('hamBtn');

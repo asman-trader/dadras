@@ -5,93 +5,215 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>تنظیمات مدل - ادمین</title>
   <style>
-    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; background:#0b0f14; color:#e2e8f0 }
-    a { color:#93c5fd; text-decoration:none }
-    a:hover { text-decoration:underline }
-    .muted { color:#94a3b8 }
-    .btn { padding:8px 12px; border:1px solid #1f2937; background:#0b1220; color:#e2e8f0; border-radius:8px; cursor:pointer }
-    .btn:hover { border-color:#2a3b4f }
-    input, select { width:100%; padding:8px 10px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:8px }
-    .row { display:grid; gap:12px; grid-template-columns: 1fr 1fr }
-    .card { border:1px solid #1f2937; background:#0f141b; border-radius:12px; padding:16px; margin-bottom:12px }
+    body {
+      margin: 0;
+      background: #0b0f14;
+      color: #e2e8f0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+
+    a {
+      color: #93c5fd;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 16px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .muted {
+      color: #94a3b8;
+      font-size: 13px;
+    }
+
+    .card {
+      border: 1px solid #1f2937;
+      background: #0f141b;
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card h1,
+    .card h2,
+    h1 {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 20px;
+    }
+
+    button {
+      padding: 10px 12px;
+      border: 1px solid #1f2937;
+      background: #0b1220;
+      color: #e2e8f0;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      border-color: #2a3b4f;
+      transform: translateY(-1px);
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      background: #0b1220;
+      color: #e2e8f0;
+      border: 1px solid #1f2937;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .action-row-inline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .engine-options label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .model-box {
+      border: 1px dashed #1f2937;
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 8px;
+      background: rgba(15, 20, 27, 0.5);
+    }
+
+    .model-grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    pre {
+      margin: 0;
+      max-height: 240px;
+      overflow: auto;
+      padding: 12px;
+      background: #0b1220;
+      border: 1px solid #1f2937;
+      border-radius: 12px;
+      direction: ltr;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    .status-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    @media (min-width: 520px) {
+      .model-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
   </style>
 </head>
 <body>
-  <p><a href="/admin">بازگشت</a></p>
-  <h1 style="font-size:18px">تنظیمات مدل</h1>
+  <div class="page">
+    <p><a href="/admin">بازگشت</a></p>
+    <h1>تنظیمات مدل</h1>
 
-  <div class="card">
-    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-      <label class="muted">انتخاب موتور:</label>
-      <label><input type="radio" name="engine" value="none" id="eng_none"> بدون مدل</label>
-      <label><input type="radio" name="engine" value="deepseek" id="eng_ds"> DeepSeek</label>
-      <label><input type="radio" name="engine" value="ollama" id="eng_ol"> Ollama</label>
-      <button class="btn" id="btnLoadCfg">دریافت</button>
-      <button class="btn" id="btnCheckLLM">بررسی اتصال</button>
-      <span id="cfgStatus" class="muted"></span>
-    </div>
+    <div class="card">
+      <div class="action-row-inline engine-options">
+        <label class="muted" style="margin-inline-end:6px;">انتخاب موتور:</label>
+        <label><input type="radio" name="engine" value="none" id="eng_none"> بدون مدل</label>
+        <label><input type="radio" name="engine" value="deepseek" id="eng_ds"> DeepSeek</label>
+        <label><input type="radio" name="engine" value="ollama" id="eng_ol"> Ollama</label>
+        <button id="btnLoadCfg">دریافت</button>
+        <button id="btnCheckLLM">بررسی اتصال</button>
+        <span id="cfgStatus" class="muted"></span>
+      </div>
 
-    <div id="box_ds" style="display:none; border:1px dashed #1f2937; border-radius:8px; padding:12px; margin-top:10px;">
-      <h3 style="margin:0 0 8px; font-size:14px;">DeepSeek</h3>
-      <div class="row">
-        <div>
-          <label>Base URL</label>
-          <select id="DEEPSEEK_BASE_URL_SEL">
-            <option value="https://api.deepseek.com">https://api.deepseek.com</option>
-            <option value="https://api.deepseek.com/v1">https://api.deepseek.com/v1</option>
-          </select>
-        </div>
-        <div>
-          <label>Model</label>
-          <select id="DEEPSEEK_MODEL_SEL">
-            <option value="deepseek-chat">deepseek-chat</option>
-            <option value="deepseek-reasoner">deepseek-reasoner</option>
-          </select>
-        </div>
-        <div style="grid-column:1/-1;">
-          <label>API Key</label>
-          <input type="text" id="DEEPSEEK_API_KEY" placeholder="sk-...">
+      <div id="box_ds" class="model-box" style="display:none;">
+        <h3 style="margin:0 0 8px; font-size:14px;">DeepSeek</h3>
+        <div class="model-grid">
+          <div>
+            <label for="DEEPSEEK_BASE_URL_SEL">Base URL</label>
+            <select id="DEEPSEEK_BASE_URL_SEL">
+              <option value="https://api.deepseek.com">https://api.deepseek.com</option>
+              <option value="https://api.deepseek.com/v1">https://api.deepseek.com/v1</option>
+            </select>
+          </div>
+          <div>
+            <label for="DEEPSEEK_MODEL_SEL">Model</label>
+            <select id="DEEPSEEK_MODEL_SEL">
+              <option value="deepseek-chat">deepseek-chat</option>
+              <option value="deepseek-reasoner">deepseek-reasoner</option>
+            </select>
+          </div>
+          <div style="grid-column:1/-1;">
+            <label for="DEEPSEEK_API_KEY">API Key</label>
+            <input type="text" id="DEEPSEEK_API_KEY" placeholder="sk-...">
+          </div>
         </div>
       </div>
-    </div>
 
-    <div id="box_ol" style="display:none; border:1px dashed #1f2937; border-radius:8px; padding:12px; margin-top:10px;">
-      <h3 style="margin:0 0 8px; font-size:14px;">Ollama</h3>
-      <div class="row">
-        <div>
-          <label>Host</label>
-          <select id="OLLAMA_HOST_SEL">
-            <option value="http://127.0.0.1:11434">http://127.0.0.1:11434</option>
-            <option value="http://localhost:11434">http://localhost:11434</option>
-            <option value="http://127.0.0.1:3000">http://127.0.0.1:3000</option>
-            <option value="other">سایر...</option>
-          </select>
-          <input type="text" id="OLLAMA_HOST_OTHER" placeholder="http://127.0.0.1:11434" style="display:none; margin-top:6px;">
-        </div>
-        <div>
-          <label>Model</label>
-          <select id="OLLAMA_MODEL_SEL">
-            <option value="gemma3:4b">gemma3:4b</option>
-            <option value="llama3.2">llama3.2</option>
-            <option value="qwen2.5">qwen2.5</option>
-            <option value="other">سایر...</option>
-          </select>
-          <input type="text" id="OLLAMA_MODEL_OTHER" placeholder="model:tag" style="display:none; margin-top:6px;">
+      <div id="box_ol" class="model-box" style="display:none;">
+        <h3 style="margin:0 0 8px; font-size:14px;">Ollama</h3>
+        <div class="model-grid">
+          <div>
+            <label for="OLLAMA_HOST_SEL">Host</label>
+            <select id="OLLAMA_HOST_SEL">
+              <option value="http://127.0.0.1:11434">http://127.0.0.1:11434</option>
+              <option value="http://localhost:11434">http://localhost:11434</option>
+              <option value="http://127.0.0.1:3000">http://127.0.0.1:3000</option>
+              <option value="other">سایر...</option>
+            </select>
+            <input type="text" id="OLLAMA_HOST_OTHER" placeholder="http://127.0.0.1:11434" style="display:none; margin-top:6px;">
+          </div>
+          <div>
+            <label for="OLLAMA_MODEL_SEL">Model</label>
+            <select id="OLLAMA_MODEL_SEL">
+              <option value="gemma3:4b">gemma3:4b</option>
+              <option value="llama3.2">llama3.2</option>
+              <option value="qwen2.5">qwen2.5</option>
+              <option value="other">سایر...</option>
+            </select>
+            <input type="text" id="OLLAMA_MODEL_OTHER" placeholder="model:tag" style="display:none; margin-top:6px;">
+          </div>
         </div>
       </div>
-    </div>
 
-    <div style="display:flex; gap:8px; align-items:center; margin-top:10px;">
-      <button class="btn" id="btnSaveCfg">ذخیره</button>
-      <span id="saveStatus" class="muted"></span>
-    </div>
+      <div class="action-row-inline">
+        <button id="btnSaveCfg">ذخیره</button>
+        <span id="saveStatus" class="muted"></span>
+      </div>
 
-    <div style="margin-top:10px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-      <span class="muted">وضعیت اتصال:</span>
-      <span id="badge_ds" class="muted">DeepSeek: -</span>
-      <span id="badge_ol" class="muted">Ollama: -</span>
+      <div class="status-row">
+        <span class="muted">وضعیت اتصال:</span>
+        <span id="badge_ds" class="muted">DeepSeek: -</span>
+        <span id="badge_ol" class="muted">Ollama: -</span>
+      </div>
+      <pre id="llmOut"></pre>
     </div>
-    <pre id="llmOut" style="margin-top:10px; max-height:220px;"></pre>
   </div>
 
   <script>

@@ -5,50 +5,157 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>مدیریت داده - ادمین</title>
   <style>
-    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; background:#0b0f14; color:#e2e8f0 }
-    a { color:#93c5fd; text-decoration:none }
-    a:hover { text-decoration:underline }
-    .muted { color:#94a3b8 }
-    .btn { padding:8px 12px; border:1px solid #1f2937; background:#0b1220; color:#e2e8f0; border-radius:8px; cursor:pointer }
-    .btn:hover { border-color:#2a3b4f }
-    input { width:100%; padding:8px 10px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:8px }
-    .card { border:1px solid #1f2937; background:#0f141b; border-radius:12px; padding:16px; margin-bottom:12px }
+    body {
+      margin: 0;
+      background: #0b0f14;
+      color: #e2e8f0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+
+    a {
+      color: #93c5fd;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 16px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .muted {
+      color: #94a3b8;
+    }
+
+    .btn {
+      padding: 10px 12px;
+      border: 1px solid #1f2937;
+      background: #0b1220;
+      color: #e2e8f0;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+      border-color: #2a3b4f;
+      transform: translateY(-1px);
+    }
+
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      background: #0b1220;
+      color: #e2e8f0;
+      border: 1px solid #1f2937;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .card {
+      border: 1px solid #1f2937;
+      background: #0f141b;
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card h2 {
+      font-size: 16px;
+      margin: 0;
+    }
+
+    .action-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .action-row-inline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    pre {
+      margin: 0;
+      max-height: 280px;
+      overflow: auto;
+      padding: 12px;
+      background: #0b1220;
+      border: 1px solid #1f2937;
+      border-radius: 12px;
+      direction: ltr;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    label input[type="checkbox"] {
+      margin-left: 6px;
+      accent-color: #22c55e;
+    }
+
+    @media (min-width: 640px) {
+      .action-row {
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+      }
+    }
   </style>
 </head>
 <body>
-  <p><a href="/admin">بازگشت</a></p>
-  <h1 style="font-size:18px">مدیریت داده‌ها</h1>
+  <div class="page">
+    <p><a href="/admin">بازگشت</a></p>
+    <h1 style="font-size:18px; margin:0;">مدیریت داده‌ها</h1>
 
-  <div class="card">
-    <h2 style="font-size:16px; margin:0 0 8px;">بارگذاری داده از مسیر محلی</h2>
-    <label class="muted">پوشه (پیش‌فرض: data/):</label>
-    <input type="text" id="ingDir" placeholder="data">
-    <div style="display:flex; gap:8px; align-items:center; margin-top:10px;">
-      <button class="btn" id="btnIngest">ingest</button>
-      <span id="ingStatus" class="muted"></span>
+    <div class="card">
+      <h2>بارگذاری داده از مسیر محلی</h2>
+      <label class="muted" for="ingDir">پوشه (پیش‌فرض: data/):</label>
+      <input type="text" id="ingDir" placeholder="data">
+      <div class="action-row">
+        <button class="btn" id="btnIngest">ingest</button>
+        <span id="ingStatus" class="muted"></span>
+      </div>
+      <pre id="ingOut"></pre>
     </div>
-    <pre id="ingOut" style="margin-top:10px; max-height:220px;"></pre>
-  </div>
 
-  <div class="card">
-    <h2 style="font-size:16px; margin:0 0 8px;">استخراج متن از PDF و ذخیره کنار فایل</h2>
-    <label class="muted">پوشه (پیش‌فرض: data/texts):</label>
-    <input type="text" id="pdfDir" placeholder="data/texts">
-    <div style="display:flex; gap:8px; align-items:center; margin-top:10px;">
-      <button class="btn" id="btnExtract">Extract PDF → TXT</button>
-      <label class="muted"><input type="checkbox" id="pdfForce"> بازنویسی اجباری</label>
-      <span id="pdfStatus" class="muted"></span>
+    <div class="card">
+      <h2>استخراج متن از PDF و ذخیره کنار فایل</h2>
+      <label class="muted" for="pdfDir">پوشه (پیش‌فرض: data/texts):</label>
+      <input type="text" id="pdfDir" placeholder="data/texts">
+      <div class="action-row">
+        <div class="action-row-inline">
+          <button class="btn" id="btnExtract">Extract PDF → TXT</button>
+          <label class="muted" style="display:flex; align-items:center; gap:6px;">
+            <input type="checkbox" id="pdfForce"> بازنویسی اجباری
+          </label>
+        </div>
+        <span id="pdfStatus" class="muted"></span>
+      </div>
+      <pre id="pdfOut"></pre>
     </div>
-    <pre id="pdfOut" style="margin-top:10px; max-height:260px;"></pre>
-  </div>
 
-  <div class="card">
-    <h2 style="font-size:16px; margin:0 0 8px;">آمار</h2>
-    <div style="display:flex; gap:8px; align-items:center;">
-      <button class="btn" id="btnStats">دریافت آمار</button>
-      <span id="statStatus" class="muted"></span>
+    <div class="card">
+      <h2>آمار</h2>
+      <div class="action-row">
+        <button class="btn" id="btnStats">دریافت آمار</button>
+        <span id="statStatus" class="muted"></span>
+      </div>
+      <pre id="statOut"></pre>
     </div>
-    <pre id="statOut" style="margin-top:10px; max-height:260px;"></pre>
   </div>
 
   <script>

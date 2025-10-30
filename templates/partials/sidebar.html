@@ -391,13 +391,6 @@
   <div class="drawer-body">
     <div class="drawer-scroll">
       <section class="drawer-actions" aria-label="ایجاد مکالمه جدید">
-        <button class="action-btn highlight" id="btnNewCase">
-          <span class="action-icon">📁</span>
-          <span class="action-text">
-            <strong>پرونده‌ای جدید</strong>
-            <small>مکالمه ساختارمند با امکانات وکالتی</small>
-          </span>
-        </button>
         <button class="action-btn" id="btnNewChat">
           <span class="action-icon">＋</span>
           <span class="action-text">
@@ -407,21 +400,9 @@
         </button>
       </section>
 
-      <div class="drawer-hint">
-        <span>💡</span>
-        <span>پرونده‌های اخیر در بالا نمایش داده می‌شوند. برای مدیریت یا حذف، روی منوی بیشتر هر مورد بزنید.</span>
-      </div>
+      
 
-      <section class="drawer-section" data-section="cases" aria-labelledby="sidebar-cases-title">
-        <div class="section-header">
-          <div class="section-title" id="sidebar-cases-title">
-            <span class="section-icon">📁</span>
-            <span class="section-label">پرونده‌ها</span>
-          </div>
-          <span class="section-count" id="caseCount">(0)</span>
-        </div>
-        <div class="section-body" id="caseList" role="list"></div>
-      </section>
+      
 
       <section class="drawer-section" data-section="chats" aria-labelledby="sidebar-chats-title">
         <div class="section-header">
@@ -458,16 +439,7 @@
       <span class="profile-chevron">›</span>
     </a>
 
-    {% if user_plan == 'free' %}
-    <div class="plan-links">
-      <a href="/pricing" class="plan-link primary">ارتقا به پلاس</a>
-      <a href="/pricing" class="plan-link secondary">مشاهده طرح‌ها</a>
-    </div>
-    {% else %}
-    <div class="plan-links">
-      <a href="/pricing" class="plan-link secondary">مدیریت طرح‌ها</a>
-    </div>
-    {% endif %}
+    
 
     {% else %}
     <a class="profile-card" href="/auth/login">
@@ -479,10 +451,7 @@
       <span class="profile-chevron">›</span>
     </a>
 
-    <div class="plan-links">
-      <a href="/pricing" class="plan-link primary">دریافت پلاس</a>
-      <a href="/pricing" class="plan-link secondary">مشاهده همه طرح‌ها</a>
-    </div>
+    
     {% endif %}
   </footer>
 </nav>

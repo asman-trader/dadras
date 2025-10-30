@@ -5,106 +5,253 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>پنل ادمین دادرس</title>
   <style>
-    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; background:#0b0f14; color:#e2e8f0 }
-    h1 { font-size: 18px }
-    .row { display:flex; gap:16px; flex-wrap:wrap }
-    .card { flex:1 1 280px; border:1px solid #1f2937; background:#0f141b; border-radius:12px; padding:16px }
-    label { color:#94a3b8; font-size:12px }
-    input[type=text] { width:100%; padding:8px 10px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:8px }
-    button { padding:8px 12px; border:1px solid #1f2937; background:#0b1220; color:#e2e8f0; border-radius:8px; cursor:pointer }
-    button:hover { border-color:#2a3b4f }
-    pre { background:#0a0f16; border:1px solid #1f2937; padding:12px; overflow:auto; border-radius:10px }
-    .muted { color:#94a3b8 }
+    body {
+      margin: 0;
+      background: #0b0f14;
+      color: #e2e8f0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin: 0;
+    }
+
+    .lead {
+      color: #94a3b8;
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .card {
+      border: 1px solid #1f2937;
+      background: #0f141b;
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card h2 {
+      font-size: 16px;
+      margin: 0;
+    }
+
+    label {
+      color: #94a3b8;
+      font-size: 13px;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      background: #0b1220;
+      color: #e2e8f0;
+      border: 1px solid #1f2937;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    button {
+      padding: 10px 12px;
+      border: 1px solid #1f2937;
+      background: #0b1220;
+      color: #e2e8f0;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      border-color: #2a3b4f;
+      transform: translateY(-1px);
+    }
+
+    .muted {
+      color: #94a3b8;
+      font-size: 13px;
+    }
+
+    .action-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .action-row-inline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .engine-options label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .model-box {
+      border: 1px dashed #1f2937;
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 8px;
+      background: rgba(15, 20, 27, 0.5);
+    }
+
+    .model-grid {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    pre {
+      background: #0a0f16;
+      border: 1px solid #1f2937;
+      padding: 12px;
+      overflow: auto;
+      border-radius: 12px;
+      margin: 0;
+      direction: ltr;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    .status-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    @media (min-width: 520px) {
+      .model-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 720px) {
+      .grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+
+      .action-row {
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>پنل ادمین دادرس</h1>
-  <p class="muted">برای دسترسی کامل، در صورت تنظیم شدن توکن ادمین در سرور، باید هدر X-Admin-Token ارسال شود.</p>
+  <div class="page">
+    <h1>پنل ادمین دادرس</h1>
+    <p class="lead">برای دسترسی کامل، در صورت تنظیم شدن توکن ادمین در سرور، باید هدر X-Admin-Token ارسال شود.</p>
 
-  <div class="row" style="margin-top:16px;">
-    <div class="card">
-      <h2 style="font-size:16px; margin:0 0 8px;">آمار</h2>
-      <div style="display:flex; gap:8px; align-items:center;">
-        <button id="btnStats">دریافت آمار</button>
-        <span id="statStatus" class="muted"></span>
+    <div class="grid">
+      <div class="card">
+        <h2>آمار</h2>
+        <div class="action-row">
+          <button id="btnStats">دریافت آمار</button>
+          <span id="statStatus" class="muted"></span>
+        </div>
+        <pre id="statOut"></pre>
       </div>
-      <pre id="statOut" style="margin-top:10px; max-height:280px;"></pre>
-    </div>
 
-    <div class="card">
-      <h2 style="font-size:16px; margin:0 0 8px;">بارگذاری داده</h2>
-      <label>پوشه (اختیاری، پیش‌فرض data/):</label>
-      <input type="text" id="ingestDir" placeholder="data">
-      <div style="display:flex; gap:8px; align-items:center; margin-top:10px;">
-        <button id="btnIngest">ingest</button>
-        <span id="ingStatus" class="muted"></span>
+      <div class="card">
+        <h2>بارگذاری داده</h2>
+        <label for="ingestDir">پوشه (اختیاری، پیش‌فرض data/):</label>
+        <input type="text" id="ingestDir" placeholder="data">
+        <div class="action-row">
+          <button id="btnIngest">ingest</button>
+          <span id="ingStatus" class="muted"></span>
+        </div>
+        <pre id="ingOut"></pre>
       </div>
-      <pre id="ingOut" style="margin-top:10px; max-height:200px;"></pre>
-    </div>
 
-    <div class="card">
-      <h2 style="font-size:16px; margin:0 0 8px;">تنظیم توکن ادمین (راهنما)</h2>
-      <p class="muted">روی سرور، متغیر محیطی ADMIN_TOKEN را تنظیم کنید. سپس درخواست‌های ادمین را با هدر زیر بفرستید:</p>
-      <pre>X-Admin-Token: &lt;token&gt;</pre>
-    </div>
-
-    <div class="card">
-      <h2 style="font-size:16px; margin:0 0 8px;">تنظیمات مدل هوش</h2>
-      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-        <label class="muted">انتخاب موتور:</label>
-        <label><input type="radio" name="engine" value="none" id="eng_none"> بدون مدل</label>
-        <label><input type="radio" name="engine" value="deepseek" id="eng_ds"> DeepSeek</label>
-        <label><input type="radio" name="engine" value="ollama" id="eng_ol"> Ollama</label>
-        <button id="btnLoadCfg">دریافت</button>
-        <button id="btnCheckLLM">بررسی اتصال</button>
-        <span id="cfgStatus" class="muted"></span>
+      <div class="card">
+        <h2>تنظیم توکن ادمین (راهنما)</h2>
+        <p class="muted">روی سرور، متغیر محیطی ADMIN_TOKEN را تنظیم کنید. سپس درخواست‌های ادمین را با هدر زیر بفرستید:</p>
+        <pre>X-Admin-Token: &lt;token&gt;</pre>
       </div>
-      <div id="box_ds" style="display:none; border:1px dashed #1f2937; border-radius:8px; padding:12px; margin-top:10px;">
-        <h3 style="margin:0 0 8px; font-size:14px;">DeepSeek</h3>
-        <div style="display:grid; gap:8px; grid-template-columns: 1fr 1fr;">
-          <div>
-            <label>مدل</label>
-            <select id="DEEPSEEK_MODEL_SEL" class="btn" style="width:100%">
-              <option value="deepseek-chat">deepseek-chat (non-thinking)</option>
-              <option value="deepseek-reasoner">deepseek-reasoner (thinking)</option>
-            </select>
-          </div>
-          <div>
-            <label>Base URL</label>
-            <select id="DEEPSEEK_BASE_URL_SEL" class="btn" style="width:100%">
-              <option value="https://api.deepseek.com">https://api.deepseek.com</option>
-              <option value="https://api.deepseek.com/v1">https://api.deepseek.com/v1</option>
-            </select>
-          </div>
-          <div style="grid-column:1/-1;">
-            <label>API Key</label>
-            <input type="text" id="DEEPSEEK_API_KEY" placeholder="sk-...">
+
+      <div class="card">
+        <h2>تنظیمات مدل هوش</h2>
+        <div class="action-row-inline engine-options">
+          <label class="muted" style="margin-inline-end:6px;">انتخاب موتور:</label>
+          <label><input type="radio" name="engine" value="none" id="eng_none"> بدون مدل</label>
+          <label><input type="radio" name="engine" value="deepseek" id="eng_ds"> DeepSeek</label>
+          <label><input type="radio" name="engine" value="ollama" id="eng_ol"> Ollama</label>
+          <button id="btnLoadCfg">دریافت</button>
+          <button id="btnCheckLLM">بررسی اتصال</button>
+          <span id="cfgStatus" class="muted"></span>
+        </div>
+        <div id="box_ds" class="model-box" style="display:none;">
+          <h3 style="margin:0 0 8px; font-size:14px;">DeepSeek</h3>
+          <div class="model-grid">
+            <div>
+              <label for="DEEPSEEK_MODEL_SEL">مدل</label>
+              <select id="DEEPSEEK_MODEL_SEL">
+                <option value="deepseek-chat">deepseek-chat (non-thinking)</option>
+                <option value="deepseek-reasoner">deepseek-reasoner (thinking)</option>
+              </select>
+            </div>
+            <div>
+              <label for="DEEPSEEK_BASE_URL_SEL">Base URL</label>
+              <select id="DEEPSEEK_BASE_URL_SEL">
+                <option value="https://api.deepseek.com">https://api.deepseek.com</option>
+                <option value="https://api.deepseek.com/v1">https://api.deepseek.com/v1</option>
+              </select>
+            </div>
+            <div style="grid-column:1/-1;">
+              <label for="DEEPSEEK_API_KEY">API Key</label>
+              <input type="text" id="DEEPSEEK_API_KEY" placeholder="sk-...">
+            </div>
           </div>
         </div>
-      </div>
-      <div id="box_ol" style="display:none; border:1px dashed #1f2937; border-radius:8px; padding:12px; margin-top:10px;">
-        <h3 style="margin:0 0 8px; font-size:14px;">Ollama</h3>
-        <div style="display:grid; gap:8px; grid-template-columns: 1fr 1fr;">
-          <div>
-            <label>Host</label>
-            <input type="text" id="OLLAMA_HOST" placeholder="http://127.0.0.1:11434">
-          </div>
-          <div>
-            <label>Model</label>
-            <input type="text" id="OLLAMA_MODEL" placeholder="gemma3:4b">
+        <div id="box_ol" class="model-box" style="display:none;">
+          <h3 style="margin:0 0 8px; font-size:14px;">Ollama</h3>
+          <div class="model-grid">
+            <div>
+              <label for="OLLAMA_HOST">Host</label>
+              <input type="text" id="OLLAMA_HOST" placeholder="http://127.0.0.1:11434">
+            </div>
+            <div>
+              <label for="OLLAMA_MODEL">Model</label>
+              <input type="text" id="OLLAMA_MODEL" placeholder="gemma3:4b">
+            </div>
           </div>
         </div>
+        <div class="action-row">
+          <button id="btnSaveCfg">ذخیره</button>
+          <span id="saveStatus" class="muted"></span>
+        </div>
+        <div class="status-row">
+          <span class="muted">وضعیت اتصال:</span>
+          <span id="badge_ds" class="muted">DeepSeek: -</span>
+          <span id="badge_ol" class="muted">Ollama: -</span>
+        </div>
+        <pre id="llmOut"></pre>
       </div>
-      <div style="display:flex; gap:8px; align-items:center; margin-top:10px;">
-        <button id="btnSaveCfg">ذخیره</button>
-        <span id="saveStatus" class="muted"></span>
-      </div>
-      <div style="margin-top:10px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-        <span class="muted">وضعیت اتصال:</span>
-        <span id="badge_ds" class="muted">DeepSeek: -</span>
-        <span id="badge_ol" class="muted">Ollama: -</span>
-      </div>
-      <pre id="llmOut" style="margin-top:10px; max-height:220px;"></pre>
     </div>
   </div>
 

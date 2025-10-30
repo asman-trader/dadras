@@ -5,13 +5,118 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>تنظیمات پرداخت</title>
   <style>
-    body { margin:0; background:#0b0f14; color:#e2e8f0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
-    .wrap { max-width:900px; margin: 20px auto; padding: 16px }
-    .card { background:#0f141b; border:1px solid #1f2937; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px }
-    .row { display:grid; grid-template-columns: 160px 1fr; gap:10px; align-items:center }
-    input,select { background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:8px; padding:8px }
-    button { padding:10px 14px; background:#22c55e; color:#03120a; border:0; border-radius:10px; cursor:pointer }
-    .muted { color:#94a3b8; font-size:12px }
+    body {
+      margin: 0;
+      background: #0b0f14;
+      color: #e2e8f0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 24px 16px 32px;
+    }
+
+    .card {
+      background: #0f141b;
+      border: 1px solid #1f2937;
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card-header {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .card-header a {
+      color: #e2e8f0;
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .card-header a:hover {
+      text-decoration: underline;
+    }
+
+    .row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .row label {
+      font-weight: 500;
+    }
+
+    input,
+    select {
+      width: 100%;
+      background: #0b1220;
+      color: #e2e8f0;
+      border: 1px solid #1f2937;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+
+    input[type="checkbox"] {
+      width: auto;
+      accent-color: #22c55e;
+    }
+
+    button {
+      padding: 12px 16px;
+      background: #22c55e;
+      color: #03120a;
+      border: 0;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(34,197,94,0.25);
+    }
+
+    .muted {
+      color: #94a3b8;
+      font-size: 12px;
+    }
+
+    hr {
+      border: 0;
+      border-top: 1px solid #1f2937;
+      margin: 8px 0;
+    }
+
+    @media (min-width: 640px) {
+      .card-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: 180px 1fr;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .row input[type="checkbox"] {
+        justify-self: start;
+      }
+    }
   </style>
   <script>
     async function load(){
@@ -55,22 +160,22 @@
 <body>
   <div class="wrap">
     <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center">
-        <div>تنظیمات پرداخت</div>
-        <a href="/admin" style="color:#e2e8f0">بازگشت</a>
+      <div class="card-header">
+        <div style="font-weight:600; font-size:16px;">تنظیمات پرداخت</div>
+        <a href="/admin">بازگشت</a>
       </div>
 
-      <div class="row"><label>طول اشتراک (روز)</label><input id="subscription_days" type="number" min="1" max="3650"></div>
-      <div class="row"><label>قیمت پلاس (تومان)</label><input id="price_plus" type="number" min="0"></div>
-      <div class="row"><label>قیمت حرفه‌ای (تومان)</label><input id="price_pro" type="number" min="0"></div>
-      <div class="row"><label>قیمت سازمانی (تومان)</label><input id="price_team" type="number" min="0"></div>
-      <hr style="border:0; border-top:1px solid #1f2937">
-      <div class="row"><label>حافظه Free (MB)</label><input id="quota_free" type="number" min="1"></div>
-      <div class="row"><label>حافظه Plus (MB)</label><input id="quota_plus" type="number" min="1"></div>
-      <div class="row"><label>حافظه Pro (MB)</label><input id="quota_pro" type="number" min="1"></div>
-      <div class="row"><label>حافظه Team (MB)</label><input id="quota_team" type="number" min="1"></div>
-      <div class="row"><label>Sandbox</label><input id="sandbox" type="checkbox"></div>
-      <div class="row"><label>Mock</label><input id="mock" type="checkbox"></div>
+      <div class="row"><label for="subscription_days">طول اشتراک (روز)</label><input id="subscription_days" type="number" min="1" max="3650"></div>
+      <div class="row"><label for="price_plus">قیمت پلاس (تومان)</label><input id="price_plus" type="number" min="0"></div>
+      <div class="row"><label for="price_pro">قیمت حرفه‌ای (تومان)</label><input id="price_pro" type="number" min="0"></div>
+      <div class="row"><label for="price_team">قیمت سازمانی (تومان)</label><input id="price_team" type="number" min="0"></div>
+      <hr>
+      <div class="row"><label for="quota_free">حافظه Free (MB)</label><input id="quota_free" type="number" min="1"></div>
+      <div class="row"><label for="quota_plus">حافظه Plus (MB)</label><input id="quota_plus" type="number" min="1"></div>
+      <div class="row"><label for="quota_pro">حافظه Pro (MB)</label><input id="quota_pro" type="number" min="1"></div>
+      <div class="row"><label for="quota_team">حافظه Team (MB)</label><input id="quota_team" type="number" min="1"></div>
+      <div class="row"><label for="sandbox">Sandbox</label><input id="sandbox" type="checkbox"></div>
+      <div class="row"><label for="mock">Mock</label><input id="mock" type="checkbox"></div>
       <div>
         <button onclick="save()">ذخیره تنظیمات</button>
       </div>

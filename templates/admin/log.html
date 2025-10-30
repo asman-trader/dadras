@@ -5,15 +5,90 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>لاگ سرور</title>
   <style>
-    body { margin:0; font-family: ui-sans-serif, system-ui; background:#0b0f14; color:#e2e8f0 }
-    header { padding:10px 14px; border-bottom:1px solid #1f2937; position:sticky; top:0; background:#0f141b }
-    main { padding: 10px 14px }
-    .muted { color:#94a3b8 }
-    .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap }
-    .btn { padding:6px 10px; border:1px solid #1f2937; border-radius:8px; background:#0b1220; color:#e2e8f0; cursor:pointer }
-    .btn:hover { border-color:#2a3b4f }
-    #out { white-space:pre-wrap; background:#0a0f16; border:1px solid #1f2937; border-radius:10px; padding:10px; min-height:60vh; overflow:auto }
-    input[type="number"]{ width:100px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:8px; padding:6px }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui;
+      background: #0b0f14;
+      color: #e2e8f0;
+    }
+
+    header {
+      padding: 12px 16px;
+      border-bottom: 1px solid #1f2937;
+      position: sticky;
+      top: 0;
+      background: #0f141b;
+      z-index: 10;
+    }
+
+    header .header-content {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    main {
+      padding: 16px;
+    }
+
+    main .main-content {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .muted {
+      color: #94a3b8;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 8px 12px;
+      border: 1px solid #1f2937;
+      border-radius: 10px;
+      background: #0b1220;
+      color: #e2e8f0;
+      cursor: pointer;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+      border-color: #2a3b4f;
+      transform: translateY(-1px);
+    }
+
+    #out {
+      white-space: pre-wrap;
+      background: #0a0f16;
+      border: 1px solid #1f2937;
+      border-radius: 12px;
+      padding: 12px;
+      min-height: 60vh;
+      overflow: auto;
+    }
+
+    input[type="number"] {
+      width: 110px;
+      background: #0b1220;
+      color: #e2e8f0;
+      border: 1px solid #1f2937;
+      border-radius: 10px;
+      padding: 8px 10px;
+    }
   </style>
   <script>
     async function fetchLogs(){
@@ -34,22 +109,26 @@
 </head>
 <body>
   <header>
-    <div class="row">
-      <strong>لاگ سرور</strong>
-      <span id="meta" class="muted"></span>
-    </div>
-    <div class="row" style="margin-top:8px;">
-      <label class="muted">آخرین n خط:</label>
-      <input id="lines" type="number" value="200" min="10" max="2000">
-      <button class="btn" onclick="fetchLogs()">به‌روزرسانی</button>
-      <button class="btn" onclick="startAuto()">خودکار</button>
-      <button class="btn" onclick="stopAuto()">توقف</button>
-      <button class="btn" onclick="setToken()">تنظیم توکن ادمین</button>
-      <a class="btn" href="/admin/logs/text" target="_blank">نمایش متنی</a>
+    <div class="header-content">
+      <div class="row">
+        <strong>لاگ سرور</strong>
+        <span id="meta" class="muted"></span>
+      </div>
+      <div class="controls">
+        <label class="muted" for="lines">آخرین n خط:</label>
+        <input id="lines" type="number" value="200" min="10" max="2000">
+        <button class="btn" onclick="fetchLogs()">به‌روزرسانی</button>
+        <button class="btn" onclick="startAuto()">خودکار</button>
+        <button class="btn" onclick="stopAuto()">توقف</button>
+        <button class="btn" onclick="setToken()">تنظیم توکن ادمین</button>
+        <a class="btn" href="/admin/logs/text" target="_blank">نمایش متنی</a>
+      </div>
     </div>
   </header>
   <main>
-    <div id="out"></div>
+    <div class="main-content">
+      <div id="out"></div>
+    </div>
   </main>
 </body>
 </html>
