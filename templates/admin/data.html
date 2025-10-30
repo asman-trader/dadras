@@ -32,8 +32,8 @@
 
   <div class="card">
     <h2 style="font-size:16px; margin:0 0 8px;">استخراج متن از PDF و ذخیره کنار فایل</h2>
-    <label class="muted">پوشه (پیش‌فرض: data/laws):</label>
-    <input type="text" id="pdfDir" placeholder="data/laws">
+    <label class="muted">پوشه (پیش‌فرض: data/texts):</label>
+    <input type="text" id="pdfDir" placeholder="data/texts">
     <div style="display:flex; gap:8px; align-items:center; margin-top:10px;">
       <button class="btn" id="btnExtract">Extract PDF → TXT</button>
       <label class="muted"><input type="checkbox" id="pdfForce"> بازنویسی اجباری</label>
@@ -55,7 +55,7 @@
     const $=s=>document.querySelector(s);
     async function fetchWithAdmin(url, options){ options=options||{}; options.headers=options.headers||{}; const r=await fetch(url, options); return r }
     $('#btnIngest').addEventListener('click', async ()=>{ const d=$('#ingDir').value.trim(); const st=$('#ingStatus'); const out=$('#ingOut'); st.textContent='در حال بارگذاری...'; out.textContent=''; try{ const r=await fetchWithAdmin('/ingest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({dir:d||undefined})}); const j=await r.json(); out.textContent=JSON.stringify(j,null,2); st.textContent='' }catch(e){ st.textContent='خطا' } });
-    $('#btnExtract').addEventListener('click', async ()=>{ const d=$('#pdfDir').value.trim()||'data/laws'; const force=$('#pdfForce').checked; const st=$('#pdfStatus'); const out=$('#pdfOut'); st.textContent='در حال استخراج...'; out.textContent=''; try{ const r=await fetchWithAdmin('/admin/extract-pdf-text',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({dir:d, force:force})}); const j=await r.json(); out.textContent=JSON.stringify(j,null,2); st.textContent='' }catch(e){ st.textContent='خطا' } });
+    $('#btnExtract').addEventListener('click', async ()=>{ const d=$('#pdfDir').value.trim()||'data/texts'; const force=$('#pdfForce').checked; const st=$('#pdfStatus'); const out=$('#pdfOut'); st.textContent='در حال استخراج...'; out.textContent=''; try{ const r=await fetchWithAdmin('/admin/extract-pdf-text',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({dir:d, force:force})}); const j=await r.json(); out.textContent=JSON.stringify(j,null,2); st.textContent='' }catch(e){ st.textContent='خطا' } });
     $('#btnStats').addEventListener('click', async ()=>{ const st=$('#statStatus'); const out=$('#statOut'); st.textContent='در حال دریافت...'; out.textContent=''; try{ const r=await fetchWithAdmin('/admin/stats'); const j=await r.json(); out.textContent=JSON.stringify(j,null,2); st.textContent='' }catch(e){ st.textContent='خطا' } });
   </script>
 </body>

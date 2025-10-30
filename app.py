@@ -57,11 +57,11 @@ INVERTED: Dict[str, Set[int]] = {}
 SESSION_CTX: Dict[str, List[Dict[str, str]]] = {}
 RATE_STATE: Dict[str, List[float]] = {}
 CONFIG_PATH = os.path.join(DATA_DIR, 'config.json')
-TEXTS_DIR = os.path.join(DATA_DIR, 'laws')
+TEXTS_DIR = os.path.join(DATA_DIR, 'texts')
 
 
 def _ensure_data_dirs() -> None:
-    for sub in ('laws', 'cases', 'templates', 'output', 'logs', 'texts'):
+    for sub in ('cases', 'templates', 'output', 'logs', 'texts'):
         os.makedirs(os.path.join(DATA_DIR, sub), exist_ok=True)
 # Logging setup
 CURRENT_LOG_FILE = ''
@@ -274,6 +274,39 @@ def _normalize_text(s: str) -> str:
     # remove zero-width chars and punctuation-like
     s = re.sub(r"[\u200c\u200f\u200e\ufeff]", "", s)
     return s
+
+
+def _normalize_for_match(s: str) -> str:
+    s = _normalize_text(s)
+    s = s.replace('ي', 'ی').replace('ك', 'ک')
+    s = s.replace('می ', 'می')
+    s = s.replace('مي', 'می')
+    return s
+
+
+def _is_complaint_action_request(question: str) -> bool:
+    q = _normalize_for_match(question or '')
+    if not q:
+        return False
+    direct_patterns = [
+        r'می ?خوام شکایت کنم',
+        r'می‌خوام شکایت کنم',
+        r'چطور شکایت کنم',
+        r'چگونه شکایت کنم',
+        r'چجور شکایت کنم',
+        r'میخواهم شکایت کنم',
+        r'طرح شکایت',
+        r'دادخواست .*چطور',
+        r'دادخواست .*چیکار',
+    ]
+    for pat in direct_patterns:
+        if re.search(pat, q):
+            return True
+    if 'شکایت' in q or 'دادخواست' in q:
+        action_tokens = ['چیکار', 'چی کار', 'چه کار', 'چطور', 'چگونه', 'چجوری', 'چی کنم', 'چه کنم', 'باید', 'الان']
+        if any(tok.replace(' ', '') in q.replace(' ', '') for tok in action_tokens):
+            return True
+    return False
 
 
 def _tokenize(text: str) -> List[str]:
@@ -532,7 +565,7 @@ def _get_openai_client():
     return client
 
 
-def _deepseek_chat(question: str, context: str, thinking_time: int = 0, role: str = 'default') -> Tuple[bool, str]:
+def _deepseek_chat(question: str, context: str, thinking_time: int = 0, role: str = 'default', case_info: dict = None) -> Tuple[bool, str]:
     """Call DeepSeek via OpenAI SDK with retries; returns (ok, text_or_error).
     
     Args:
@@ -540,6 +573,7 @@ def _deepseek_chat(question: str, context: str, thinking_time: int = 0, role: st
         context: RAG context from documents
         thinking_time: Time in seconds for deep thinking (0, 15, 30, 60)
         role: The role to adopt (default, lawyer, judge)
+        case_info: Case information for lawyer role (optional)
     """
     key = (os.getenv('DEEPSEEK_API_KEY', '').strip() or DEFAULT_DEEPSEEK_API_KEY)
     if not key:
@@ -549,20 +583,25 @@ def _deepseek_chat(question: str, context: str, thinking_time: int = 0, role: st
     # Base system prompts for different roles
     role_prompts = {
         'default': 'شما یک دستیار حقوقی فارسی هستید.',
-        'lawyer': '''شما یک وکیل پایه یک دادگستری با سال‌ها تجربه هستید.
+        'lawyer': '''شما «دادرس هوشمند» هستید؛ وکیل پایه یک دادگستری و همراه وفادار موکل.
 
 🎓 شخصیت شما:
-- وکیل مدافع و حامی موکل
-- استراتژی‌های دفاعی قوی
-- تمرکز بر منافع موکل
-- زبان حرفه‌ای و متقاعدکننده
+- حافظ منافع موکل و همراه مرحله‌به‌مرحله او
+- دقیق، دلسوز و قاطع در مسیر دادرسی
+- تمرکز کامل روی پرونده فعلی و جزئیات آن
+- زبان حرفه‌ای، صمیمی و قابل فهم برای موکل
 
 ⚖️ سبک پاسخ:
-- تحلیل از دیدگاه دفاعی
-- شناسایی نقاط قوت پرونده
-- راهکارهای عملی برای برد
-- هشدار درباره خطرات و ریسک‌ها
-- پیشنهاد اقدامات فوری''',
+- تحلیل از دیدگاه دفاعی یا حمایتی متناسب با نقش موکل
+- شناسایی نقاط قوت و هشدار نسبت به ریسک‌ها
+- ارائه نقشه راه مرحله‌به‌مرحله برای رسیدن به نتیجه مطلوب
+- هر پاسخ باید حداقل شامل سه بخش باشد: «ارزیابی کوتاه وضعیت»، «اقدامات یا توصیه‌های عملی»، «یادآوری گام بعدی»
+- در پایان، از موکل بخواه که اقدام مشخصی انجام دهد یا تایید کند
+
+🚫 محدودیت‌ها:
+- فقط درباره همین پرونده، اطلاعات آن و روند دادرسی صحبت کن
+- اگر سوال کاربر ارتباطی با این پرونده ندارد یا خارج از مسیر رسیدگی است، پاسخ نده و کوتاه بگو: «این پرسش خارج از محدودهٔ این پرونده است؛ لطفاً برای موضوعات دیگر یک چت جدید باز کنید.»
+- از ارائه مشاوره کلی یا خارج از حوزه پرونده فعلی خودداری کن''',
         'judge': '''شما یک قاضی باتجربه دادگاه عمومی هستید.
 
 ⚖️ شخصیت شما:
@@ -603,7 +642,38 @@ def _deepseek_chat(question: str, context: str, thinking_time: int = 0, role: st
     else:
         system = base_system + ' پاسخ کوتاه، دقیق و مستند بده.'
     
-    user = f"[زمینه]\n{context}\n\n[سؤال]\n{question}"
+    # اضافه کردن اطلاعات پرونده به prompt برای وکیل
+    case_context = ''
+    if case_info and role == 'lawyer':
+        case_context = '\n\n[اطلاعات پرونده فعلی]\n'
+        if case_info.get('client_name'):
+            case_context += f"موکل: {case_info['client_name']}\n"
+        if case_info.get('case_type'):
+            case_context += f"نوع پرونده: {case_info['case_type']}\n"
+        if case_info.get('opponent_name'):
+            case_context += f"طرف مقابل: {case_info['opponent_name']}\n"
+        if case_info.get('case_stage'):
+            case_context += f"مرحله: {case_info['case_stage']}\n"
+        if case_info.get('case_number'):
+            case_context += f"شماره پرونده: {case_info['case_number']}\n"
+        if case_info.get('case_goal'):
+            case_context += f"هدف: {case_info['case_goal']}\n"
+        if case_info.get('incident_description'):
+            case_context += f"شرح ماجرا: {case_info['incident_description'][:300]}\n"
+        history = case_info.get('conversation_history') or []
+        if history:
+            case_context += '\n[خلاصه مکالمه اخیر]\n'
+            recent = history[-12:]
+            for idx, item in enumerate(recent, start=max(1, len(history) - len(recent) + 1)):
+                text = (item.get('text') or '').strip()
+                if not text:
+                    continue
+                speaker = 'موکل' if item.get('role') == 'user' else 'دادرس'
+                case_context += f"{speaker} {idx}: {text[:320]}\n"
+            case_context += '---\nلطفاً ادامه همین گفتگو را با توجه به پیام‌های بالا پیش ببر.\n'
+        case_context += '\n⚠️ فقط درباره همین پرونده پاسخ بده و اگر سوال خارج از این محدوده بود مودبانه موکل را به ایجاد چت جدید راهنمایی کن.'
+    
+    user = f"[زمینه]\n{context}\n\n[سؤال]\n{question}{case_context}"
     try:
         client = _get_openai_client()
     except Exception as exc:
@@ -824,7 +894,7 @@ def admin_extract_pdf_text():
     if guard is not None:
         return guard
     data = request.get_json(silent=True) or {}
-    dir_path = data.get('dir') or os.path.join(DATA_DIR, 'laws')
+    dir_path = data.get('dir') or os.path.join(DATA_DIR, 'texts')
     recursive = bool(data.get('recursive', True))
     force = bool(data.get('force', False))
     if not os.path.isdir(dir_path):
@@ -886,6 +956,11 @@ def chat_shortlink(chat_id: str):
         return resp
     return index()
 
+
+@app.get('/case/<case_id>')
+def case_shortlink(case_id: str):
+    return chat_shortlink(case_id)
+
 # Notes routes moved to routes/notes.py blueprint
 
 @app.post('/ingest')
@@ -933,10 +1008,430 @@ def _retrieve(question: str, top_k: int = 5) -> List[Dict[str, object]]:
     return out
 
 
+@app.post('/case/analyze')
+def case_analyze():
+    """
+    تحلیل کامل وضعیت پرونده و ارائه راهنمایی
+    """
+    try:
+        from routes.case_manager import CaseManager
+        
+        data = request.get_json(silent=True) or {}
+        case_info = data.get('case_info', {})
+        
+        manager = CaseManager()
+        analysis = manager.analyze_case_status(case_info)
+        next_actions = manager.suggest_next_actions(case_info, analysis)
+        checklist = manager.generate_checklist(analysis['current_stage_key'], case_info)
+        
+        return jsonify({
+            'ok': True,
+            'analysis': analysis,
+            'next_actions': next_actions,
+            'checklist': checklist
+        })
+    except Exception as e:
+        app.logger.error(f"Error in case analyze: {e}")
+        return jsonify({'ok': False, 'error': str(e)}), 500
+
+
+@app.post('/case/generate-document')
+def case_generate_document():
+    """
+    تولید اسناد حقوقی (دادخواست، لایحه، دفاعیه)
+    """
+    try:
+        from routes.case_manager import CaseManager
+        
+        data = request.get_json(silent=True) or {}
+        doc_type = data.get('doc_type', 'lawsuit')
+        case_info = data.get('case_info', {})
+        additional_info = data.get('additional_info', {})
+        
+        manager = CaseManager()
+        document_result = manager.generate_document(doc_type, case_info, additional_info)
+
+        if isinstance(document_result, dict):
+            document_text = document_result.get('text', '')
+            instructions = document_result.get('instructions', '')
+            stage_key = document_result.get('stage_key')
+            stage_label = document_result.get('stage_label')
+            doc_label = document_result.get('doc_label')
+            case_title = document_result.get('case_title')
+            needs_info = bool(document_result.get('needs_info'))
+            missing_fields = document_result.get('missing_fields') or []
+        else:
+            document_text = str(document_result)
+            instructions = ''
+            stage_key = None
+            stage_label = None
+            doc_label = None
+            case_title = None
+            needs_info = False
+            missing_fields = []
+        
+        return jsonify({
+            'ok': True,
+            'document': document_text,
+            'doc_type': doc_type,
+            'instructions': instructions,
+            'stage_key': stage_key,
+            'stage_label': stage_label,
+            'doc_label': doc_label,
+            'case_title': case_title,
+            'needs_info': needs_info,
+            'missing_fields': missing_fields
+        })
+    except Exception as e:
+        app.logger.error(f"Error in generate document: {e}")
+        return jsonify({'ok': False, 'error': str(e)}), 500
+
+
+@app.post('/api/extract-case-info')
+def extract_case_info():
+    """
+    استخراج خودکار اطلاعات پرونده از پیام‌های AI
+    """
+    try:
+        data = request.get_json(silent=True) or {}
+        message = data.get('message', '')
+        current_info = data.get('current_info', {})
+        
+        if not message:
+            return jsonify({'ok': False, 'error': 'پیام خالی است'}), 400
+        
+        # استفاده از AI برای استخراج اطلاعات
+        prompt = f"""از متن زیر، اطلاعات پرونده حقوقی را استخراج کن و در فرمت JSON برگردان.
+فقط اطلاعات جدیدی که در متن ذکر شده را برگردان (نه همه فیلدها).
+
+متن: {message}
+
+اطلاعات فعلی پرونده:
+{_json.dumps(current_info, ensure_ascii=False, indent=2)}
+
+فرمت JSON خروجی (فقط فیلدهای جدید):
+{{
+  "client_name": "نام موکل",
+  "opponent_name": "نام طرف مقابل",
+  "case_stage": "مرحله پرونده",
+  "case_number": "شماره پرونده",
+  "case_goal": "هدف پرونده",
+  "available_documents": "مدارک موجود",
+  "complaint_side": "plaintiff یا defendant یا unknown"
+}}
+
+اگر اطلاعات جدیدی در متن نیست، یک JSON خالی برگردان: {{}}
+فقط JSON برگردان، بدون توضیح اضافی."""
+        
+        import os
+        import requests
+        
+        api_key = os.getenv('DEEPSEEK_API_KEY', '').strip()
+        if not api_key:
+            return jsonify({'ok': False, 'error': 'API key not configured'}), 500
+        
+        model = os.getenv('DEEPSEEK_MODEL', '').strip() or 'deepseek-chat'
+        base_url = os.getenv('DEEPSEEK_BASE_URL', 'https://api.deepseek.com').strip()
+        
+        if not base_url.endswith('/v1'):
+            base_url = base_url.rstrip('/') + '/v1'
+        
+        response = requests.post(
+            f"{base_url}/chat/completions",
+            headers={
+                'Authorization': f'Bearer {api_key}',
+                'Content-Type': 'application/json'
+            },
+            json={
+                'model': model,
+                'messages': [{'role': 'user', 'content': prompt}],
+                'temperature': 0.3,
+                'max_tokens': 500
+            },
+            timeout=15
+        )
+        
+        if response.status_code == 200:
+            ai_data = response.json()
+            ai_response = ai_data.get('choices', [{}])[0].get('message', {}).get('content', '').strip()
+            
+            # پارس JSON
+            try:
+                # حذف markdown code blocks اگر وجود داشت
+                if '```json' in ai_response:
+                    ai_response = ai_response.split('```json')[1].split('```')[0].strip()
+                elif '```' in ai_response:
+                    ai_response = ai_response.split('```')[1].split('```')[0].strip()
+                
+                extracted_info = _json.loads(ai_response)
+                
+                # ادغام با اطلاعات فعلی
+                updated_info = {**current_info, **extracted_info}
+                
+                return jsonify({
+                    'ok': True,
+                    'extracted_info': updated_info
+                })
+            except _json.JSONDecodeError as e:
+                app.logger.error(f"JSON parse error: {e}, Response: {ai_response}")
+                return jsonify({'ok': False, 'error': 'خطا در پارس اطلاعات'}), 500
+        else:
+            return jsonify({'ok': False, 'error': 'خطا در ارتباط با AI'}), 500
+            
+    except Exception as e:
+        app.logger.error(f"Error extracting case info: {e}")
+        return jsonify({
+            'ok': False,
+            'error': str(e)
+        }), 500
+
+
+@app.post('/case/conversation/next')
+def case_conversation_next():
+    """
+    دریافت سوال بعدی در گفتگوی جمع‌آوری اطلاعات پرونده
+    """
+    try:
+        from routes.case_conversation import CaseConversationManager
+        from routes.case_manager import CaseManager
+        
+        data = request.get_json(silent=True) or {}
+        case_id = data.get('case_id', '')
+        case_title = data.get('case_title', '')
+        case_type = data.get('case_type', 'other')
+        case_info = data.get('case_info', {})
+        conversation_history = data.get('conversation_history', [])
+        user_answer = data.get('user_answer', '')
+        current_question_id = data.get('current_question_id')
+        lawyer_name = data.get('lawyer_name')
+        
+        manager = CaseConversationManager()
+        
+        # اگر پاسخ کاربر وجود دارد، استخراج اطلاعات
+        if user_answer and current_question_id:
+            # پیدا کردن فیلدهای مورد نظر
+            current_q = None
+            for q in manager.questions_flow:
+                if q['id'] == current_question_id:
+                    current_q = q
+                    break
+            
+            if current_q:
+                case_info = manager.extract_info_from_answer(
+                    user_answer,
+                    current_q['extract'],
+                    case_info
+                )
+        
+        # دریافت سوال بعدی (حالت چت)
+        question_text, question_id, is_complete, chat_ack = manager.get_next_question(
+            case_info,
+            conversation_history,
+            case_title,
+            lawyer_name
+        )
+        
+        if is_complete:
+            # تشخیص خودکار نوع پرونده با AI
+            detected_type = manager.detect_case_type_with_ai(case_info)
+            case_info['case_type'] = detected_type
+            
+            # تکمیل گفتگو و ارسال خلاصه
+            summary = manager.finalize_case_info(case_info, detected_type)
+            
+            # تولید خلاصه با AI (اگر ممکن باشد)
+            ai_summary = manager.generate_ai_summary(summary)
+            
+            # اگر AI خلاصه تولید نکرد، از خلاصه معمولی استفاده کن
+            if ai_summary:
+                summary_text = ai_summary
+            else:
+                summary_text = manager.generate_summary_text(summary)
+            
+            # تولید راهنمای مرحله‌به‌مرحله و سوالات تکمیلی
+            step_guidance = None
+            try:
+                case_manager = CaseManager()
+                step_guidance = case_manager.generate_step_by_step_guidance(case_info)
+            except Exception as guidance_error:
+                app.logger.error(f"Error generating step guidance: {guidance_error}")
+                step_guidance = None
+
+            smart_questions = manager.get_smart_questions(case_info)
+            
+            return jsonify({
+                'ok': True,
+                'complete': True,
+                'summary': summary,
+                'summary_text': summary_text,
+                'case_info': case_info,
+                'detected_type': detected_type,
+                'smart_questions': smart_questions,
+                'step_guidance': step_guidance,
+                'next_step': 'comprehensive_analysis'  # راهنمایی برای مرحله بعد
+            })
+        else:
+            return jsonify({
+                'ok': True,
+                'complete': False,
+                'question': question_text,
+                'question_id': question_id,
+                'case_info': case_info
+            })
+            
+    except Exception as e:
+        app.logger.error(f"Error in case conversation: {e}")
+        return jsonify({
+            'ok': False,
+            'error': str(e)
+        }), 500
+
+
+@app.post('/case/comprehensive-analysis')
+def case_comprehensive_analysis():
+    """
+    تحلیل جامع و یکپارچه پرونده با تمام قابلیت‌ها
+    
+    این endpoint تحلیل کاملی از پرونده ارائه می‌دهد شامل:
+    - تحلیل وضعیت فعلی
+    - تحلیل هوشمند با AI
+    - تشخیص قوانین مرتبط
+    - پیش‌بینی نتایج
+    - پیشنهاد اقدامات
+    - سوالات تکمیلی
+    """
+    try:
+        from routes.case_manager import CaseManager
+        from routes.case_conversation import CaseConversationManager
+        
+        data = request.get_json(silent=True) or {}
+        case_info = data.get('case_info', {})
+        include_ai = data.get('include_ai', True)  # استفاده از AI یا خیر
+        
+        if not case_info:
+            return jsonify({'ok': False, 'error': 'اطلاعات پرونده ارسال نشده است'}), 400
+        
+        manager = CaseManager()
+        conv_manager = CaseConversationManager()
+        
+        # 1. تحلیل پایه وضعیت پرونده
+        base_analysis = manager.analyze_case_status(case_info)
+        
+        result = {
+            'ok': True,
+            'base_analysis': {
+                'current_stage': base_analysis['current_stage'],
+                'urgent_actions': base_analysis['urgent_actions'],
+                'strategy': base_analysis['strategy'],
+                'risks': base_analysis['risks'],
+                'opportunities': base_analysis['opportunities'],
+                'next_steps': base_analysis['next_steps'],
+                'required_documents': base_analysis['required_documents']
+            }
+        }
+        
+        # 2. چک‌لیست اقدامات
+        checklist = manager.generate_checklist(base_analysis['current_stage_key'], case_info)
+        result['checklist'] = checklist
+        
+        # 3. پیشنهاد اقدامات بعدی
+        next_actions = manager.suggest_next_actions(case_info, base_analysis)
+        result['next_actions'] = next_actions
+        
+        laws = None
+        step_guidance = None
+        
+        # اگر استفاده از AI فعال باشد
+        if include_ai:
+            # 4. تحلیل هوشمند با AI
+            ai_analysis = manager.analyze_with_ai(case_info)
+            if ai_analysis and ai_analysis.get('success'):
+                result['ai_analysis'] = ai_analysis['ai_analysis']
+            
+            # 5. تشخیص قوانین مرتبط
+            laws = manager.detect_relevant_laws(case_info)
+            if laws and laws.get('success'):
+                result['relevant_laws'] = laws['laws_text']
+                result['laws_source'] = laws['source']
+            
+            # 6. پیش‌بینی نتایج
+            prediction = manager.predict_outcome(case_info, base_analysis)
+            if prediction and prediction.get('success'):
+                result['outcome_prediction'] = prediction['prediction_text']
+                result['prediction_score'] = prediction.get('score', 0)
+                result['prediction_source'] = prediction['source']
+            
+            # 7. سوالات تکمیلی هوشمند
+            smart_questions = conv_manager.get_smart_questions(case_info)
+            result['smart_questions'] = smart_questions
+        
+        # راهنمای مرحله‌به‌مرحله (با استفاده از AI یا fallback)
+        try:
+            step_guidance = manager.generate_step_by_step_guidance(case_info, base_analysis, laws)
+        except Exception as guidance_error:
+            app.logger.error(f"Error generating step guidance (comprehensive): {guidance_error}")
+            step_guidance = None
+
+        if step_guidance:
+            result['step_guidance'] = step_guidance
+
+        # 8. خلاصه نهایی
+        result['summary'] = {
+            'case_title': case_info.get('case_title', ''),
+            'case_type': case_info.get('case_type', ''),
+            'stage': base_analysis['current_stage']['name'],
+            'has_ai_analysis': include_ai and result.get('ai_analysis') is not None,
+            'has_laws': include_ai and result.get('relevant_laws') is not None,
+            'has_prediction': include_ai and result.get('outcome_prediction') is not None
+        }
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        app.logger.error(f"Error in comprehensive analysis: {e}")
+        import traceback
+        app.logger.error(traceback.format_exc())
+        return jsonify({
+            'ok': False,
+            'error': str(e)
+        }), 500
+
+
+@app.post('/case/smart-questions')
+def case_smart_questions():
+    """
+    دریافت سوالات تکمیلی هوشمند بر اساس اطلاعات پرونده
+    """
+    try:
+        from routes.case_conversation import CaseConversationManager
+        
+        data = request.get_json(silent=True) or {}
+        case_info = data.get('case_info', {})
+        
+        if not case_info:
+            return jsonify({'ok': False, 'error': 'اطلاعات پرونده ارسال نشده است'}), 400
+        
+        manager = CaseConversationManager()
+        questions = manager.get_smart_questions(case_info)
+        
+        return jsonify({
+            'ok': True,
+            'questions': questions
+        })
+        
+    except Exception as e:
+        app.logger.error(f"Error getting smart questions: {e}")
+        return jsonify({
+            'ok': False,
+            'error': str(e)
+        }), 500
+
+
 @app.post('/ask')
 def ask_endpoint():
     data = request.get_json(silent=True) or {}
     question = (data.get('question') or '').strip()
+    case_info = data.get('case_info', {})
     try:
         top_k = int(data.get('top_k', 5))
     except Exception:
@@ -973,6 +1468,72 @@ def ask_endpoint():
     if not ok:
         return jsonify({'error': 'rate_limited', 'retry_in_sec': plan_window, 'limit': plan_limit}), 429
     _append_session(cid, 'user', question)
+
+    if _is_complaint_action_request(question):
+        try:
+            from routes.case_manager import CaseManager
+            manager = CaseManager()
+            doc_result = manager.generate_document('lawsuit', case_info or {})
+        except Exception as doc_error:
+            app.logger.error(f"Error generating complaint document: {doc_error}")
+            doc_result = {
+                'text': 'امکان تولید دادخواست خودکار فراهم نشد؛ لطفاً با وکیل خود مشورت کنید.',
+                'instructions': '',
+                'stage_label': None,
+            }
+
+        if isinstance(doc_result, dict):
+            doc_text = doc_result.get('text', '')
+            instructions = doc_result.get('instructions', '')
+            stage_label = doc_result.get('stage_label')
+            missing_fields = doc_result.get('missing_fields') or []
+            needs_info = bool(doc_result.get('needs_info'))
+        else:
+            doc_text = str(doc_result)
+            instructions = ''
+            stage_label = None
+            missing_fields = []
+            needs_info = False
+
+        if needs_info:
+            prompt_lines = []
+            clarify_prompts = []
+            for item in missing_fields:
+                prompt = (item.get('prompt') or '').strip()
+                field_title = item.get('field') or ''
+                if prompt:
+                    prompt_lines.append(f"• {prompt}")
+                    clarify_prompts.append(prompt)
+                elif field_title:
+                    line = f"• {field_title} را مشخص کن."
+                    prompt_lines.append(line)
+                    clarify_prompts.append(line.replace('• ', ''))
+            if not prompt_lines:
+                prompt_lines.append('• جزئیات پرونده را کامل کن تا بتوانم دادخواست را تنظیم کنم.')
+
+            answer_text = 'برای تنظیم دادخواست، ابتدا این اطلاعات را برایم ارسال کن:\n' + '\n'.join(prompt_lines)
+            resp = jsonify({'answer': answer_text, 'citations': [], 'intent': meta['intent'], 'domain': meta['domain'], 'clarify': clarify_prompts})
+            r = make_response(resp)
+            if not request.cookies.get('client_id'):
+                r.set_cookie('client_id', cid, max_age=30*24*3600, httponly=False, samesite='Lax')
+            return r
+
+        message_parts = [
+            '👣 برو دادسرای منطقه یا نزدیک‌ترین دفتر خدمات الکترونیک قضایی و این دادخواست را تقدیم کن.'
+        ]
+        if instructions:
+            message_parts.append(instructions)
+        if stage_label and stage_label not in {'', 'مرحله نامشخص'}:
+            message_parts.append(f'🔎 مرحله پرونده تشخیص داده‌شده: {stage_label}')
+        if doc_text:
+            message_parts.append(doc_text)
+        answer_text = '\n\n'.join([part for part in message_parts if part])
+
+        resp = jsonify({'answer': answer_text, 'citations': [], 'intent': meta['intent'], 'domain': meta['domain'], 'clarify': []})
+        r = make_response(resp)
+        if not request.cookies.get('client_id'):
+            r.set_cookie('client_id', cid, max_age=30*24*3600, httponly=False, samesite='Lax')
+        return r
     # Retrieve local snippets (RAG)
     results = _retrieve(question, top_k=top_k)
     citations = [
@@ -988,7 +1549,7 @@ def ask_endpoint():
 
     # If DeepSeek configured, prefer DeepSeek answer with RAG context
     if _should_use_deepseek():
-        ok, ds_text = _deepseek_chat(question, rag_context, thinking_time, role)
+        ok, ds_text = _deepseek_chat(question, rag_context, thinking_time, role, case_info)
         if ok and ds_text:
             resp = jsonify({'answer': ds_text, 'citations': citations, 'intent': meta['intent'], 'domain': meta['domain'], 'clarify': []})
             r = make_response(resp)

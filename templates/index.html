@@ -16,6 +16,8 @@
       --user: #1e293b;
       --assistant: #0f172a;
       --border: #1f2937;
+      --timeline-offset: 0px;
+      --caseinfo-offset: 0px;
     }
     * { box-sizing: border-box }
     html, body { height: 100% }
@@ -39,7 +41,27 @@
     a.link { color: var(--muted); text-decoration:none; font-size:13px }
     a.link:hover { color: var(--text) }
 
-    main { max-width: 1200px; width:100%; margin: 0 auto; flex:1; display:grid; grid-template-columns: 1fr; gap:12px; padding: 12px }
+    main { max-width: 980px; width:100%; margin: 0 auto; flex:1; display:flex; flex-direction:column; gap:12px; padding-block:12px; padding-inline:12px; box-sizing:border-box }
+
+    body.timeline-active { --timeline-offset: clamp(200px, 16vw, 252px); }
+    body.case-info-active { --caseinfo-offset: clamp(220px, 18vw, 312px); }
+
+    body.timeline-active header { padding-inline-start: calc(16px + var(--timeline-offset)); }
+    body.case-info-active header { padding-inline-end: calc(16px + var(--caseinfo-offset)); }
+    body.timeline-active main { padding-inline-start: calc(12px + var(--timeline-offset)); }
+    body.case-info-active main { padding-inline-end: calc(12px + var(--caseinfo-offset)); }
+    body.timeline-active .composer { padding-inline-start: calc(16px + var(--timeline-offset)); }
+    body.case-info-active .composer { padding-inline-end: calc(16px + var(--caseinfo-offset)); }
+    body.timeline-active footer { padding-inline-start: calc(16px + var(--timeline-offset)); }
+    body.case-info-active footer { padding-inline-end: calc(16px + var(--caseinfo-offset)); }
+
+    @media (max-width: 1280px) {
+      body.timeline-active { --timeline-offset: 0px; }
+    }
+
+    @media (max-width: 1199px) {
+      body.case-info-active { --caseinfo-offset: 0px; }
+    }
     #messages { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px }
     .msg { display:flex; gap:12px }
     .msg.assistant { justify-content:flex-start }
@@ -109,7 +131,7 @@
 
     /* Desktop enhancements */
     @media (min-width: 960px){
-      main { grid-template-columns: 300px 1fr; gap:16px; padding:16px }
+      main { padding:16px }
       .bubble { max-width: 70% }
     }
 
@@ -124,7 +146,440 @@
     .side-list { list-style:none; margin:0; padding:8px }
     .side-link { display:block; padding:10px 12px; border-radius:8px; color:var(--text); text-decoration:none }
     .side-link:hover { background:#0b1220 }
-  </style>
+    
+    /* Timeline عمودی - قابل جابجایی */
+    body:not(.timeline-active) #verticalCaseTimeline { display: none; }
+    body:not(.case-info-active) #caseInfoPanel { display: none; }
+
+    #verticalCaseTimeline {
+      position: fixed;
+      left: 16px;
+      top: 80px;
+      width: 220px;
+      background: linear-gradient(135deg, rgba(15,20,27,.98) 0%, rgba(11,15,20,.95) 100%);
+      border: 1px solid rgba(34,197,94,.2);
+      border-radius: 12px;
+      padding: 0;
+      box-shadow: 0 8px 32px rgba(0,0,0,.3);
+      backdrop-filter: blur(10px);
+      z-index: 40;
+      max-height: calc(100vh - 100px);
+      display: block;
+      transition: width 0.3s ease;
+    }
+    
+    #verticalCaseTimeline.collapsed {
+      width: 200px;
+    }
+    
+    #verticalCaseTimeline.dragging {
+      cursor: move;
+      opacity: 0.9;
+      box-shadow: 0 12px 48px rgba(0,0,0,.5);
+    }
+    
+    /* پنل اطلاعات پرونده در سمت راست */
+    #caseInfoPanel {
+      position: fixed;
+      right: 16px;
+      top: 80px;
+      width: 280px;
+      background: linear-gradient(135deg, rgba(15,20,27,.98) 0%, rgba(11,15,20,.95) 100%);
+      border: 1px solid rgba(59,130,246,.2);
+      border-radius: 12px;
+      padding: 16px 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.3);
+      backdrop-filter: blur(10px);
+      z-index: 40;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+      display: block;
+      transition: width 0.3s ease;
+    }
+    
+    #caseInfoPanel.collapsed {
+      width: 200px;
+    }
+    
+    #caseInfoPanel.dragging {
+      cursor: move;
+      opacity: 0.9;
+      box-shadow: 0 12px 48px rgba(0,0,0,.5);
+    }
+    
+    #caseInfoPanel::-webkit-scrollbar {
+      width: 4px;
+    }
+    
+    #caseInfoPanel::-webkit-scrollbar-track {
+      background: rgba(15,20,27,.5);
+      border-radius: 2px;
+    }
+    
+    #caseInfoPanel::-webkit-scrollbar-thumb {
+      background: #3b82f6;
+      border-radius: 2px;
+    }
+    
+    .case-info-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding: 8px 4px 12px 4px;
+      border-bottom: 1px solid rgba(59,130,246,.15);
+      cursor: move;
+      user-select: none;
+      border-radius: 12px 12px 0 0;
+      margin: -16px -12px 16px -12px;
+      padding: 12px;
+    }
+    
+    .case-info-header:hover {
+      background: rgba(59,130,246,.05);
+    }
+    
+    .case-info-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #3b82f6;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+    }
+    
+    .case-info-controls {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .case-info-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      border: 1px solid rgba(59,130,246,.2);
+      background: rgba(59,130,246,.1);
+      color: #3b82f6;
+      font-size: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    
+    .case-info-btn:hover {
+      background: rgba(59,130,246,.2);
+      border-color: rgba(59,130,246,.4);
+      transform: scale(1.05);
+    }
+    
+    .case-info-btn:active {
+      transform: scale(0.95);
+    }
+    
+    #caseInfoPanel.collapsed .case-info-controls {
+      flex-direction: column;
+    }
+    
+    .case-info-badge {
+      font-size: 9px;
+      padding: 2px 6px;
+      background: rgba(34,197,94,.2);
+      border: 1px solid rgba(34,197,94,.3);
+      border-radius: 4px;
+      color: #22c55e;
+    }
+    
+    #caseInfoPanel.collapsed .case-info-badge {
+      display: none;
+    }
+    
+    #caseInfoPanel.collapsed #caseInfoContent {
+      display: none;
+    }
+    
+    .case-info-section {
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(100,116,139,.1);
+    }
+    
+    .case-info-section:last-child {
+      border-bottom: none;
+    }
+    
+    .case-info-label {
+      font-size: 10px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    
+    .case-info-value {
+      font-size: 12px;
+      color: #e2e8f0;
+      line-height: 1.5;
+      word-wrap: break-word;
+    }
+    
+    .case-info-value.empty {
+      color: #64748b;
+      font-style: italic;
+      font-size: 11px;
+    }
+    
+    .case-info-value.highlight {
+      color: #3b82f6;
+      font-weight: 600;
+    }
+    
+    .auto-update-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 9px;
+      color: #22c55e;
+      animation: fadeInOut 2s infinite;
+    }
+    
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+    
+    .v-timeline-body {
+      padding: 16px 12px;
+      max-height: calc(100vh - 150px);
+      overflow-y: auto;
+    }
+    
+    .v-timeline-body::-webkit-scrollbar {
+      width: 4px;
+    }
+    
+    .v-timeline-body::-webkit-scrollbar-track {
+      background: rgba(15,20,27,.5);
+      border-radius: 2px;
+    }
+    
+    .v-timeline-body::-webkit-scrollbar-thumb {
+      background: #22c55e;
+      border-radius: 2px;
+    }
+    
+    #verticalCaseTimeline.collapsed .v-timeline-body {
+      display: none;
+    }
+    
+    /* اضافه کردن padding به main برای جلوگیری از تداخل */
+    @media (min-width: 1400px) {
+      body.timeline-active main {
+        padding-left: 252px; /* 220px timeline + 32px فاصله */
+        transition: padding-left 0.3s ease;
+      }
+      
+      body.case-info-active main {
+        padding-right: 312px; /* 280px panel + 32px فاصله */
+        transition: padding-right 0.3s ease;
+      }
+      
+      body.timeline-active.case-info-active main {
+        padding-left: 252px;
+        padding-right: 312px;
+      }
+    }
+    
+    /* پنل اطلاعات در صفحات کوچک */
+    @media (max-width: 1199px) {
+      #caseInfoPanel {
+        width: 240px;
+        right: 8px;
+        top: 70px;
+        font-size: 11px;
+      }
+      
+      body.case-info-active main {
+        padding-right: 0 !important;
+      }
+    }
+    
+    @media (max-width: 1280px) {
+      #verticalCaseTimeline {
+        display: none !important;
+      }
+    }
+    
+    .v-timeline-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px;
+      border-bottom: 1px solid rgba(34,197,94,.15);
+      cursor: move;
+      user-select: none;
+      border-radius: 12px 12px 0 0;
+    }
+    
+    .v-timeline-header:hover {
+      background: rgba(34,197,94,.05);
+    }
+    
+    .v-timeline-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #22c55e;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+    }
+    
+    .v-timeline-controls {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .v-timeline-btn {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(34,197,94,.1);
+      border: 1px solid rgba(34,197,94,.2);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 12px;
+      color: #22c55e;
+    }
+    
+    .v-timeline-btn:hover {
+      background: rgba(34,197,94,.2);
+      border-color: rgba(34,197,94,.4);
+      transform: scale(1.05);
+    }
+    
+    .v-timeline-btn:active {
+      transform: scale(0.95);
+    }
+    
+    #verticalCaseTimeline.collapsed .v-timeline-controls {
+      flex-direction: column;
+    }
+          
+    .v-timeline-steps {
+      position: relative;
+    }
+    
+    .v-timeline-line {
+      position: absolute;
+      left: 20px;
+      top: 12px;
+      bottom: 12px;
+      width: 2px;
+      background: linear-gradient(180deg, rgba(34,197,94,.3) 0%, rgba(100,116,139,.15) 100%);
+    }
+    
+    .v-step {
+      position: relative;
+      padding: 12px 36px 12px 0;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: right;
+    }
+    
+    .v-step:hover {
+      transform: translateX(2px);
+    }
+    
+    .v-step-dot {
+            position: absolute;
+      left: 11px;
+            top: 50%;
+            transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(100,116,139,.2);
+      border: 2px solid #1f2937;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 700;
+      color: #64748b;
+      transition: all 0.3s;
+      z-index: 1;
+    }
+    
+    .v-step.completed .v-step-dot {
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      border-color: #22c55e;
+      color: #000;
+      box-shadow: 0 0 0 4px rgba(34,197,94,.1);
+    }
+    
+    .v-step.active .v-step-dot {
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      border-color: #22c55e;
+      color: #000;
+      animation: v-pulse 2s infinite;
+      box-shadow: 0 0 0 4px rgba(34,197,94,.2);
+    }
+    
+    @keyframes v-pulse {
+      0%, 100% { box-shadow: 0 0 0 4px rgba(34,197,94,.2); }
+      50% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+    }
+    
+    .v-step-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    
+    .v-step-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #e2e8f0;
+      line-height: 1.3;
+    }
+    
+    .v-step.completed .v-step-title {
+      color: #22c55e;
+    }
+    
+    .v-step.active .v-step-title {
+      color: #22c55e;
+      font-weight: 700;
+    }
+    
+    .v-step-desc {
+      font-size: 10px;
+      color: #94a3b8;
+            line-height: 1.2;
+          }
+          
+    .v-step-date {
+            font-size: 9px;
+      color: #64748b;
+            margin-top: 2px;
+          }
+          
+    @media (max-width: 1280px) {
+      #verticalCaseTimeline {
+        display: none !important;
+      }
+          }
+        </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
@@ -133,8 +588,165 @@
   {% include 'partials/header.html' %}
 
   {% include 'partials/sidebar.html' %}
+  
+  {% include 'partials/notes.html' %}
+  
+  <!-- Timeline عمودی سمت چپ -->
+  <div id="verticalCaseTimeline">
+    <div class="v-timeline-header" id="timelineDragHandle">
+      <div class="v-timeline-title">
+        <span class="emoji">⚖️</span>
+        <span>روند دادرسی</span>
+      </div>
+      <div class="v-timeline-controls">
+        <button class="v-timeline-btn" id="timelineCollapseBtn" title="جمع کردن/باز کردن" aria-label="جمع کردن">
+          ◀
+        </button>
+      </div>
+    </div>
+    
+    <div class="v-timeline-body">
+      <div class="v-timeline-steps">
+      <div class="v-timeline-line"></div>
+      
+      <div class="v-step" data-stage="pre_complaint">
+        <div class="v-step-dot">1</div>
+        <div class="v-step-content">
+          <div class="v-step-title">قبل از شکایت</div>
+          <div class="v-step-desc">جمع‌آوری مدارک و تنظیم دادخواست</div>
+        </div>
+      </div>
+      
+      <div class="v-step" data-stage="complaint_filed">
+        <div class="v-step-dot">2</div>
+        <div class="v-step-content">
+          <div class="v-step-title">ثبت دادخواست</div>
+          <div class="v-step-desc">ارائه به دادگاه و دریافت شماره</div>
+        </div>
+      </div>
+      
+      <div class="v-step" data-stage="case_review">
+        <div class="v-step-dot">3</div>
+        <div class="v-step-content">
+          <div class="v-step-title">بررسی اولیه</div>
+          <div class="v-step-desc">ارجاع به شعبه و تعیین وقت</div>
+        </div>
+      </div>
+      
+      <div class="v-step" data-stage="court_session">
+        <div class="v-step-dot">4</div>
+        <div class="v-step-content">
+          <div class="v-step-title">جلسه دادگاه</div>
+          <div class="v-step-desc">رسیدگی و ارائه دفاعیات</div>
+        </div>
+      </div>
+      
+      <div class="v-step" data-stage="verdict">
+        <div class="v-step-dot">5</div>
+        <div class="v-step-content">
+          <div class="v-step-title">صدور رأی</div>
+          <div class="v-step-desc">تصمیم دادگاه و ابلاغ رأی</div>
+        </div>
+      </div>
+      
+      <div class="v-step" data-stage="appeal">
+        <div class="v-step-dot">6</div>
+        <div class="v-step-content">
+          <div class="v-step-title">تجدیدنظر</div>
+          <div class="v-step-desc">اعتراض و بررسی مجدد</div>
+        </div>
+      </div>
+      
+      <div class="v-step" data-stage="execution">
+        <div class="v-step-dot">7</div>
+        <div class="v-step-content">
+          <div class="v-step-title">اجرای حکم</div>
+          <div class="v-step-desc">اجرای رأی نهایی</div>
+        </div>
+      </div>
+      
+      <div class="v-step" data-stage="closed">
+        <div class="v-step-dot">✓</div>
+        <div class="v-step-content">
+          <div class="v-step-title">پایان پرونده</div>
+          <div class="v-step-desc">اتمام کامل دادرسی</div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+  
+  <!-- پنل اطلاعات پرونده سمت راست -->
+  <div id="caseInfoPanel">
+    <div class="case-info-header" id="caseInfoDragHandle">
+      <div class="case-info-title">
+        <span class="emoji">📋</span>
+        <span>اطلاعات پرونده</span>
+      </div>
+      <div class="case-info-controls">
+        <button class="case-info-btn" id="caseInfoCollapseBtn" title="جمع کردن/باز کردن" aria-label="جمع کردن">
+          ▶
+        </button>
+      </div>
+      <span class="case-info-badge">زنده</span>
+    </div>
+    
+    <div id="caseInfoContent">
+      <div class="case-info-section">
+        <div class="case-info-label">عنوان</div>
+        <div class="case-info-value highlight" data-field="case_title">در حال بارگذاری...</div>
+      </div>
+      
+      <div class="case-info-section">
+        <div class="case-info-label">موکل</div>
+        <div class="case-info-value empty" data-field="client_name">در حال دریافت...</div>
+      </div>
+      
+      <div class="case-info-section">
+        <div class="case-info-label">نوع پرونده</div>
+        <div class="case-info-value empty" data-field="case_type">در حال شناسایی...</div>
+      </div>
+      
+      <div class="case-info-section">
+        <div class="case-info-label">طرف مقابل</div>
+        <div class="case-info-value empty" data-field="opponent_name">نامشخص</div>
+      </div>
+      
+      <div class="case-info-section">
+        <div class="case-info-label">موقعیت</div>
+        <div class="case-info-value empty" data-field="complaint_side">نامشخص</div>
+      </div>
+      
+      <div class="case-info-section">
+        <div class="case-info-label">مرحله</div>
+        <div class="case-info-value empty" data-field="case_stage">نامشخص</div>
+      </div>
+      
+      <div class="case-info-section">
+        <div class="case-info-label">شماره پرونده</div>
+        <div class="case-info-value empty" data-field="case_number">ندارد</div>
+      </div>
+      
+      <div class="case-info-section">
+        <div class="case-info-label">هدف</div>
+        <div class="case-info-value empty" data-field="case_goal">نامشخص</div>
+      </div>
+      
+      <div class="case-info-section">
+        <div class="case-info-label">مدارک</div>
+        <div class="case-info-value empty" data-field="available_documents">نامشخص</div>
+      </div>
+      
+      <div style="margin-top: 12px; text-align: center;">
+        <span class="auto-update-indicator">
+          <span>●</span>
+          <span>به‌روزرسانی خودکار</span>
+        </span>
+      </div>
+    </div>
+  </div>
+  
   <main>
-    {% include 'partials/notes.html' %}
     <section id="chatAndEditors" style="display:flex; flex-direction:column; gap:12px;">
       <ul id="messages" class="panel"></ul>
       <button id="scrollDown" aria-label="بازگشت به پایین" class="btn" style="position:fixed; inset-inline-end:16px; inset-block-end:90px; display:none; padding:10px 12px;">↓</button>
@@ -171,9 +783,52 @@
       const composer = document.querySelector('.composer');
       if(composer) composer.style.opacity = '1';
     }
+    window.closeSidebarDrawer = closeSide;
     hamBtn?.addEventListener('click', openSide);
     sideClose?.addEventListener('click', closeSide);
     sideOverlay?.addEventListener('click', closeSide);
+    
+    // Notes Drawer Toggle
+    (function(){
+      const notesBtn = document.getElementById('notesBtn');
+      const notesDrawer = document.getElementById('notesDrawer');
+      const notesOverlay = document.getElementById('notesOverlay');
+      const notesClose = document.getElementById('notesClose');
+      
+      function openNotes(){
+        notesDrawer?.classList.add('open');
+        if(notesOverlay) notesOverlay.hidden = false;
+        notesDrawer?.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+      
+      function closeNotes(){
+        notesDrawer?.classList.remove('open');
+        if(notesOverlay) notesOverlay.hidden = true;
+        notesDrawer?.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+      
+      notesBtn?.addEventListener('click', ()=>{
+        if(notesDrawer?.classList.contains('open')) closeNotes();
+        else openNotes();
+      });
+      
+      notesOverlay?.addEventListener('click', closeNotes);
+      notesClose?.addEventListener('click', closeNotes);
+      
+      // Close on Escape
+      document.addEventListener('keydown', (ev)=>{
+        if(ev.key === 'Escape' && notesDrawer?.classList.contains('open')){
+          closeNotes();
+          ev.stopPropagation();
+        }
+      });
+      
+      // Make functions globally available
+      window.openNotesDrawer = openNotes;
+      window.closeNotesDrawer = closeNotes;
+    })();
     
     // Listen for thinking time changes from footer dropdown
     window.addEventListener('thinkingTimeChanged', (e)=>{
@@ -238,22 +893,103 @@
     const btnSaveCurrentNote = $('#btnSaveCurrentNote');
     // chats
     const chatList = document.getElementById('chatList');
+    const caseList = document.getElementById('caseList');
+    const chatCount = document.getElementById('chatCount');
+    const caseCount = document.getElementById('caseCount');
     const btnNewChat = document.getElementById('btnNewChat');
     let currentChatId = '';
-    function setCurrentChatId(id){
-      currentChatId = id||'';
-      try{ if(currentChatId){ window.history.pushState({chatId: currentChatId}, '', '/c/'+currentChatId); } }catch(e){}
+    let currentChatIsCase = false;
+    let pendingDocRequest = null;
+
+    function ensureSidePanelsOpen(){
+      const timeline = document.getElementById('verticalCaseTimeline');
+      const timelineBtn = document.getElementById('timelineCollapseBtn');
+      if(timeline){
+        timeline.style.display = 'block';
+        timeline.classList.remove('collapsed');
+        document.body.classList.add('timeline-active');
+        if(timelineBtn){
+          timelineBtn.textContent = '◀';
+          timelineBtn.title = 'جمع کردن';
+        }
+        try{ localStorage.setItem('timeline_collapsed', 'false'); }catch(e){}
+      }
+
+      const casePanel = document.getElementById('caseInfoPanel');
+      const caseCollapseBtn = document.getElementById('caseInfoCollapseBtn');
+      if(casePanel){
+        casePanel.style.display = 'block';
+        casePanel.classList.remove('collapsed');
+        document.body.classList.add('case-info-active');
+        if(caseCollapseBtn){
+          caseCollapseBtn.textContent = '▶';
+          caseCollapseBtn.title = 'جمع کردن';
+        }
+        try{ localStorage.setItem('caseinfo_collapsed', 'false'); }catch(e){}
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+      ensureSidePanelsOpen();
+      try{ updateVerticalTimeline({ case_stage: 'pre_complaint' }); }catch(e){}
+      try{ updateCaseInfoPanel(null); }catch(e){}
+    });
+    function setCurrentChatId(id, isCase){
+      currentChatId = id || '';
+      if(typeof isCase === 'boolean'){
+        currentChatIsCase = !!currentChatId && isCase;
+      } else if(!currentChatId){
+        currentChatIsCase = false;
+      }
+      try{
+        const desiredPath = currentChatId ? (currentChatIsCase ? '/case/'+currentChatId : '/c/'+currentChatId) : '/';
+        const state = { chatId: currentChatId, isCase: currentChatIsCase };
+        if(window.location.pathname !== desiredPath){
+          window.history.pushState(state, '', desiredPath);
+        } else {
+          window.history.replaceState(state, '', desiredPath);
+        }
+      }catch(e){}
     }
     (function initChatIdFromUrl(){
       try{
-        const m = location.pathname.match(/\/c\/([\w-]+)/);
-        if(m && m[1]){ currentChatId = m[1]; }
+        const path = location.pathname;
+        let m = path.match(/\/case\/([\w-]+)/);
+        if(m && m[1]){
+          currentChatId = m[1];
+          currentChatIsCase = true;
+          return;
+        }
+        m = path.match(/\/c\/([\w-]+)/);
+        if(m && m[1]){
+          currentChatId = m[1];
+          currentChatIsCase = false;
+        }
       }catch(e){}
     })();
     window.addEventListener('popstate', (ev)=>{
       try{
-        const m = location.pathname.match(/\/c\/([\w-]+)/);
-        if(m && m[1]){ currentChatId = m[1]; }
+        const state = ev.state;
+        if(state && typeof state.isCase === 'boolean'){
+          currentChatIsCase = state.isCase;
+          currentChatId = state.chatId || '';
+          return;
+        }
+        const path = location.pathname;
+        let m = path.match(/\/case\/([\w-]+)/);
+        if(m && m[1]){
+          currentChatId = m[1];
+          currentChatIsCase = true;
+          return;
+        }
+        m = path.match(/\/c\/([\w-]+)/);
+        if(m && m[1]){
+          currentChatId = m[1];
+          currentChatIsCase = false;
+          return;
+        }
+        currentChatId = '';
+        currentChatIsCase = false;
       }catch(e){}
     });
 
@@ -272,10 +1008,56 @@
             addMsg('assistant', it.text||'', meta);
           }
         });
+        
+        // Check if this is a case chat
+        const chatTitle = j.data?.title || '';
+        const isCase = chatTitle.startsWith('📁');
+        setCurrentChatId(currentChatId, isCase);
+        
+        console.log('📂 Loading chat:', chatTitle, 'Is case?', isCase);
+        
+        // Show timeline and case info panel for cases
+        if(isCase){
+          updateTimelineVisibility(chatTitle);
+          // بررسی و نمایش پنل اطلاعات
+          setTimeout(()=>{
+            const caseInfoJson = localStorage.getItem(`case_info_${currentChatId}`);
+            if(caseInfoJson){
+              const caseInfo = JSON.parse(caseInfoJson);
+              console.log('📋 Found case info in localStorage, updating panel...');
+              updateCaseInfoPanel(caseInfo);
+            } else {
+              console.log('⚠️ No case info found in localStorage for:', currentChatId);
+            }
+          }, 100);
+        } else {
+          updateTimelineVisibility(chatTitle);
+        }
+        
         setTimeout(()=>{ window.scrollTo({ top: document.body.scrollHeight, behavior:'smooth' }); }, 0);
         try{ document.getElementById('q')?.focus(); }catch(e){}
       }catch(e){}
     }
+    
+    // نمایش indicator برای حالت فعلی (غیرفعال شد)
+    function updateRoleIndicator(role){
+      // این تابع دیگر کاری انجام نمی‌دهد
+      // حالت‌ها از طریق header مدیریت می‌شوند
+    }
+    
+    // Timeline Management
+    function updateTimelineVisibility(chatTitle){
+      // مدیریت نمایش timeline عمودی و پنل اطلاعات
+      if(chatTitle && chatTitle.startsWith('📁')){
+        // نمایش و به‌روزرسانی timeline عمودی و پنل اطلاعات برای پرونده‌ها
+        refreshTimelineFromLocalStorage(currentChatId);
+      } else {
+        // مخفی کردن timeline عمودی و پنل اطلاعات برای چت‌های عادی
+        hideVerticalTimeline();
+        hideCaseInfoPanel();
+      }
+    }
+    
     let authWizardOpen = false;
     let pendingQuestionText = '';
 
@@ -662,8 +1444,8 @@
               <select id="wizRole" style="width:100%; padding:10px; border:1px solid var(--border); background:#0b1220; color:var(--text); border-radius:10px">
                 <option value="">انتخاب نقش</option>
                 <option value="شهروند">شهروند</option>
-                <option value="وکیل">وکیل</option>
-                <option value="قاضی">قاضی</option>
+                <option value="وکیل" disabled>وکیل (به زودی)</option>
+                <option value="قاضی" disabled>قاضی (به زودی)</option>
               </select>
             </div>
           </div>
@@ -770,7 +1552,12 @@
     }
 
     async function fetchJson(url, options){
-      const r = await fetch(url, options);
+      const opts = options || {};
+      const fetchOptions = {
+        credentials: 'include',
+        ...opts
+      };
+      const r = await fetch(url, fetchOptions);
       const ct = r.headers.get('content-type') || '';
       if(!r.ok || !ct.includes('application/json')){
         const txt = await r.text();
@@ -782,6 +1569,18 @@
     async function ask(){
       const text = q.value.trim();
       if(!text) return;
+      
+      // اگر در حالت conversation هستیم، پاسخ را به conversation ارسال کن
+      console.log('🔍 ask() called - conversationMode:', window.currentCaseConversationMode, 'hasCallback:', !!window.caseContinueConversation);
+      
+      if(window.currentCaseConversationMode && window.caseContinueConversation){
+        console.log('✅ Handling as conversation response');
+        await window.caseContinueConversation(text);
+        return;
+      }
+      
+      console.log('📨 Handling as normal question');
+      
       // block concurrent send + ensure chatId is set
       if(inFlight){ return; }
       // auto-create chat if none exists
@@ -789,7 +1588,7 @@
         try{
           const t = (text.split('\n')[0]||'').slice(0,60);
           const c = await fetchJson('/chats', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ title: t||'گفت‌وگو' }) });
-          setCurrentChatId(c.id||'');
+          setCurrentChatId(c.id||'', false);
           msgs.innerHTML = '';
           await refreshChats();
         }catch(e){ return; }
@@ -824,7 +1623,27 @@
         
         // abortable fetch
         askAbort = new AbortController();
-        const r = await fetch('/ask', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({question:text, thinking_time: selectedThinkingTime, role: selectedRole}), signal: askAbort.signal });
+        // اضافه کردن اطلاعات پرونده به سوال
+        let requestBody = {question:text, thinking_time: selectedThinkingTime, role: selectedRole};
+        let attachedCaseInfo = null;
+        if(selectedRole === 'lawyer' && currentChatId){
+          const caseKey = `case_info_${currentChatId}`;
+          try{
+            const caseInfoJson = localStorage.getItem(caseKey);
+            if(caseInfoJson){
+              attachedCaseInfo = JSON.parse(caseInfoJson);
+              if(!Array.isArray(attachedCaseInfo.conversation_history)){
+                attachedCaseInfo.conversation_history = [];
+              }
+              attachedCaseInfo.conversation_history.push({ role: 'user', text, ts: Date.now(), tag: 'user_message' });
+              requestBody.case_info = attachedCaseInfo;
+              saveCaseInfo(currentChatId, attachedCaseInfo);
+            }
+          }catch(e){
+            console.error('Error preparing case info for request:', e);
+          }
+        }
+        const r = await fetch('/ask', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(requestBody), signal: askAbort.signal });
         const ct = r.headers.get('content-type') || '';
         if(!r.ok || !ct.includes('application/json')){ const t = await r.text(); throw new Error(t.slice(0,200)); }
         const j = await r.json();
@@ -850,8 +1669,8 @@
         
         if(selectedRole && selectedRole !== 'default'){
           const roleIcons = {
-            'lawyer': '⚖️ وکیل پرونده',
-            'judge': '👨‍⚖️ قاضی پرونده'
+            'lawyer': '⚖️ دستیار وکیل',
+            'judge': '👨‍⚖️ دستیار قاضی'
           };
           const roleLabel = roleIcons[selectedRole] || selectedRole;
           badges += `<span style="display:inline-flex; align-items:center; gap:4px; background:#065f46; color:#10b981; padding:4px 10px; border-radius:8px; font-size:11px; font-weight:600">${roleLabel}</span>`;
@@ -867,6 +1686,34 @@
         if(Array.isArray(j.citations) && j.citations.length){
           const citText = buildCitationsMessage(j.citations);
           if(citText){ citLi = addMsg('assistant', citText); try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: currentChatId||'', role:'assistant', text: citText }) }); }catch(e){} }
+        }
+        
+        // استخراج خودکار اطلاعات برای پرونده‌ها
+        if(selectedRole === 'lawyer' && currentChatId){
+          const caseKey = `case_info_${currentChatId}`;
+          try{
+            let caseInfoToUpdate = attachedCaseInfo;
+            if(!caseInfoToUpdate){
+              const caseInfoJson = localStorage.getItem(caseKey);
+              if(caseInfoJson){
+                caseInfoToUpdate = JSON.parse(caseInfoJson);
+              }
+            }
+            if(caseInfoToUpdate){
+              if(!Array.isArray(caseInfoToUpdate.conversation_history)){
+                caseInfoToUpdate.conversation_history = [];
+              }
+              caseInfoToUpdate.conversation_history.push({ role: 'assistant', text: (j.answer||''), ts: Date.now(), tag: 'assistant_answer' });
+              const enrichedInfo = await extractInfoFromAIResponse(j.answer || '', caseInfoToUpdate);
+              const finalInfo = enrichedInfo || caseInfoToUpdate;
+              saveCaseInfo(currentChatId, finalInfo);
+              updateCaseInfoPanel(finalInfo);
+              updateVerticalTimeline(finalInfo);
+              console.log('Case info updated with conversation context');
+            }
+          }catch(e){
+            console.error('Error updating case conversation info:', e);
+          }
         }
         // If server detects auth intent via AI, open wizard inline
         if(j && (j.intent === 'auth' || j.intent === 'login' || j.intent === 'signup')){
@@ -949,44 +1796,106 @@
       try{
         const j = await fetchJson('/chats');
         chatList.innerHTML='';
-        const byDate = {};
+        caseList.innerHTML='';
+        
+        // Separate cases and chats
+        const cases = [];
+        const chats = [];
         (j.items||[]).forEach(item=>{
-          const d = new Date((item.mtime||0)*1000);
-          const key = d.toLocaleDateString('fa-IR', {year:'numeric', month:'2-digit', day:'2-digit'});
-          if(!byDate[key]) byDate[key] = [];
-          byDate[key].push(item);
+          if(item.title && item.title.startsWith('📁')){
+            cases.push(item);
+          } else {
+            chats.push(item);
+          }
         });
-        Object.entries(byDate).sort((a,b)=>b[0].localeCompare(a[0])).forEach(([date,items])=>{
-          const section = document.createElement('div');
-          section.style.display = 'flex'; section.style.flexDirection = 'column'; section.style.gap = '8px';
-          const header = document.createElement('div');
-          header.style.cssText = 'padding:10px 12px; color:#94a3b8; font-size:12px; font-weight:600; border-bottom:1px solid #1f2937; margin-bottom:8px';
-          header.textContent = date;
-          section.appendChild(header);
-          items.forEach(item=>{
-            const row = document.createElement('div'); row.style.display='flex'; row.style.gap='6px';
-            const b = document.createElement('button'); b.className='btn'; b.style.flex='1'; b.textContent=item.title||item.id;
-            b.addEventListener('click', async()=>{ 
-              setCurrentChatId(item.id); 
-              msgs.innerHTML = '';
-              await loadChatById(item.id);
-            });
-            const editBtn = document.createElement('button'); editBtn.className='btn'; editBtn.textContent='✏️'; editBtn.title='ویرایش عنوان';
-            editBtn.style.padding='8px';
-            editBtn.addEventListener('click', async(ev)=>{
-              ev.stopPropagation();
-              openChatEditor(item.id, item.title||'');
-            });
-            const delBtn = document.createElement('button'); delBtn.className='btn'; delBtn.textContent='🗑️'; delBtn.title='حذف چت'; delBtn.style.padding='8px';
-            delBtn.addEventListener('click', async(ev)=>{
-              ev.stopPropagation();
-              openDeleteConfirm(item.id, item.title||'');
-            });
-            row.appendChild(b); row.appendChild(editBtn); row.appendChild(delBtn);
-            section.appendChild(row);
+        
+        // Update counts
+        caseCount.textContent = `(${cases.length})`;
+        chatCount.textContent = `(${chats.length})`;
+        
+        // Render Cases
+        if(cases.length === 0){
+          const empty = document.createElement('div');
+          empty.className = 'empty-state';
+          empty.textContent = 'هنوز پرونده‌ای ندارید';
+          caseList.appendChild(empty);
+        } else {
+          const casesByDate = {};
+          cases.forEach(item=>{
+            const d = new Date((item.mtime||0)*1000);
+            const key = d.toLocaleDateString('fa-IR', {year:'numeric', month:'2-digit', day:'2-digit'});
+            if(!casesByDate[key]) casesByDate[key] = [];
+            casesByDate[key].push(item);
           });
-          chatList.appendChild(section);
-        });
+          
+          Object.entries(casesByDate).sort((a,b)=>b[0].localeCompare(a[0])).forEach(([date,items])=>{
+            items.forEach(item=>{
+              const row = document.createElement('div'); row.style.display='flex'; row.style.gap='6px';
+              const b = document.createElement('button'); b.className='btn'; b.style.flex='1'; b.textContent=item.title||item.id;
+              b.addEventListener('click', async()=>{ 
+                setCurrentChatId(item.id, true); 
+                msgs.innerHTML = '';
+                await loadChatById(item.id);
+                closeSide(); // Close sidebar after selecting chat
+              });
+              const editBtn = document.createElement('button'); editBtn.className='btn'; editBtn.textContent='✏️'; editBtn.title='ویرایش عنوان';
+              editBtn.style.padding='8px';
+              editBtn.addEventListener('click', async(ev)=>{
+                ev.stopPropagation();
+                openCaseEditor(item.id, item.title.replace('📁 ', '')||'');
+              });
+              const delBtn = document.createElement('button'); delBtn.className='btn'; delBtn.textContent='🗑️'; delBtn.title='حذف پرونده'; delBtn.style.padding='8px';
+              delBtn.addEventListener('click', async(ev)=>{
+                ev.stopPropagation();
+                openDeleteConfirm(item.id, item.title||'');
+              });
+              row.appendChild(b); row.appendChild(editBtn); row.appendChild(delBtn);
+              caseList.appendChild(row);
+            });
+          });
+        }
+        
+        // Render Regular Chats
+        if(chats.length === 0){
+          const empty = document.createElement('div');
+          empty.className = 'empty-state';
+          empty.textContent = 'هنوز چتی ندارید';
+          chatList.appendChild(empty);
+        } else {
+          const chatsByDate = {};
+          chats.forEach(item=>{
+            const d = new Date((item.mtime||0)*1000);
+            const key = d.toLocaleDateString('fa-IR', {year:'numeric', month:'2-digit', day:'2-digit'});
+            if(!chatsByDate[key]) chatsByDate[key] = [];
+            chatsByDate[key].push(item);
+          });
+          
+          Object.entries(chatsByDate).sort((a,b)=>b[0].localeCompare(a[0])).forEach(([date,items])=>{
+            items.forEach(item=>{
+              const row = document.createElement('div'); row.style.display='flex'; row.style.gap='6px';
+              const b = document.createElement('button'); b.className='btn'; b.style.flex='1'; b.textContent=item.title||item.id;
+              b.addEventListener('click', async()=>{ 
+                setCurrentChatId(item.id, false); 
+                msgs.innerHTML = '';
+                await loadChatById(item.id);
+                closeSide(); // Close sidebar after selecting chat
+              });
+              const editBtn = document.createElement('button'); editBtn.className='btn'; editBtn.textContent='✏️'; editBtn.title='ویرایش عنوان';
+              editBtn.style.padding='8px';
+              editBtn.addEventListener('click', async(ev)=>{
+                ev.stopPropagation();
+                openChatEditor(item.id, item.title||'');
+              });
+              const delBtn = document.createElement('button'); delBtn.className='btn'; delBtn.textContent='🗑️'; delBtn.title='حذف چت'; delBtn.style.padding='8px';
+              delBtn.addEventListener('click', async(ev)=>{
+                ev.stopPropagation();
+                openDeleteConfirm(item.id, item.title||'');
+              });
+              row.appendChild(b); row.appendChild(editBtn); row.appendChild(delBtn);
+              chatList.appendChild(row);
+            });
+          });
+        }
       }catch(e){}
     }
     async function openChatEditor(chatId, title, isNew=false){
@@ -1017,15 +1926,32 @@
         try{
           if(isNew){
             const c = await fetchJson('/chats', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ title: newTitle }) });
-            setCurrentChatId(c.id||'');
+            setCurrentChatId(c.id||'', false);
             msgs.innerHTML = '';
             await refreshChats();
             await loadChatById(c.id||'');
             close();
+            requestAnimationFrame(()=>{
+              try{
+                if(typeof closeSide === 'function'){
+                  closeSide();
+                } else if(typeof window !== 'undefined' && typeof window.closeSidebarDrawer === 'function'){
+                  window.closeSidebarDrawer();
+                } else {
+                  sideDrawer?.classList.remove('open');
+                  if(sideOverlay){ sideOverlay.hidden = true; }
+                }
+              }catch(err){ console.warn('Unable to close sidebar after chat creation:', err); }
+            });
+            
             // Auto-add a greeting message
             const greeting = 'سلام! چطور می‌تونم کمکتون کنم؟';
             addMsg('assistant', greeting);
             try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: c.id||'', role:'assistant', text: greeting }) }); }catch(e){}
+            
+            // Hide timeline for regular chats
+            updateTimelineVisibility(newTitle);
+            
             setTimeout(()=>{ q.focus(); }, 100);
           } else {
             await fetchJson('/chats/rename', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id:chatId, title:newTitle }) });
@@ -1076,9 +2002,1486 @@
         if(ev.key==='Escape'){ ev.preventDefault(); close(); }
       });
     }
+    // ===== Case Intake Wizard with AI =====
+    async function startCaseIntakeWizard(caseId, caseTitle, caseType, initialDescription){
+      console.log('🎬 startCaseIntakeWizard called:', { caseId, caseTitle, caseType, initialDescription });
+      
+      // اطلاعات پرونده که تدریجاً جمع‌آوری می‌شود
+      const caseInfo = {
+        case_id: caseId,
+        case_title: caseTitle,
+        case_type: caseType,
+        initial_description: initialDescription,
+        created_at: new Date().toLocaleString('fa-IR'),
+        conversation_history: [],
+        case_stage: 'قبل از طرح شکایت' // مرحله اولیه
+      };
+      
+      // نمایش و به‌روزرسانی timeline عمودی و پنل اطلاعات
+      updateVerticalTimeline(caseInfo);
+      updateCaseInfoPanel(caseInfo);
+      
+      // پیام خوش‌آمدگویی با شخصیت دادرس هوشمند
+      const welcomeMsg = `⚖️ **سلام، من ${getAssistantName()} هستم، شبیه‌ساز وکیل پایه یک دادگستری**\n\n` +
+                        `📁 خوشحالم که پروندهٔ «${caseTitle}» را برای شما بررسی می‌کنم.\n\n` +
+                        `به عنوان وکیل مدافع شما، برای ارائه بهترین خدمات حقوقی، نیاز دارم با شما گفتگویی صمیمانه داشته باشم تا تمام جزئیات پرونده را متوجه شوم.\n\n` +
+                        `💬 **لطفاً راحت باشید و مثل یک مکالمه معمولی با من صحبت کنید.**\n` +
+                        `من سوالاتی می‌پرسم و شما به راحتی پاسخ دهید. اگر چیزی نمی‌دانید یا مطمئن نیستید، بگویید تا راهنمایی کنم.\n\n` +
+                        `✨ هدف من:\n` +
+                        `• درک کامل موقعیت حقوقی شما\n` +
+                        `• شناسایی نقاط قوت و ضعف پرونده\n` +
+                        `• ارائه بهترین استراتژی دفاعی\n\n` +
+                        `📝 **آماده‌اید؟ بیایید شروع کنیم...**`;
+      
+      addMsg('assistant', welcomeMsg);
+      try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: caseId, role:'assistant', text: welcomeMsg }) }); }catch(e){}
+      
+      // شروع مکالمه هوشمند با AI بلافاصله (فقط کمی تأخیر برای نمایش پیام خوش‌آمد)
+      setTimeout(async ()=> {
+        await startAIConversation(caseId, caseInfo);
+      }, 100);
+    }
+    
+    // نام دستیار هوشمند
+    function getAssistantName(){
+      return 'دادرس هوشمند';
+    }
+    
+    // مکالمه هوشمند با سیستم پایتون برای جمع‌آوری اطلاعات
+    async function startAIConversation(caseId, caseInfo){
+      console.log('🚀 startAIConversation called with caseId:', caseId, 'caseInfo:', caseInfo);
+      
+      let conversationComplete = false;
+      let questionCount = 0;
+      let currentQuestionId = null;
+      let lawyerName = getAssistantName();
+      
+      // تنظیم اولیه حالت conversation
+      window.currentCaseConversationMode = false; // ابتدا false، بعد از سوال اول true می‌شود
+      window.caseContinueConversation = null;
+      
+      // تابع پرسیدن سوال بعدی از سرور پایتون
+      async function askNextPythonQuestion(userAnswer = ''){
+        console.log('🔄 askNextPythonQuestion called with answer:', userAnswer);
+        
+        if(conversationComplete){
+          console.log('⚠️ Conversation already complete, returning');
+          return;
+        }
+        
+        questionCount++;
+        console.log('📊 Question count:', questionCount);
+        
+        // نمایش typing indicator
+        const typingLi = document.createElement('li');
+        typingLi.className = 'msg assistant';
+        typingLi.id = 'ai-typing';
+        const typingBubble = document.createElement('div');
+        typingBubble.className = 'bubble typing';
+        typingBubble.innerHTML = '<span class="typing-dots"><i></i><i></i><i></i></span>';
+        typingLi.appendChild(typingBubble);
+        msgs.appendChild(typingLi);
+        setTimeout(()=>{ window.scrollTo({ top: document.body.scrollHeight, behavior:'smooth' }); }, 0);
+        
+        try{
+          // فراخوانی سرور پایتون برای تولید سوال
+          const requestData = {
+            case_id: caseId,
+            case_title: caseInfo.case_title,
+            case_type: caseInfo.case_type,
+            case_info: caseInfo,
+            conversation_history: caseInfo.conversation_history,
+            user_answer: userAnswer,
+            current_question_id: currentQuestionId,
+            lawyer_name: lawyerName
+          };
+          
+          console.log('📤 Sending request to /case/conversation/next:', requestData);
+          
+          const response = await fetch('/case/conversation/next', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(requestData),
+            credentials: 'include'
+          });
+          
+          console.log('📥 Response status:', response.status);
+          
+          const result = await response.json();
+          console.log('📋 Response data:', result);
+          
+          // حذف typing indicator
+          const typingEl = document.getElementById('ai-typing');
+          if(typingEl) typingEl.remove();
+          
+          if(result && result.ok){
+            if(result.complete){
+              // گفتگو تمام شده - نمایش خلاصه
+              conversationComplete = true;
+              
+              // غیرفعال کردن حالت conversation
+              window.currentCaseConversationMode = false;
+              window.caseContinueConversation = null;
+              
+              const summaryLi = addMsg('assistant', result.summary_text);
+              summaryLi.style.background = 'linear-gradient(135deg, rgba(34,197,94,.05) 0%, rgba(6,95,70,.05) 100%)';
+              summaryLi.style.borderRight = '4px solid #10b981';
+              
+              // ذخیره خلاصه در chat
+              try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: caseId, role:'assistant', text: result.summary_text }) }); }catch(e){}
+              
+              // به‌روزرسانی caseInfo با مقادیر جدید
+              if(result.case_info){
+                Object.assign(caseInfo, result.case_info);
+              }
+              caseInfo.conversation_history.push({ role: 'assistant', text: result.summary_text, tag: 'summary' });
+              
+              // ذخیره اطلاعات پرونده
+              saveCaseInfo(caseId, caseInfo);
+              
+              // بازگرداندن placeholder به حالت عادی
+              const mainInput = document.getElementById('q');
+              if(mainInput){
+                mainInput.placeholder = 'سوال خود را بپرسید...';
+                mainInput.disabled = false;
+              }
+              
+              // به‌روزرسانی timeline عمودی و پنل اطلاعات با اطلاعات کامل
+              updateVerticalTimeline(result.case_info);
+              updateCaseInfoPanel(result.case_info);
+              
+              // اضافه کردن دکمه‌های عملیاتی
+              const actionsDiv = document.createElement('div');
+              actionsDiv.style.cssText = 'margin-top:16px; display:flex; gap:8px; flex-wrap:wrap';
+              
+              const editBtn = document.createElement('button');
+              editBtn.className = 'btn';
+              editBtn.style.cssText = 'padding:10px 16px; background:#3b82f6; color:#fff; border-radius:8px; display:flex; align-items:center; gap:6px';
+              editBtn.innerHTML = '<span>✏️</span><span>ویرایش اطلاعات</span>';
+              editBtn.onclick = ()=> editCaseInfo(caseId, result.case_info);
+              
+              const analysisBtn = document.createElement('button');
+              analysisBtn.className = 'btn';
+              analysisBtn.style.cssText = 'padding:10px 16px; background:#10b981; color:#000; border-radius:8px; font-weight:600; display:flex; align-items:center; gap:6px';
+              analysisBtn.innerHTML = '<span>📊</span><span>تحلیل حقوقی کامل</span>';
+              analysisBtn.onclick = async ()=>{
+                await analyzeCaseStatus(caseId, result.case_info);
+              };
+              
+              const documentsBtn = document.createElement('button');
+              documentsBtn.className = 'btn';
+              documentsBtn.style.cssText = 'padding:10px 16px; background:#f59e0b; color:#000; border-radius:8px; font-weight:600; display:flex; align-items:center; gap:6px';
+              documentsBtn.innerHTML = '<span>📝</span><span>تنظیم اسناد</span>';
+              documentsBtn.onclick = ()=> showDocumentMenu(caseId, result.case_info);
+              
+              actionsDiv.appendChild(editBtn);
+              actionsDiv.appendChild(analysisBtn);
+              actionsDiv.appendChild(documentsBtn);
+              summaryLi.querySelector('.bubble').appendChild(actionsDiv);
+              
+              // افزودن راهنمای مرحله‌ای در صورت وجود
+              if(result.step_guidance){
+                const guidance = result.step_guidance;
+                if(Array.isArray(guidance.messages)){
+                  for(const msgText of guidance.messages){
+                    if(!msgText || !msgText.trim()) continue;
+                    const guidanceLi = addMsg('assistant', msgText);
+                    guidanceLi.style.background = 'linear-gradient(135deg, rgba(14,165,233,.05) 0%, rgba(6,182,212,.12) 100%)';
+                    guidanceLi.style.borderRight = '4px solid #0ea5e9';
+                    caseInfo.conversation_history.push({ role: 'assistant', text: msgText, tag: 'step_guidance' });
+                    try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: caseId, role:'assistant', text: msgText }) }); }catch(e){}
+                  }
+                }
+                if(guidance.document_plan){
+                  const docPlan = guidance.document_plan;
+                  if(docPlan.summary && docPlan.summary.trim()){
+                    const summaryLi = addMsg('assistant', `📦 ${docPlan.summary}`);
+                    summaryLi.style.background = 'linear-gradient(135deg, rgba(249,115,22,.08) 0%, rgba(217,70,15,.12) 100%)';
+                    summaryLi.style.borderRight = '4px solid #f97316';
+                    caseInfo.conversation_history.push({ role: 'assistant', text: docPlan.summary, tag: 'document_plan_summary' });
+                    try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: caseId, role:'assistant', text: docPlan.summary }) }); }catch(e){}
+                  }
+                  if(Array.isArray(docPlan.messages)){
+                    for(const planMsg of docPlan.messages){
+                      if(!planMsg || !planMsg.trim()) continue;
+                      const planLi = addMsg('assistant', planMsg);
+                      planLi.style.background = 'linear-gradient(135deg, rgba(249,115,22,.08) 0%, rgba(217,70,15,.12) 100%)';
+                      planLi.style.borderRight = '4px solid #f97316';
+                      caseInfo.conversation_history.push({ role: 'assistant', text: planMsg, tag: 'document_plan' });
+                      try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: caseId, role:'assistant', text: planMsg }) }); }catch(e){}
+                    }
+                  }
+                }
+                if(guidance.law_overview && guidance.law_overview.trim()){
+                  const lawLi = addMsg('assistant', guidance.law_overview);
+                  lawLi.style.background = 'linear-gradient(135deg, rgba(59,130,246,.06) 0%, rgba(29,78,216,.1) 100%)';
+                  lawLi.style.borderRight = '4px solid #2563eb';
+                  caseInfo.conversation_history.push({ role: 'assistant', text: guidance.law_overview, tag: 'law_guidance' });
+                  try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: caseId, role:'assistant', text: guidance.law_overview }) }); }catch(e){}
+                }
+                if(guidance.encouragement && guidance.encouragement.trim()){
+                  const encouragementLi = addMsg('assistant', guidance.encouragement);
+                  encouragementLi.style.background = 'linear-gradient(135deg, rgba(34,197,94,.08) 0%, rgba(22,163,74,.12) 100%)';
+                  encouragementLi.style.borderRight = '4px solid #22c55e';
+                  caseInfo.conversation_history.push({ role: 'assistant', text: guidance.encouragement, tag: 'encouragement' });
+                  try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: caseId, role:'assistant', text: guidance.encouragement }) }); }catch(e){}
+                }
+                saveCaseInfo(caseId, caseInfo);
+              }
+
+              setTimeout(()=>{ window.scrollTo({ top: document.body.scrollHeight, behavior:'smooth' }); }, 120);
+              setTimeout(()=>{ q.focus(); }, 200);
+              
+            } else {
+              // نمایش سوال بعدی به صورت چت
+              const aiQuestion = result.question;
+              currentQuestionId = result.question_id;
+              
+              // به‌روزرسانی caseInfo
+              if(result.case_info){
+                Object.assign(caseInfo, result.case_info);
+              }
+              
+              // نمایش سوال به عنوان پیام assistant جداگانه
+              const questionLi = document.createElement('li');
+              questionLi.className = 'msg assistant';
+              questionLi.id = `python-question-${questionCount}`;
+              
+              const bubble = document.createElement('div');
+              bubble.className = 'bubble';
+              bubble.style.cssText = 'background: linear-gradient(135deg, #065f46 0%, #064e3b 100%); border: 1px solid #10b981';
+              bubble.innerHTML = formatText(aiQuestion);
+              
+              questionLi.appendChild(bubble);
+              msgs.appendChild(questionLi);
+              
+              // ذخیره سوال در chat و history
+              caseInfo.conversation_history.push({ role: 'assistant', text: aiQuestion, question_id: currentQuestionId });
+              try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: caseId, role:'assistant', text: aiQuestion }) }); }catch(e){}
+              
+              // فعال کردن input box اصلی برای دریافت پاسخ
+              const mainInput = document.getElementById('q');
+              const mainSendBtn = document.getElementById('sendBtn');
+              
+              if(mainInput && mainSendBtn){
+                // تغییر placeholder
+                mainInput.placeholder = '✍️ پاسخ خود را بنویسید و Enter بزنید...';
+                mainInput.value = '';
+                mainInput.disabled = false;
+                mainInput.focus();
+                
+                // غیرفعال کردن سایر عملکردها و فقط دریافت پاسخ
+                console.log('🎯 Setting conversation mode to TRUE for question:', currentQuestionId);
+                window.currentCaseConversationMode = true;
+                window.currentCaseQuestionId = currentQuestionId;
+                window.caseContinueConversation = async (userReply) => {
+                  console.log('💬 Conversation callback called with:', userReply);
+                  if(!userReply || !userReply.trim()) return;
+                  
+                  // نمایش پاسخ کاربر به عنوان پیام user
+                  const userLi = document.createElement('li');
+                  userLi.className = 'msg user';
+                  const userBubble = document.createElement('div');
+                  userBubble.className = 'bubble';
+                  userBubble.innerHTML = formatText(userReply);
+                  userLi.appendChild(userBubble);
+                  msgs.appendChild(userLi);
+                  
+                  // ذخیره پاسخ کاربر
+                  caseInfo.conversation_history.push({ role: 'user', text: userReply, question_id: currentQuestionId });
+                  
+                  // ذخیره در chat
+                  try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: caseId, role:'user', text: userReply }) }); }catch(e){}
+                  
+                  // پاک کردن input
+                  mainInput.value = '';
+                  mainInput.placeholder = 'منتظر سوال بعدی...';
+                  mainInput.disabled = true;
+                  
+                  // غیرفعال کردن موقت conversation mode (تا سوال بعدی بیاید)
+                  console.log('⏸️ Temporarily disabling conversation mode');
+                  window.currentCaseConversationMode = false;
+                  window.caseContinueConversation = null;
+                  
+                  // scroll به پایین
+                  setTimeout(()=>{ window.scrollTo({ top: document.body.scrollHeight, behavior:'smooth' }); }, 100);
+                  
+                  // سوال بعدی (که دوباره conversation mode را فعال می‌کند)
+                  setTimeout(()=> askNextPythonQuestion(userReply), 800);
+                };
+              }
+              
+              setTimeout(()=>{
+                window.scrollTo({ top: document.body.scrollHeight, behavior:'smooth' });
+              }, 100);
+            }
+          }
+        }catch(error){
+          // در صورت خطا، پیغام نمایش بده
+          const typingEl = document.getElementById('ai-typing');
+          if(typingEl) typingEl.remove();
+          
+          // غیرفعال کردن حالت conversation
+          window.currentCaseConversationMode = false;
+          window.caseContinueConversation = null;
+          
+          const mainInput = document.getElementById('q');
+          if(mainInput){
+            mainInput.placeholder = 'سوال خود را بپرسید...';
+            mainInput.disabled = false;
+          }
+          
+          addMsg('assistant', '⚠️ متأسفانه خطایی رخ داد. لطفاً دوباره تلاش کنید یا با پشتیبانی تماس بگیرید.');
+        }
+      }
+      
+      // شروع اولین سوال
+      await askNextPythonQuestion();
+    }
+    
+    
+    // ===== تحلیل و مدیریت پرونده =====
+    
+    async function analyzeCaseStatus(caseId, caseInfo){
+      try{
+        // نمایش typing indicator
+        const typingLi = addMsg('assistant', '🔄 در حال تحلیل وضعیت پرونده...');
+        
+        const response = await fetch('/case/analyze', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ case_info: caseInfo })
+        });
+        
+        const result = await response.json();
+        
+        // حذف typing indicator
+        typingLi.remove();
+        
+        if(result && result.ok){
+          const analysis = result.analysis;
+          const nextActions = result.next_actions;
+          const checklist = result.checklist;
+          
+          // نمایش تحلیل
+          const analysisText = `⚖️ **تحلیل کامل وضعیت پرونده**\n\n` +
+            `📍 **مرحله فعلی:** ${analysis.current_stage.name}\n\n` +
+            `━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+            `🎯 **استراتژی پیشنهادی:**\n${analysis.strategy}\n\n` +
+            `━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+            `⚠️ **ریسک‌ها:**\n${analysis.risks.map(r => `• ${r}`).join('\n')}\n\n` +
+            `✅ **فرصت‌ها:**\n${analysis.opportunities.map(o => `• ${o}`).join('\n')}\n\n` +
+            `━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+            `📋 **اقدامات فوری:**\n${analysis.urgent_actions.map(a => `${a}`).join('\n')}\n\n` +
+            `━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+            `📝 **اسناد مورد نیاز:**\n${analysis.required_documents.map((d,i) => `${i+1}. ${d}`).join('\n')}`;
+          
+          const analysisLi = addMsg('assistant', analysisText);
+          analysisLi.style.background = 'linear-gradient(135deg, rgba(59,130,246,.05) 0%, rgba(37,99,235,.05) 100%)';
+          analysisLi.style.borderRight = '4px solid #3b82f6';
+          
+          // ذخیره در chat
+          try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: caseId, role:'assistant', text: analysisText }) }); }catch(e){}
+          
+          // به‌روزرسانی timeline عمودی و پنل اطلاعات
+          updateVerticalTimeline(caseInfo);
+          updateCaseInfoPanel(caseInfo);
+          
+          // نمایش برنامه اقدام
+          setTimeout(()=> showActionPlan(caseId, caseInfo, nextActions, checklist), 500);
+        }
+      }catch(error){
+        addMsg('assistant', '⚠️ خطا در تحلیل پرونده. لطفاً دوباره تلاش کنید.');
+      }
+    }
+    
+    function showActionPlan(caseId, caseInfo, actions, checklist){
+      const planText = `📋 **برنامه اقدام گام به گام**\n\n` +
+        `${actions.map((action, i) => action).join('\n\n')}\n\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+        `✅ **چک‌لیست کارها:**\n` +
+        `${checklist.map((item, i) => `${item.priority === 'high' ? '🔴' : '🟡'} ${item.task}`).join('\n')}`;
+      
+      const planLi = addMsg('assistant', planText);
+      planLi.style.background = 'linear-gradient(135deg, rgba(16,185,129,.05) 0%, rgba(5,150,105,.05) 100%)';
+      planLi.style.borderRight = '4px solid #10b981';
+      
+      // دکمه‌های اقدام
+      const actionsDiv = document.createElement('div');
+      actionsDiv.style.cssText = 'margin-top:16px; display:flex; gap:8px; flex-wrap:wrap';
+      
+      const docBtn = document.createElement('button');
+      docBtn.className = 'btn';
+      docBtn.style.cssText = 'padding:10px 16px; background:#f59e0b; color:#000; border-radius:8px; font-weight:600; display:flex; align-items:center; gap:6px';
+      docBtn.innerHTML = '<span>📝</span><span>تنظیم اسناد حقوقی</span>';
+      docBtn.onclick = ()=> showDocumentMenu(caseId, caseInfo);
+      
+      const consultBtn = document.createElement('button');
+      consultBtn.className = 'btn';
+      consultBtn.style.cssText = 'padding:10px 16px; background:#8b5cf6; color:#fff; border-radius:8px; font-weight:600; display:flex; align-items:center; gap:6px';
+      consultBtn.innerHTML = '<span>💬</span><span>مشاوره تخصصی</span>';
+      consultBtn.onclick = ()=> {
+        q.value = 'لطفاً درباره اقدامات بعدی بیشتر توضیح دهید';
+        q.focus();
+      };
+      
+      actionsDiv.appendChild(docBtn);
+      actionsDiv.appendChild(consultBtn);
+      planLi.querySelector('.bubble').appendChild(actionsDiv);
+      
+      // ذخیره در chat
+      try{ fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: caseId, role:'assistant', text: planText }) }); }catch(e){}
+    }
+    
+    function showDocumentMenu(caseId, caseInfo){
+      const modal = document.createElement('div');
+      modal.style.cssText = 'position:fixed; inset:0; background:rgba(0,0,0,.8); z-index:10000; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px)';
+      
+      const box = document.createElement('div');
+      box.style.cssText = 'background:#0f141b; border:1px solid #f59e0b; border-radius:16px; padding:24px; max-width:600px; width:90%; max-height:80vh; overflow:auto';
+      
+      box.innerHTML = `
+        <div style="margin-bottom:20px; font-size:18px; font-weight:600; color:#f59e0b; display:flex; align-items:center; gap:8px">
+          <span>📝</span>
+          <span>تنظیم اسناد حقوقی</span>
+        </div>
+        
+        <div style="color:#94a3b8; margin-bottom:16px; line-height:1.6">
+          انتخاب کنید چه سندی را نیاز دارید:
+        </div>
+        
+        <div style="display:grid; gap:12px">
+          <button id="doc_lawsuit" class="doc-btn" style="padding:16px; background:linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color:#fff; border:none; border-radius:12px; cursor:pointer; text-align:right; display:flex; align-items:center; gap:12px; font-size:14px; font-weight:600; transition:all 0.2s">
+            <span style="font-size:24px">📜</span>
+            <div>
+              <div>دادخواست</div>
+              <div style="font-size:11px; opacity:0.8; font-weight:400">تنظیم دادخواست برای طرح شکایت</div>
+            </div>
+          </button>
+          
+          <button id="doc_defense" class="doc-btn" style="padding:16px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; border:none; border-radius:12px; cursor:pointer; text-align:right; display:flex; align-items:center; gap:12px; font-size:14px; font-weight:600; transition:all 0.2s">
+            <span style="font-size:24px">⚖️</span>
+            <div>
+              <div>دفاعیه</div>
+              <div style="font-size:11px; opacity:0.8; font-weight:400">تنظیم لایحه دفاعیه برای دفاع از موکل</div>
+            </div>
+          </button>
+          
+          <button id="doc_petition" class="doc-btn" style="padding:16px; background:linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color:#fff; border:none; border-radius:12px; cursor:pointer; text-align:right; display:flex; align-items:center; gap:12px; font-size:14px; font-weight:600; transition:all 0.2s">
+            <span style="font-size:24px">📋</span>
+            <div>
+              <div>لایحه</div>
+              <div style="font-size:11px; opacity:0.8; font-weight:400">تنظیم لایحه تکمیلی</div>
+            </div>
+          </button>
+          
+          <button id="doc_appeal" class="doc-btn" style="padding:16px; background:linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color:#fff; border:none; border-radius:12px; cursor:pointer; text-align:right; display:flex; align-items:center; gap:12px; font-size:14px; font-weight:600; transition:all 0.2s">
+            <span style="font-size:24px">🔄</span>
+            <div>
+              <div>تجدیدنظر</div>
+              <div style="font-size:11px; opacity:0.8; font-weight:400">دادخواست تجدیدنظرخواهی</div>
+            </div>
+          </button>
+        </div>
+        
+        <div style="margin-top:20px; display:flex; justify-content:flex-end">
+          <button id="docClose" class="btn" style="padding:10px 16px; background:#374151; color:#e2e8f0">بستن</button>
+        </div>
+      `;
+      
+      modal.appendChild(box);
+      document.body.appendChild(modal);
+      
+      const close = ()=>document.body.removeChild(modal);
+      
+      // اضافه کردن hover effect
+      box.querySelectorAll('.doc-btn').forEach(btn=>{
+        btn.onmouseenter = ()=> btn.style.transform = 'translateX(-4px)';
+        btn.onmouseleave = ()=> btn.style.transform = 'translateX(0)';
+      });
+      
+      box.querySelector('#doc_lawsuit').onclick = ()=> { close(); generateDocument(caseId, caseInfo, 'lawsuit'); };
+      box.querySelector('#doc_defense').onclick = ()=> { close(); generateDocument(caseId, caseInfo, 'defense'); };
+      box.querySelector('#doc_petition').onclick = ()=> { close(); generateDocument(caseId, caseInfo, 'petition'); };
+      box.querySelector('#doc_appeal').onclick = ()=> { close(); generateDocument(caseId, caseInfo, 'appeal'); };
+      box.querySelector('#docClose').onclick = close;
+      
+      modal.onclick = (ev)=>{ if(ev.target === modal) close(); };
+    }
+    
+    async function generateDocument(caseId, caseInfo, docType){
+      try{
+        // نمایش پیغام در حال تولید
+        const loadingLi = addMsg('assistant', `📝 در حال تنظیم ${getDocTypeName(docType)}...`);
+        
+        const response = await fetch('/case/generate-document', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            doc_type: docType,
+            case_info: caseInfo,
+            additional_info: {}
+          })
+        });
+        
+        const result = await response.json();
+        
+        // حذف پیغام loading
+        loadingLi.remove();
+        
+        if(result && result.ok){
+          if(result.needs_info){
+            const missing = Array.isArray(result.missing_fields) ? result.missing_fields : [];
+            pendingDocRequest = { caseId, docType, missingFields: missing };
+            const promptLines = missing.map(item=>{
+              const prompt = (item && item.prompt) ? String(item.prompt).trim() : '';
+              const field = (item && item.field) ? String(item.field).trim() : '';
+              const text = prompt || field;
+              return text ? `• ${text}` : '';
+            }).filter(Boolean);
+            let messageText = '';
+            if(result.instructions){
+              messageText = result.instructions;
+            } else if(promptLines.length){
+              messageText = 'برای تنظیم این سند، لطفاً این اطلاعات را برای من ارسال کن:\n' + promptLines.join('\n');
+            } else {
+              messageText = 'برای تنظیم سند، ابتدا اطلاعات پرونده را کامل کن.';
+            }
+            const infoLi = addMsg('assistant', messageText);
+            infoLi.style.background = 'linear-gradient(135deg, rgba(59,130,246,.08) 0%, rgba(59,130,246,.02) 100%)';
+            infoLi.style.borderRight = '4px solid #3b82f6';
+            try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: caseId, role:'assistant', text: messageText }) }); }catch(e){}
+            return;
+          }
+          if(pendingDocRequest && pendingDocRequest.caseId === caseId && pendingDocRequest.docType === docType){
+            pendingDocRequest = null;
+          }
+          const docLabel = result.doc_label || getDocTypeName(docType);
+          const stageLabel = result.stage_label;
+          const noteLines = [];
+          if(result.instructions){
+            noteLines.push(result.instructions);
+          } else {
+            noteLines.push(`✅ **${docLabel} تنظیم شد**`);
+          }
+          if(stageLabel){
+            noteLines.push(`🔎 مرحله پرونده: ${stageLabel}`);
+          }
+          noteLines.push(result.document || 'متن سند در حال حاضر خالی است.');
+
+          const docText = noteLines.filter(Boolean).join('\n\n');
+          
+          const docLi = addMsg('assistant', docText);
+          docLi.style.background = 'linear-gradient(135deg, rgba(245,158,11,.05) 0%, rgba(217,119,6,.05) 100%)';
+          docLi.style.borderRight = '4px solid #f59e0b';
+          
+          // دکمه‌های عملیاتی
+          const actionsDiv = document.createElement('div');
+          actionsDiv.style.cssText = 'margin-top:16px; display:flex; gap:8px; flex-wrap:wrap';
+          
+          const copyBtn = document.createElement('button');
+          copyBtn.className = 'btn';
+          copyBtn.style.cssText = 'padding:10px 16px; background:#3b82f6; color:#fff; border-radius:8px; display:flex; align-items:center; gap:6px';
+          copyBtn.innerHTML = '<span>📋</span><span>کپی متن</span>';
+          copyBtn.onclick = ()=>{
+            navigator.clipboard.writeText(result.document || '').then(()=>{
+              copyBtn.innerHTML = '<span>✅</span><span>کپی شد</span>';
+              setTimeout(()=>{ copyBtn.innerHTML = '<span>📋</span><span>کپی متن</span>'; }, 2000);
+            });
+          };
+          
+          const editBtn = document.createElement('button');
+          editBtn.className = 'btn';
+          editBtn.style.cssText = 'padding:10px 16px; background:#10b981; color:#000; border-radius:8px; font-weight:600; display:flex; align-items:center; gap:6px';
+          editBtn.innerHTML = '<span>✏️</span><span>ویرایش و تکمیل</span>';
+          editBtn.onclick = ()=>{
+            q.value = `لطفاً این ${getDocTypeName(docType)} را بررسی و تکمیل کنید. اگر نیاز به تغییری است، بگویید.`;
+            q.focus();
+          };
+          
+          const newDocBtn = document.createElement('button');
+          newDocBtn.className = 'btn';
+          newDocBtn.style.cssText = 'padding:10px 16px; background:#f59e0b; color:#000; border-radius:8px; font-weight:600; display:flex; align-items:center; gap:6px';
+          newDocBtn.innerHTML = '<span>📝</span><span>سند دیگری</span>';
+          newDocBtn.onclick = ()=> showDocumentMenu(caseId, caseInfo);
+          
+          actionsDiv.appendChild(copyBtn);
+          actionsDiv.appendChild(editBtn);
+          actionsDiv.appendChild(newDocBtn);
+          docLi.querySelector('.bubble').appendChild(actionsDiv);
+          
+          // ذخیره در chat
+          try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: caseId, role:'assistant', text: docText }) }); }catch(e){}
+        }
+      }catch(error){
+        addMsg('assistant', '⚠️ خطا در تولید سند. لطفاً دوباره تلاش کنید.');
+      }
+    }
+    
+    function getDocTypeName(docType){
+      const names = {
+        'lawsuit': 'دادخواست',
+        'defense': 'دفاعیه',
+        'petition': 'لایحه',
+        'appeal': 'تجدیدنظر'
+      };
+      return names[docType] || 'سند';
+    }
+    function normalizeFieldValue(value){
+      if(value === null || value === undefined) return '';
+      if(Array.isArray(value)){
+        return value.length > 0 ? 'array' : '';
+      }
+      if(typeof value === 'object'){
+        return Object.keys(value).length > 0 ? 'object' : '';
+      }
+      const text = String(value).trim();
+      if(!text) return '';
+      const placeholders = new Set(['نامشخص', 'تعیین نشده', '(ندارد)', 'ندارد', '(در مکالمه ذکر نشد)', 'پرونده بدون عنوان', '[نام موکل]', '[نام طرف مقابل]']);
+      return placeholders.has(text) ? '' : text;
+    }
+    function hasCaseFieldFilled(info, key){
+      if(!key || !info) return false;
+      const raw = info[key];
+      const normalized = normalizeFieldValue(raw);
+      return Boolean(normalized);
+    }
+    function maybeResumePendingDocument(caseId, caseInfo){
+      if(!pendingDocRequest || !caseId || pendingDocRequest.caseId !== caseId) return;
+      const missing = Array.isArray(pendingDocRequest.missingFields) ? pendingDocRequest.missingFields : [];
+      if(!missing.length){ pendingDocRequest = null; return; }
+      const allFilled = missing.every(item => hasCaseFieldFilled(caseInfo, item && item.key));
+      if(allFilled){
+        const pending = pendingDocRequest;
+        pendingDocRequest = null;
+        setTimeout(()=>{
+          try{ generateDocument(caseId, caseInfo, pending.docType); }catch(e){ console.error('Error resuming document generation:', e); }
+        }, 200);
+      }
+    }
+    function saveCaseInfo(caseId, info){
+      if(!caseId || !info) return;
+      try{ localStorage.setItem(`case_info_${caseId}`, JSON.stringify(info)); }catch(e){}
+      maybeResumePendingDocument(caseId, info);
+    }
+    
+    // ===== تایم‌لاین عمودی روند دادرسی =====
+    
+    function detectCaseStage(caseInfo){
+      /**
+       * تشخیص خودکار مرحله پرونده بر اساس اطلاعات
+       */
+      if(!caseInfo) return 'pre_complaint';
+      
+      const stageText = (caseInfo.case_stage || '').toLowerCase();
+      
+      // تشخیص بر اساس متن
+      if(stageText.includes('بسته') || stageText.includes('پایان') || stageText.includes('اتمام')){
+        return 'closed';
+      }
+      if(stageText.includes('اجرا') || stageText.includes('اجرای احکام')){
+        return 'execution';
+      }
+      if(stageText.includes('تجدید') || stageText.includes('فرجام')){
+        return 'appeal';
+      }
+      if(stageText.includes('رأی') || stageText.includes('حکم') || stageText.includes('صدور')){
+        return 'verdict';
+      }
+      if(stageText.includes('جلسه') || stageText.includes('دادگاه') || stageText.includes('رسیدگی')){
+        return 'court_session';
+      }
+      if(stageText.includes('بررسی') || stageText.includes('ارجاع')){
+        return 'case_review';
+      }
+      if(caseInfo.case_number && caseInfo.case_number !== '(ندارد/مشخص نشد)'){
+        return 'complaint_filed';
+      }
+      
+      return 'pre_complaint';
+    }
+    
+    function updateVerticalTimeline(caseInfo){
+      /**
+       * به‌روزرسانی تایم‌لاین عمودی بر اساس اطلاعات پرونده
+       */
+      const timeline = document.getElementById('verticalCaseTimeline');
+      if(!timeline) return;
+      
+      // تشخیص مرحله فعلی
+      const currentStage = detectCaseStage(caseInfo);
+      
+      // لیست مراحل به ترتیب
+      const stagesOrder = [
+        'pre_complaint',
+        'complaint_filed',
+        'case_review',
+        'court_session',
+        'verdict',
+        'appeal',
+        'execution',
+        'closed'
+      ];
+      
+      const currentIndex = stagesOrder.indexOf(currentStage);
+      
+      // به‌روزرسانی وضعیت هر مرحله
+      const steps = timeline.querySelectorAll('.v-step');
+      steps.forEach((step, index) => {
+        const stepStage = step.getAttribute('data-stage');
+        const stepIndex = stagesOrder.indexOf(stepStage);
+        
+        // حذف کلاس‌های قبلی
+        step.classList.remove('completed', 'active');
+        
+        if(stepIndex < currentIndex){
+          // مراحل گذشته
+          step.classList.add('completed');
+        } else if(stepIndex === currentIndex){
+          // مرحله فعلی
+          step.classList.add('active');
+        }
+      });
+      
+      // نمایش timeline و اضافه کردن padding به محتوا
+      timeline.style.display = 'block';
+      document.body.classList.add('timeline-active');
+    }
+    
+    function hideVerticalTimeline(){
+      /**
+       * مخفی کردن تایم‌لاین (برای چت‌های عادی)
+       */
+      const timeline = document.getElementById('verticalCaseTimeline');
+      if(timeline){
+        timeline.style.display = 'none';
+      }
+      // حذف padding از محتوا
+      document.body.classList.remove('timeline-active');
+    }
+    
+    // ===== Timeline Collapse & Draggable =====
+    
+    (function initTimelineControls(){
+      const timeline = document.getElementById('verticalCaseTimeline');
+      const collapseBtn = document.getElementById('timelineCollapseBtn');
+      const dragHandle = document.getElementById('timelineDragHandle');
+      
+      if(!timeline || !collapseBtn || !dragHandle) return;
+      
+      // بارگذاری وضعیت collapsed از localStorage
+      const isCollapsed = localStorage.getItem('timeline_collapsed') === 'true';
+      if(isCollapsed){
+        timeline.classList.add('collapsed');
+        collapseBtn.textContent = '▶';
+      }
+      
+      // بارگذاری موقعیت از localStorage
+      const savedPosition = localStorage.getItem('timeline_position');
+      if(savedPosition){
+        const pos = JSON.parse(savedPosition);
+        timeline.style.left = pos.left;
+        timeline.style.top = pos.top;
+      }
+      
+      // Toggle collapse
+      collapseBtn.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        timeline.classList.toggle('collapsed');
+        const collapsed = timeline.classList.contains('collapsed');
+        collapseBtn.textContent = collapsed ? '▶' : '◀';
+        collapseBtn.title = collapsed ? 'باز کردن' : 'جمع کردن';
+        localStorage.setItem('timeline_collapsed', collapsed);
+      });
+      
+      // Drag functionality
+      let isDragging = false;
+      let startX, startY, startLeft, startTop;
+      
+      dragHandle.addEventListener('mousedown', (e)=>{
+        // فقط اگر روی header کلیک شد، نه روی دکمه
+        if(e.target.closest('.v-timeline-btn')) return;
+        
+        isDragging = true;
+        timeline.classList.add('dragging');
+        
+        startX = e.clientX;
+        startY = e.clientY;
+        
+        const rect = timeline.getBoundingClientRect();
+        startLeft = rect.left;
+        startTop = rect.top;
+        
+        e.preventDefault();
+      });
+      
+      document.addEventListener('mousemove', (e)=>{
+        if(!isDragging) return;
+        
+        const deltaX = e.clientX - startX;
+        const deltaY = e.clientY - startY;
+        
+        let newLeft = startLeft + deltaX;
+        let newTop = startTop + deltaY;
+        
+        // محدود کردن به مرزهای صفحه
+        const maxLeft = window.innerWidth - timeline.offsetWidth - 16;
+        const maxTop = window.innerHeight - timeline.offsetHeight - 16;
+        
+        newLeft = Math.max(16, Math.min(newLeft, maxLeft));
+        newTop = Math.max(16, Math.min(newTop, maxTop));
+        
+        timeline.style.left = newLeft + 'px';
+        timeline.style.top = newTop + 'px';
+      });
+      
+      document.addEventListener('mouseup', ()=>{
+        if(!isDragging) return;
+        
+        isDragging = false;
+        timeline.classList.remove('dragging');
+        
+        // ذخیره موقعیت در localStorage
+        localStorage.setItem('timeline_position', JSON.stringify({
+          left: timeline.style.left,
+          top: timeline.style.top
+        }));
+      });
+      
+      // Touch support for mobile
+      dragHandle.addEventListener('touchstart', (e)=>{
+        if(e.target.closest('.v-timeline-btn')) return;
+        
+        isDragging = true;
+        timeline.classList.add('dragging');
+        
+        const touch = e.touches[0];
+        startX = touch.clientX;
+        startY = touch.clientY;
+        
+        const rect = timeline.getBoundingClientRect();
+        startLeft = rect.left;
+        startTop = rect.top;
+      });
+      
+      document.addEventListener('touchmove', (e)=>{
+        if(!isDragging) return;
+        
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - startX;
+        const deltaY = touch.clientY - startY;
+        
+        let newLeft = startLeft + deltaX;
+        let newTop = startTop + deltaY;
+        
+        const maxLeft = window.innerWidth - timeline.offsetWidth - 16;
+        const maxTop = window.innerHeight - timeline.offsetHeight - 16;
+        
+        newLeft = Math.max(16, Math.min(newLeft, maxLeft));
+        newTop = Math.max(16, Math.min(newTop, maxTop));
+        
+        timeline.style.left = newLeft + 'px';
+        timeline.style.top = newTop + 'px';
+      });
+      
+      document.addEventListener('touchend', ()=>{
+        if(!isDragging) return;
+        
+        isDragging = false;
+        timeline.classList.remove('dragging');
+        
+        localStorage.setItem('timeline_position', JSON.stringify({
+          left: timeline.style.left,
+          top: timeline.style.top
+        }));
+      });
+    })();
+    
+    // ===== Case Info Panel Draggable =====
+    
+    (function initCaseInfoControls(){
+      const panel = document.getElementById('caseInfoPanel');
+      const dragHandle = document.getElementById('caseInfoDragHandle');
+      const collapseBtn = document.getElementById('caseInfoCollapseBtn');
+      
+      if(!panel || !dragHandle || !collapseBtn) return;
+      
+      // بارگذاری وضعیت collapsed از localStorage
+      const isCollapsed = localStorage.getItem('caseinfo_collapsed') === 'true';
+      if(isCollapsed){
+        panel.classList.add('collapsed');
+        collapseBtn.textContent = '◀';
+      }
+      
+      // بارگذاری موقعیت از localStorage
+      const savedPosition = localStorage.getItem('caseinfo_position');
+      if(savedPosition){
+        const pos = JSON.parse(savedPosition);
+        panel.style.right = pos.right;
+        panel.style.top = pos.top;
+      }
+      
+      // Toggle collapse
+      collapseBtn.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        panel.classList.toggle('collapsed');
+        const collapsed = panel.classList.contains('collapsed');
+        collapseBtn.textContent = collapsed ? '◀' : '▶';
+        collapseBtn.title = collapsed ? 'باز کردن' : 'جمع کردن';
+        localStorage.setItem('caseinfo_collapsed', collapsed);
+      });
+      
+      // Drag functionality
+      let isDragging = false;
+      let startX, startY, startRight, startTop;
+      
+      dragHandle.addEventListener('mousedown', (e)=>{
+        // فقط اگر روی header کلیک شد، نه روی دکمه
+        if(e.target.closest('.case-info-btn')) return;
+        
+        isDragging = true;
+        panel.classList.add('dragging');
+        
+        startX = e.clientX;
+        startY = e.clientY;
+        
+        const rect = panel.getBoundingClientRect();
+        startRight = window.innerWidth - rect.right;
+        startTop = rect.top;
+        
+        e.preventDefault();
+      });
+      
+      document.addEventListener('mousemove', (e)=>{
+        if(!isDragging) return;
+        
+        const deltaX = startX - e.clientX;  // معکوس برای right
+        const deltaY = e.clientY - startY;
+        
+        let newRight = startRight + deltaX;
+        let newTop = startTop + deltaY;
+        
+        // محدود کردن به مرزهای صفحه
+        const maxRight = window.innerWidth - panel.offsetWidth - 16;
+        const maxTop = window.innerHeight - panel.offsetHeight - 16;
+        
+        newRight = Math.max(16, Math.min(newRight, maxRight));
+        newTop = Math.max(16, Math.min(newTop, maxTop));
+        
+        panel.style.right = newRight + 'px';
+        panel.style.top = newTop + 'px';
+        panel.style.left = 'auto';  // غیرفعال کردن left
+      });
+      
+      document.addEventListener('mouseup', ()=>{
+        if(!isDragging) return;
+        
+        isDragging = false;
+        panel.classList.remove('dragging');
+        
+        // ذخیره موقعیت در localStorage
+        localStorage.setItem('caseinfo_position', JSON.stringify({
+          right: panel.style.right,
+          top: panel.style.top
+        }));
+      });
+      
+      // Touch support for mobile
+      dragHandle.addEventListener('touchstart', (e)=>{
+        if(e.target.closest('.case-info-btn')) return;
+        
+        isDragging = true;
+        panel.classList.add('dragging');
+        
+        const touch = e.touches[0];
+        startX = touch.clientX;
+        startY = touch.clientY;
+        
+        const rect = panel.getBoundingClientRect();
+        startRight = window.innerWidth - rect.right;
+        startTop = rect.top;
+      });
+      
+      document.addEventListener('touchmove', (e)=>{
+        if(!isDragging) return;
+        
+        const touch = e.touches[0];
+        const deltaX = startX - touch.clientX;
+        const deltaY = touch.clientY - startY;
+        
+        let newRight = startRight + deltaX;
+        let newTop = startTop + deltaY;
+        
+        const maxRight = window.innerWidth - panel.offsetWidth - 16;
+        const maxTop = window.innerHeight - panel.offsetHeight - 16;
+        
+        newRight = Math.max(16, Math.min(newRight, maxRight));
+        newTop = Math.max(16, Math.min(newTop, maxTop));
+        
+        panel.style.right = newRight + 'px';
+        panel.style.top = newTop + 'px';
+        panel.style.left = 'auto';
+      });
+      
+      document.addEventListener('touchend', ()=>{
+        if(!isDragging) return;
+        
+        isDragging = false;
+        panel.classList.remove('dragging');
+        
+        localStorage.setItem('caseinfo_position', JSON.stringify({
+          right: panel.style.right,
+          top: panel.style.top
+        }));
+      });
+    })();
+    
+    // ===== پنل اطلاعات پرونده در سمت راست =====
+    
+    function updateCaseInfoPanel(caseInfo){
+      /**
+       * به‌روزرسانی پنل اطلاعات پرونده
+       */
+      const panel = document.getElementById('caseInfoPanel');
+      if(!panel){
+        console.error("Case info panel element not found!");
+        return;
+      }
+
+      panel.style.display = 'block';
+      panel.style.visibility = 'visible';
+      panel.style.opacity = '1';
+      document.body.classList.add('case-info-active');
+
+      const fieldElements = panel.querySelectorAll('[data-field]');
+      fieldElements.forEach(el => {
+        const placeholder = el.getAttribute('data-placeholder') || el.textContent || 'نامشخص';
+        el.setAttribute('data-placeholder', placeholder);
+        el.textContent = placeholder;
+        el.classList.add('empty');
+        el.classList.remove('highlight');
+      });
+
+      if(!caseInfo){
+        return;
+      }
+
+      const prepareDisplayValue = (value)=>{
+        if(Array.isArray(value)){
+          return value.filter(Boolean).map(String).join('، ');
+        }
+        if(value && typeof value === 'object'){
+          if(typeof value.label === 'string') return value.label;
+          if(typeof value.name === 'string') return value.name;
+          const parts = Object.values(value).filter(v => typeof v === 'string' && v.trim());
+          if(parts.length) return parts.join('، ');
+        }
+        if(value === 0) return '0';
+        if(value === null || value === undefined) return '';
+        return String(value);
+      };
+
+      const fieldMappings = {
+        'case_title': caseInfo.case_title,
+        'client_name': caseInfo.client_name,
+        'case_type': getCaseTypeLabel(caseInfo.case_type),
+        'opponent_name': caseInfo.opponent_name,
+        'complaint_side': getComplaintSideLabel(caseInfo.complaint_side),
+        'case_stage': getCaseStageLabel(caseInfo.case_stage),
+        'case_number': caseInfo.case_number,
+        'case_goal': caseInfo.case_goal,
+        'available_documents': caseInfo.available_documents
+      };
+
+      const highlightFields = new Set(['case_title', 'client_name', 'case_type', 'case_stage']);
+
+      Object.entries(fieldMappings).forEach(([field, rawValue])=>{
+        const element = panel.querySelector(`[data-field="${field}"]`);
+        if(!element) return;
+
+        const displayValue = prepareDisplayValue(rawValue).trim();
+        const normalized = normalizeFieldValue(displayValue);
+
+        if(normalized){
+          element.textContent = displayValue;
+          element.classList.remove('empty');
+          if(highlightFields.has(field)){
+            element.classList.add('highlight');
+          } else {
+            element.classList.remove('highlight');
+          }
+        } else {
+          const placeholder = element.getAttribute('data-placeholder') || 'نامشخص';
+          element.textContent = placeholder;
+          element.classList.add('empty');
+          element.classList.remove('highlight');
+        }
+      });
+    }
+    
+    function hideCaseInfoPanel(){
+      /**
+       * مخفی کردن پنل اطلاعات
+       */
+      const panel = document.getElementById('caseInfoPanel');
+      if(panel){
+        panel.style.display = 'none';
+      }
+      document.body.classList.remove('case-info-active');
+    }
+    
+    function getCaseTypeLabel(type){
+      const labels = {
+        'civil': 'حقوقی (مدنی)',
+        'criminal': 'کیفری',
+        'family': 'خانوادگی',
+        'commercial': 'تجاری',
+        'labor': 'کار',
+        'property': 'املاک',
+        'other': 'سایر'
+      };
+      return labels[type] || type || 'نامشخص';
+    }
+    
+    function getComplaintSideLabel(side){
+      const labels = {
+        'plaintiff': 'شاکی / خواهان',
+        'defendant': 'متهم / خوانده',
+        'both': 'هر دو طرف',
+        'unknown': 'نامشخص'
+      };
+      return labels[side] || side || 'نامشخص';
+    }
+    
+    function getCaseStageLabel(stage){
+      if(!stage) return 'نامشخص';
+      
+      const labels = {
+        'pre_complaint': 'قبل از شکایت',
+        'complaint_filed': 'ثبت دادخواست',
+        'case_review': 'بررسی اولیه',
+        'court_session': 'جلسه دادگاه',
+        'verdict': 'صدور رأی',
+        'appeal': 'تجدیدنظر',
+        'execution': 'اجرای حکم',
+        'closed': 'پایان پرونده'
+      };
+      
+      // اگر از قبل فارسی است، همان را برگردان
+      if(stage.includes('قبل') || stage.includes('شکایت') || stage.includes('دادخواست') || 
+         stage.includes('بررسی') || stage.includes('جلسه') || stage.includes('رأی') || 
+         stage.includes('تجدید') || stage.includes('اجرا') || stage.includes('پایان')){
+        return stage;
+      }
+      
+      return labels[stage] || stage;
+    }
+    
+    // استخراج خودکار اطلاعات از پیام‌های AI
+    async function extractInfoFromAIResponse(aiMessage, currentCaseInfo){
+      /**
+       * استخراج اطلاعات از پاسخ AI و به‌روزرسانی case_info
+       */
+      try {
+        const response = await fetch('/api/extract-case-info', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: aiMessage,
+            current_info: currentCaseInfo
+          })
+        });
+        
+        if(response.ok){
+          const data = await response.json();
+          if(data.ok && data.extracted_info){
+            return data.extracted_info;
+          }
+        }
+      } catch(err){
+        console.error("Error extracting info from AI:", err);
+      }
+      return null;
+    }
+    
+    // تابع تست برای نمایش پنل (برای debug)
+    window.testCaseInfoPanel = function(){
+      const testData = {
+        case_title: 'پرونده تست',
+        client_name: 'علی محمدی',
+        case_type: 'civil',
+        opponent_name: 'رضا احمدی',
+        complaint_side: 'plaintiff',
+        case_stage: 'قبل از طرح شکایت',
+        case_number: 'ندارد',
+        case_goal: 'وصول طلب',
+        available_documents: 'قرارداد، چک'
+      };
+      
+      console.log('Testing case info panel with:', testData);
+      updateCaseInfoPanel(testData);
+      
+      const panel = document.getElementById('caseInfoPanel');
+      if(panel){
+        console.log('Panel display:', window.getComputedStyle(panel).display);
+        console.log('Panel visibility:', window.getComputedStyle(panel).visibility);
+        console.log('Screen width:', window.innerWidth);
+      } else {
+        console.error('Panel element not found!');
+      }
+    };
+    
+    // تابع force نمایش پنل با داده‌های فعلی
+    window.showCaseInfoPanel = function(){
+      const caseId = localStorage.getItem('currentChatId') || currentChatId;
+      if(!caseId){
+        console.warn('هیچ پرونده‌ای فعال نیست');
+        return;
+      }
+      
+      const caseInfoJson = localStorage.getItem(`case_info_${caseId}`);
+      if(!caseInfoJson){
+        console.warn('اطلاعات پرونده در localStorage یافت نشد');
+        return;
+      }
+      
+      const caseInfo = JSON.parse(caseInfoJson);
+      console.log('نمایش پنل با اطلاعات:', caseInfo);
+      
+      const panel = document.getElementById('caseInfoPanel');
+      if(!panel){
+        console.error('عنصر پنل یافت نشد!');
+        return;
+      }
+      
+      // Force نمایش
+      panel.style.display = 'block';
+      panel.style.visibility = 'visible';
+      document.body.classList.add('case-info-active');
+      
+      updateCaseInfoPanel(caseInfo);
+      
+      console.log('✅ پنل با موفقیت نمایش داده شد');
+    };
+    
+    function refreshTimelineFromLocalStorage(caseId){
+      /**
+       * بازیابی اطلاعات پرونده از localStorage و به‌روزرسانی timeline و panel
+       */
+      try{
+        const caseInfoJson = localStorage.getItem(`case_info_${caseId}`);
+        if(caseInfoJson){
+          const caseInfo = JSON.parse(caseInfoJson);
+          updateVerticalTimeline(caseInfo);
+          updateCaseInfoPanel(caseInfo);
+        }
+      }catch(e){
+        console.error('Error refreshing timeline:', e);
+      }
+    }
+    
+    // ویرایش اطلاعات پرونده
+    function editCaseInfo(caseId, currentInfo){
+      const modal = document.createElement('div');
+      modal.style.cssText = 'position:fixed; inset:0; background:rgba(0,0,0,.8); z-index:10000; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px)';
+      
+      const box = document.createElement('div');
+      box.style.cssText = 'background:#0f141b; border:1px solid #22c55e; border-radius:16px; padding:24px; max-width:600px; width:90%; max-height:80vh; overflow:auto';
+      
+      box.innerHTML = `
+        <div style="margin-bottom:20px; font-size:18px; font-weight:600; color:#22c55e">
+          ✏️ ویرایش اطلاعات پرونده
+        </div>
+        
+        <div style="display:flex; flex-direction:column; gap:12px">
+          <div>
+            <label style="display:block; color:#94a3b8; font-size:13px; margin-bottom:6px">👤 نام موکل</label>
+            <input id="edit_client_name" value="${currentInfo.client_name||''}" style="width:100%; padding:10px; background:#0b1220; border:1px solid #1f2937; border-radius:8px; color:#e2e8f0">
+          </div>
+          
+          <div>
+            <label style="display:block; color:#94a3b8; font-size:13px; margin-bottom:6px">📞 شماره تماس</label>
+            <input id="edit_client_phone" value="${currentInfo.client_phone||''}" style="width:100%; padding:10px; background:#0b1220; border:1px solid #1f2937; border-radius:8px; color:#e2e8f0">
+          </div>
+          
+          <div>
+            <label style="display:block; color:#94a3b8; font-size:13px; margin-bottom:6px">👥 طرف مقابل</label>
+            <input id="edit_opponent_name" value="${currentInfo.opponent_name||''}" style="width:100%; padding:10px; background:#0b1220; border:1px solid #1f2937; border-radius:8px; color:#e2e8f0">
+          </div>
+          
+          <div>
+            <label style="display:block; color:#94a3b8; font-size:13px; margin-bottom:6px">📅 تاریخ وقوع</label>
+            <input id="edit_incident_date" value="${currentInfo.incident_date||''}" style="width:100%; padding:10px; background:#0b1220; border:1px solid #1f2937; border-radius:8px; color:#e2e8f0">
+          </div>
+          
+          <div>
+            <label style="display:block; color:#94a3b8; font-size:13px; margin-bottom:6px">📝 شرح موضوع</label>
+            <textarea id="edit_incident_description" style="width:100%; min-height:100px; padding:10px; background:#0b1220; border:1px solid #1f2937; border-radius:8px; color:#e2e8f0; resize:vertical">${currentInfo.incident_description||''}</textarea>
+          </div>
+          
+          <div>
+            <label style="display:block; color:#94a3b8; font-size:13px; margin-bottom:6px">📄 مدارک موجود</label>
+            <input id="edit_available_documents" value="${currentInfo.available_documents||''}" style="width:100%; padding:10px; background:#0b1220; border:1px solid #1f2937; border-radius:8px; color:#e2e8f0">
+          </div>
+          
+          <div>
+            <label style="display:block; color:#94a3b8; font-size:13px; margin-bottom:6px">🎯 هدف از پیگیری</label>
+            <input id="edit_case_goal" value="${currentInfo.case_goal||''}" style="width:100%; padding:10px; background:#0b1220; border:1px solid #1f2937; border-radius:8px; color:#e2e8f0">
+          </div>
+        </div>
+        
+        <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:20px">
+          <button id="editCancel" class="btn" style="padding:10px 16px; background:#374151; color:#e2e8f0">انصراف</button>
+          <button id="editSave" class="btn" style="padding:10px 16px; background:#22c55e; color:#000; font-weight:600">💾 ذخیره تغییرات</button>
+        </div>
+      `;
+      
+      modal.appendChild(box);
+      document.body.appendChild(modal);
+      
+      const close = ()=>document.body.removeChild(modal);
+      
+      box.querySelector('#editCancel').onclick = close;
+      box.querySelector('#editSave').onclick = async ()=>{
+        // جمع‌آوری اطلاعات ویرایش شده
+        const updatedInfo = {
+          ...currentInfo,
+          client_name: document.getElementById('edit_client_name').value.trim(),
+          client_phone: document.getElementById('edit_client_phone').value.trim(),
+          opponent_name: document.getElementById('edit_opponent_name').value.trim(),
+          incident_date: document.getElementById('edit_incident_date').value.trim(),
+          incident_description: document.getElementById('edit_incident_description').value.trim(),
+          available_documents: document.getElementById('edit_available_documents').value.trim(),
+          case_goal: document.getElementById('edit_case_goal').value.trim(),
+          updated_at: new Date().toLocaleString('fa-IR')
+        };
+        
+        // ذخیره در localStorage
+        saveCaseInfo(caseId, updatedInfo);
+        
+        // نمایش پیام تایید
+        const confirmMsg = `✅ اطلاعات پرونده به‌روزرسانی شد.\n\n` +
+          `📋 **خلاصه تغییرات:**\n` +
+          `**👤 موکل:** ${updatedInfo.client_name || '-'}\n` +
+          `**📞 تماس:** ${updatedInfo.client_phone || '-'}\n` +
+          `**👥 طرف مقابل:** ${updatedInfo.opponent_name || '-'}\n` +
+          `**📅 تاریخ:** ${updatedInfo.incident_date || '-'}\n` +
+          `**🎯 هدف:** ${updatedInfo.case_goal || '-'}`;
+        
+        addMsg('assistant', confirmMsg);
+        try{ await fetchJson('/chats/append', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: caseId, role:'assistant', text: confirmMsg }) }); }catch(e){}
+        
+        close();
+      };
+      
+      modal.onclick = (ev)=>{ if(ev.target === modal) close(); };
+    }
+    
+    async function openCaseEditor(caseId, title, isNew=false){
+      const modal = document.createElement('div');
+      modal.style.cssText = 'position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:10000; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px)';
+      const box = document.createElement('div');
+      box.style.cssText = 'background:#0f141b; border:1px solid #1f2937; border-radius:16px; padding:24px; min-width:420px; max-width:90vw';
+      box.innerHTML = `
+        <div style="margin-bottom:16px; font-size:18px; font-weight:600; display:flex; align-items:center; gap:8px;">
+          <span>📁</span>
+          <span>${isNew ? 'ایجاد پروندهٔ جدید' : 'ویرایش پرونده'}</span>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="display:block; color:#94a3b8; font-size:13px; margin-bottom:6px;">عنوان پرونده</label>
+          <input id="caseTitleInput" type="text" placeholder="مثال: پرونده طلاق، پرونده ملکی..." value="${title}" style="width:100%; padding:12px 14px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:10px; font-size:14px;">
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="display:block; color:#94a3b8; font-size:13px; margin-bottom:6px;">نوع پرونده</label>
+          <select id="caseTypeSelect" style="width:100%; padding:12px 14px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:10px; font-size:14px;">
+            <option value="civil">👨‍⚖️ مدنی</option>
+            <option value="criminal">🔒 کیفری</option>
+            <option value="family">👨‍👩‍👧‍👦 خانواده</option>
+            <option value="commercial">💼 تجاری</option>
+            <option value="labor">👷 کار</option>
+            <option value="property">🏠 املاک</option>
+            <option value="other">📋 سایر</option>
+          </select>
+        </div>
+        <div style="margin-bottom:16px;">
+          <label style="display:block; color:#94a3b8; font-size:13px; margin-bottom:6px;">توضیحات (اختیاری)</label>
+          <textarea id="caseDescInput" placeholder="جزئیات کوتاه درباره پرونده..." style="width:100%; min-height:80px; padding:12px 14px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:10px; font-size:14px; resize:vertical;"></textarea>
+        </div>
+        <div style="display:flex; gap:8px; justify-content:flex-end;">
+          <button id="caseCancel" class="btn" style="padding:10px 16px; background:#0b1220; color:#e2e8f0; border:1px solid #1f2937; border-radius:10px; cursor:pointer;">انصراف</button>
+          <button id="caseSave" class="btn" style="padding:10px 16px; background:#22c55e; color:#03120a; border:0; border-radius:10px; cursor:pointer; font-weight:600;">${isNew ? '📁 ایجاد پرونده' : 'ذخیره'}</button>
+        </div>
+      `;
+      modal.appendChild(box);
+      document.body.appendChild(modal);
+      const input = box.querySelector('#caseTitleInput');
+      const typeSelect = box.querySelector('#caseTypeSelect');
+      const descInput = box.querySelector('#caseDescInput');
+      const cancelBtn = box.querySelector('#caseCancel');
+      const saveBtn = box.querySelector('#caseSave');
+      input.focus();
+      input.select();
+      const close = ()=>document.body.removeChild(modal);
+      cancelBtn.addEventListener('click', close);
+      saveBtn.addEventListener('click', async()=>{
+        const newTitle = input.value.trim();
+        const caseType = typeSelect.value;
+        const description = descInput.value.trim();
+        if(!newTitle){ return; }
+        try{
+          if(isNew){
+            // ایجاد chat جدید با prefix پرونده
+            const fullTitle = `📁 ${newTitle}`;
+            const c = await fetchJson('/chats', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ title: fullTitle }) });
+            setCurrentChatId(c.id||'', true);
+            msgs.innerHTML = '';
+            await refreshChats();
+            await loadChatById(c.id||'');
+            close();
+            requestAnimationFrame(()=>{
+              try{
+                if(typeof closeSide === 'function'){
+                  closeSide();
+                } else if(typeof window !== 'undefined' && typeof window.closeSidebarDrawer === 'function'){
+                  window.closeSidebarDrawer();
+                } else {
+                  sideDrawer?.classList.remove('open');
+                  if(sideOverlay){ sideOverlay.hidden = true; }
+                }
+              }catch(err){ console.warn('Unable to close sidebar after case creation:', err); }
+            });
+            
+            // Show timeline for new case
+            updateTimelineVisibility(fullTitle);
+            
+            // شروع فرآیند جمع‌آوری اطلاعات پرونده
+            startCaseIntakeWizard(c.id, newTitle, caseType, description);
+          } else {
+            // ویرایش عنوان (فعلاً فقط rename)
+            await fetchJson('/chats/rename', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id:caseId, title:newTitle }) });
+            refreshChats();
+            close();
+          }
+        }catch(e){}
+      });
+      modal.addEventListener('click', (ev)=>{
+        if(ev.target===modal) close();
+      });
+      input.addEventListener('keydown', (ev)=>{
+        if(ev.key==='Enter'){ ev.preventDefault(); saveBtn.click(); }
+        if(ev.key==='Escape'){ ev.preventDefault(); close(); }
+      });
+    }
     btnNewChat?.addEventListener('click', async()=>{
       openChatEditor('', 'گفت‌وگو جدید', true);
     });
+    
+    // دکمه پرونده‌ای جدید
+    const btnNewCase = document.getElementById('btnNewCase');
+    btnNewCase?.addEventListener('click', async()=>{
+      openCaseEditor('', 'پرونده جدید', true);
+    });
+    
     refreshChats();
 
     sendBtn.addEventListener('click', (ev)=>{
@@ -1442,5 +3845,3 @@
   </script>
 </body>
 </html>
-
-

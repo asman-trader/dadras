@@ -2,9 +2,9 @@
   <div class="header-container">
     <style>
       header {
-        background: linear-gradient(135deg, rgba(15,20,27,.98) 0%, rgba(11,15,20,.95) 100%);
+        background: transparent;
         border-bottom: 1px solid rgba(34,197,94,.15);
-        box-shadow: 0 4px 24px rgba(0,0,0,.3), 0 0 80px rgba(34,197,94,.08);
+        box-shadow: none;
       }
       
       header .header-container {
@@ -71,45 +71,6 @@
         display: flex;
         align-items: center;
         gap: 12px;
-      }
-      
-      header .plan-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 16px;
-        border-radius: 20px;
-        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-        border: 1px solid rgba(100,116,139,.3);
-        color: #e2e8f0;
-        text-decoration: none;
-        font-size: 13px;
-        font-weight: 600;
-        transition: all 0.3s;
-        box-shadow: 0 2px 8px rgba(0,0,0,.2);
-      }
-      
-      header .plan-badge:hover {
-        border-color: #22c55e;
-        box-shadow: 0 4px 16px rgba(34,197,94,.3);
-        transform: translateY(-2px);
-      }
-      
-      header .plan-badge .spark {
-        width: 20px;
-        height: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-        border-radius: 50%;
-        font-size: 12px;
-        animation: rotate 4s linear infinite;
-      }
-      
-      @keyframes rotate {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
       }
       
       header .action-btn {
@@ -249,12 +210,26 @@
         opacity: 1;
       }
       
+      header .role-option.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        position: relative;
+      }
+      
+      header .role-option.disabled:hover {
+        background: transparent;
+        color: #94a3b8;
+      }
+      
+      header .role-option.disabled::after {
+        content: '🔒';
+        position: absolute;
+        left: 12px;
+        font-size: 12px;
+      }
+      
       /* Responsive */
       @media (max-width: 768px) {
-        header .plan-badge {
-          display: none;
-        }
-        
         header .brand {
           padding: 4px 8px;
         }
@@ -304,24 +279,24 @@
         <div class="role-selector" id="roleSelector">
           <div class="role-trigger" id="roleTrigger">
             <span class="icon" id="currentRoleIcon">👤</span>
-            <span id="currentRoleText">شهروند</span>
+            <span id="currentRoleText">دستیار شهروند</span>
             <span class="arrow">▼</span>
           </div>
           
           <div class="role-dropdown">
             <div class="role-option active" data-role="default">
               <span class="icon">👤</span>
-              <span>شهروند</span>
+              <span>دستیار شهروند</span>
               <span class="check">✓</span>
             </div>
-            <div class="role-option" data-role="lawyer">
+            <div class="role-option disabled" data-role="lawyer">
               <span class="icon">⚖️</span>
-              <span>وکیل</span>
+              <span>دستیار وکیل</span>
               <span class="check">✓</span>
             </div>
-            <div class="role-option" data-role="judge">
+            <div class="role-option disabled" data-role="judge">
               <span class="icon">👨‍⚖️</span>
-              <span>قاضی</span>
+              <span>دستیار قاضی</span>
               <span class="check">✓</span>
             </div>
           </div>
@@ -329,14 +304,14 @@
       </div>
       
       <div class="top-actions">
-        <a id="planBadge" href="/pricing" class="plan-badge" title="طرح فعلی">
-          <span class="spark">✦</span>
-          <b id="planLabel">طرح: ...</b>
-        </a>
-        
         <button class="action-btn" id="analyticsBtn" aria-label="آمار مکالمه" title="نمایش آمار و تحلیل مکالمه">
           📊
           <span id="analyticsBadge" class="badge" style="display:none"></span>
+        </button>
+        
+        <button class="action-btn" id="notesBtn" aria-label="یادداشت‌ها" title="باز کردن یادداشت‌ها">
+          📝
+          <span id="notesBadge" class="badge" style="display:none">0</span>
         </button>
         
         <button class="action-btn" id="hamBtn" aria-label="منو" title="باز کردن منو">
@@ -346,22 +321,6 @@
     </div>
   </div>
   <script>
-    (async ()=>{
-      try{
-        const r = await fetch('/auth/me');
-        const j = await r.json();
-        const badge = document.getElementById('planBadge');
-        const label = document.getElementById('planLabel');
-        if(j && j.authenticated){
-          const plan = (j.user&&j.user.plan) || 'free';
-          const map = { free:'رایگان', plus:'پلاس', pro:'حرفه‌ای', team:'سازمانی' };
-          if(badge && label){ label.textContent = 'طرح: ' + (map[plan]||plan); badge.href = '/pricing'; badge.title='مشاهده و ارتقا طرح'; }
-        } else {
-          if(badge && label){ label.textContent = 'دریافت پلاس'; badge.href = '/pricing'; badge.title='پلن پایه پلاس را دریافت کنید'; }
-        }
-      }catch(e){}
-    })();
-    
     // Role Selector Dropdown
     (function(){
       const roleSelector = document.getElementById('roleSelector');
@@ -386,6 +345,65 @@
       // Handle role selection
       roleOptions.forEach(option=>{
         option.addEventListener('click', ()=>{
+          // بررسی اگر گزینه disabled است
+          if(option.classList.contains('disabled')){
+            // نمایش اخطار
+            const text = option.querySelector('span:nth-child(2)').textContent;
+            
+            // ایجاد toast notification
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+              position: fixed;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              background: linear-gradient(135deg, rgba(251,146,60,.95) 0%, rgba(249,115,22,.95) 100%);
+              color: #fff;
+              padding: 20px 32px;
+              border-radius: 16px;
+              border: 2px solid rgba(251,146,60,.5);
+              box-shadow: 0 8px 32px rgba(0,0,0,.4), 0 0 60px rgba(251,146,60,.3);
+              z-index: 10000;
+              font-size: 16px;
+              font-weight: 600;
+              text-align: center;
+              animation: scaleIn 0.3s ease-out;
+              min-width: 300px;
+            `;
+            
+            toast.innerHTML = `
+              <div style="font-size: 32px; margin-bottom: 12px;">⚠️</div>
+              <div style="margin-bottom: 8px;">${text}</div>
+              <div style="font-size: 13px; opacity: 0.9; font-weight: 500;">در حال توسعه - به زودی...</div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // اضافه کردن animation
+            const style = document.createElement('style');
+            style.textContent = `
+              @keyframes scaleIn {
+                from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+              }
+              @keyframes scaleOut {
+                from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                to { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+              }
+            `;
+            document.head.appendChild(style);
+            
+            // حذف toast بعد از 3 ثانیه
+            setTimeout(()=>{
+              toast.style.animation = 'scaleOut 0.3s ease-out';
+              setTimeout(()=>toast.remove(), 300);
+            }, 3000);
+            
+            // بستن dropdown
+            roleSelector.classList.remove('open');
+            return;
+          }
+          
           const role = option.dataset.role;
           const icon = option.querySelector('.icon').textContent;
           const text = option.querySelector('span:nth-child(2)').textContent;

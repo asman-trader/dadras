@@ -1,9 +1,50 @@
-<aside id="notesSidebar" class="panel" style="padding:0; display:flex; flex-direction:column; height:100%; max-height:calc(100vh - 100px);">
+<!-- Notes Drawer Overlay -->
+<div id="notesOverlay" class="notes-overlay" hidden></div>
+
+<!-- Notes Drawer -->
+<aside id="notesDrawer" class="notes-drawer" aria-hidden="true">
   <style>
+    /* Notes Overlay */
+    .notes-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.6);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      cursor: pointer;
+    }
+    
+    .notes-overlay[hidden] {
+      display: none;
+    }
+    
+    /* Notes Drawer */
+    .notes-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 400px;
+      max-width: 90vw;
+      background: linear-gradient(135deg, rgba(15,20,27,.98) 0%, rgba(11,15,20,.98) 100%);
+      border-left: 1px solid rgba(34,197,94,.25);
+      box-shadow: -4px 0 24px rgba(0,0,0,.3), 0 0 80px rgba(34,197,94,.1);
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    
+    .notes-drawer.open {
+      transform: translateX(0);
+    }
+    
     #notesSidebar { 
-      background: linear-gradient(135deg, rgba(15,20,27,.95) 0%, rgba(11,15,20,.98) 100%);
-      border: 1px solid rgba(34,197,94,.15);
-      box-shadow: 0 4px 24px rgba(0,0,0,.2);
+      background: transparent;
+      border: none;
+      box-shadow: none;
     }
     
     #notesHeader { 
@@ -224,14 +265,15 @@
       font-size: 18px;
     }
   </style>
-  
-  <div id="notesHeader">
-    <div class="icon-badge">📝</div>
-    <h3>یادداشت‌ها</h3>
-    <div id="notesActions" style="position:relative;">
-      <button class="btn" id="btnTemplates" title="قالب‌های آماده">📋</button>
-      <button class="btn" id="btnNewNote" title="یادداشت جدید">➕</button>
-      <button class="btn" id="btnRefreshNotes" title="بازآوری">↻</button>
+  <div id="notesSidebar" style="display: flex; flex-direction: column; height: 100%;">
+    <div id="notesHeader">
+      <div class="icon-badge">📝</div>
+      <h3>یادداشت‌ها</h3>
+      <div id="notesActions" style="position:relative;">
+        <button class="btn" id="btnTemplates" title="قالب‌های آماده">📋</button>
+        <button class="btn" id="btnNewNote" title="یادداشت جدید">➕</button>
+        <button class="btn" id="btnRefreshNotes" title="بازآوری">↻</button>
+        <button class="btn" id="notesClose" title="بستن" style="margin-right: auto;">✕</button>
       
       <!-- Templates Dropdown -->
       <div id="templatesMenu">
@@ -267,6 +309,7 @@
       <div style="font-size:14px; font-weight:600; margin-bottom:4px;">هنوز یادداشتی ندارید</div>
       <div style="font-size:12px;">از قالب‌های آماده یا دکمه ➕ استفاده کنید</div>
     </div>
+  </div>
   </div>
 </aside>
 
@@ -320,14 +363,67 @@
 ## موضوع پرونده
 
 
-## مراحل انجام شده
+## 🔄 روند دادرسی پرونده
+
+### مرحله 1️⃣: ثبت شکایت یا دادخواست
+📍 وضعیت: [ ] انجام شده
+📅 تاریخ: 
+📝 جزئیات: دفاتر خدمات قضایی یا سامانه ثنا
+
+────────────────────────────
+
+### مرحله 2️⃣: ارجاع به شعبه صالح
+📍 وضعیت: [ ] انجام شده
+📅 تاریخ: 
+📝 جزئیات: شعبه ____ دادگاه ____
+
+────────────────────────────
+
+### مرحله 3️⃣: تعیین وقت رسیدگی و ابلاغ به طرفین
+📍 وضعیت: [ ] انجام شده
+📅 تاریخ جلسه: 
+📝 جزئیات: نحوه ابلاغ و تاریخ ابلاغ
+
+────────────────────────────
+
+### مرحله 4️⃣: جلسه رسیدگی و اخذ دفاعیات
+📍 وضعیت: [ ] انجام شده
+📅 تاریخ: 
+📝 جزئیات: خلاصه دفاعیات و جلسات برگزار شده
+
+────────────────────────────
+
+### مرحله 5️⃣: صدور رأی (حکم یا قرار)
+📍 وضعیت: [ ] انجام شده
+📅 تاریخ: 
+📝 جزئیات: شماره دادنامه و خلاصه رأی
+
+────────────────────────────
+
+### مرحله 6️⃣: تجدیدنظرخواهی در دادگاه بالاتر
+📍 وضعیت: [ ] انجام شده | [ ] نیاز نیست
+📅 تاریخ: 
+📝 جزئیات: 
+
+────────────────────────────
+
+### مرحله 7️⃣: فرجام‌خواهی در دیوان عالی کشور
+📍 وضعیت: [ ] انجام شده | [ ] نیاز نیست
+📅 تاریخ: 
+📝 جزئیات: در موارد خاص
+
+────────────────────────────
+
+## مراحل عملی (Checklist)
 - [ ] مشاوره اولیه
 - [ ] جمع‌آوری مدارک
 - [ ] تنظیم دادخواست
 - [ ] ثبت در دادگاه
-- [ ] پیگیری
+- [ ] پیگیری ابلاغ
+- [ ] حضور در جلسه
+- [ ] دریافت رأی
 
-## یادداشت‌ها
+## یادداشت‌های مهم
 
 
 ## پیوست‌ها و مدارک
@@ -525,6 +621,32 @@
     // init
     startNotesAuto();
     setTimeout(()=>{ toggleEmptyState(); }, 0);
+    
+    // Update notes badge count
+    function updateNotesBadge(){
+      try{
+        const list = document.getElementById('notesList');
+        const badge = document.getElementById('notesBadge');
+        if(!badge) return;
+        const count = list?.children?.length || 0;
+        if(count > 0){
+          badge.textContent = count;
+          badge.style.display = '';
+        } else {
+          badge.style.display = 'none';
+        }
+      }catch(e){}
+    }
+    
+    // Update badge whenever notes list changes
+    const notesList = document.getElementById('notesList');
+    if(notesList){
+      const observer = new MutationObserver(updateNotesBadge);
+      observer.observe(notesList, { childList: true });
+    }
+    
+    // Initial update
+    setTimeout(updateNotesBadge, 100);
   })();
 
   // Delete Modal Functions
